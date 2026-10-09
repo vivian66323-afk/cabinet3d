@@ -469,3 +469,12 @@ input.ro { background: #f4f5f6; color: var(--muted); }
 .lock-btn svg { width: 14px; height: 14px; }
 .lock-btn.on { background: #fff4e5; border-color: #f59e0b; color: #b45309; }
 .lock-btn.on:hover { background: #ffe8c2; color: #92400e; border-color: #d97706; }
+
+/* ---------- 型錄第二、三列篩選（品項分類／色系） ---------- */
+.type-chips, .color-chips { border-top-style: dotted; }
+.color-chips .chip[data-c="gold"] { border-color: #c9a24a; color: #8a6a1c; }
+.color-chips .chip[data-c="gray"] { border-color: #8a8c90; color: #4b4d52; }
+.color-chips .chip[data-c="black"] { border-color: #2b2b2d; color: #2b2b2d; }
+.color-chips .chip.active[data-c="gold"] { background: #c9a24a; color: #fff; }
+.color-chips .chip.active[data-c="gray"] { background: #6e7074; color: #fff; }
+.color-chips .chip.active[data-c="black"] { background: #2b2b2d; color: #fff; }
