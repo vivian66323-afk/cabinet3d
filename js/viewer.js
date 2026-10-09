@@ -836,7 +836,7 @@
         if (Math.hypot(a.x - b.x, a.z - b.z) > (Math.max(a.w, a.d) + Math.max(b.w, b.d))) continue;
         if (M().isCounterAppl(a) || M().isCounterAppl(b)) continue;
         // DAY&DAY 配件（置物架、掛桿等）放在檯面或牆上，不當作櫃體重疊
-        const acc = c => c.kind === 'appl' && (D.byCode[c.code] || {}).group === 'dayday';
+        const acc = c => c.kind === 'appl' && /^dayday/.test((D.byCode[c.code] || {}).group || '');
         if (acc(a) || acc(b)) continue;
         const bi = c => c.kind === 'appl' && c.mount === 'builtin';
         if ((bi(a) && b.kind !== 'appl') || (bi(b) && a.kind !== 'appl')) continue;

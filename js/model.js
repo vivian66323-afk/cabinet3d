@@ -754,7 +754,11 @@
       white: () => new THREE.MeshStandardMaterial({ color: 0xf3f3f1, roughness: 0.45 }),
       burner: () => new THREE.MeshStandardMaterial({ color: 0x2a2a2a, metalness: 0.4, roughness: 0.5 }),
       window: () => new THREE.MeshStandardMaterial({ color: 0x3b4148, metalness: 0.3, roughness: 0.1, transparent: true, opacity: 0.85 }),
-      led: () => new THREE.MeshBasicMaterial({ color: 0x7fd13b })
+      led: () => new THREE.MeshBasicMaterial({ color: 0x7fd13b }),
+      gold: () => new THREE.MeshStandardMaterial({ color: 0xc9a24a, metalness: 0.8, roughness: 0.3 }),
+      gray: () => new THREE.MeshStandardMaterial({ color: 0x6e7074, metalness: 0.6, roughness: 0.45 }),
+      black: () => new THREE.MeshStandardMaterial({ color: 0x2b2b2d, metalness: 0.5, roughness: 0.55 }),
+      mirror: () => new THREE.MeshStandardMaterial({ color: 0xcfd8e0, metalness: 0.95, roughness: 0.05 })
     };
     const k = 'appl_' + name;
     if (!special[k]) special[k] = P[name]();
@@ -877,18 +881,32 @@
       }
       return;
     }
-    if (cab.at === 'rod') {
-      // 掛桿：Ø16 不鏽鋼管＋兩端固定座（貼牆，牆在 -z 側）
-      const zr = -d / 2 + 31;
-      cyl(g, 8, w, 0, y0 + h / 2, zr, steel, 16).rotation.z = Math.PI / 2;
-      [-1, 1].forEach(k => { cyl(g, 12, 62, k * (w / 2 - 25), y0 + h / 2, zr, steel, 16).rotation.x = Math.PI / 2; });
+    const wire = ['gold', 'gray', 'black'].includes(it.finish) ? applMat(it.finish) : steel;
+    if (cab.at === 'rod' || cab.at === 'towel' || cab.at === 'grab') {
+      // 掛桿／毛巾桿／扶手：圓管＋兩端固定座（貼牆，牆在 -z 側）
+      const rr = cab.at === 'grab' ? 16 : cab.at === 'towel' ? 9 : 8, zr = -d / 2 + Math.min(d, 62) / 2;
+      cyl(g, rr, w, 0, y0 + h / 2, -d / 2 + d - rr, wire, 16).rotation.z = Math.PI / 2;
+      [-1, 1].forEach(k => { cyl(g, rr + 4, d, k * (w / 2 - rr - 12), y0 + h / 2, 0, wire, 16).rotation.x = Math.PI / 2; });
       return;
     }
-    if (['rack', 'spice', 'knife', 'cup', 'util', 'basket', 'bath'].includes(cab.at)) {
+    if (cab.at === 'mirror') {
+      // 鏡子：鏡面＋細邊框，貼牆
+      addBox(g, w, h, d - 4, 0, y0 + h / 2, -2, wire, false);
+      addBox(g, w - 16, h - 16, 2, 0, y0 + h / 2, d / 2 - 1, applMat('mirror'), false);
+      return;
+    }
+    if (cab.at === 'hook') {
+      // 掛勾：底座＋彎勾
+      addBox(g, w, Math.min(h, 40), 6, 0, y0 + h - Math.min(h, 40) / 2, -d / 2 + 3, wire, false);
+      cyl(g, 5, d - 6, 0, y0 + h - 12, 0, wire, 12).rotation.x = Math.PI / 2;
+      cyl(g, 5, Math.max(10, h - 20), 0, y0 + (h - 20) / 2 + 4, d / 2 - 5, wire, 12);
+      return;
+    }
+    if (['rack', 'spice', 'knife', 'cup', 'util', 'basket', 'bath', 'paper', 'mshelf', 'toothcup', 'soap', 'brush', 'hairdryer', 'bathacc'].includes(cab.at)) {
       // DAY&DAY 線架：每層＝底部直條＋四邊圍欄；多層加四角立柱；掛式在背面加掛勾
       const tiers = it.tiers || 1, r = 3;
       const lip = tiers > 1 ? Math.min(90, h / tiers * 0.45) : h;
-      const bar = (bw, bh, bd, x, y, z) => addBox(g, bw, bh, bd, x, y, z, steel, false);
+      const bar = (bw, bh, bd, x, y, z) => addBox(g, bw, bh, bd, x, y, z, wire, false);
       for (let t = 0; t < tiers; t++) {
         const yb = y0 + (tiers > 1 ? (h - lip) * t / (tiers - 1) : 0);
         [yb + r / 2, yb + lip - r / 2].forEach(y => {

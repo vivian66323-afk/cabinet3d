@@ -52,7 +52,8 @@
   // at：sink 水槽 / hob 爐具 / dw 洗碗機 / dryer 烘碗機 / oven 烤箱 / hood 抽油煙機
   // mount：counter 嵌入檯面（自動放在櫃體上方、桌面開孔）/ floor 落地 / builtin 嵌入櫃內 / wall 壁掛
   const APPL_TYPES = { sink: '水槽', hob: '爐具', dw: '洗碗機', dryer: '烘碗機', oven: '烤箱', hood: '抽油煙機',
-    rack: '置物架／碗盤架', rod: '掛桿', spice: '調味罐／瓶罐架', knife: '刀柄／砧板／鍋蓋架', cup: '杯架', util: '餐具桶／紙巾／海綿架', basket: '水槽碗盤籃', bath: '衛浴置物架' };
+    rack: '置物架／碗盤架', rod: '掛桿', spice: '調味罐／瓶罐架', knife: '刀柄／砧板／鍋蓋架', cup: '杯架', util: '餐具桶／紙巾／海綿架', basket: '水槽碗盤籃',
+    bath: '置物架', towel: '毛巾架／掛桿', paper: '衛生紙／面紙架', mirror: '鏡子', mshelf: '鏡子平台架', toothcup: '牙刷杯架', soap: '香皂架', brush: '馬桶刷架', hairdryer: '吹風機架', grab: '安全扶手', hook: '掛衣勾', bathacc: '衛浴配件' };
   const APPLIANCES = [
     { code: 'SF-550A', at: 'sink', name: '手工方形水槽 55cm', w: 550, d: 460, h: 220, cut: [520, 430], price: 8505, finish: 'steel', mount: 'counter', spec: '外徑 550×460×220　內槽約 500×410　SUS304' },
     { code: 'SF-750A', est: true, at: 'sink', name: '手工方形水槽 75cm', w: 750, d: 460, h: 220, cut: [720, 430], price: 11000, finish: 'steel', mount: 'counter', spec: '外徑 750×460×220　內槽約 700×410　SUS304' },
@@ -226,51 +227,248 @@
   sink('DD7166', '石英石水槽-岩霧灰 65cm', 650, 450, 220, 29000, [615, 415], { finish: 'steel', note: '石英砂　內徑 600×400×200　厚 10' });
   sink('DD7167', '石英石水槽-曜石黑 65cm', 650, 450, 220, 29000, [615, 415], { finish: 'glass', note: '石英砂　內徑 600×400×200　厚 10' });
   sink('DD7168', '石英石水槽-拿鐵杏 65cm', 650, 450, 220, 29000, [615, 415], { finish: 'white', note: '石英砂　內徑 600×400×200　厚 10' });
-  // ---- 衛浴置物架（也常用於廚房牆面）
-  dd('bath', 'ST3268XL', '平台置物架（扁型線條）', 600, 160, 90, 3050, 'wall');
-  dd('bath', 'ST3268-1', '單層置物架（扁型線條）', 420, 153, 90, 2500, 'wall');
-  dd('bath', 'ST3268-1S', '單層置物架-窄版（扁型線條）', 275, 160, 90, 1950, 'wall');
-  dd('bath', 'ST3268-2', '雙層置物架（扁型線條）', 420, 153, 380, 4850, 'wall');
-  dd('bath', 'ST3268-2S', '雙層置物架-窄版（扁型線條）', 275, 160, 380, 3750, 'wall');
-  dd('bath', 'ST3268', '雙層置物架（玻璃層板）', 470, 260, 340, 4500, 'wall', null, { note: '層板為 6mm 強化玻璃' });
-  dd('bath', 'ST3267', '單層置物架', 320, 170, 100, 2650, 'wall');
-  dd('bath', 'ST2295SH', '小方型置物架', 225, 145, 95, 1500, 'wall');
-  dd('bath', 'ST2296SSH', '小方形置物架', 280, 175, 95, 1650, 'wall');
-  dd('bath', 'ST2297SSH', '小方型置物架（寬）', 280, 140, 95, 1500, 'wall');
-  dd('bath', 'ST2297LSH', '小方型置物架（加寬）', 320, 145, 95, 1700, 'wall');
-  dd('bath', 'ST2297SLH', '大方型置物架', 280, 235, 95, 1900, 'wall');
-  dd('bath', 'ST2297LLH', '大方形置物架-附滴水盤', 320, 225, 110, 2400, 'wall');
-  dd('bath', 'ST2299LH', '半圓形置物架', 270, 150, 100, 1400, 'wall');
-  dd('bath', 'ST2295S-2H', '小方形雙層置物架（掛、放兩用）', 225, 152, 350, 2700, 'wall');
-  dd('bath', 'ST2296S-2H', '雙層置物架（掛、放兩用）', 280, 150, 440, 3400, 'wall');
-  dd('bath', 'ST2296S-3H', '三層置物架（掛、放兩用）', 280, 150, 675, 4950, 'wall');
-  dd('bath', 'ST2297-2H', '大方形雙層置物架（掛、放兩用）', 320, 233, 425, 3900, 'wall');
-  dd('bath', 'ST2297B-2', '雙層活動架', 285, 270, 455, 3800, 'wall');
-  dd('bath', 'ST2297B-3', '三層活動架', 285, 270, 775, 5100, 'wall');
-  dd('bath', 'ST2295-2H', '方型雙層活動架-釘式', 280, 170, 480, 3600, 'wall');
-  dd('bath', 'ST2299B-2', '半圓形雙層活動架', 270, 150, 460, 3200, 'wall');
-  dd('bath', 'ST2299B-3', '半圓三層活動架', 270, 150, 775, 4500, 'wall');
-  dd('bath', 'ST2299-2H', '半圓雙層活動架-釘式', 270, 150, 480, 3000, 'wall');
-  dd('bath', 'ST2295-2', '方型淋浴門活動架-雙層', 280, 260, 950, 3900, 'wall', 1100, { note: '掛於淋浴門上緣' });
-  dd('bath', 'ST2299-2', '半圓形淋浴門-雙層活動架', 270, 275, 950, 3350, 'wall', 1100, { note: '掛於淋浴門上緣' });
-  dd('bath', 'ST3266', '轉角架', 230, 235, 95, 2300, 'wall', null, { corner: true });
-  dd('bath', 'ST3266-01', '轉角架（薄）', 230, 235, 57, 1950, 'wall', null, { corner: true });
-  dd('bath', 'ST1021A', '絲光 轉角架', 220, 220, 80, 2700, 'wall', null, { corner: true });
-  dd('bath', 'STA0087', '轉角架 絲光（薄）', 225, 225, 41, 1750, 'wall', null, { corner: true });
-  dd('bath', 'ST1021A-2', '絲光 雙層轉角架', 222, 222, 400, 4700, 'wall', null, { corner: true });
-  dd('bath', 'ST3209', '單層轉角架', 195, 195, 87, 1250, 'wall', null, { corner: true });
-  dd('bath', 'ST3209-2', '雙層轉角架', 195, 195, 348, 2550, 'wall', null, { corner: true });
-  dd('bath', 'ST3033SH', '轉角架 釘式', 225, 225, 175, 2000, 'wall', null, { corner: true });
-  dd('bath', 'ST3033H', '轉角架 釘式（大）', 320, 320, 175, 2300, 'wall', null, { corner: true });
-  dd('bath', 'ST3033S-2CH', '雙層轉角架（掛、放兩用）', 230, 235, 420, 3500, 'wall', null, { corner: true });
-  dd('bath', 'ST3033S-3CH', '三層轉角架（掛、放兩用）', 230, 235, 680, 5100, 'wall', null, { corner: true });
+  // ---- 衛浴系列：官網 16 個子分類全部，含璀璨金／暮灰／霧黑／絲光色系（[類型, 貨號, 品名, W, D, H, 訂價, 放置, 離地, 色, 轉角, 子分類]）
+  const DB_RAW = [
+    ["bath", "CB082", "暮灰色 轉角架", 230, 230, 80, 3200, "wall", 1000, "gray", 1, "暮灰色系列"],
+    ["bath", "CB088", "暮灰色 平台置物架", 500, 125, 26, 5700, "wall", 1000, "gray", 0, "暮灰色系列"],
+    ["bath", "CG082", "轉角架 璀璨金", 230, 230, 80, 3200, "wall", 1000, "gold", 1, "璀璨金系列"],
+    ["bath", "CG088", "平台置物物架 璀璨金", 500, 125, 26, 5900, "wall", 1000, "gold", 0, "璀璨金系列"],
+    ["bath", "ST1022", "絲光 置物架", 265, 122, 75, 2700, "wall", 1000, "steel", 0, "絲光系列"],
+    ["bath", "ST1022A", "絲光 方型置物架", 265, 122, 75, 2700, "wall", 1000, "steel", 0, "絲光系列"],
+    ["bath", "STA0066-2", "絲光 雙層轉角架", 215, 215, 415, 3800, "wall", 1000, "steel", 1, "絲光系列"],
+    ["bath", "STA0082", "絲光 轉角架", 230, 230, 80, 2100, "wall", 1000, "steel", 1, "絲光系列"],
+    ["bath", "STA0088", "絲光 平台置物架", 500, 125, 26, 3700, "wall", 1000, "steel", 0, "絲光系列"],
+    ["bath", "3511CG", "轉角置物架-28公分", 280, 280, 80, 1700, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "3512MFG", "轉角置物架-25公分", 250, 250, 80, 1950, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST1021A", "絲光 轉角架", 220, 220, 80, 2700, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST1021A-2", "絲光 雙層轉角架", 222, 222, 400, 4700, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST2295-2", "方型淋浴門活動架-雙層", 280, 260, 950, 3900, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2295-2H", "方型雙層活動架-釘式", 280, 170, 480, 3600, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2295S-2H", "小方形雙層置物架(掛、放兩用)", 225, 152, 350, 2700, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2295SH", "小方型置物架", 225, 145, 95, 1500, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2296S-2H", "雙層置物架(掛、放兩用)", 280, 150, 440, 3400, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2296S-3H", "三層置物架(掛、放兩用)", 280, 150, 675, 4950, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2296SSH", "小方形置物架", 280, 175, 95, 1650, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2297-2H", "大方形雙層置物架(掛、放兩用)", 320, 233, 425, 3900, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2297B-2", "雙層活動架", 285, 270, 455, 3800, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2297B-3", "三層活動架", 285, 270, 775, 5100, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2297LSH", "小方型置物架", 320, 145, 95, 1700, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2297SLH", "大方型置物架", 280, 235, 95, 1900, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2297SSH", "小方型置物架", 280, 140, 95, 1500, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2299-2", "半圓形淋浴門-雙層活動架", 270, 275, 950, 3350, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2299-2H", "半圓雙層活動架-釘式", 270, 150, 480, 3000, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2299B-2", "半圓形雙層活動架", 270, 150, 460, 3200, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2299B-3", "半圓三層活動架", 270, 150, 775, 4500, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST2299LH", "半圓形置物架", 270, 150, 100, 1400, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST3033H", "轉角架 釘式", 320, 320, 175, 2300, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST3033S-2CH", "雙層轉角架 (掛、放兩用)", 230, 235, 420, 3500, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST3033S-3CH", "三層轉角架 (掛、放兩用)", 230, 235, 680, 5100, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST3033SH", "轉角架 釘式", 225, 225, 175, 2000, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST3209", "單層轉角架", 195, 195, 87, 1250, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST3209-2", "雙層轉角架", 195, 195, 348, 2550, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST3266", "轉角架", 230, 235, 95, 2300, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST3266-01", "轉角架", 230, 235, 57, 1950, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "ST3267", "單層置物架", 320, 170, 100, 2650, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST3268", "雙層置物架（扁型線條）", 470, 260, 340, 4500, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST3268-1", "單層置物架（扁型線條）", 420, 153, 90, 2500, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST3268-1S", "單層置物架-窄版（扁型線條）", 275, 160, 90, 1950, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST3268-2", "雙層置物架（扁型線條）", 420, 153, 380, 4850, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST3268-2S", "雙層置物架-窄版（扁型線條）", 275, 160, 380, 3750, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "ST3268XL", "平台置物架（扁型線條）", 600, 160, 90, 3050, "wall", 1000, "steel", 0, "置物架"],
+    ["bath", "STA0087", "轉角架 絲光", 225, 225, 41, 1750, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "STH3711CG", "轉角置物架-28公分", 280, 280, 80, 2200, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "STH3712MFG", "轉角置物架-25公分", 250, 250, 80, 2450, "wall", 1000, "steel", 1, "置物架"],
+    ["bath", "C0065BK", "霧黑 置物架", 242, 133, 68, 2200, "wall", 1000, "black", 0, "霧黑色系列"],
+    ["bath", "C0082ABK", "霧黑 扇形轉角架", 230, 230, 80, 3200, "wall", 1000, "black", 1, "霧黑色系列"],
+    ["bath", "C0085BK", "霧黑 瓶罐置物架", 300, 131, 80, 2900, "wall", 1000, "black", 0, "霧黑色系列"],
+    ["bath", "C0088BK", "霧黑 平台置物架", 500, 125, 26, 4600, "wall", 1000, "black", 0, "霧黑色系列"],
+    ["towel", "CB031-60", "暮灰色 單桿毛巾掛桿組-60CM", 600, 65, 26, 3900, "wall", 1100, "gray", 0, "暮灰色系列"],
+    ["towel", "CB031-75", "暮灰色 單桿毛巾掛桿組-75CM", 750, 65, 26, 4500, "wall", 1100, "gray", 0, "暮灰色系列"],
+    ["towel", "CB032-60", "暮灰色 雙桿毛巾掛桿組-60CM", 600, 115, 26, 4300, "wall", 1100, "gray", 0, "暮灰色系列"],
+    ["towel", "CB032-75", "暮灰色 雙桿毛巾掛桿組-75CM", 750, 115, 26, 5300, "wall", 1100, "gray", 0, "暮灰色系列"],
+    ["towel", "2312-2", "雙桿毛巾架4分管-120CM", 1200, 62, 25, 2450, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "2360-2", "雙桿毛巾掛桿組4分管-60CM", 600, 62, 25, 1400, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "2375-2", "雙桿毛巾掛桿組4分管-75CM", 750, 62, 25, 1500, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "2390-2", "雙桿毛巾掛桿組4分管-90CM", 900, 62, 25, 1700, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "7345C", "單桿毛巾掛桿組-45CM", 450, 62, 25, 1000, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "7360C", "單桿毛巾掛桿組-60CM", 600, 62, 25, 1050, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "7375C", "單桿毛巾掛桿組-75CM", 750, 62, 25, 1100, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "7390C", "單桿毛巾掛桿組-90CM", 900, 62, 25, 1200, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "ST1006", "絲光 浴巾環", 170, 66, 190, 1300, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "ST1006A", "絲光 浴巾環", 185, 67, 200, 1300, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "ST2168", "毛巾架", 660, 98, 60, 900, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "ST2169L", "毛巾架L", 630, 97, 30, 750, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STA0011", "浴巾架", 170, 67, 195, 1000, "wall", 1700, "steel", 0, "毛巾掛桿"],
+    ["towel", "STA0012-75", "單桿毛巾掛桿組-75CM", 750, 62, 60, 1700, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STA0013-60", "單桿毛巾掛桿組4分管-60CM", 600, 85, 50, 1600, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STA0013-75", "單桿毛巾掛桿組4分管-75CM", 750, 85, 50, 1800, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STA0015-60", "雙桿毛巾掛桿組4分管-60CM", 600, 135, 50, 1800, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STA0015-75", "雙桿毛巾掛桿組4分管-75CM", 750, 135, 50, 2100, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STA0091-60", "單桿毛巾掛桿組 絲光-60CM", 600, 62, 28, 2000, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STA0091-75", "單桿毛巾掛桿組 絲光-75CM", 750, 62, 28, 2250, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STA0092-60", "雙桿毛巾掛桿組 絲光-60CM", 600, 116, 25, 2400, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STA0092-75", "雙桿毛巾掛桿組 絲光-75CM", 750, 116, 25, 2700, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH2645C", "304不鏽鋼單桿毛巾掛桿組-45CM", 450, 62, 25, 1500, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH2660C", "304不鏽鋼單桿毛巾掛桿組-60CM", 600, 62, 25, 1550, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH2675C", "304不鏽鋼單桿毛巾掛桿組-75CM", 750, 62, 25, 1600, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH2690C", "304不鏽鋼單桿毛巾掛桿組-90CM", 900, 62, 25, 1700, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH2745", "304不鏽鋼單桿毛巾掛桿組-45CM", 450, 62, 22, 1800, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH2760", "304不鏽鋼單桿毛巾掛桿組-60CM", 600, 62, 25, 1850, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH2775", "304不鏽鋼單桿毛巾掛桿組-75CM", 750, 62, 22, 1900, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH2790", "304不鏽鋼單桿毛巾掛桿組-90CM", 900, 62, 22, 2000, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH6160", "單桿毛巾掛桿組4分管-60CM", 600, 87, 38, 2100, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH6160-2", "304不鏽鋼雙桿毛巾組-60CM", 600, 62, 25, 2650, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH6175", "單桿毛巾掛桿組4分管-75CM", 750, 87, 38, 2150, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH6175-2", "304不鏽鋼雙桿毛巾組-75CM", 750, 62, 25, 2750, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH6190", "單桿毛巾掛桿組4分管-90CM", 900, 87, 38, 2250, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "STH6190-2", "304不鏽鋼雙桿毛巾組-90CM", 900, 62, 25, 2950, "wall", 1100, "steel", 0, "毛巾掛桿"],
+    ["towel", "C0056BK", "霧黑 毛巾置衣架組", 650, 220, 120, 3600, "wall", 1700, "black", 0, "毛巾置衣架"],
+    ["towel", "C0086BK", "霧黑 毛巾置物架", 600, 225, 125, 5900, "wall", 1100, "black", 0, "毛巾置衣架"],
+    ["towel", "CB086", "暮灰色 毛巾置衣架", 600, 225, 125, 6600, "wall", 1700, "gray", 0, "毛巾置衣架"],
+    ["towel", "CG086", "毛巾置衣架 璀璨金", 600, 225, 125, 6900, "wall", 1700, "gold", 0, "毛巾置衣架"],
+    ["towel", "ST2268-2A", "絲光 毛巾置衣架", 600, 222, 205, 2300, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "ST2298L", "毛巾置物架-雙桿", 620, 260, 160, 4000, "wall", 1100, "steel", 0, "毛巾置衣架"],
+    ["towel", "ST2298L-2A", "毛巾置物架-雙桿", 610, 240, 200, 4000, "wall", 1100, "steel", 0, "毛巾置衣架"],
+    ["towel", "ST2298LD-1", "毛巾置物架-單桿", 620, 200, 127, 3200, "wall", 1100, "steel", 0, "毛巾置衣架"],
+    ["towel", "ST2298LDH", "多功能置物架", 620, 200, 65, 2500, "wall", 1100, "steel", 0, "毛巾置衣架"],
+    ["towel", "ST2298LH", "多功能置物架", 620, 260, 65, 3300, "wall", 1100, "steel", 0, "毛巾置衣架"],
+    ["towel", "ST2298S", "毛巾置物架-雙桿", 460, 260, 160, 3400, "wall", 1100, "steel", 0, "毛巾置衣架"],
+    ["towel", "ST2298SD-02", "雙層毛巾及多功能架-單桿", 380, 200, 400, 4000, "wall", 1100, "steel", 0, "毛巾置衣架"],
+    ["towel", "ST2298SH", "多功能架S", 460, 260, 65, 2850, "wall", 1100, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0016", "毛巾置衣架", 600, 220, 125, 3550, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0016S", "毛巾置衣架-小", 455, 220, 125, 3250, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0023", "絲光 毛巾置衣架", 600, 225, 125, 4500, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0023S", "絲光 毛巾置衣架", 450, 225, 125, 4300, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0055", "絲光 置衣架", 650, 220, 50, 2100, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0056", "絲光 毛巾置衣架", 650, 220, 120, 2800, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0056S", "絲光 毛巾置衣架-小", 545, 220, 120, 2450, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0058", "絲光 毛巾置衣架", 600, 220, 125, 3150, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0058S", "絲光 毛巾置衣架", 455, 220, 125, 3100, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0059", "絲光 毛巾置衣架", 600, 220, 110, 3150, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0076", "毛巾置衣架", 650, 220, 120, 3200, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0076S", "毛巾置衣架-小", 545, 220, 120, 3000, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "STA0086", "絲光 毛巾置衣架", 600, 207, 140, 4800, "wall", 1700, "steel", 0, "毛巾置衣架"],
+    ["towel", "CG031-60", "單桿毛巾掛桿組-60CM 璀璨金", 600, 62, 25, 3900, "wall", 1100, "gold", 0, "璀璨金系列"],
+    ["towel", "CG032-60", "雙桿毛巾掛桿組-60CM 璀璨金", 600, 62, 25, 4450, "wall", 1100, "gold", 0, "璀璨金系列"],
+    ["towel", "ST1300S", "絲光 毛巾置衣架-小", 450, 243, 150, 3850, "wall", 1700, "steel", 0, "絲光系列"],
+    ["towel", "STA0051-75", "絲光 單桿毛巾掛桿組-75CM", 750, 62, 25, 2100, "wall", 1100, "steel", 0, "絲光系列"],
+    ["towel", "STA0051-90", "絲光 單桿毛巾掛桿組-90CM", 900, 62, 25, 2400, "wall", 1100, "steel", 0, "絲光系列"],
+    ["towel", "STA0052-75", "絲光 雙桿毛巾掛桿組-75CM", 750, 62, 25, 2600, "wall", 1100, "steel", 0, "絲光系列"],
+    ["towel", "STA0077-45", "絲光 單桿毛巾掛桿組4分管-45CM", 450, 85, 50, 1350, "wall", 1100, "steel", 0, "絲光系列"],
+    ["towel", "STA0077-60", "絲光 單桿毛巾掛桿組4分管-60CM", 600, 85, 50, 1400, "wall", 1100, "steel", 0, "絲光系列"],
+    ["towel", "STA0077-75", "絲光 單桿毛巾掛桿組4分管-75CM", 750, 85, 50, 1600, "wall", 1100, "steel", 0, "絲光系列"],
+    ["towel", "STA0077-90", "絲光 單桿毛巾掛桿組4分管-90CM", 900, 85, 50, 1850, "wall", 1100, "steel", 0, "絲光系列"],
+    ["towel", "STA0078-45", "絲光 雙桿毛巾掛桿組4分管-45CM", 450, 135, 50, 1650, "wall", 1100, "steel", 0, "絲光系列"],
+    ["towel", "STA0078-60", "絲光 雙桿毛巾掛桿組4分管-60CM", 600, 135, 50, 1700, "wall", 1100, "steel", 0, "絲光系列"],
+    ["towel", "STA0078-75", "絲光 雙桿毛巾掛桿組4分管-75CM", 750, 135, 50, 2050, "wall", 1100, "steel", 0, "絲光系列"],
+    ["towel", "C0021BK-60", "單桿毛巾掛桿組-60公分", 55, 62, 55, 2700, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0021BK-75", "單桿毛巾掛桿組-75公分", 55, 62, 55, 3000, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0022BK-60", "雙桿毛巾掛桿組-60公分", 55, 62, 55, 3200, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0022BK-75", "雙桿毛巾掛桿組-75公分", 55, 62, 55, 3500, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0027BK-60", "霧黑 單桿毛巾掛桿組4分管-60CM", 600, 85, 50, 1800, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0027BK-75", "霧黑 單桿毛巾掛桿組4分管-75CM", 750, 85, 50, 2150, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0028BK-60", "霧黑 雙桿毛巾掛桿組4分管-60CM", 600, 135, 50, 2400, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0028BK-75", "霧黑 雙桿毛巾掛桿組4分管-75CM", 750, 135, 50, 2800, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0031BK-60", "霧黑 單桿毛巾掛桿組-60CM", 600, 65, 26, 3600, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0031BK-75", "霧黑 單桿毛巾掛桿組-75CM", 750, 65, 26, 4000, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0032BK-60", "霧黑 雙桿毛巾掛桿組-60CM", 600, 115, 26, 4100, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["towel", "C0032BK-75", "霧黑 雙桿毛巾掛桿組-75CM", 750, 115, 26, 4900, "wall", 1100, "black", 0, "霧黑色系列"],
+    ["paper", "2003C", "捲筒衛生紙架", 160, 65, 100, 780, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "2003CC", "捲筒衛生紙架", 160, 65, 109, 1100, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "2303-01", "捲筒衛生紙架", 168, 70, 110, 1100, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "C0089BK", "霧黑 手機及捲筒衛生紙架", 187, 120, 78, 3000, "wall", 700, "black", 0, "衛生紙面紙架"],
+    ["paper", "C0093BK", "霧黑 抽取式衛生紙架", 242, 136, 68, 2550, "wall", 700, "black", 0, "衛生紙面紙架"],
+    ["paper", "CB089", "暮灰色 手機及捲筒衛生紙架", 187, 120, 78, 3500, "wall", 700, "gray", 0, "衛生紙面紙架"],
+    ["paper", "CB093", "暮灰色 抽取式衛生紙架", 242, 136, 68, 2550, "wall", 700, "gray", 0, "衛生紙面紙架"],
+    ["paper", "CG093", "抽取式衛生紙架 璀璨金", 242, 136, 68, 2700, "wall", 700, "gold", 0, "衛生紙面紙架"],
+    ["paper", "ST1008", "平版衛生紙架", 235, 217, 95, 1650, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "ST3205", "面紙架", 135, 105, 195, 700, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "ST3205T", "面紙盒架", 150, 125, 235, 900, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "ST3208", "衛生紙架-抽取式", 265, 120, 90, 1250, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "ST3208A", "抽取式衛生紙架", 256, 120, 90, 1250, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "ST3208A-2", "雙層抽取式衛生紙架", 280, 120, 365, 2700, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "ST3208AS", "抽取式衛生紙架-小", 203, 103, 47, 1000, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "STA0009", "手機及捲筒衛生紙架", 185, 118, 78, 1800, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "STA0089", "絲光 手機及捲筒衛生紙架", 187, 120, 78, 1900, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["paper", "STA0093", "絲光 抽取式衛生紙架", 242, 136, 68, 1900, "wall", 700, "steel", 0, "衛生紙面紙架"],
+    ["mirror", "6008G", "方型防霧鏡", 560, 25, 600, 3400, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "6008GL", "方型防霧鏡", 800, 25, 600, 4200, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "8008G", "圓形防霧鏡", 585, 25, 585, 3700, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-1005", "長方型明防霧鏡", 680, 25, 480, 3000, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-1006", "橢圓型防霧鏡", 480, 25, 680, 3000, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-1010", "圓形易潔鏡 璀璨金", 600, 25, 600, 9900, "wall", 1200, "gold", 0, "鏡子"],
+    ["mirror", "M-1023B", "易潔鏡", 600, 25, 800, 8000, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-1026B", "圓型易潔鏡", 59, 59, 59, 8700, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-122", "長方形易潔鏡", 600, 25, 80, 3300, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-122L", "長方形易潔鏡", 800, 25, 600, 5200, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-1527", "雙層易潔鏡", 480, 25, 680, 5900, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-1528", "鑽雕易潔鏡", 700, 25, 500, 4600, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-1529", "圓形易潔鏡", 580, 25, 580, 4800, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-H716A", "LED防霧鏡", 800, 25, 600, 12500, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-H721", "LED噴砂防霧鏡", 500, 25, 700, 9900, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-H919", "LED 防霧鏡", 800, 25, 600, 13500, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-H920", "LED防霧鏡", 500, 25, 700, 13500, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-H922", "LED防霧鏡", 590, 25, 905, 13900, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "M-H922A", "LED防霧鏡", 590, 25, 905, 12900, "wall", 1200, "steel", 0, "鏡子"],
+    ["mirror", "STA0010", "壁掛式雙面伸縮鏡", 48, 180, 125, 3300, "wall", 1200, "steel", 0, "鏡子"],
+    ["mshelf", "2217", "平台圍欄組", 551, 25, 36, 650, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["mshelf", "3507", "鏡子平台架60cm-霧面", 600, 145, 80, 1750, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["mshelf", "3508CG", "鏡子平台架-60公分", 600, 146, 80, 1850, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["mshelf", "3508CGL", "鏡子平台架-80公分", 800, 146, 80, 2100, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["mshelf", "3508MCG", "鏡子平台架-40公分", 400, 146, 80, 1600, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["mshelf", "3517", "霧面玻璃平台架-附圍欄", 600, 150, 80, 2400, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["mshelf", "STH3707", "鏡子平台架-60CM", 600, 145, 80, 2250, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["mshelf", "STH3708CG", "鏡子平台架-60公分", 600, 146, 80, 2350, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["mshelf", "STH3708CGL", "鏡子平台架-80公分", 800, 146, 80, 2600, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["mshelf", "STH3708MCG", "鏡子平台架-40公分", 400, 146, 80, 2100, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["mshelf", "STH3717", "鏡子平台架-60CM (附圍欄/霧面玻璃)", 600, 150, 80, 2900, "wall", 1100, "steel", 0, "鏡子平台架"],
+    ["toothcup", "1023", "透明玻璃牙刷杯", 70, 70, 95, 130, "wall", 1100, "steel", 0, "牙刷杯架"],
+    ["toothcup", "ST6632", "多功能盥洗架", 310, 170, 142, 1900, "wall", 1100, "steel", 0, "牙刷杯架"],
+    ["toothcup", "ST6632A", "多功能盥洗架", 125, 150, 120, 950, "wall", 1100, "steel", 0, "牙刷杯架"],
+    ["toothcup", "ST6632A-2", "多功能盥洗架 -杯架*2", 298, 150, 120, 1600, "wall", 1100, "steel", 0, "牙刷杯架"],
+    ["toothcup", "ST6632B", "活動式杯架", 90, 90, 35, 350, "wall", 1100, "steel", 0, "牙刷杯架"],
+    ["toothcup", "STA0001", "牙刷杯架", 67, 110, 100, 900, "wall", 1100, "steel", 0, "牙刷杯架"],
+    ["soap", "1024", "透明玻璃香皂盤", 110, 110, 40, 180, "wall", 1100, "steel", 0, "香皂架"],
+    ["soap", "2006GA", "壓力克皂盤", 140, 100, 140, 180, "wall", 1100, "steel", 0, "香皂架"],
+    ["soap", "ST3207", "肥皂架 (桌上型)", 140, 90, 20, 370, "wall", 1100, "steel", 0, "香皂架"],
+    ["soap", "ST3207T", "肥皂架", 140, 90, 20, 450, "wall", 1100, "steel", 0, "香皂架"],
+    ["soap", "STA0002", "香皂盤架", 110, 130, 68, 900, "wall", 1100, "steel", 0, "香皂架"],
+    ["brush", "1025", "霧面玻璃馬桶刷杯", 115, 115, 112, 250, "top", 0, "steel", 0, "馬桶刷架"],
+    ["brush", "2002BC", "馬桶刷架-瓷杯", 122, 152, 400, 1420, "top", 0, "steel", 0, "馬桶刷架"],
+    ["brush", "2002CB", "馬桶刷", 390, 100, 80, 250, "top", 0, "steel", 0, "馬桶刷架"],
+    ["brush", "STA0005", "馬桶刷架", 112, 132, 345, 1350, "top", 0, "steel", 0, "馬桶刷架"],
+    ["brush", "STA0006", "馬桶刷", 335, 100, 80, 150, "top", 0, "steel", 0, "馬桶刷架"],
+    ["brush", "STA0083", "絲光 馬桶刷架", 160, 133, 372, 1700, "top", 0, "steel", 0, "馬桶刷架"],
+    ["hairdryer", "STA0095", "絲光 吹風機架", 200, 62, 55, 1900, "wall", 1200, "steel", 0, "吹風機架"],
+    ["grab", "ST1630", "絲光 安全扶手-30CM", 300, 62, 25, 1600, "wall", 800, "steel", 0, "安全扶手"],
+    ["grab", "ST1640", "絲光 安全扶手-40CM", 400, 62, 25, 1750, "wall", 800, "steel", 0, "安全扶手"],
+    ["grab", "ST1650", "絲光 安全扶手-50CM", 500, 62, 25, 1900, "wall", 800, "steel", 0, "安全扶手"],
+    ["grab", "ST1660", "絲光 安全扶手-60CM", 600, 62, 25, 2050, "wall", 800, "steel", 0, "安全扶手"],
+    ["hook", "C0023BK", "單掛衣勾", 55, 63, 55, 1000, "wall", 1600, "steel", 0, "掛衣勾"],
+    ["hook", "ST1801", "絲光 單掛衣勾", 50, 65, 50, 1000, "wall", 1600, "steel", 0, "掛衣勾"],
+    ["hook", "ST1802", "絲光 雙掛衣勾", 50, 65, 50, 1050, "wall", 1600, "steel", 0, "掛衣勾"],
+    ["hook", "STA0007", "單掛衣勾", 60, 57, 60, 800, "wall", 1600, "steel", 0, "掛衣勾"],
+    ["hook", "STA0008", "雙掛衣勾", 90, 70, 60, 900, "wall", 1600, "steel", 0, "掛衣勾"],
+    ["hook", "STA0079", "絲光 五聯勾", 340, 53, 52, 1000, "wall", 1600, "steel", 0, "掛衣勾"],
+    ["hook", "STA0099", "絲光 三聯勾", 240, 35, 30, 800, "wall", 1600, "steel", 0, "掛衣勾"],
+    ["hook", "CB083", "暮灰色 單掛衣勾", 26, 65, 60, 1500, "wall", 1600, "gray", 0, "暮灰色系列"],
+    ["hook", "CG080", "單掛衣勾 璀璨金", 28, 50, 50, 1500, "wall", 1600, "gold", 0, "璀璨金系列"],
+    ["hook", "ST1016", "絲光 單掛衣勾", 50, 67, 62, 1200, "wall", 1600, "steel", 0, "絲光系列"],
+    ["hook", "STA0080", "絲光 單衣勾", 28, 50, 50, 800, "wall", 1600, "steel", 0, "絲光系列"],
+    ["hook", "STA0081", "絲光 雙衣勾", 140, 56, 50, 1600, "wall", 1600, "steel", 0, "絲光系列"],
+    ["hook", "C0083BK", "霧黑 單掛衣勾", 26, 65, 60, 1200, "wall", 1600, "black", 0, "霧黑色系列"],
+    ["bathacc", "CB085", "暮灰色 方形瓶罐架", 300, 131, 80, 3100, "wall", 1000, "gray", 0, "暮灰色系列"],
+    ["bathacc", "CG085", "方型瓶罐架 璀璨金", 300, 131, 80, 3100, "wall", 1000, "gold", 0, "璀璨金系列"],
+    ["bathacc", "STA0085", "絲光 方型瓶罐架", 300, 131, 80, 2100, "wall", 1000, "steel", 0, "絲光系列"]
+  ];
+  DB_RAW.forEach(([at, code, name, w, d, h, price, mount, y, finish, corner, sub]) => DD.push({ at, code, name, w, d, h, price, mount, y, finish, corner: corner ? true : undefined, series: '衛浴', sub, group: 'daydayb' }));
   // 官網商品圖（daynday.com.tw，直接連結原站，不另存）
-  const DD_IMG = {"ST2297A-01":"/uploads/files/744/conversions/ST2297A-01-md.jpg","ST6678DP":"/uploads/files/3359/conversions/DAYDAY-ST6678DP-md.jpg","ST3078":"/uploads/files/780/conversions/ST3078-01-md.jpg","ST3078D-01":"/uploads/files/2539/conversions/ST3078D-01-md.jpg","ST3078A-01":"/uploads/files/2535/conversions/ST3078A-01-md.jpg","ST3078S-01":"/uploads/files/2541/conversions/ST3078S-01-md.jpg","ST3068S-01":"/uploads/files/2543/conversions/ST3068S-01-md.jpg","ST2297L":"/uploads/files/1332/conversions/ST2297L-md.jpg","ST2298D-01":"/uploads/files/2533/conversions/ST2298D-01-md.jpg","ST3088A":"/uploads/files/852/conversions/ST3088A-01-md.jpg","ST3088AH":"/uploads/files/854/conversions/ST3088AH-01-md.jpg","ST3088BH":"/uploads/files/860/conversions/ST3088BH-md.jpg","ST3020S":"/uploads/files/880/conversions/ST3020S-md.jpg","ST6678B":"/uploads/files/790/conversions/ST6678B-md.jpg","ST6678BS":"/uploads/files/792/conversions/ST6678BS-md.jpg","ST6678C":"/uploads/files/794/conversions/ST6678C-01-md.jpg","ST6678CS":"/uploads/files/798/conversions/ST6678CS-01-md.jpg","ST3060":"/uploads/files/764/conversions/ST3060-01-md.jpg","ST3060-01":"/uploads/files/766/conversions/ST3060-01-01-md.jpg","ST3060D":"/uploads/files/770/conversions/ST3060D-01-md.jpg","ST3060L":"/uploads/files/774/conversions/ST3060L-01-md.jpg","ST3008D":"/uploads/files/748/conversions/ST3008D-01-md.jpg","ST3008D-2":"/uploads/files/758/conversions/ST3008D-2-01-md.jpg","ST3008":"/uploads/files/874/conversions/ST3008-01-md.jpg","ST3053":"/uploads/files/2487/conversions/ST3053-md.jpg","ST3055":"/uploads/files/2479/conversions/ST3055-md.jpg","ST3023":"/uploads/files/828/conversions/ST3023-01-md.jpg","ST3023C":"/uploads/files/830/conversions/ST3023C-01-md.jpg","ST3023F":"/uploads/files/832/conversions/ST3023F-md.jpg","ST3028":"/uploads/files/834/conversions/ST3028-md.jpg","ST3028C":"/uploads/files/836/conversions/ST3028C-01-md.jpg","ST3029":"/uploads/files/840/conversions/ST3029-md.jpg","ST3030L":"/uploads/files/848/conversions/ST3030L-md.jpg","ST3088B":"/uploads/files/856/conversions/ST3088B-01-md.jpg","ST5230A":"/uploads/files/868/conversions/ST5230A-md.jpg","ST3029-01":"/uploads/files/842/conversions/ST3029-01-md.jpg","ST3023H":"/uploads/files/870/conversions/ST3023H-01-md.jpg","ST3215T":"/uploads/files/718/conversions/ST3215T-01-md.jpg","ST3215-1":"/uploads/files/716/conversions/ST3215-1-01-md.jpg","ST3215L":"/uploads/files/3339/conversions/ST3215L1-md.jpg","ST3215TS":"/uploads/files/736/conversions/ST3215TS-01-01-md.jpg","ST3015T":"/uploads/files/732/conversions/ST3015T-01-md.jpg","ST3015H":"/uploads/files/700/conversions/ST3015H-01-md.jpg","ST3015K":"/uploads/files/3327/conversions/ST3015K1-md.jpg","ST3015F":"/uploads/files/3341/conversions/ST3015F1-md.jpg","ST3015C":"/uploads/files/704/conversions/ST3015C-01-md.jpg","ST3015ST-01":"/uploads/files/706/conversions/ST3015ST-01-01-md.jpg","ST3026C":"/uploads/files/814/conversions/ST3026C-01-md.jpg","ST3027-01":"/uploads/files/818/conversions/ST3027-01-01-md.jpg","ST3027T":"/uploads/files/914/conversions/ST3027T-01-md.jpg","ST3027F":"/uploads/files/910/conversions/ST3027F-01-md.jpg","ST3027B":"/uploads/files/2416/conversions/ST3207B-NEW-01-md.jpg","ST3027C":"/uploads/files/908/conversions/ST3027C-md.jpg","ST3031":"/uploads/files/2050/conversions/ST3031-01-md.jpg","ST3036":"/uploads/files/812/conversions/ST3036-md.jpg","ST3016LT":"/uploads/files/356/conversions/ST3016LT-md.jpg","ST3016ST":"/uploads/files/358/conversions/ST3016ST-md.jpg","ST3016L":"/uploads/files/354/conversions/ST3016L-md.jpg","ST3016":"/uploads/files/352/conversions/ST3016-md.jpg","ST3051":"/uploads/files/362/conversions/ST3051-md.jpg","ST3018LT":"/uploads/files/360/conversions/ST3018LT-md.jpg","3010TC":"/uploads/files/336/conversions/3010TC-md.jpg","ST3010LC":"/uploads/files/1910/conversions/ST3010-01-md.jpg","ST3010LC-2":"/uploads/files/1908/conversions/ST3010-2-01-md.jpg","ST3010SC":"/uploads/files/348/conversions/ST3010SC-md.jpg","ST3010SC-2":"/uploads/files/350/conversions/ST3010SC-2-md.jpg","ST3012SC":"/uploads/files/3129/conversions/ST3012SC-01-md.jpg","ST3012LC":"/uploads/files/3131/conversions/ST3012LC-01-md.jpg","ST3003":"/uploads/files/936/conversions/ST3003-01-md.jpg","ST3003-02":"/uploads/files/940/conversions/ST3003-02-01-md.jpg","ST3003T":"/uploads/files/942/conversions/ST3003T-md.jpg","ST3003TF":"/uploads/files/1010/conversions/ST3003TF-md.jpg","ST3003TL":"/uploads/files/1012/conversions/ST3003TL-md.jpg","ST3003TS":"/uploads/files/1014/conversions/ST3003TS-md.jpg","ST3003TT":"/uploads/files/1008/conversions/ST3003TT-md.jpg","ST3003-07":"/uploads/files/2483/conversions/ST3003-07-01-md.jpg","ST3003-01":"/uploads/files/2485/conversions/ST3003-01-md.jpg","ST3005":"/uploads/files/1016/conversions/ST3005-md.jpg","ST3005-01":"/uploads/files/1018/conversions/ST3005-01-md.jpg","ST2003HB":"/uploads/files/2833/conversions/ST2003HB1-md.jpg","ST2003D":"/uploads/files/896/conversions/ST2003D-md.jpg","ST2003DL":"/uploads/files/894/conversions/ST2003DL-01-md.jpg","ST3201":"/uploads/files/998/conversions/ST3201-md.jpg","ST3203D":"/uploads/files/1002/conversions/ST3203D-md.jpg","ST3203F":"/uploads/files/420/conversions/ST3203F-md.jpg","ST3202":"/uploads/files/1004/conversions/ST3202-md.jpg","ST3013T":"/uploads/files/280/conversions/ST3013T-md.jpg","ST3013TD":"/uploads/files/282/conversions/ST3013TD-md.jpg","ST3013TL":"/uploads/files/284/conversions/ST3013TL-md.jpg","ST3268XL":"/uploads/files/1098/conversions/ST3268XL-md.jpg","ST3268-1":"/uploads/files/1086/conversions/ST3268-1-md.jpg","ST3268-1S":"/uploads/files/1090/conversions/ST3268-1S-md.jpg","ST3268-2":"/uploads/files/1092/conversions/ST3268-2-md.jpg","ST3268-2S":"/uploads/files/1094/conversions/ST3268-2S-md.jpg","ST3268":"/uploads/files/1084/conversions/ST3268-md.jpg","ST3267":"/uploads/files/1866/conversions/ST3267--md.jpg","ST2295SH":"/uploads/files/1052/conversions/ST2295SH-md.jpg","ST2296SSH":"/uploads/files/1062/conversions/ST2296SSH-md.jpg","ST2297SSH":"/uploads/files/1072/conversions/ST2296SSH-md.jpg","ST2297LSH":"/uploads/files/1068/conversions/ST2296SSH-md.jpg","ST2297SLH":"/uploads/files/1070/conversions/ST2297SLH-md.jpg","ST2297LLH":"/uploads/files/1066/conversions/ST2297LLH-md.jpg","ST2299LH":"/uploads/files/1082/conversions/ST2299LH-md.jpg","ST2295S-2H":"/uploads/files/1050/conversions/ST2295S-2H-md.jpg","ST2296S-2H":"/uploads/files/1054/conversions/ST2296S-2H-md.jpg","ST2296S-3H":"/uploads/files/1060/conversions/ST2296S-3H-md.jpg","ST2297-2H":"/uploads/files/1064/conversions/ST2297-2H-md.jpg","ST2297B-2":"/uploads/files/3347/conversions/DAYDAY-ST2297B-2-md.jpg","ST2297B-3":"/uploads/files/3349/conversions/DAYDAY-ST2297B-3-md.jpg","ST2295-2H":"/uploads/files/1048/conversions/ST2295-2H-md.jpg","ST2299B-2":"/uploads/files/1078/conversions/ST2299B-2-md.jpg","ST2299B-3":"/uploads/files/1080/conversions/ST2299B-3-md.jpg","ST2299-2H":"/uploads/files/1076/conversions/ST2299-2H-md.jpg","ST2295-2":"/uploads/files/1046/conversions/ST2295-2-md.jpg","ST2299-2":"/uploads/files/1074/conversions/ST2299-2-md.jpg","ST3266":"/uploads/files/1858/conversions/ST3266-md.jpg","ST3266-01":"/uploads/files/1864/conversions/ST3266-01-01-md.jpg","ST1021A":"/uploads/files/3289/conversions/daydayST1021A--md.jpg","STA0087":"/uploads/files/3319/conversions/DAYDAY-STA0087--md.jpg","ST1021A-2":"/uploads/files/3357/conversions/DAYDAY-ST1021A-2--md.jpg","ST3209":"/uploads/files/1878/conversions/ST3209-md.jpg","ST3209-2":"/uploads/files/1880/conversions/ST3209-2-md.jpg","ST3033SH":"/uploads/files/2625/conversions/-11-md.jpg","ST3033H":"/uploads/files/2627/conversions/-11-md.jpg","ST3033S-2CH":"/uploads/files/1868/conversions/ST3033S-2C--01-md.jpg","ST3033S-3CH":"/uploads/files/1874/conversions/ST3033S-3CH--md.jpg","DD9487":"/uploads/files/3011/conversions/DD94871-md.jpg","DD9477":"/uploads/files/3013/conversions/DD94771-md.jpg","DD9467":"/uploads/files/3015/conversions/DD94671-md.jpg","DD9456":"/uploads/files/3017/conversions/DD94561-md.jpg","DD0166":"/uploads/files/3019/conversions/DD01661-md.jpg","DD0167":"/uploads/files/3029/conversions/DD01671-md.jpg","DD0502":"/uploads/files/3025/conversions/DD05021-md.jpg","DD0505":"/uploads/files/3027/conversions/DD05051-md.jpg","DD7166":"/uploads/files/3381/conversions/DD716611508262-md.jpg","DD7167":"/uploads/files/3387/conversions/DD71671150826-md.jpg","DD7168":"/uploads/files/3401/conversions/DD71681150826-md.jpg","ST2045":"/uploads/files/1298/conversions/ST201-md.jpg","ST2060":"/uploads/files/1300/conversions/ST201-md.jpg","ST2075":"/uploads/files/1302/conversions/ST201-md.jpg","ST2090":"/uploads/files/1304/conversions/ST201-md.jpg","ST2120":"/uploads/files/1310/conversions/ST201-md.jpg","ST2150":"/uploads/files/1306/conversions/ST201-md.jpg","ST2180":"/uploads/files/1312/conversions/ST201-md.jpg"};
+  const DD_IMG = {"ST2297A-01":"/uploads/files/744/conversions/ST2297A-01-md.jpg","ST6678DP":"/uploads/files/3359/conversions/DAYDAY-ST6678DP-md.jpg","ST3078":"/uploads/files/780/conversions/ST3078-01-md.jpg","ST3078D-01":"/uploads/files/2539/conversions/ST3078D-01-md.jpg","ST3078A-01":"/uploads/files/2535/conversions/ST3078A-01-md.jpg","ST3078S-01":"/uploads/files/2541/conversions/ST3078S-01-md.jpg","ST3068S-01":"/uploads/files/2543/conversions/ST3068S-01-md.jpg","ST2297L":"/uploads/files/1332/conversions/ST2297L-md.jpg","ST2298D-01":"/uploads/files/2533/conversions/ST2298D-01-md.jpg","ST3088A":"/uploads/files/852/conversions/ST3088A-01-md.jpg","ST3088AH":"/uploads/files/854/conversions/ST3088AH-01-md.jpg","ST3088BH":"/uploads/files/860/conversions/ST3088BH-md.jpg","ST3020S":"/uploads/files/880/conversions/ST3020S-md.jpg","ST6678B":"/uploads/files/790/conversions/ST6678B-md.jpg","ST6678BS":"/uploads/files/792/conversions/ST6678BS-md.jpg","ST6678C":"/uploads/files/794/conversions/ST6678C-01-md.jpg","ST6678CS":"/uploads/files/798/conversions/ST6678CS-01-md.jpg","ST3060":"/uploads/files/764/conversions/ST3060-01-md.jpg","ST3060-01":"/uploads/files/766/conversions/ST3060-01-01-md.jpg","ST3060D":"/uploads/files/770/conversions/ST3060D-01-md.jpg","ST3060L":"/uploads/files/774/conversions/ST3060L-01-md.jpg","ST3008D":"/uploads/files/748/conversions/ST3008D-01-md.jpg","ST3008D-2":"/uploads/files/758/conversions/ST3008D-2-01-md.jpg","ST3008":"/uploads/files/874/conversions/ST3008-01-md.jpg","ST3053":"/uploads/files/2487/conversions/ST3053-md.jpg","ST3055":"/uploads/files/2479/conversions/ST3055-md.jpg","ST3023":"/uploads/files/828/conversions/ST3023-01-md.jpg","ST3023C":"/uploads/files/830/conversions/ST3023C-01-md.jpg","ST3023F":"/uploads/files/832/conversions/ST3023F-md.jpg","ST3028":"/uploads/files/834/conversions/ST3028-md.jpg","ST3028C":"/uploads/files/836/conversions/ST3028C-01-md.jpg","ST3029":"/uploads/files/840/conversions/ST3029-md.jpg","ST3030L":"/uploads/files/848/conversions/ST3030L-md.jpg","ST3088B":"/uploads/files/856/conversions/ST3088B-01-md.jpg","ST5230A":"/uploads/files/868/conversions/ST5230A-md.jpg","ST3029-01":"/uploads/files/2082/conversions/ST3029-01-md.jpg","ST3023H":"/uploads/files/870/conversions/ST3023H-01-md.jpg","ST3215T":"/uploads/files/718/conversions/ST3215T-01-md.jpg","ST3215-1":"/uploads/files/716/conversions/ST3215-1-01-md.jpg","ST3215L":"/uploads/files/3339/conversions/ST3215L1-md.jpg","ST3215TS":"/uploads/files/736/conversions/ST3215TS-01-01-md.jpg","ST3015T":"/uploads/files/732/conversions/ST3015T-01-md.jpg","ST3015H":"/uploads/files/700/conversions/ST3015H-01-md.jpg","ST3015K":"/uploads/files/3327/conversions/ST3015K1-md.jpg","ST3015F":"/uploads/files/3341/conversions/ST3015F1-md.jpg","ST3015C":"/uploads/files/704/conversions/ST3015C-01-md.jpg","ST3015ST-01":"/uploads/files/706/conversions/ST3015ST-01-01-md.jpg","ST3026C":"/uploads/files/814/conversions/ST3026C-01-md.jpg","ST3027-01":"/uploads/files/818/conversions/ST3027-01-01-md.jpg","ST3027T":"/uploads/files/914/conversions/ST3027T-01-md.jpg","ST3027F":"/uploads/files/910/conversions/ST3027F-01-md.jpg","ST3027B":"/uploads/files/2416/conversions/ST3207B-NEW-01-md.jpg","ST3027C":"/uploads/files/908/conversions/ST3027C-md.jpg","ST3031":"/uploads/files/2050/conversions/ST3031-01-md.jpg","ST3036":"/uploads/files/812/conversions/ST3036-md.jpg","ST3016LT":"/uploads/files/356/conversions/ST3016LT-md.jpg","ST3016ST":"/uploads/files/358/conversions/ST3016ST-md.jpg","ST3016L":"/uploads/files/354/conversions/ST3016L-md.jpg","ST3016":"/uploads/files/352/conversions/ST3016-md.jpg","ST3051":"/uploads/files/362/conversions/ST3051-md.jpg","ST3018LT":"/uploads/files/360/conversions/ST3018LT-md.jpg","3010TC":"/uploads/files/336/conversions/3010TC-md.jpg","ST3010LC":"/uploads/files/1910/conversions/ST3010-01-md.jpg","ST3010LC-2":"/uploads/files/1908/conversions/ST3010-2-01-md.jpg","ST3010SC":"/uploads/files/348/conversions/ST3010SC-md.jpg","ST3010SC-2":"/uploads/files/350/conversions/ST3010SC-2-md.jpg","ST3012SC":"/uploads/files/3129/conversions/ST3012SC-01-md.jpg","ST3012LC":"/uploads/files/3131/conversions/ST3012LC-01-md.jpg","ST3003":"/uploads/files/936/conversions/ST3003-01-md.jpg","ST3003-02":"/uploads/files/940/conversions/ST3003-02-01-md.jpg","ST3003T":"/uploads/files/942/conversions/ST3003T-md.jpg","ST3003TF":"/uploads/files/1010/conversions/ST3003TF-md.jpg","ST3003TL":"/uploads/files/1012/conversions/ST3003TL-md.jpg","ST3003TS":"/uploads/files/1014/conversions/ST3003TS-md.jpg","ST3003TT":"/uploads/files/1008/conversions/ST3003TT-md.jpg","ST3003-07":"/uploads/files/2483/conversions/ST3003-07-01-md.jpg","ST3003-01":"/uploads/files/2485/conversions/ST3003-01-md.jpg","ST3005":"/uploads/files/1016/conversions/ST3005-md.jpg","ST3005-01":"/uploads/files/1018/conversions/ST3005-01-md.jpg","ST2003HB":"/uploads/files/2833/conversions/ST2003HB1-md.jpg","ST2003D":"/uploads/files/896/conversions/ST2003D-md.jpg","ST2003DL":"/uploads/files/894/conversions/ST2003DL-01-md.jpg","ST3201":"/uploads/files/998/conversions/ST3201-md.jpg","ST3203D":"/uploads/files/1002/conversions/ST3203D-md.jpg","ST3203F":"/uploads/files/420/conversions/ST3203F-md.jpg","ST3202":"/uploads/files/1004/conversions/ST3202-md.jpg","ST3013T":"/uploads/files/280/conversions/ST3013T-md.jpg","ST3013TD":"/uploads/files/282/conversions/ST3013TD-md.jpg","ST3013TL":"/uploads/files/284/conversions/ST3013TL-md.jpg","ST3268XL":"/uploads/files/1098/conversions/ST3268XL-md.jpg","ST3268-1":"/uploads/files/1086/conversions/ST3268-1-md.jpg","ST3268-1S":"/uploads/files/1090/conversions/ST3268-1S-md.jpg","ST3268-2":"/uploads/files/1092/conversions/ST3268-2-md.jpg","ST3268-2S":"/uploads/files/1094/conversions/ST3268-2S-md.jpg","ST3268":"/uploads/files/1084/conversions/ST3268-md.jpg","ST3267":"/uploads/files/1866/conversions/ST3267--md.jpg","ST2295SH":"/uploads/files/1052/conversions/ST2295SH-md.jpg","ST2296SSH":"/uploads/files/1062/conversions/ST2296SSH-md.jpg","ST2297SSH":"/uploads/files/1072/conversions/ST2296SSH-md.jpg","ST2297LSH":"/uploads/files/1068/conversions/ST2296SSH-md.jpg","ST2297SLH":"/uploads/files/1070/conversions/ST2297SLH-md.jpg","ST2297LLH":"/uploads/files/1066/conversions/ST2297LLH-md.jpg","ST2299LH":"/uploads/files/1082/conversions/ST2299LH-md.jpg","ST2295S-2H":"/uploads/files/1050/conversions/ST2295S-2H-md.jpg","ST2296S-2H":"/uploads/files/1054/conversions/ST2296S-2H-md.jpg","ST2296S-3H":"/uploads/files/1060/conversions/ST2296S-3H-md.jpg","ST2297-2H":"/uploads/files/1064/conversions/ST2297-2H-md.jpg","ST2297B-2":"/uploads/files/3347/conversions/DAYDAY-ST2297B-2-md.jpg","ST2297B-3":"/uploads/files/3349/conversions/DAYDAY-ST2297B-3-md.jpg","ST2295-2H":"/uploads/files/1048/conversions/ST2295-2H-md.jpg","ST2299B-2":"/uploads/files/1078/conversions/ST2299B-2-md.jpg","ST2299B-3":"/uploads/files/1080/conversions/ST2299B-3-md.jpg","ST2299-2H":"/uploads/files/1076/conversions/ST2299-2H-md.jpg","ST2295-2":"/uploads/files/1046/conversions/ST2295-2-md.jpg","ST2299-2":"/uploads/files/1074/conversions/ST2299-2-md.jpg","ST3266":"/uploads/files/1858/conversions/ST3266-md.jpg","ST3266-01":"/uploads/files/1864/conversions/ST3266-01-01-md.jpg","ST1021A":"/uploads/files/3289/conversions/daydayST1021A--md.jpg","STA0087":"/uploads/files/3319/conversions/DAYDAY-STA0087--md.jpg","ST1021A-2":"/uploads/files/3357/conversions/DAYDAY-ST1021A-2--md.jpg","ST3209":"/uploads/files/1878/conversions/ST3209-md.jpg","ST3209-2":"/uploads/files/1880/conversions/ST3209-2-md.jpg","ST3033SH":"/uploads/files/2625/conversions/-11-md.jpg","ST3033H":"/uploads/files/2627/conversions/-11-md.jpg","ST3033S-2CH":"/uploads/files/1868/conversions/ST3033S-2C--01-md.jpg","ST3033S-3CH":"/uploads/files/1874/conversions/ST3033S-3CH--md.jpg","DD9487":"/uploads/files/3011/conversions/DD94871-md.jpg","DD9477":"/uploads/files/3013/conversions/DD94771-md.jpg","DD9467":"/uploads/files/3015/conversions/DD94671-md.jpg","DD9456":"/uploads/files/3017/conversions/DD94561-md.jpg","DD0166":"/uploads/files/3019/conversions/DD01661-md.jpg","DD0167":"/uploads/files/3029/conversions/DD01671-md.jpg","DD0502":"/uploads/files/3025/conversions/DD05021-md.jpg","DD0505":"/uploads/files/3027/conversions/DD05051-md.jpg","DD7166":"/uploads/files/3381/conversions/DD716611508262-md.jpg","DD7167":"/uploads/files/3387/conversions/DD71671150826-md.jpg","DD7168":"/uploads/files/3401/conversions/DD71681150826-md.jpg","ST2045":"/uploads/files/1298/conversions/ST201-md.jpg","ST2060":"/uploads/files/1300/conversions/ST201-md.jpg","ST2075":"/uploads/files/1302/conversions/ST201-md.jpg","ST2090":"/uploads/files/1304/conversions/ST201-md.jpg","ST2120":"/uploads/files/1310/conversions/ST201-md.jpg","ST2150":"/uploads/files/1306/conversions/ST201-md.jpg","ST2180":"/uploads/files/1312/conversions/ST201-md.jpg","STH3712MFG":"/uploads/files/2883/conversions/STH3712MFG1-md.jpg","STH3711CG":"/uploads/files/2885/conversions/STH3711CG1-md.jpg","3512MFG":"/uploads/files/1894/conversions/3512MFG-md.jpg","3511CG":"/uploads/files/2877/conversions/3511CG1-md.jpg","ST3208AS":"/uploads/files/2835/conversions/ST3208AS1-md.jpg","ST1008":"/uploads/files/1838/conversions/ST1008-md.jpg","ST3208A":"/uploads/files/1822/conversions/st3208a-md.jpg","ST3208":"/uploads/files/1826/conversions/ST3208--md.jpg","ST3208A-2":"/uploads/files/1824/conversions/ST3208A-2--md.jpg","STA0093":"/uploads/files/3323/conversions/STA00931-md.jpg","CB093":"/uploads/files/3125/conversions/19-md.jpg","C0093BK":"/uploads/files/3099/conversions/13-md.jpg","CG093":"/uploads/files/3423/conversions/CG09311509171-md.jpg","STA0089":"/uploads/files/3175/conversions/31-md.jpg","STA0009":"/uploads/files/2400/conversions/STA0009-01-md.jpg","CB089":"/uploads/files/3127/conversions/20-md.jpg","C0089BK":"/uploads/files/3101/conversions/14-md.jpg","2003CC":"/uploads/files/1840/conversions/2003CC--md.jpg","2303-01":"/uploads/files/1844/conversions/2303-01-md.jpg","2003C":"/uploads/files/1842/conversions/2003C-md.jpg","ST3205":"/uploads/files/1850/conversions/ST3205--md.jpg","ST3205T":"/uploads/files/1848/conversions/ST3205T--md.jpg","STA0007":"/uploads/files/3033/conversions/STA00071-md.jpg","STA0008":"/uploads/files/3035/conversions/STA00081-md.jpg","STA0099":"/uploads/files/3371/conversions/STA0099--md.jpg","STA0079":"/uploads/files/3237/conversions/STA00791-md.jpg","ST1801":"/uploads/files/3223/conversions/ST18011-md.jpg","ST1802":"/uploads/files/3231/conversions/ST18021-md.jpg","C0023BK":"/uploads/files/3137/conversions/C0023BK-md.jpg","STA0091-60":"/uploads/files/3315/conversions/DAYDAY-STA0091-60-md.jpg","STA0091-75":"/uploads/files/3315/conversions/DAYDAY-STA0091-60-md.jpg","STA0092-60":"/uploads/files/3317/conversions/DAYDAY-STA0092-60-md.jpg","STA0092-75":"/uploads/files/3317/conversions/DAYDAY-STA0092-60-md.jpg","2312-2":"/uploads/files/3345/conversions/DAYDAY-2312-2-120CM4-md.jpg","ST1006A":"/uploads/files/3373/conversions/DAYDAY-ST1006A--md.jpg","2360-2":"/uploads/files/3361/conversions/DAYDAY-2360-2460CM-md.jpg","2375-2":"/uploads/files/3361/conversions/DAYDAY-2360-2460CM-md.jpg","2390-2":"/uploads/files/3361/conversions/DAYDAY-2360-2460CM-md.jpg","STH2745":"/uploads/files/1246/conversions/ST2700-01-md.jpg","STH2760":"/uploads/files/1640/conversions/ST2700-01-sl-md.jpg","STH2775":"/uploads/files/1252/conversions/ST2700-md.jpg","STH2790":"/uploads/files/1256/conversions/ST2700-01-md.jpg","STH6160-2":"/uploads/files/204/conversions/STH6160-2-md.jpg","STH6175-2":"/uploads/files/1260/conversions/STH6160-2-md.jpg","STH6190-2":"/uploads/files/1262/conversions/STH6160-2-md.jpg","STH6160":"/uploads/files/2062/conversions/STH6160-md.jpg","STH6175":"/uploads/files/2064/conversions/STH6160-md.jpg","STH6190":"/uploads/files/2066/conversions/STH6160-md.jpg","STA0012-75":"/uploads/files/2284/conversions/STA0012-6075CM--01-md.jpg","STH2645C":"/uploads/files/2567/conversions/2600-01-md.jpg","STH2660C":"/uploads/files/2571/conversions/2600-01-md.jpg","STH2675C":"/uploads/files/2575/conversions/2600-01-md.jpg","STH2690C":"/uploads/files/2579/conversions/2600-01-md.jpg","STA0013-60":"/uploads/files/2631/conversions/STA0013-601-md.jpg","STA0013-75":"/uploads/files/2633/conversions/STA0013-601-md.jpg","STA0015-60":"/uploads/files/2635/conversions/STA0015-md.jpg","STA0015-75":"/uploads/files/2637/conversions/STA0015-md.jpg","7345C":"/uploads/files/3331/conversions/7345C1-md.jpg","7360C":"/uploads/files/3333/conversions/7345C1-md.jpg","7375C":"/uploads/files/3335/conversions/7345C1-md.jpg","7390C":"/uploads/files/3337/conversions/7345C1-md.jpg","ST2169L":"/uploads/files/182/conversions/ST2169L-md.jpg","ST2168":"/uploads/files/180/conversions/ST2168-md.jpg","STA0011":"/uploads/files/2270/conversions/STA00112-01-md.jpg","ST1006":"/uploads/files/1242/conversions/ST1006-md.jpg","M-H922A":"/uploads/files/3313/conversions/DAYDAY-M-H922ALED-md.jpg","M-H922":"/uploads/files/2645/conversions/MH-9221-md.jpg","M-H920":"/uploads/files/2561/conversions/M-H920-01-md.jpg","M-H919":"/uploads/files/1782/conversions/M-H919-01-md.jpg","M-H716A":"/uploads/files/2316/conversions/M-H716LED-01-md.jpg","M-H721":"/uploads/files/2995/conversions/M-H7211-md.jpg","M-1026B":"/uploads/files/2425/conversions/M-1026B-1-01-md.jpg","M-1010":"/uploads/files/3427/conversions/M-101011509171-md.jpg","M-1023B":"/uploads/files/2449/conversions/M-1023B--01-md.jpg","M-1527":"/uploads/files/1794/conversions/M-526-md.jpg","M-1528":"/uploads/files/1788/conversions/M-1528-md.jpg","M-122":"/uploads/files/1792/conversions/M-122-md.jpg","M-122L":"/uploads/files/1790/conversions/M-122-md.jpg","M-1529":"/uploads/files/2997/conversions/M-15291-md.jpg","M-1006":"/uploads/files/1814/conversions/M-1006-md.jpg","M-1005":"/uploads/files/1800/conversions/M-1005-md.jpg","6008GL":"/uploads/files/1802/conversions/6008G-md.jpg","6008G":"/uploads/files/1804/conversions/6008G-md.jpg","8008G":"/uploads/files/1808/conversions/8008G-md.jpg","STA0010":"/uploads/files/2266/conversions/STA0010-01-md.jpg","CB086":"/uploads/files/3107/conversions/14-md.jpg","C0056BK":"/uploads/files/2523/conversions/C0056BK-01-md.jpg","C0086BK":"/uploads/files/3079/conversions/1-md.jpg","CG086":"/uploads/files/3377/conversions/DAYDAY-CG086--md.jpg","ST2298L":"/uploads/files/222/conversions/ST2298L-md.jpg","ST2298L-2A":"/uploads/files/224/conversions/ST2298L-2A-md.jpg","ST2298LDH":"/uploads/files/228/conversions/ST2298LDH-md.jpg","ST2298LD-1":"/uploads/files/1218/conversions/ST2298LD-1-md.jpg","ST2298LH":"/uploads/files/230/conversions/ST2298LH-md.jpg","ST2298S":"/uploads/files/1216/conversions/ST2298S-md.jpg","ST2298SH":"/uploads/files/236/conversions/ST2298SH-md.jpg","ST2298SD-02":"/uploads/files/234/conversions/ST2298SD-02-md.jpg","STA0016S":"/uploads/files/3201/conversions/40-md.jpg","STA0016":"/uploads/files/2605/conversions/STA0016--01-md.jpg","STA0076S":"/uploads/files/3199/conversions/43-md.jpg","STA0076":"/uploads/files/3203/conversions/43-md.jpg","STA0086":"/uploads/files/3179/conversions/5-md.jpg","STA0023S":"/uploads/files/3439/conversions/STA0023S11509181-md.jpg","STA0023":"/uploads/files/3181/conversions/34-md.jpg","STA0058S":"/uploads/files/3441/conversions/STA0058S11509181-md.jpg","STA0058":"/uploads/files/2607/conversions/STA0058--01-md.jpg","STA0056S":"/uploads/files/2565/conversions/STA0056S--md.jpg","STA0059":"/uploads/files/3195/conversions/41-md.jpg","STA0056":"/uploads/files/2258/conversions/STA0056-01-md.jpg","STA0055":"/uploads/files/2256/conversions/STA0055-01-md.jpg","ST2268-2A":"/uploads/files/3197/conversions/42-md.jpg","ST6632":"/uploads/files/304/conversions/ST6632-md.jpg","ST6632A-2":"/uploads/files/308/conversions/ST6632A-2-md.jpg","ST6632A":"/uploads/files/306/conversions/ST6632A-md.jpg","ST6632B":"/uploads/files/310/conversions/ST6632B-md.jpg","STA0001":"/uploads/files/2396/conversions/STA0001-02-md.jpg","1023":"/uploads/files/3355/conversions/DAYDAY-1023-md.jpg","ST1630":"/uploads/files/1694/conversions/ST1630-30CM-md.jpg","ST1640":"/uploads/files/1696/conversions/ST1640-40CM-md.jpg","ST1650":"/uploads/files/1698/conversions/ST1650-50CM-md.jpg","ST1660":"/uploads/files/1700/conversions/ST1660-60CM-md.jpg","STA0095":"/uploads/files/3253/conversions/STA00951-md.jpg","1024":"/uploads/files/3353/conversions/DAYDAY-1024-md.jpg","ST3207":"/uploads/files/2090/conversions/ST3207-01-md.jpg","ST3207T":"/uploads/files/2390/conversions/ST3207T-01-md.jpg","STA0002":"/uploads/files/2398/conversions/STA0002-02-md.jpg","2006GA":"/uploads/files/1722/conversions/2006GAGC-md.jpg","1025":"/uploads/files/3351/conversions/DAYDAY-1025--md.jpg","STA0005":"/uploads/files/2394/conversions/STA0005-02-md.jpg","STA0083":"/uploads/files/3375/conversions/DAYDAY-STA0083--md.jpg","STA0006":"/uploads/files/3003/conversions/STA00061-md.jpg","2002BC":"/uploads/files/1710/conversions/2002BC--md.jpg","2002CB":"/uploads/files/3007/conversions/2002CB1-md.jpg","STH3707":"/uploads/files/2324/conversions/STH3707-md.jpg","STH3717":"/uploads/files/2328/conversions/STH3717--md.jpg","STH3708MCG":"/uploads/files/2336/conversions/STH3708MCG-01-md.jpg","STH3708CG":"/uploads/files/2338/conversions/STH3708MCG-01-md.jpg","STH3708CGL":"/uploads/files/2340/conversions/STH3708MCG-01-md.jpg","3507":"/uploads/files/1766/conversions/3507-md.jpg","3517":"/uploads/files/1746/conversions/3517--md.jpg","3508MCG":"/uploads/files/2493/conversions/3508MCG-01-md.jpg","3508CG":"/uploads/files/2495/conversions/3508MCG-01-md.jpg","3508CGL":"/uploads/files/2497/conversions/3508MCG-01-md.jpg","2217":"/uploads/files/1768/conversions/2217-md.jpg","C0088BK":"/uploads/files/3117/conversions/18-md.jpg","C0082ABK":"/uploads/files/3141/conversions/22-md.jpg","C0085BK":"/uploads/files/3063/conversions/C0085BK11-md.jpg","C0065BK":"/uploads/files/2431/conversions/C0065BK-md.jpg","C0031BK-60":"/uploads/files/3083/conversions/3-md.jpg","C0031BK-75":"/uploads/files/3085/conversions/3-md.jpg","C0032BK-60":"/uploads/files/3087/conversions/2-md.jpg","C0032BK-75":"/uploads/files/3089/conversions/2-md.jpg","C0027BK-60":"/uploads/files/2661/conversions/C0027BK1-md.jpg","C0027BK-75":"/uploads/files/2663/conversions/C0027BK1-md.jpg","C0028BK-60":"/uploads/files/2665/conversions/C00281-md.jpg","C0028BK-75":"/uploads/files/2667/conversions/C00281-md.jpg","C0021BK-60":"/uploads/files/2439/conversions/C0021BK-md.jpg","C0021BK-75":"/uploads/files/2441/conversions/C0021BK-md.jpg","C0022BK-60":"/uploads/files/2443/conversions/C0022BK-60-md.jpg","C0022BK-75":"/uploads/files/2445/conversions/C0022BK-60-md.jpg","C0083BK":"/uploads/files/3081/conversions/8-md.jpg","ST1022":"/uploads/files/2467/conversions/ST1022-md.jpg","STA0085":"/uploads/files/3325/conversions/STA00851-md.jpg","ST1016":"/uploads/files/1688/conversions/ST1016-md.jpg","STA0051-75":"/uploads/files/2230/conversions/STA0051-60-01-md.jpg","STA0051-90":"/uploads/files/2232/conversions/STA0051-60-01-md.jpg","STA0052-75":"/uploads/files/2224/conversions/STA0052-60-01-md.jpg","STA0081":"/uploads/files/3183/conversions/8-md.jpg","STA0080":"/uploads/files/3193/conversions/39-md.jpg","STA0088":"/uploads/files/3187/conversions/36-md.jpg","STA0082":"/uploads/files/3207/conversions/-11-md.jpg","ST1300S":"/uploads/files/2455/conversions/ST1300S-md.jpg","STA0077-45":"/uploads/files/2639/conversions/STA0078-md.jpg","STA0077-60":"/uploads/files/2639/conversions/STA0078-md.jpg","STA0077-75":"/uploads/files/2641/conversions/STA0078-md.jpg","STA0077-90":"/uploads/files/2643/conversions/STA0078-md.jpg","STA0078-45":"/uploads/files/2849/conversions/STA00781-md.jpg","STA0078-60":"/uploads/files/2849/conversions/STA00781-md.jpg","STA0078-75":"/uploads/files/2851/conversions/STA00781-md.jpg","ST1022A":"/uploads/files/3447/conversions/ST1022A11509181-md.jpg","STA0066-2":"/uploads/files/2457/conversions/STA0066-2-md.jpg","CB031-60":"/uploads/files/3109/conversions/15-md.jpg","CB031-75":"/uploads/files/3111/conversions/15-md.jpg","CB032-60":"/uploads/files/3113/conversions/16-md.jpg","CB032-75":"/uploads/files/3115/conversions/16-md.jpg","CB088":"/uploads/files/3119/conversions/17-md.jpg","CB082":"/uploads/files/3121/conversions/18-md.jpg","CB085":"/uploads/files/3123/conversions/19-md.jpg","CB083":"/uploads/files/3147/conversions/22-md.jpg","CG088":"/uploads/files/3413/conversions/CG08811509171-md.jpg","CG031-60":"/uploads/files/3415/conversions/CG031-6011509171-md.jpg","CG032-60":"/uploads/files/3417/conversions/CG032-6011509171-md.jpg","CG085":"/uploads/files/3421/conversions/CG08511509171-md.jpg","CG082":"/uploads/files/3379/conversions/DAYDAY-CG082--md.jpg","CG080":"/uploads/files/3425/conversions/CG08011509171-md.jpg"};
   const DAYDAY = DD.map(a => {
     const tiers = /三層/.test(a.name) ? 3 : /雙層/.test(a.name) ? 2 : 1;
-    const how = a.mount === 'counter' ? '嵌入檯面' : a.mount === 'top' ? '桌上型' : /釘式/.test(a.name) ? '釘式' : /掛/.test(a.name) ? '掛式（掛桿）' : '壁掛';
-    const spec = `${a.w}×${a.d}×${a.h}　#304 不鏽鋼　${how}${a.note ? '　' + a.note : ''}`;
-    return { ...a, brand: DD_BRAND, tiers, finish: a.finish || 'steel', spec, img: DD_IMG[a.code] ? 'https://www.daynday.com.tw' + DD_IMG[a.code] : '', hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'dayday', hanging: a.mount === 'wall' };
+    const how = a.mount === 'counter' ? '嵌入檯面' : a.mount === 'top' ? (a.y === 0 ? '落地' : '桌上型') : /釘式/.test(a.name) ? '釘式' : /掛/.test(a.name) ? '掛式（掛桿）' : '壁掛';
+    const spec = `${a.w}×${a.d}×${a.h}　${{ gold: '璀璨金', gray: '暮灰色', black: '霧黑色' }[a.finish] || '#304 不鏽鋼'}　${how}${a.sub ? '　' + a.sub : ''}${a.note ? '　' + a.note : ''}`;
+    return { ...a, brand: DD_BRAND, tiers, finish: a.finish || 'steel', spec, img: DD_IMG[a.code] ? 'https://www.daynday.com.tw' + DD_IMG[a.code] : '', hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: a.group || 'dayday', hanging: a.mount === 'wall' };
   });
   DAYDAY.forEach(a => items.push(a));
   const CAI = 303 * 303; // 1 才＝303mm×303mm（1 台尺見方，mm²）；櫃體板材與桌面共用
