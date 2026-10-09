@@ -889,6 +889,52 @@
       [-1, 1].forEach(k => { cyl(g, rr + 4, d, k * (w / 2 - rr - 12), y0 + h / 2, 0, wire, 16).rotation.x = Math.PI / 2; });
       return;
     }
+    if (cab.at === 'faucet' || cab.at === 'basin' || cab.at === 'wallfaucet') {
+      // 龍頭：底座＋立管＋彎出水嘴（壁式：由牆面水平伸出）
+      const r = cab.at === 'basin' ? 14 : 18, top = y0 + h;
+      if (cab.at === 'wallfaucet') {
+        cyl(g, r + 6, 12, 0, y0 + h / 2, -d / 2 + 6, wire, 20).rotation.x = Math.PI / 2;
+        cyl(g, r - 4, d - 40, 0, y0 + h / 2, -d / 2 + (d - 40) / 2 + 6, wire, 16).rotation.x = Math.PI / 2;
+        cyl(g, r - 6, 40, 0, y0 + h / 2 - 20, d / 2 - 20, wire, 16);
+        cyl(g, 6, 50, 0, y0 + h / 2 + 10, -d / 2 + 30, wire, 12).rotation.z = Math.PI / 2;
+        return;
+      }
+      const zb = -d / 2 + r + 10;
+      cyl(g, r + 6, 24, 0, y0 + 12, zb, wire, 20);
+      cyl(g, r - 4, h - 60, 0, y0 + (h - 60) / 2 + 24, zb, wire, 16);
+      cyl(g, r - 6, d - r - 30, 0, top - 30, zb + (d - r - 30) / 2, wire, 16).rotation.x = Math.PI / 2;
+      cyl(g, r - 6, 50, 0, top - 55, d / 2 - 20, wire, 16);
+      cyl(g, 6, 70, 35, y0 + h * 0.45, zb, wire, 12).rotation.z = Math.PI / 2;
+      return;
+    }
+    if (cab.at === 'shower') {
+      // 沐浴龍頭組：壁掛混合閥本體＋把手＋蓮蓬頭
+      cyl(g, 30, w - 60, 0, y0 + h - 40, -d / 2 + 45, wire, 20).rotation.z = Math.PI / 2;
+      [-1, 1].forEach(k => { cyl(g, 24, 50, k * (w / 2 - 30), y0 + h - 40, -d / 2 + 25, wire, 20).rotation.x = Math.PI / 2; });
+      cyl(g, 7, 60, 0, y0 + h - 40, -d / 2 + 75, wire, 12).rotation.x = Math.PI / 2;
+      cyl(g, 10, 40, w / 2 - 40, y0 + h - 70, -d / 2 + 60, wire, 12);
+      cyl(g, 30, 10, w / 2 - 40, y0 + 5, -d / 2 + 60, wire, 20);
+      return;
+    }
+    if (cab.at === 'showercol' || cab.at === 'slidebar') {
+      // 淋浴柱／滑桿：直桿＋固定座（淋浴柱加頂部花灑）
+      const r = cab.at === 'slidebar' ? 11 : 14;
+      cyl(g, r, h - 20, 0, y0 + h / 2, -d / 2 + 40, wire, 16);
+      [60, h - 60].forEach(yy => { cyl(g, r + 4, 40, 0, y0 + yy, -d / 2 + 20, wire, 16).rotation.x = Math.PI / 2; });
+      if (cab.at === 'showercol') {
+        cyl(g, 10, d - 60, 0, y0 + h - 10, 0, wire, 12).rotation.x = Math.PI / 2;
+        cyl(g, Math.min(110, w / 2), 10, 0, y0 + h - 10, d / 2 - 110, wire, 32);
+        addBox(g, 160, 40, 70, 0, y0 + h * 0.55, -d / 2 + 60, wire, false);
+      }
+      cyl(g, 18, 90, 0, y0 + h * 0.6, -d / 2 + 60, wire, 12);
+      return;
+    }
+    if (cab.at === 'bidet') {
+      cyl(g, 14, 30, 0, y0 + h - 15, -d / 2 + 20, wire, 12).rotation.x = Math.PI / 2;
+      cyl(g, 12, h - 40, 0, y0 + (h - 40) / 2, -d / 2 + 40, wire, 12);
+      cyl(g, 20, 30, 0, y0 + h - 20, -d / 2 + 40, wire, 16);
+      return;
+    }
     if (cab.at === 'mirror') {
       // 鏡子：鏡面＋細邊框，貼牆
       addBox(g, w, h, d - 4, 0, y0 + h / 2, -2, wire, false);
