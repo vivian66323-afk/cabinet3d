@@ -147,7 +147,7 @@
     pg.text(x0 + 73, y0 + 24.3, `頁次：${info.page || 1} / ${info.pages || 1}`, { size: 7.5 });
     // Logo
     if (imgs.__logo) pg.g.drawImage(imgs.__logo, 11 * pg.k, 11 * pg.k, 9 * pg.k, 9 * pg.k);
-    pg.text(22, 17.4, '系統櫃 3D 設計平台', { size: 8, bold: true, color: '#3f6212' });
+    pg.text(22, 17.4, '系統櫃 3D 設計平台', { size: 8, bold: true, color: '#8a6a2f' });
     return { x0: 12, y0: 22, x1: wmm - 12, y1: y0 - 3 };
   };
 

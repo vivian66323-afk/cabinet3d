@@ -23,14 +23,14 @@
   function gate(resolve) {
     const css = `
       .auth-gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;
-        background:linear-gradient(135deg,#26331a,#34461c);padding:16px}
+        background:linear-gradient(135deg,#2b2622,#3d352d);padding:16px}
       .auth-card{width:100%;max-width:340px;background:#fff;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.3);padding:28px 26px}
       .auth-card h1{margin:0 0 4px;font-size:18px;letter-spacing:.06em}
       .auth-card p{margin:0 0 18px;color:#69727d;font-size:12px}
       .auth-card label{display:block;font-size:12px;color:#475467;margin:10px 0 4px}
       .auth-card input{width:100%;padding:9px 10px;border:1px solid #c9cfd6;border-radius:6px;font-size:14px}
-      .auth-card input:focus{outline:none;border-color:#5b8c0a;box-shadow:0 0 0 3px #eef6dd}
-      .auth-card button{width:100%;margin-top:18px;padding:10px;border:0;border-radius:6px;background:#5b8c0a;color:#fff;font-size:14px;cursor:pointer}
+      .auth-card input:focus{outline:none;border-color:#9b7d47;box-shadow:0 0 0 3px #f4ede0}
+      .auth-card button{width:100%;margin-top:18px;padding:10px;border:0;border-radius:6px;background:#9b7d47;color:#fff;font-size:14px;cursor:pointer}
       .auth-card button:disabled{opacity:.6;cursor:default}
       .auth-err{color:#d0342c;font-size:12px;min-height:16px;margin-top:10px}`;
     const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);

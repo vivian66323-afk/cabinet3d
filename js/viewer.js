@@ -446,7 +446,7 @@
     const s = App.sel;
     if (s && s.type === 'cab') {
       const g = cabObjs.get(s.id);
-      if (g) { selBox = new THREE.BoxHelper(g, 0x5a8f00); selBox.material.linewidth = 2; helperGroup.add(selBox); }
+      if (g) { selBox = new THREE.BoxHelper(g, 0x9b7d47); selBox.material.linewidth = 2; helperGroup.add(selBox); }
     }
   }
   V.updateSelection = function () { updateSelBox(); V.refreshGaps(); };

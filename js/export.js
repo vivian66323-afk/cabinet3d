@@ -123,7 +123,7 @@
       pages.push(pg);
       pg.rect(0, 0, 210, 4, { fill: '#8dbf1a', stroke: false });
       if (window.LOGO_DATA) await pg.image(window.LOGO_DATA, 13, 10.5, 11, 11);
-      pg.text(26, 16.2, u.org || '系統櫃 3D 設計平台', { size: 11, bold: true, color: '#3f6212' });
+      pg.text(26, 16.2, u.org || '系統櫃 3D 設計平台', { size: 11, bold: true, color: '#8a6a2f' });
       pg.text(26, 20.6, `設計師 ${u.name || ''}${u.tel ? '　電話 ' + u.tel : ''}`, { size: 7.5, color: '#69727d' });
       pg.text(196, 18, '報　價　單', { size: 18, bold: true, align: 'right' });
       pg.line(14, 25, 196, 25, 0.5);
@@ -168,7 +168,7 @@
     tot.forEach(([k2, v]) => { pg.text(160, y + 4, k2, { size: 8.5, align: 'right', color: '#475467' }); pg.text(194, y + 4, P().fmt(v), { size: 8.5, align: 'right' }); y += 5.5; });
     pg.line(120, y, 196, y, 0.4);
     pg.text(160, y + 6.5, '總計', { size: 11, bold: true, align: 'right' });
-    pg.text(194, y + 6.5, P().fmt(q.total), { size: 12, bold: true, align: 'right', color: '#3f6212' });
+    pg.text(194, y + 6.5, P().fmt(q.total), { size: 12, bold: true, align: 'right', color: '#8a6a2f' });
     let ny = y - 22;
     pg.text(14, ny, '備註', { size: 8.5, bold: true });
     String(st.pricing.note || '').split('\n').forEach((l, i) => pg.text(14, ny + 5 + i * 4.2, l, { size: 7.5, color: '#475467', maxW: 100 }));
