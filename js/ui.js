@@ -1175,7 +1175,7 @@
   UI._modals = new Set();
   UI.closeAllModals = () => [...UI._modals].forEach(c => c(null));
   // page：全頁畫面
-  const PAGE_BRAND = `<div class="auth-brand"><div class="logo">LOGO</div><div><b>系統櫃</b><small>3D 設計平台</small></div></div>`;
+  const PAGE_BRAND = `<div class="auth-brand"><img class="logo-img" src="logo-puyu.png" alt="菩語國際設計 PURELY DESIGN"><div><b>系統櫃</b><small>3D 設計平台</small></div></div>`;
   UI.modal = function ({ title, body, buttons, wide, onOpen, validate, cls, page }) {
     return new Promise(resolve => {
       const back = document.createElement('div');

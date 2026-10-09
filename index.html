@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>3D系統櫃</title>
 <link rel="icon" href="LOGO.png">
-<link rel="stylesheet" href="css/app.css?v=20261007x">
+<link rel="stylesheet" href="css/app.css?v=20261009b">
 </head>
 <body>
 <header class="topbar">
   <div class="brand" title="系統櫃 3D 設計平台（教學版）">
-    <div class="logo" aria-label="LOGO">LOGO</div>
+    <img class="logo-img" src="logo-puyu.png" alt="菩語國際設計 PURELY DESIGN">
     <div class="brand-text"><b>系統櫃</b><small>3D 設計平台</small></div>
   </div>
   <div class="project">
@@ -29,6 +29,7 @@
     <input type="file" id="fileImport" accept=".json,application/json" hidden>
   </div>
   <div class="top-right">
+    <button class="btn ghost" id="btnLogout" title="登出" onclick="window.Auth.logout()">登出</button>
     <button class="btn primary" id="btnGemini" title="把目前視角 + 白模 + 線稿交給 Gemini 或 ChatGPT 出圖">
       <svg viewBox="0 0 24 24"><path d="M12 3c.9 4.4 2.7 6.2 7.1 7.1-4.4.9-6.2 2.7-7.1 7.1-.9-4.4-2.7-6.2-7.1-7.1C9.3 9.2 11.1 7.4 12 3Z"/></svg>3D渲染
     </button>
@@ -119,6 +120,8 @@
   "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
 } }
 </script>
+<script src="js/auth-config.js?v=20261009a"></script>
+<script src="js/auth.js?v=20261009a"></script>
 <script src="js/catalog.js?v=20261007x"></script>
 <script src="js/swatches.js?v=20261007x"></script>
 <script src="js/swatches-hemai.js?v=20261007x"></script>
@@ -131,12 +134,13 @@
 <script src="js/dxf.js?v=20261007x"></script>
 <script src="js/export.js?v=20261007x"></script>
 <script src="js/airender.js?v=20261007x"></script>
-<script src="js/ui.js?v=20261007x"></script>
+<script src="js/ui.js?v=20261009b"></script>
 <script src="js/swatchadmin.js?v=20261007x"></script>
 <script src="js/app.js?v=20261007x"></script>
 <script type="module">
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+  await window.Auth.ready;
   window.App.boot(THREE, OrbitControls);
 </script>
 </body>
