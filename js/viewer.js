@@ -1163,6 +1163,7 @@
       });
       helperGroup.add(draw.guides);
     }
+    if (App.ui && App.ui.syncLineInput) App.ui.syncLineInput();
   }
   function lineMove() {
     const g = groundPoint(0); if (!g) { V.snapMark = null; return; }
@@ -1171,7 +1172,7 @@
     redrawLine();
     const type = r.close ? '起點' : r.snap.startsWith('端點') ? '端點' : r.snap === '中點' ? '中點' : r.axis === 'X' ? '紅軸' : r.axis === 'Z' ? '綠軸' : r.guides && r.guides.length ? '對齊' : '地面';
     V.snapMark = { p: new THREE.Vector3(r.p[0], 0, r.p[1]), type, tip: r.snap || '' };
-    App.status(`畫線：${draw.pts.length ? '點擊下一點' : '點擊起點'}　${r.snap ? '鎖點【' + r.snap + '】' : ''}${draw.lock ? '（Shift 鎖定）' : ''}　可輸入長度 Enter；按住 Shift 鎖定軸向；點回起點或雙擊完成`);
+    App.status(`畫線：${draw.pts.length ? '點擊下一點' : '點擊起點'}　${r.snap ? '鎖點【' + r.snap + '】' : ''}${draw.lock ? '（Shift 鎖定）' : ''}　可直接打數字：長度 或 長度,角度 再按 Enter；Backspace 退回上一點；按住 Shift 鎖定軸向；點回起點、雙擊或空白時按 Enter 完成`);
   }
   function lineClick() {
     const g = groundPoint(0); if (!g) return;
@@ -1189,7 +1190,52 @@
     redrawLine();
     return true;
   };
+  /* 畫線時輸入數據：
+     「3000」      沿滑鼠方向畫 3000 mm
+     「3000,90」或「3000<90」  畫 3000 mm、角度 90°（0°＝右，90°＝上，以平面圖逆時針計）
+     尚未點起點時輸入，會以滑鼠所在位置（不在地面上則原點）當起點。回傳錯誤訊息或空字串。 */
+  V.lineInput = function (raw) {
+    const m = String(raw).trim().replace(/，/g, ',').match(/^(-?\d+(?:\.\d+)?)\s*(?:[,<＜\s]\s*(-?\d+(?:\.\d+)?))?$/);
+    if (!m) return '請輸入「長度」或「長度,角度」，例如 3000 或 3000,90';
+    const len = Number(m[1]), ang = m[2] != null ? Number(m[2]) : null;
+    if (!(len > 0)) return '長度必須大於 0';
+    if (len > 100000) return `長度 ${len} mm 超過 100 公尺，請確認是否打錯（單位是 mm）`;
+    if (!draw.pts.length) {
+      if (ang == null && !draw.cursor) return '請先點擊起點，或輸入「長度,角度」';
+      draw.pts.push(draw.cursor ? draw.cursor.slice() : [0, 0]);
+    }
+    const a = draw.pts[draw.pts.length - 1];
+    let ux, uz;
+    if (ang != null) { const r = ang * Math.PI / 180; ux = Math.cos(r); uz = -Math.sin(r); }
+    else {
+      if (!draw.cursor) return '請移動滑鼠指定方向，或輸入「長度,角度」';
+      const dx = draw.cursor[0] - a[0], dz = draw.cursor[1] - a[1], l = Math.hypot(dx, dz);
+      if (l < 1) return '請移動滑鼠指定方向，或輸入「長度,角度」';
+      ux = dx / l; uz = dz / l;
+    }
+    const p = [Math.round(a[0] + ux * len), Math.round(a[1] + uz * len)];
+    const s = draw.pts[0];
+    // 回到起點（誤差 5 mm 內）就直接完成
+    if (draw.pts.length >= 3 && Math.hypot(p[0] - s[0], p[1] - s[1]) <= 5) { finishLine(); return ''; }
+    draw.pts.push(p);
+    draw.cursor = null; draw.cursorGuides = null;
+    redrawLine(); lineMove();
+    return '';
+  };
+  V.lineUndoPoint = function () {
+    if (!draw.pts.length) return false;
+    draw.pts.pop();
+    if (draw.pts.length) { redrawLine(); lineMove(); } else V.cancelLine();
+    return true;
+  };
+  V.lineFinish = () => finishLine();
+  V.linePointCount = () => draw.pts.length;
+  V.linePoints = () => draw.pts.map(p => p.slice());
   function finishLine() {
+    // 雙擊完成時最後一點會被點兩次；去掉重疊的點（含與起點重疊的終點），避免出現 0 長度的牆
+    const near = (p, q) => Math.hypot(p[0] - q[0], p[1] - q[1]) < 1;
+    draw.pts = draw.pts.filter((p, i, a) => i === 0 || !near(p, a[i - 1]));
+    while (draw.pts.length > 1 && near(draw.pts[draw.pts.length - 1], draw.pts[0])) draw.pts.pop();
     if (draw.pts.length < 3) { App.toast('至少需要 3 個點才能封閉空間'); return; }
     const pts = draw.pts.slice();
     V.cancelLine();

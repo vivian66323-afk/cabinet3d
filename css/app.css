@@ -448,3 +448,9 @@ input.ro { background: #f4f5f6; color: var(--muted); }
 .auth-page .modal h3 { font-size: 17px; padding-top: 10px; }
 .auth-page .modal .mbody > p:first-child { font-size: 12.5px; }
 @media (max-width: 480px) { .auth-page { padding: 0; align-items: stretch; } .auth-page .modal { width: 100%; min-height: 100vh; border-radius: 0; } }
+
+/* ---------- 畫牆線：跟著滑鼠的數據輸入框 ---------- */
+.line-input { position: absolute; z-index: 20; display: flex; flex-direction: column; gap: 3px; padding: 6px 8px; background: rgba(255,255,255,.96); border: 1px solid var(--line-2); border-radius: 6px; box-shadow: 0 4px 14px rgba(20,30,45,.16); max-width: 260px; }
+.line-input input { width: 190px; border: 1px solid var(--accent); border-radius: 4px; padding: 4px 8px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.line-input input:focus { outline: none; box-shadow: 0 0 0 3px var(--accent-2); }
+.line-input small { color: var(--muted); font-size: 11px; line-height: 1.35; }

@@ -126,6 +126,7 @@
     // 鍵盤
     document.addEventListener('keydown', onKey);
     $('#vcb').addEventListener('keydown', e => { if (e.key === 'Enter') { vcbEnter(); e.preventDefault(); } if (e.key === 'Escape') { e.target.value = ''; e.target.blur(); } });
+    initLineInput();
 
     V().setTool('select');
   };
@@ -212,6 +213,7 @@
     set('persp', v.isOrtho && v.isOrtho(), v.isOrtho && v.isOrtho() ? '平行' : '透視');
     const lbl = { line: '長度', move: '距離', rotate: '角度' }[v.tool] || (App.selectedCab() ? '位移 x,z' : '尺寸');
     $('#vcbLabel').textContent = lbl;
+    syncLineInput();
   };
 
   UI.action = function (a) {
@@ -1287,7 +1289,12 @@
       }
       return;
     }
-    if (/^[0-9.,\-]$/.test(k)) { const vcb = $('#vcb'); vcb.focus(); vcb.value = k; e.preventDefault(); return; }
+    if (/^[0-9.,\-]$/.test(k)) {
+      const box = v.tool === 'line' ? $('#lineInput') : $('#vcb');
+      box.focus(); box.value = k; e.preventDefault(); return;
+    }
+    if (v.tool === 'line' && k === 'Enter') { if (v.linePointCount()) v.lineFinish(); e.preventDefault(); return; }
+    if (v.tool === 'line' && k === 'Backspace' && v.linePointCount()) { v.lineUndoPoint(); syncLineInput(); e.preventDefault(); return; }
     switch (k) {
       case ' ': v.setTool('select'); e.preventDefault(); break;
       case 'm': case 'M': v.setTool('move'); break;
@@ -1308,14 +1315,75 @@
       case 'ArrowDown': App.nudge(0, e.shiftKey ? 100 : 10); e.preventDefault(); break;
     }
   }
+  /* ---------- 畫牆線：跟著滑鼠的數據輸入框 ---------- */
+  let lineMouse = null;
+  function initLineInput() {
+    const vp = $('#viewport');
+    const wrap = document.createElement('div');
+    wrap.className = 'line-input'; wrap.id = 'lineInputWrap'; wrap.hidden = true;
+    wrap.innerHTML = `<input id="lineInput" autocomplete="off" spellcheck="false" placeholder="長度 或 長度,角度" aria-label="輸入牆線長度與角度">
+      <small id="lineInputHint">例：3000　或　3000,90（0°右、90°上）　Enter 確定</small>`;
+    vp.appendChild(wrap);
+    const inp = $('#lineInput');
+    // 點輸入框不要變成在 3D 畫面上點一下
+    ['mousedown', 'pointerdown', 'click', 'dblclick'].forEach(t => wrap.addEventListener(t, e => e.stopPropagation()));
+    vp.addEventListener('mousemove', e => {
+      const r = vp.getBoundingClientRect();
+      lineMouse = { x: e.clientX - r.left, y: e.clientY - r.top };
+      placeLineInput();
+    });
+    inp.addEventListener('keydown', e => {
+      const v = V();
+      e.stopPropagation();
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const raw = inp.value.trim();
+        if (!raw) { if (v.linePointCount()) v.lineFinish(); inp.blur(); syncLineInput(); return; }
+        const err = v.lineInput(raw);
+        if (err) { App.toast(err); inp.select(); return; }
+        inp.value = '';                           // 保持焦點，可以接著輸入下一段
+        syncLineInput();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        if (inp.value) inp.value = ''; else { inp.blur(); v.escape(); }
+        syncLineInput();
+      } else if (e.key === 'Backspace' && !inp.value) {
+        e.preventDefault();
+        v.lineUndoPoint(); syncLineInput();
+      }
+    });
+  }
+  function placeLineInput() {
+    const wrap = $('#lineInputWrap'); if (!wrap || wrap.hidden) return;
+    const vp = $('#viewport');
+    const m = lineMouse || { x: vp.clientWidth / 2, y: vp.clientHeight / 2 };
+    const w = wrap.offsetWidth || 220, h = wrap.offsetHeight || 50;
+    // 只在滑鼠正下方或正上方擺放（左右可平移），保證不會蓋住游標、擋到點擊
+    const x = Math.max(6, Math.min(m.x + 18, vp.clientWidth - w - 6));
+    const y = m.y + 22 + h <= vp.clientHeight - 6 ? m.y + 22 : m.y - h - 22;
+    wrap.style.left = x + 'px'; wrap.style.top = Math.max(6, y) + 'px';
+  }
+  UI.syncLineInput = () => syncLineInput();
+  function syncLineInput() {
+    const wrap = $('#lineInputWrap'); if (!wrap) return;
+    const v = V(), on = v.tool === 'line';
+    wrap.hidden = !on;
+    if (!on) { $('#lineInput').value = ''; return; }
+    const n = v.linePointCount();
+    $('#lineInputHint').textContent = n
+      ? `第 ${n} 點之後：輸入長度 或 長度,角度（0°右、90°上）Enter　·　空白 Enter 完成　·　Backspace 退一點`
+      : '先點起點；或直接輸入「長度,角度」從滑鼠位置開始畫';
+    placeLineInput();
+  }
+
   function vcbEnter() {
     const el = $('#vcb'), raw = el.value.trim();
     el.value = ''; el.blur();
     if (!raw) return;
     const v = V();
     const parts = raw.split(/[,，\s]+/).map(Number);
-    if (parts.some(isNaN)) { App.toast('請輸入數字，例如 1200 或 300,0'); return; }
-    if (v.tool === 'line') { if (!v.lineLength(parts[0])) App.toast('請先點擊起點並移動滑鼠指定方向'); return; }
+    if (v.tool !== 'line' && parts.some(isNaN)) { App.toast('請輸入數字，例如 1200 或 300,0'); return; }
+    if (v.tool === 'line') { const err = v.lineInput(raw); if (err) App.toast(err); syncLineInput(); return; }
     if (v.isMoving()) { v.moveBy(parts[0]); return; }
     const cab = App.selectedCab();
     if (v.tool === 'rotate' && cab) { App.rotateSelected(parts[0]); return; }
