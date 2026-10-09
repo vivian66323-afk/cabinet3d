@@ -478,3 +478,12 @@ input.ro { background: #f4f5f6; color: var(--muted); }
 .color-chips .chip.active[data-c="gold"] { background: #c9a24a; color: #fff; }
 .color-chips .chip.active[data-c="gray"] { background: #6e7074; color: #fff; }
 .color-chips .chip.active[data-c="black"] { background: #2b2b2d; color: #fff; }
+
+/* ---------- 型錄分類篩選可收合 ---------- */
+.sub-filters { width: 100%; margin-top: 4px; border-top: 1px dashed var(--line); padding-top: 4px; }
+.sub-toggle { display: flex; align-items: center; gap: 6px; width: 100%; border: 0; background: none; padding: 3px 2px; cursor: pointer; font-size: 12px; color: var(--muted); text-align: left; }
+.sub-toggle:hover { color: var(--accent); }
+.sub-toggle .caret { font-size: 11px; width: 10px; }
+.sub-toggle small { color: var(--accent); font-size: 11px; margin-left: auto; }
+.sub-filters .sub-body .brand-chips { border-top: 0; margin-top: 0; padding-top: 2px; }
+.sub-filters.collapsed .sub-body { display: none; }

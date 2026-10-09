@@ -250,20 +250,29 @@
   /* ================= 型錄 ================= */
   const FILTERS = [['all', '全部'], ['A', 'D580mm'], ['B', 'D408mm'], ['C', 'D360mm'], ['T', '電視空櫃 D500'], ['K', '電器櫃'], ['corner', '轉角櫃'], ['hang', '吊櫃'], ['double', '雙開隔間'], ['tri', '三角邊櫃'], ['filler', '補板'], ['desk', '桌面'], ['appl', '廚房設備'], ['dayday', 'DAY&DAY 廚房'], ['daydayb', 'DAY&DAY 衛浴'], ['daydayf', 'DAY&DAY 龍頭']];
   let curFilter = 'all', curBrand = 'all', curType = 'all', curColor = 'all';
+  let subCollapsed = (() => { try { return localStorage.getItem('cab3d_subfilters') === '0'; } catch (e) { return false; } })();
   const COLOR_NAME = { steel: '不鏽鋼／絲光', gold: '金色', gray: '暮灰色', black: '黑色' };
   let pickedCode = null;
   function buildFilters() {
     $('#catFilters').innerHTML = FILTERS.map(([k, n]) => `<button class="chip${k === curFilter ? ' active' : ''}" data-f="${k}">${n}</button>`).join('') +
       (curFilter === 'appl' ? `<div class="brand-chips">${[['all', '全部品牌'], ...D.APPL_BRANDS.map(b => [b, b.split(' ')[0]])].map(([k, n]) => `<button class="chip small${k === curBrand ? ' active' : ''}" data-b="${k}">${n}</button>`).join('')}</div>` : '') +
-      typeChips() + colorChips();
+      subFilters();
     $('#catFilters').onclick = e => {
+      const tg = e.target.closest('[data-sub-toggle]'); if (tg) { subCollapsed = !subCollapsed; try { localStorage.setItem('cab3d_subfilters', subCollapsed ? '0' : '1'); } catch (e2) { /* 忽略 */ } buildFilters(); return; }
       const bb = e.target.closest('[data-b]'); if (bb) { curBrand = bb.dataset.b; curType = 'all'; buildFilters(); renderCatalog(); return; }
       const bt = e.target.closest('[data-t]'); if (bt) { curType = bt.dataset.t; buildFilters(); renderCatalog(); return; }
       const bc = e.target.closest('[data-c]'); if (bc) { curColor = bc.dataset.c; buildFilters(); renderCatalog(); return; }
       const b = e.target.closest('[data-f]'); if (!b) return; curFilter = b.dataset.f; curType = 'all'; curColor = 'all'; buildFilters(); renderCatalog();
     };
   }
-  // 第二列：品項分類（廚房設備、DAY&DAY 廚房／衛浴）；第三列：色系（DAY&DAY 衛浴）
+  // 第二、三列可收合；收起時標題顯示目前選的分類與色系
+  function subFilters() {
+    const body = typeChips() + colorChips();
+    if (!body) return '';
+    const cur = [curType === 'all' ? '全部分類' : D.APPL_TYPES[curType], curColor !== 'all' ? COLOR_NAME[curColor] : ''].filter(Boolean).join(' · ');
+    return `<div class="sub-filters${subCollapsed ? ' collapsed' : ''}"><button class="sub-toggle" data-sub-toggle title="${subCollapsed ? '展開分類篩選' : '收起分類篩選'}"><span class="caret">${subCollapsed ? '▸' : '▾'}</span>分類篩選<small>${esc(cur)}</small></button><div class="sub-body">${body}</div></div>`;
+  }
+  // 第二列：品項分類（廚房設備、DAY&DAY 廚房／衛浴／龍頭）；第三列：色系（DAY&DAY 衛浴／龍頭）
   function typeChips() {
     if (!['appl', 'dayday', 'daydayb', 'daydayf'].includes(curFilter)) return '';
     const its = D.items.filter(it => it.group === curFilter && (curFilter !== 'appl' || curBrand === 'all' || it.brand === curBrand));
