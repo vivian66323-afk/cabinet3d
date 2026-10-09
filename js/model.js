@@ -877,6 +877,35 @@
       }
       return;
     }
+    if (cab.at === 'rod') {
+      // 掛桿：Ø16 不鏽鋼管＋兩端固定座（貼牆，牆在 -z 側）
+      const zr = -d / 2 + 31;
+      cyl(g, 8, w, 0, y0 + h / 2, zr, steel, 16).rotation.z = Math.PI / 2;
+      [-1, 1].forEach(k => { cyl(g, 12, 62, k * (w / 2 - 25), y0 + h / 2, zr, steel, 16).rotation.x = Math.PI / 2; });
+      return;
+    }
+    if (['rack', 'spice', 'knife', 'cup', 'util', 'basket', 'bath'].includes(cab.at)) {
+      // DAY&DAY 線架：每層＝底部直條＋四邊圍欄；多層加四角立柱；掛式在背面加掛勾
+      const tiers = it.tiers || 1, r = 3;
+      const lip = tiers > 1 ? Math.min(90, h / tiers * 0.45) : h;
+      const bar = (bw, bh, bd, x, y, z) => addBox(g, bw, bh, bd, x, y, z, steel, false);
+      for (let t = 0; t < tiers; t++) {
+        const yb = y0 + (tiers > 1 ? (h - lip) * t / (tiers - 1) : 0);
+        [yb + r / 2, yb + lip - r / 2].forEach(y => {
+          bar(w, r, r, 0, y, -d / 2 + r / 2); bar(w, r, r, 0, y, d / 2 - r / 2);
+          bar(r, r, d, -w / 2 + r / 2, y, 0); bar(r, r, d, w / 2 - r / 2, y, 0);
+        });
+        const n = Math.max(2, Math.round(w / 35));
+        for (let i = 1; i < n; i++) bar(1.5, 1.5, d - r * 2, -w / 2 + w * i / n, yb + r / 2, 0);
+        const m = Math.max(2, Math.round(w / 60));
+        for (let i = 0; i <= m; i++) { const x = -w / 2 + r / 2 + (w - r) * i / m; bar(r, lip, r, x, yb + lip / 2, -d / 2 + r / 2); bar(r, lip, r, x, yb + lip / 2, d / 2 - r / 2); }
+        const md = Math.max(1, Math.round(d / 60));
+        for (let i = 1; i < md; i++) { const z = -d / 2 + d * i / md; bar(r, lip, r, -w / 2 + r / 2, yb + lip / 2, z); bar(r, lip, r, w / 2 - r / 2, yb + lip / 2, z); }
+      }
+      if (tiers > 1) [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([kx, kz]) => bar(r * 2, h, r * 2, kx * (w / 2 - r), y0 + h / 2, kz * (d / 2 - r)));
+      if (cab.mount === 'wall') [-1, 1].forEach(k => bar(r * 2, 40, 14, k * (w / 2 - 20), y0 + h - 20, -d / 2 - 6));
+      return;
+    }
     addBox(g, w, h, d, 0, y0 + h / 2, 0, face);
   }
 

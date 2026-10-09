@@ -248,7 +248,7 @@
       D.HANDLES.map(h => `<option value="${h.id}"${h.id === cur ? ' selected' : ''}>${h.name}${h.pair ? '（雙門片適用）' : ''}</option>`).join('');
   }
   /* ================= 型錄 ================= */
-  const FILTERS = [['all', '全部'], ['A', 'D580mm'], ['B', 'D408mm'], ['C', 'D360mm'], ['T', '電視空櫃 D500'], ['K', '電器櫃'], ['corner', '轉角櫃'], ['hang', '吊櫃'], ['double', '雙開隔間'], ['tri', '三角邊櫃'], ['filler', '補板'], ['desk', '桌面'], ['appl', '廚房設備']];
+  const FILTERS = [['all', '全部'], ['A', 'D580mm'], ['B', 'D408mm'], ['C', 'D360mm'], ['T', '電視空櫃 D500'], ['K', '電器櫃'], ['corner', '轉角櫃'], ['hang', '吊櫃'], ['double', '雙開隔間'], ['tri', '三角邊櫃'], ['filler', '補板'], ['desk', '桌面'], ['appl', '廚房設備'], ['dayday', 'day&day']];
   let curFilter = 'all', curBrand = 'all';
   let pickedCode = null;
   function buildFilters() {
@@ -259,9 +259,9 @@
       const b = e.target.closest('[data-f]'); if (!b) return; curFilter = b.dataset.f; buildFilters(); renderCatalog();
     };
   }
-  const AORDER = ['sink', 'hob', 'dw', 'dryer', 'oven', 'hood'];
+  const AORDER = ['sink', 'hob', 'dw', 'dryer', 'oven', 'hood', 'rack', 'rod', 'spice', 'knife', 'cup', 'util', 'basket', 'bath'];
   const HORDER = ['1', '15', '2', '21', '22', '3', '4', '5', '6', '65', '7', '75', '8'];
-  const GORDER = ['desk', 'appl', 'A', 'B', 'C', 'T', 'K', 'corner', 'hang', 'double', 'tri', 'filler'];
+  const GORDER = ['desk', 'appl', 'dayday', 'A', 'B', 'C', 'T', 'K', 'corner', 'hang', 'double', 'tri', 'filler'];
   const GNAME = { A: 'A深', B: 'B深', C: 'C深', T: 'T深 電視空櫃', corner: '轉角櫃', hang: '吊櫃', double: 'C深雙開隔間櫃', tri: '三角邊櫃' };
   // 以 H/W/D 直接寫出尺寸，不用再背型號代碼
   const GROUP_SUFFIX = { K: '電器櫃', corner: '轉角櫃', hang: '吊櫃', double: '雙開隔間櫃 D360', tri: '三角邊櫃' };
@@ -340,8 +340,8 @@
     $('#catList').innerHTML = keys.length ? keys.map((k, i) => {
       const [g, hc] = k.split('|');
       const its = groups.get(k);
-      const title = g === 'appl' ? '廚房設備｜' + D.APPL_TYPES[hc] : g === 'desk' ? '桌面' : g === 'filler' ? '補板' : groupTitle(g, hc);
-      const sub = g === 'appl' ? `${[...new Set(its.map(x => x.brand.split(' ')[0]))].join('、')} · ${its.length} 款` : g === 'desk' ? `${its.length} 款 · 依材質每才計價，尺寸可自訂` : g === 'filler' ? `${its.length} 款 · 補滿櫃體與牆之間的空隙，寬高深可自訂` : `${its.length} 款 · ${esc(g === 'K' ? '廚房電器櫃（電器抽可拉出）' : D.HEIGHT_USE[hc] || '')}`;
+      const title = g === 'dayday' ? 'DAY&DAY｜' + D.APPL_TYPES[hc] : g === 'appl' ? '廚房設備｜' + D.APPL_TYPES[hc] : g === 'desk' ? '桌面' : g === 'filler' ? '補板' : groupTitle(g, hc);
+      const sub = g === 'dayday' ? `${its.length} 款 · #304 不鏽鋼 · 官網訂價` : g === 'appl' ? `${[...new Set(its.map(x => x.brand.split(' ')[0]))].join('、')} · ${its.length} 款` : g === 'desk' ? `${its.length} 款 · 依材質每才計價，尺寸可自訂` : g === 'filler' ? `${its.length} 款 · 補滿櫃體與牆之間的空隙，寬高深可自訂` : `${its.length} 款 · ${esc(g === 'K' ? '廚房電器櫃（電器抽可拉出）' : D.HEIGHT_USE[hc] || '')}`;
       return `<details class="cat-group"${openAll || i < 2 ? ' open' : ''}><summary><b>${esc(title)}</b><span>${sub}</span></summary>
         <div class="cat-grid">${its.map(it => `<div class="cat-item${it.code === pickedCode ? ' picked' : ''}" draggable="true" data-code="${it.code}" title="${esc(tipOf(it))}">
           ${UI.thumb(it)}<span class="code">${wbrName(catName(it))}</span>${it.kind === 'desk' ? `<span class="dims">${catDims(it)}</span>` : `<span class="oldcode">${catSubline(it)}</span>`}<span class="price">${catPrice(it)}</span></div>`).join('')}</div></details>`;
@@ -378,6 +378,14 @@
     dryer: it => it.mount === 'wall' ? `<rect x="3" y="16" width="58" height="30" fill="#f4f4f2" stroke="${LN}"/><rect x="3" y="38" width="58" height="8" fill="#e0e2e4" stroke="${LN}" stroke-width=".6"/><circle cx="54" cy="22" r="1.8" fill="#5a8f00"/>`
       : `<rect x="12" y="6" width="40" height="52" fill="${it.finish === 'panel' ? '#f6efe3' : DK}" stroke="${LN}"/><line x1="12" y1="30" x2="52" y2="30" stroke="#8a9097"/><rect x="26" y="12" width="12" height="2" fill="#8a9097"/><rect x="26" y="36" width="12" height="2" fill="#8a9097"/>`,
     oven: () => `<rect x="7" y="7" width="50" height="50" fill="${DK}" stroke="${LN}"/><rect x="7" y="7" width="50" height="9" fill="#5b6168"/><rect x="13" y="22" width="38" height="28" rx="2" fill="#3d4349" stroke="#8a9097"/><rect x="18" y="18" width="28" height="2" fill="#bfc3c7"/>`,
+    rack: it => { const t = it.tiers || 1; let o = ''; for (let i = 0; i < t; i++) { const y = t > 1 ? 8 + i * 42 / (t - 1) : 28; o += `<rect x="6" y="${y}" width="52" height="10" fill="none" stroke="${DK}" stroke-width="1.2"/>` + [14, 22, 30, 38, 46].map(x => `<line x1="${x}" y1="${y}" x2="${x}" y2="${y + 10}" stroke="${DK}" stroke-width=".8"/>`).join(''); } if (t > 1) o += `<line x1="6" y1="8" x2="6" y2="60" stroke="${DK}" stroke-width="1.4"/><line x1="58" y1="8" x2="58" y2="60" stroke="${DK}" stroke-width="1.4"/>`; return o; },
+    rod: () => `<rect x="4" y="30" width="56" height="4" rx="2" fill="${ST}" stroke="${LN}"/><rect x="8" y="26" width="5" height="12" rx="1" fill="${DK}"/><rect x="51" y="26" width="5" height="12" rx="1" fill="${DK}"/>`,
+    spice: () => `<rect x="8" y="24" width="48" height="28" fill="none" stroke="${DK}" stroke-width="1.2"/>${[16, 28, 40].map(x => `<rect x="${x}" y="12" width="9" height="30" rx="2" fill="#e9ecef" stroke="${LN}"/>`).join('')}${[20, 32, 44].map(x => `<line x1="${x}" y1="24" x2="${x}" y2="52" stroke="${DK}" stroke-width=".6"/>`).join('')}`,
+    knife: () => `<rect x="10" y="22" width="44" height="32" fill="none" stroke="${DK}" stroke-width="1.2"/><path d="M20 8 L23 44 M29 6 L31 44" stroke="${DK}" stroke-width="1.6"/><rect x="38" y="6" width="10" height="40" rx="1" fill="#e7d9bf" stroke="${LN}"/>`,
+    cup: () => `<rect x="6" y="10" width="52" height="4" fill="${ST}" stroke="${LN}"/>${[14, 32, 50].map(x => `<path d="M${x - 6} 18h12v12a6 6 0 0 1-12 0z" fill="#f4f4f2" stroke="${DK}"/>`).join('')}`,
+    util: () => `<path d="M18 18H46L43 54H21Z" fill="none" stroke="${DK}" stroke-width="1.2"/>${[26, 32, 38].map(x => `<line x1="${x}" y1="18" x2="${x}" y2="54" stroke="${DK}" stroke-width=".6"/>`).join('')}<line x1="26" y1="6" x2="26" y2="18" stroke="${DK}" stroke-width="1.6"/><line x1="36" y1="4" x2="36" y2="18" stroke="${DK}" stroke-width="1.6"/>`,
+    basket: () => `<rect x="2" y="26" width="60" height="4" fill="${ST}" stroke="${LN}"/><rect x="6" y="30" width="52" height="14" fill="none" stroke="${DK}" stroke-width="1.2"/>${[14, 22, 30, 38, 46].map(x => `<line x1="${x}" y1="30" x2="${x}" y2="44" stroke="${DK}" stroke-width=".7"/>`).join('')}`,
+    bath: it => APPL_SVG.rack(it),
     hood: it => it.style === 'deep' ? `<path d="M8 12H40L58 34V44H8Z" fill="${ST}" stroke="${LN}"/><rect x="18" y="4" width="14" height="8" fill="${ST}" stroke="${LN}"/><line x1="8" y1="40" x2="58" y2="40" stroke="#8a9097"/>`
       : it.style === 'std' ? `<rect x="3" y="24" width="58" height="16" fill="${ST}" stroke="${LN}"/><rect x="26" y="40" width="12" height="4" fill="#f3f3f1" stroke="${LN}" stroke-width=".6"/><rect x="25" y="12" width="14" height="12" fill="#dfe2e5" stroke="${LN}" stroke-width=".7"/>`
       : it.style === 'near' ? `<path d="M6 10H58V38L50 54H14L6 38Z" fill="${DK}" stroke="${LN}"/><rect x="24" y="4" width="16" height="6" fill="${ST}" stroke="${LN}"/><line x1="10" y1="40" x2="54" y2="40" stroke="#8a9097"/>`
@@ -652,8 +660,8 @@
     const it = D.byCode[cab.code];
     const pr = P().cabinetPrice(cab, App.state.pricing);
     const ov = window.Viewer.overlaps && window.Viewer.overlaps.get(cab.id);
-    const same = D.APPLIANCES.filter(a => a.at === cab.at);
-    const mountTxt = { counter: '嵌入檯面（放在櫃體上方自動對齊、桌面自動開孔）', floor: '落地嵌入（置於櫃體之間）', builtin: '嵌入櫃內', wall: '壁掛' }[cab.mount];
+    const same = D.items.filter(a => a.kind === 'appl' && a.at === cab.at);
+    const mountTxt = { counter: '嵌入檯面（放在櫃體上方自動對齊、桌面自動開孔）', floor: '落地嵌入（置於櫃體之間）', builtin: '嵌入櫃內', wall: '壁掛／掛桿掛式（可調離地高度）', top: '放在檯面上（不開孔，可調離地高度）' }[cab.mount];
     let html = `<div class="hero">${UI.thumb(it)}<div><h3>${esc(cab.code)}</h3>
       <p>${esc(D.APPL_TYPES[cab.at])}｜${esc(it.brand)}</p><p>${esc(it.name)}</p></div></div>
       ${ov ? `<p class="note danger">⚠ 與 ${esc([...ov.why].join('、'))} 重疊，請調整位置（紅色線框）。</p>` : ''}
@@ -661,7 +669,7 @@
       <div class="price-big">${P().fmt(pr.total)}</div>
       <div class="kv"><label>設備售價</label><div class="inline"><input type="number" data-key="override" data-f="override" value="${App.state.pricing.codeOverrides[cab.code] != null ? App.state.pricing.codeOverrides[cab.code] : ''}" placeholder="${it.price}"><span class="unit">空白＝${it.est ? '估計價' : '建議售價'} ${it.price.toLocaleString()}</span></div></div></div>
       <div class="sec"><div class="sec-title">型號規格</div><div class="kv">
-        <label>型號</label><select data-key="applCode" data-f="applCode">${D.APPL_BRANDS.map(b => { const l = same.filter(a => a.brand === b); return l.length ? `<optgroup label="${esc(b)}">${l.map(a => `<option value="${a.code}"${a.code === cab.code ? ' selected' : ''}>${a.code}　${esc(a.name)}</option>`).join('')}</optgroup>` : ''; }).join('')}</select>
+        <label>型號</label><select data-key="applCode" data-f="applCode">${[...new Set(same.map(a => a.brand))].map(b => { const l = same.filter(a => a.brand === b); return l.length ? `<optgroup label="${esc(b)}">${l.map(a => `<option value="${a.code}"${a.code === cab.code ? ' selected' : ''}>${a.code}　${esc(a.name)}</option>`).join('')}</optgroup>` : ''; }).join('')}</select>
         <label>品牌</label><div>${esc(it.brand)}</div>
         <label>規格</label><div>${esc(it.spec)}</div>
         <label>尺寸</label><div>W${cab.w} × D${cab.d} × H${cab.h} mm</div>
@@ -1131,6 +1139,9 @@
 
         <div class="sec"><div class="sec-title">廚房設備售價 <small>元 / 台（空白＝參考價）</small></div>
         <table class="pt"><tbody>${D.APPLIANCES.map(a => `<tr><td>${esc(a.brand.split(' ')[0])}｜${D.APPL_TYPES[a.at]}｜${a.code}${a.est ? ' <small style="color:#b45309">估</small>' : ''}<br><small class="muted">${esc(a.name)}</small></td><td style="width:100px"><input type="number" data-key="ap${a.code}" data-apc="${a.code}" value="${pr.codeOverrides[a.code] != null ? pr.codeOverrides[a.code] : ''}" placeholder="${a.price}"></td></tr>`).join('')}</tbody></table></div>
+
+        <div class="sec"><div class="sec-title">DAY&DAY 日日 配件售價 <small>元 / 個（空白＝官網訂價）</small></div>
+        <table class="pt"><tbody>${D.DAYDAY.map(a => `<tr><td>${D.APPL_TYPES[a.at]}｜${a.code}${a.est ? ' <small style="color:#b45309">估</small>' : ''}<br><small class="muted">${esc(a.name)}　${a.w}×${a.d}×${a.h}</small></td><td style="width:100px"><input type="number" data-key="ap${a.code}" data-apc="${a.code}" value="${pr.codeOverrides[a.code] != null ? pr.codeOverrides[a.code] : ''}" placeholder="${a.price}"></td></tr>`).join('')}</tbody></table></div>
 
         <div class="sec"><div class="sec-title">其他配件</div><div class="kv">
           <label>吊衣桿</label><div class="inline"><input type="number" data-key="prod" data-po="ROD" value="${pr.parts.ROD}"><span class="unit">元 / 支</span></div>
