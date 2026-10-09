@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D渲染 自動送圖 — Chrome 擴充功能安裝說明｜系統櫃 3D 設計平台</title>
+<link rel="icon" href="../LOGO.png">
+<style>
+ :root{--bg:#f4f6f8;--panel:#fff;--text:#1f2933;--muted:#5a6673;--line:#dde3e9;
+       --accent:#2f6f4f;--accent-2:#eaf3ee;--warn-bg:#fff7e8;--warn-line:#f0dcb4;--warn-text:#8a5a00;}
+ *{box-sizing:border-box}
+ body{margin:0;padding:28px 16px 60px;background:var(--bg);color:var(--text);
+      font:15px/1.7 "Microsoft JhengHei","Segoe UI",system-ui,sans-serif;}
+ .wrap{max-width:760px;margin:0 auto}
+ header{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+ header img{width:42px;height:42px}
+ h1{font-size:21px;margin:0}
+ h1 small{display:block;font-size:13px;color:var(--muted);font-weight:400;margin-top:2px}
+ h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+ .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+ table{width:100%;border-collapse:collapse;font-size:14px}
+ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+ th{color:var(--muted);font-weight:600;width:52%}
+ td.y{color:var(--accent);font-weight:700;width:24%}
+ td.n{color:#9b2c2c;width:24%}
+ ol{padding-left:22px;margin:6px 0}
+ ol li{margin-bottom:9px}
+ code{background:#eef1f4;padding:2px 6px;border-radius:4px;font-size:13px;font-family:Consolas,monospace}
+ .dl{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;
+     text-decoration:none;padding:13px 22px;border-radius:9px;font-size:16px;font-weight:700}
+ .dl:hover{filter:brightness(1.08)}
+ .ver{color:var(--muted);font-size:13px;margin-top:8px}
+ .note{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-text);
+       border-radius:8px;padding:11px 14px;font-size:13.5px;margin:12px 0}
+ .q{font-weight:700;margin-top:14px}
+ .a{color:var(--muted);font-size:14px}
+ footer{margin-top:34px;color:var(--muted);font-size:13px;text-align:center}
+ a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <img src="../LOGO.png" alt="LOGO">
+  <h1>3D渲染 — 自動送圖擴充功能<small>系統櫃 3D 設計平台．Chrome 專用．選配</small></h1>
+</header>
+
+<div class="card">
+  <p style="margin:0 0 12px">裝了這個擴充功能之後，設計平台上的「<b>3D渲染</b>」就會變成全自動：自動開新對話、
+  上傳控制圖、貼上提示詞、按下送出，你只要等圖。用的是 Gemini／ChatGPT 網頁的<b>免費額度</b>，
+  不需要 API 金鑰，也不會多收任何費用。</p>
+  <a class="dl" href="aries-3d-render-extension.zip" download>⬇ 下載擴充功能</a>
+  <div class="ver" data-ver>版本 1.1.1 · 約 9 KB · 僅支援電腦版 Chrome／Edge</div>
+</div>
+
+<h2>不裝可以嗎？可以</h2>
+<div class="card">
+  <table>
+    <tr><th>功能</th><td class="y">沒裝</td><td class="y">裝了</td></tr>
+    <tr><th>輸出三張控制圖（視角／白模／線稿）</th><td class="y">✔</td><td class="y">✔</td></tr>
+    <tr><th>自動組好提示詞</th><td class="y">✔</td><td class="y">✔</td></tr>
+    <tr><th>下載圖片＋複製提示詞＋開好 Gemini／ChatGPT</th><td class="y">✔</td><td class="y">✔</td></tr>
+    <tr><th>自動上傳圖片、自動貼提示詞、自動送出</th><td class="n">✘ 要自己拖圖貼詞</td><td class="y">✔</td></tr>
+  </table>
+  <p style="margin:12px 0 0;color:var(--muted);font-size:13.5px">
+  沒裝的話「3D渲染」照樣能用，只是最後一步要自己做。瀏覽器基於安全規定，
+  禁止一個網站去操作另一個網站（Gemini、ChatGPT）的頁面，所以全自動只能靠擴充功能完成。</p>
+</div>
+
+<h2>安裝步驟（約 30 秒，每台電腦做一次）</h2>
+<div class="card">
+  <ol>
+    <li>按上面的「下載擴充功能」，然後<b>解壓縮</b>。會得到一個資料夾，裡面有 <code>manifest.json</code>。
+        <br><span style="color:var(--muted);font-size:13.5px">把它放在固定的位置（例如<code>文件</code>資料夾），
+        之後不要刪掉或搬走，刪了擴充功能就失效。</span></li>
+    <li>Chrome 網址列輸入 <code>chrome://extensions</code> 後按 Enter。</li>
+    <li>打開右上角的「<b>開發人員模式</b>」。</li>
+    <li>點左上角出現的「<b>載入未封裝項目</b>」，選剛才解壓縮出來的<b>資料夾</b>
+        （選資料夾本身，不要點進去選檔案）。</li>
+    <li>回到設計平台，按 <b>Ctrl + F5</b> 重新整理一次。</li>
+  </ol>
+  <div class="note">第一次使用前，請先在這個 Chrome 登入要用的服務：
+  Gemini 用 Google 帳號、ChatGPT 用 OpenAI 帳號。登入一次之後就會記住。</div>
+</div>
+
+<h2>怎麼用</h2>
+<div class="card">
+  <ol>
+    <li>在設計平台把視角轉到想出圖的角度。</li>
+    <li>按右上角「<b>3D渲染</b>」。</li>
+    <li>選「送到 Gemini 或 ChatGPT」、風格、燈光、家具。</li>
+    <li>按綠色的「<b>送進 ○○ 並自動生圖</b>」。</li>
+  </ol>
+  <p style="margin:10px 0 0;color:var(--muted);font-size:13.5px">
+  瀏覽器會自動切到該服務的分頁，右上角有進度提示；出圖完成後直接在那邊下載圖片。</p>
+</div>
+
+<h2>常見問題</h2>
+<div class="card">
+  <div class="q">面板上沒出現綠色的「送進 ○○ 並自動生圖」</div>
+  <div class="a">裝完後要按 Ctrl + F5 重新整理設計平台。還是沒有的話，到
+  <code>chrome://extensions</code> 確認這個擴充功能是<b>開啟</b>狀態。</div>
+
+  <div class="q">它說「找不到輸入框」或「找不到檔案上傳欄」</div>
+  <div class="a">Gemini／ChatGPT 改版了，網頁的欄位換了位置。請回報給我們更新，
+  更新後重新下載安裝即可。</div>
+
+  <div class="q">ChatGPT 說「你可以傳送最多 2 個檔案」</div>
+  <div class="a">不會發生。送 ChatGPT 時系統只會送「視角＋線稿」兩張，提示詞也會自動調整。</div>
+
+  <div class="q">ChatGPT 回「這邊發生錯誤，因此無法生成圖片」</div>
+  <div class="a">多半是 ChatGPT 免費版當天的出圖額度用完了（每天約 4 張），它不會明說。
+  改用 Gemini，或隔天再試。</div>
+
+  <div class="q">Chrome 每次開機都問「要停用開發人員模式的擴充功能嗎」</div>
+  <div class="a">這是未上架 Chrome 線上應用程式商店的擴充功能的正常提醒，選「保留」即可。</div>
+
+  <div class="q">我的資料會被傳到哪裡？</div>
+  <div class="a">只會傳到你自己選的 Gemini 或 ChatGPT 分頁，用你自己的帳號。
+  這個擴充功能沒有自己的伺服器，不會蒐集或外傳任何東西。</div>
+</div>
+
+<footer>
+  系統櫃 3D 設計平台 · <a href="../">回到設計平台</a>
+</footer>
+
+</div>
+</body>
+</html>

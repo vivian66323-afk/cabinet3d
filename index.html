@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D系統櫃</title>
+<link rel="icon" href="LOGO.png">
+<link rel="stylesheet" href="css/app.css?v=20261007x">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand" title="系統櫃 3D 設計平台（教學版）">
+    <div class="logo" aria-label="LOGO">LOGO</div>
+    <div class="brand-text"><b>系統櫃</b><small>3D 設計平台</small></div>
+  </div>
+  <div class="project">
+    <span class="project-label">目前專案</span>
+    <input id="projName" class="project-name" spellcheck="false" aria-label="專案名稱">
+    <span class="dirty-badge" id="dirtyBadge" hidden title="專案有變更尚未匯出 .json，關閉網站後將無法復原">● 未匯出</span>
+    <button class="btn ghost" id="btnImport" title="匯入專案 .json">
+      <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v3h16v-3"/></svg>匯入專案 .json
+    </button>
+    <button class="btn ghost" id="btnSave" title="下載專案 .json">
+      <svg viewBox="0 0 24 24"><path d="M12 15V3m0 0L8 7m4-4 4 4M4 17v3h16v-3"/></svg>儲存專案
+    </button>
+    <button class="btn ghost" id="btnNew" title="新專案">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>新專案
+    </button>
+    <input type="file" id="fileImport" accept=".json,application/json" hidden>
+  </div>
+  <div class="top-right">
+    <button class="btn primary" id="btnGemini" title="把目前視角 + 白模 + 線稿交給 Gemini 或 ChatGPT 出圖">
+      <svg viewBox="0 0 24 24"><path d="M12 3c.9 4.4 2.7 6.2 7.1 7.1-4.4.9-6.2 2.7-7.1 7.1-.9-4.4-2.7-6.2-7.1-7.1C9.3 9.2 11.1 7.4 12 3Z"/></svg>3D渲染
+    </button>
+    <div class="menu-wrap">
+      <button class="btn primary" id="btnExport">
+        <svg viewBox="0 0 24 24"><path d="M5 20h14M12 4v11m0 0-4-4m4 4 4-4"/></svg>匯出<span class="caret">▾</span>
+      </button>
+      <div class="menu right" id="exportMenu" hidden>
+        <button data-exp="quote"><b>a</b>報價單 .PDF</button>
+        <button data-exp="dae"><b>b</b>3D 模型 .DAE</button>
+        <button data-exp="renders"><b>c</b>所有場景渲染圖 .JPG</button>
+        <button data-exp="views"><b>d</b>所有櫃體三視圖 .PDF</button>
+        <button data-exp="plans"><b>e</b>平面圖及立面圖 .PDF</button>
+        <button data-exp="cutlist"><b>f</b>模型拆料清單 .CSV</button>
+        <button data-exp="dxf"><b>g</b>施工圖 .DXF（CAD 可編輯）</button>
+        <button data-ext="1" id="miExt" class="menu-ext">自動送圖擴充功能</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="toolbar" id="toolbar" aria-label="工具列"></nav>
+
+<main class="workspace">
+  <aside class="panel left" id="leftPanel">
+    <div class="panel-head">
+      <h2>標準型錄</h2>
+      <span class="count" id="catCount"></span>
+    </div>
+    <div class="cat-search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="catSearch" placeholder="搜尋尺寸，如 W600、H720、W450D580" spellcheck="false">
+    </div>
+    <div class="chips" id="catFilters"></div>
+    <div class="cat-list" id="catList"></div>
+    <div class="cat-foot">點選或拖曳型錄到 3D 視窗放置 · 靠近牆面自動貼齊</div>
+  </aside>
+
+  <section class="viewport" id="viewport">
+    <div class="view-cube" id="viewCube"></div>
+    <div class="floor-bar" id="floorBar" aria-label="樓層"></div>
+    <div class="mini-bar" id="miniBar" hidden>
+      <button data-mini="rotl" title="逆時針旋轉 90°（Shift+Q）">⟲ 90°</button>
+      <button data-mini="rotr" title="順時針旋轉 90°（Q）">⟳ 90°</button>
+      <button data-mini="dup" title="複製（Ctrl+D）">複製</button>
+      <button data-mini="del" title="刪除（Delete）" class="del">刪除</button>
+    </div>
+    <div class="empty-hint" id="emptyHint" hidden>
+      <h3>開始建立空間</h3>
+      <p>先決定空間大小，再從左側型錄取用系統櫃。</p>
+      <div class="row">
+        <button class="btn primary" data-act="rect">矩形空間（寬／深／高）</button>
+        <button class="btn" data-act="line">自由繪製多線段</button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel right" id="rightPanel">
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="props">屬性</button>
+      <button class="tab" data-tab="quote">報價<span class="tab-badge" id="quoteBadge"></span></button>
+      <button class="tab" data-tab="scenes">場景</button>
+      <button class="tab" data-tab="pricing">板材售價</button>
+    </div>
+    <div class="tab-body" id="tab-props"></div>
+    <div class="tab-body" id="tab-quote" hidden></div>
+    <div class="tab-body" id="tab-scenes" hidden></div>
+    <div class="tab-body" id="tab-pricing" hidden></div>
+  </aside>
+</main>
+
+<footer class="statusbar">
+  <span class="status-icon">ⓘ</span><span id="status">就緒</span>
+  <button class="status-warn" id="statusWarn" hidden title="點擊選取重疊的櫃體"></button>
+  <span class="status-total" id="statusTotal"></span>
+  <div class="vcb"><label for="vcb" id="vcbLabel">尺寸</label><input id="vcb" autocomplete="off" spellcheck="false"></div>
+</footer>
+
+<div id="modalRoot"></div>
+<div id="toast" class="toast" hidden></div>
+<div id="busy" class="busy" hidden><div class="spinner"></div><span id="busyText">處理中…</span></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script src="js/catalog.js?v=20261007x"></script>
+<script src="js/swatches.js?v=20261007x"></script>
+<script src="js/swatches-hemai.js?v=20261007x"></script>
+<script src="js/data.js?v=20261007x"></script>
+<script src="js/swatchlib.js?v=20261007x"></script>
+<script src="js/pricing.js?v=20261007x"></script>
+<script src="js/model.js?v=20261007x"></script>
+<script src="js/viewer.js?v=20261007x"></script>
+<script src="js/drawings.js?v=20261007x"></script>
+<script src="js/dxf.js?v=20261007x"></script>
+<script src="js/export.js?v=20261007x"></script>
+<script src="js/airender.js?v=20261007x"></script>
+<script src="js/ui.js?v=20261007x"></script>
+<script src="js/swatchadmin.js?v=20261007x"></script>
+<script src="js/app.js?v=20261007x"></script>
+<script type="module">
+  import * as THREE from 'three';
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+  window.App.boot(THREE, OrbitControls);
+</script>
+</body>
+</html>
