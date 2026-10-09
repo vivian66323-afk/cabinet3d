@@ -889,6 +889,41 @@
       [-1, 1].forEach(k => { cyl(g, rr + 4, d, k * (w / 2 - rr - 12), y0 + h / 2, 0, wire, 16).rotation.x = Math.PI / 2; });
       return;
     }
+    const white = applMat('white');
+    if (cab.at === 'toilet') {
+      // 馬桶：水箱＋座體＋便座蓋（壁掛式無水箱底座）
+      const tankD = Math.min(200, d * 0.28), tankH = Math.min(380, h * 0.48), seatH = Math.max(380, h - tankH);
+      addBox(g, w * 0.92, tankH, tankD, 0, y0 + h - tankH / 2, -d / 2 + tankD / 2, white);
+      addBox(g, w * 0.8, seatH * 0.85, d - tankD - 10, 0, y0 + seatH * 0.85 / 2, (tankD) / 2 + 5, white);
+      cyl(g, w * 0.46, seatH * 0.15, 0, y0 + seatH * 0.925, d / 2 - w * 0.46 - 20, white, 24).scale.z = (d - tankD - 40) / (w * 0.92);
+      addBox(g, w * 0.86, 20, 24, 0, y0 + seatH + 10, -d / 2 + tankD + 12, white);
+      return;
+    }
+    if (cab.at === 'seat') { cyl(g, w / 2, h, 0, y0 + h / 2, 0, white, 24).scale.z = d / w; return; }
+    if (cab.at === 'washbasin') {
+      // 臉盆：外殼＋內凹（用深色薄盤表示）
+      const wall = cab.mount === 'wall';
+      cyl(g, w / 2, h, 0, y0 + h / 2, 0, white, 28).scale.z = d / w;
+      cyl(g, w / 2 - 25, 2, 0, y0 + h - 1, 0, applMat('window'), 28).scale.z = (d - 50) / (w - 50);
+      if (wall) addBox(g, w * 0.5, 60, d * 0.5, 0, y0 + h + 30, -d / 2 + d * 0.25, white);
+      return;
+    }
+    if (cab.at === 'urinal') {
+      addBox(g, w, h * 0.35, d * 0.7, 0, y0 + h - h * 0.175, -d / 2 + d * 0.35, white);
+      cyl(g, w / 2, h * 0.65, 0, y0 + h * 0.325, -d / 2 + d / 2, white, 24).scale.z = d / w;
+      return;
+    }
+    if (cab.at === 'bathtub') {
+      addBox(g, w, h, d, 0, y0 + h / 2, 0, white);
+      addBox(g, w - 120, 2, d - 120, 0, y0 + h - 1, 0, applMat('window'));
+      return;
+    }
+    if (cab.at === 'flushvalve') {
+      addBox(g, w, h * 0.5, d, 0, y0 + h * 0.75, 0, wire);
+      cyl(g, 16, h * 0.5, 0, y0 + h * 0.25, -d / 2 + 16, wire, 12);
+      return;
+    }
+    if (cab.at === 'dryerfan' || cab.at === 'handdryer') { addBox(g, w, h, d, 0, y0 + h / 2, 0, cab.at === 'handdryer' ? applMat('white') : white); if (cab.at === 'dryerfan') addBox(g, w - 40, 2, d - 40, 0, y0 - 1, 0, applMat('burner')); return; }
     if (cab.at === 'faucet' || cab.at === 'basin' || cab.at === 'wallfaucet') {
       // 龍頭：底座＋立管＋彎出水嘴（壁式：由牆面水平伸出）
       const r = cab.at === 'basin' ? 14 : 18, top = y0 + h;

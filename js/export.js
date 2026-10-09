@@ -190,7 +190,7 @@
     };
     if (cab.kind === 'appl') {
       const it = D.byCode[cab.code] || {};
-      add(it.group === 'daydayf' ? 'DAY&DAY 龍頭' : it.group === 'daydayb' ? 'DAY&DAY 衛浴' : it.group === 'dayday' ? 'DAY&DAY 廚房' : '廚房設備', `${D.APPL_TYPES[cab.at]}　${it.name || ''}`, cab.code, '', cab.w, cab.d, 1, '台', '', `${it.brand || ''}；${it.spec || ''}${it.cut ? `；檯面開孔 ${it.cut[0]}×${it.cut[1]}` : ''}`);
+      add(it.group === 'toto' ? 'TOTO 衛浴' : it.group === 'daydayf' ? 'DAY&DAY 龍頭' : it.group === 'daydayb' ? 'DAY&DAY 衛浴' : it.group === 'dayday' ? 'DAY&DAY 廚房' : '廚房設備', `${D.APPL_TYPES[cab.at]}　${it.name || ''}`, cab.code, '', cab.w, cab.d, 1, '台', '', `${it.brand || ''}；${it.spec || ''}${it.cut ? `；檯面開孔 ${it.cut[0]}×${it.cut[1]}` : ''}`);
       if (it.finish === 'panel') add('門片', `${D.APPL_TYPES[cab.at]}嵌門板`, cab.doorColor, 18, cab.h - 10, cab.w, 1, '片', '四邊', `${cab.code} 專用嵌門板`);
       return rows;
     }
