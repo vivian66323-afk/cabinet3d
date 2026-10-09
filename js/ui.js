@@ -362,7 +362,7 @@
       const [g, hc] = k.split('|');
       const its = groups.get(k);
       const title = (g === 'dayday' || g === 'daydayb') ? D.APPL_TYPES[hc] : g === 'appl' ? '廚房設備｜' + D.APPL_TYPES[hc] : g === 'desk' ? '桌面' : g === 'filler' ? '補板' : groupTitle(g, hc);
-      const sub = (g === 'dayday' || g === 'daydayb') ? `${its.length} 款 · 官網訂價與商品圖（daynday.com.tw）` : g === 'appl' ? `${[...new Set(its.map(x => x.brand.split(' ')[0]))].join('、')} · ${its.length} 款` : g === 'desk' ? `${its.length} 款 · 依材質每才計價，尺寸可自訂` : g === 'filler' ? `${its.length} 款 · 補滿櫃體與牆之間的空隙，寬高深可自訂` : `${its.length} 款 · ${esc(g === 'K' ? '廚房電器櫃（電器抽可拉出）' : D.HEIGHT_USE[hc] || '')}`;
+      const sub = (g === 'dayday' || g === 'daydayb') ? '' : g === 'appl' ? `${[...new Set(its.map(x => x.brand.split(' ')[0]))].join('、')} · ${its.length} 款` : g === 'desk' ? `${its.length} 款 · 依材質每才計價，尺寸可自訂` : g === 'filler' ? `${its.length} 款 · 補滿櫃體與牆之間的空隙，寬高深可自訂` : `${its.length} 款 · ${esc(g === 'K' ? '廚房電器櫃（電器抽可拉出）' : D.HEIGHT_USE[hc] || '')}`;
       return `<details class="cat-group"${openAll || i < 2 ? ' open' : ''}><summary><b>${esc(title)}</b><span>${sub}</span></summary>
         <div class="cat-grid">${its.map(it => `<div class="cat-item${it.code === pickedCode ? ' picked' : ''}" draggable="true" data-code="${it.code}" title="${esc(tipOf(it))}">
           ${UI.thumb(it)}<span class="code">${wbrName(catName(it))}</span>${it.kind === 'desk' ? `<span class="dims">${catDims(it)}</span>` : `<span class="oldcode">${catSubline(it)}</span>`}<span class="price">${catPrice(it)}</span></div>`).join('')}</div></details>`;
