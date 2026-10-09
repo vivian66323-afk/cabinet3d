@@ -623,12 +623,14 @@
     </div>`;
   }
 
+  // 鎖定按鈕（型號旁）：鎖定後不能移動、旋轉、改尺寸、換型號或刪除；色號與備註仍可改
+  const lockBtn = cab => `<button class="btn small lock-btn${cab.locked ? ' on' : ''}" data-a="lock-toggle" title="${cab.locked ? '已鎖定：無法移動、旋轉、改尺寸或刪除，點一下解鎖' : '鎖定位置與尺寸，避免誤動'}">${icon(cab.locked ? 'lock' : 'unlock')}${cab.locked ? '已鎖定' : '鎖定'}</button>`;
   function deskPanel(cab) {
     const it = D.byCode[cab.code];
     const pr = P().cabinetPrice(cab, App.state.pricing);
     const g = M().deskGeom(cab), dz = M().footDepth(cab);
     const ov = window.Viewer.overlaps && window.Viewer.overlaps.get(cab.id);
-    let html = `<div class="hero">${UI.thumb(it)}<div><h3>${esc(D.DESK_SHAPES[cab.shape])}桌面</h3>
+    let html = `<div class="hero">${UI.thumb(it)}<div><h3>${esc(D.DESK_SHAPES[cab.shape])}桌面 ${lockBtn(cab)}</h3>
       <p>${cab.w} × ${dz} mm${cab.shape !== 'R' ? `，深 ${cab.d}` : ''}，厚 ${cab.thick}mm</p>
       <p>${P().deskCai(cab)} 才（面積 ${(g.area / D.CAI).toFixed(2)} 才，無條件進位）　外露邊 ${(g.exposed / D.CHI).toFixed(1)} 尺</p></div></div>
       ${ov ? `<p class="note danger">⚠ 此桌面與 ${esc([...ov.why].join('、'))} 重疊，請調整位置（紅色線框）。</p>` : ''}
@@ -663,7 +665,7 @@
     const ov = window.Viewer.overlaps && window.Viewer.overlaps.get(cab.id);
     const same = D.items.filter(a => a.kind === 'appl' && a.at === cab.at);
     const mountTxt = { counter: '嵌入檯面（放在櫃體上方自動對齊、桌面自動開孔）', floor: '落地嵌入（置於櫃體之間）', builtin: '嵌入櫃內', wall: '壁掛／掛桿掛式（可調離地高度）', top: '放在檯面上（不開孔，可調離地高度）' }[cab.mount];
-    let html = `<div class="hero">${UI.thumb(it)}<div><h3>${esc(cab.code)}</h3>
+    let html = `<div class="hero">${UI.thumb(it)}<div><h3>${esc(cab.code)} ${lockBtn(cab)}</h3>
       <p>${esc(D.APPL_TYPES[cab.at])}｜${esc(it.brand)}</p><p>${esc(it.name)}</p></div></div>
       ${ov ? `<p class="note danger">⚠ 與 ${esc([...ov.why].join('、'))} 重疊，請調整位置（紅色線框）。</p>` : ''}
       <div class="sec"><div class="sec-title">報價 <small>設備單價</small></div>
@@ -694,7 +696,7 @@
   function fillerPanel(cab) {
     const pr = P().cabinetPrice(cab, App.state.pricing);
     let html = `<div class="hero"><div class="filler-ico" style="width:56px;height:56px;border:1px solid var(--line);border-radius:6px;background:var(--panel-2)"></div><div>
-      <h3>${esc(M().cabName(cab))}</h3><p>補板 W${cab.w} × H${cab.h} mm，前緣到牆 ${cab.d} mm</p><p class="muted">前方補板＋後方 50mm 固定條</p></div></div>
+      <h3>${esc(M().cabName(cab))} ${lockBtn(cab)}</h3><p>補板 W${cab.w} × H${cab.h} mm，前緣到牆 ${cab.d} mm</p><p class="muted">前方補板＋後方 50mm 固定條</p></div></div>
       <div class="sec"><div class="sec-title">報價 <small>色板才數計價</small></div><div class="price-big">${P().fmt(pr.total)}</div>
       <table class="qt">${pr.lines.map(l => `<tr><td>${esc(l.name)}</td><td class="num">${P().fmt(l.amount)}</td></tr>`).join('')}</table></div>
       <div class="sec"><div class="sec-title">位置 <small>mm</small></div><div class="kv">
@@ -724,7 +726,7 @@
     const isTri = cab.kind === 'tri';
     const frontsEditable = !isTri;
     let html = `<div class="hero">${UI.thumb({ ...it, fronts: cab.fronts, hanging: cab.hanging })}<div>
-      <h3>${esc(M().cabName(cab))}</h3>
+      <h3>${esc(M().cabName(cab))} ${lockBtn(cab)}</h3>
       <p>W${cab.w} × D${cab.d} × H${cab.h} mm${cab.hanging ? '　吊櫃' : ''}</p>
       <p>${esc(isTri ? '三角邊櫃 · ' + D.TRI_TYPE_NAME[cab.triType] : P().describe(cab))}</p></div></div>
       ${window.Viewer.overlaps && window.Viewer.overlaps.get(cab.id) ? `<p class="note danger">⚠ 此櫃體與 ${esc([...window.Viewer.overlaps.get(cab.id).why].join('、'))} 重疊，請調整位置（紅色線框）。</p>` : ''}
@@ -867,6 +869,7 @@
     }
     const cab = App.selectedCab(); if (!cab) return;
     const f = t.dataset.f;
+    if (cab.locked && ['x', 'z', 'y', 'atop', 'rot', 'cw', 'ch', 'cd', 'applCode', 'dw', 'dd', 'dl2', 'dtop', 'thick', 'mirror'].includes(f)) { App.toast('此物件已鎖定，請先解鎖再修改位置或尺寸'); UI.showProps(); return; }
     if (cab.kind === 'desk' && ['dw', 'dd', 'dl2', 'dtop', 'deskMat', 'thick', 'edge'].includes(f)) {
       const v = +val;
       App.updateCab(cab.id, '修改桌面', c => {
@@ -975,6 +978,13 @@
     }
     const cab = App.selectedCab(); if (!cab) return;
     if (a === 'hw-auto') { App.updateCab(cab.id, '五金數量還原自動', c => { c[b.dataset.k] = null; }); return; }
+    if (a === 'lock-toggle') {
+      const cab = App.selectedCab(); if (!cab) return;
+      App.updateCab(cab.id, cab.locked ? '解鎖' : '鎖定', c => { c.locked = !c.locked; });
+      App.toast(M().cabName(cab) + (cab.locked ? ' 已鎖定' : ' 已解鎖'));
+      return;
+    }
+    if (['snapwall', 'rot90', 'del', 'size-reset'].includes(a)) { const cab = App.selectedCab(); if (cab && cab.locked) { App.toast('此物件已鎖定，請先解鎖'); return; } }
     if (a === 'snapwall') {
       if (!App.state.room) { App.toast('尚未建立空間'); return; }
       const s2 = V().snap(cab, cab.x, cab.z, cab.id, { force: true });

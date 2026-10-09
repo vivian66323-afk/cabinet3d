@@ -330,6 +330,7 @@
   }
   function pickGrip() {
     if (!gripGroup) return null;
+    { const c = App.selectedCab && App.selectedCab(); if (c && c.locked) return null; }
     gripGroup.updateMatrixWorld();
     raycaster.setFromCamera(mouse, camera);
     const h = raycaster.intersectObjects(gripGroup.children.filter(o => o.userData.grip), false)[0];
@@ -502,7 +503,7 @@
         }
         // 櫃體名稱本身已含 W/D/H，不再重複；桌面與設備的名稱沒有尺寸，才補上
         const nm = M().cabName(cab);
-        const lbl = (cab.kind === 'desk' || cab.kind === 'appl') ? `${nm}  W${cab.w} x D${cab.d} x H${cab.h} mm` : nm;
+        const lbl = ((cab.kind === 'desk' || cab.kind === 'appl') ? `${nm}  W${cab.w} x D${cab.d} x H${cab.h} mm` : nm) + (cab.locked ? '　🔒 已鎖定' : '');
         put(new THREE.Vector3((b.min.x + b.max.x) / 2, b.max.y + 60, (b.min.z + b.max.z) / 2), lbl, 'sel');
       }
     }
@@ -1034,6 +1035,7 @@
   function startMove(hit, drag) {
     const cab = App.state.cabinets.find(c => c.id === hit.id);
     if (!cab) return;
+    if (cab.locked) { App.status('此物件已鎖定，無法移動（屬性面板可解鎖）'); return; }
     const gp = groundPoint(0) || new THREE.Vector3(cab.x, 0, cab.z);
     Object.assign(move, { active: true, drag: !!drag, id: cab.id, start: { x: cab.x, z: cab.z, rot: cab.rot, y: cab.y, w: cab.w, d: cab.d }, grab: [gp.x - cab.x, gp.z - cab.z], orig: JSON.stringify(cab) });
     controls.enabled = false;

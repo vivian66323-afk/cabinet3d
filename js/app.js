@@ -177,6 +177,7 @@
     if (!s) return;
     if (s.type === 'cab') {
       const cab = App.selectedCab();
+      if (cab.locked) { App.toast(window.Model.cabName(cab) + ' 已鎖定，請先解鎖再刪除'); return; }
       App.sel = null;
       App.mutate('刪除 ' + window.Model.cabName(cab), st => { st.cabinets = st.cabinets.filter(c => c.id !== cab.id); }, [cab.id]);
       window.Viewer.updateSelection();
@@ -185,7 +186,7 @@
   App.duplicateSelected = function () {
     const cab = App.selectedCab(); if (!cab) return;
     const c = JSON.parse(JSON.stringify(cab));
-    c.id = window.Model.uid();
+    c.id = window.Model.uid(); c.locked = false;
     const r = cab.rot * Math.PI / 180;
     c.x = Math.round(cab.x + Math.cos(r) * cab.w); c.z = Math.round(cab.z - Math.sin(r) * cab.w);
     App.mutate('複製 ' + window.Model.cabName(cab), s => s.cabinets.push(c), [c.id]);
@@ -193,10 +194,12 @@
   };
   App.rotateSelected = function (d) {
     const cab = App.selectedCab(); if (!cab) return;
+    if (cab.locked) { App.toast('已鎖定，無法旋轉'); return; }
     App.mutate('旋轉', () => { cab.rot = ((cab.rot + d) % 360 + 360) % 360; }, [cab.id]);
   };
   App.nudge = function (dx, dz) {
     const cab = App.selectedCab(); if (!cab) return;
+    if (cab.locked) { App.toast('已鎖定，無法移動'); return; }
     App.mutate('微調位置', () => { cab.x += dx; cab.z += dz; }, [cab.id]);
   };
   App.updateCab = function (id, label, fn) {
