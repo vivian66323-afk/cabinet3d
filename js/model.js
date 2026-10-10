@@ -890,6 +890,25 @@
       return;
     }
     const white = applMat('white');
+    if (cab.at === 'vanity') {
+      // 浴櫃：櫃體（用門板色）＋ 上方檯面臉盆
+      addBox(g, w, h - 180, d, 0, y0 + (h - 180) / 2, 0, getMat(cab.doorColor || '110'));
+      addBox(g, w, 20, d, 0, y0 + h - 170, 0, white);
+      cyl(g, Math.min(w, d) * 0.4, 150, 0, y0 + h - 85, 0, white, 28).scale.z = Math.min(1, (d - 40) / (Math.min(w, d) * 0.8));
+      return;
+    }
+    if (cab.at === 'mirrorcab') {
+      addBox(g, w, h, d - 4, 0, y0 + h / 2, -2, applMat('white'));
+      addBox(g, w - 8, h - 8, 2, 0, y0 + h / 2, d / 2 - 1, applMat('mirror'), false);
+      return;
+    }
+    if (cab.at === 'showerdoor') {
+      // 淋浴拉門：鋁框＋玻璃
+      addBox(g, w, h, 20, 0, y0 + h / 2, 0, applMat('window'), false);
+      [-1, 1].forEach(k => addBox(g, 30, h, 30, k * (w / 2 - 15), y0 + h / 2, 0, steel));
+      addBox(g, w, 30, 30, 0, y0 + h - 15, 0, steel);
+      return;
+    }
     if (cab.at === 'toilet') {
       // 馬桶：水箱＋座體＋便座蓋（壁掛式無水箱底座）
       const tankD = Math.min(200, d * 0.28), tankH = Math.min(380, h * 0.48), seatH = Math.max(380, h - tankH);
