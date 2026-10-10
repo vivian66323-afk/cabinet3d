@@ -56,7 +56,8 @@
     rack: '置物架／碗盤架', rod: '掛桿', spice: '調味罐／瓶罐架', knife: '刀柄／砧板／鍋蓋架', cup: '杯架', util: '餐具桶／紙巾／海綿架', basket: '水槽碗盤籃',
     bath: '置物架', towel: '毛巾架／掛桿', paper: '衛生紙／面紙架', mirror: '鏡子', mshelf: '鏡子平台架', toothcup: '牙刷杯架', soap: '香皂架', brush: '馬桶刷架', hairdryer: '吹風機架', grab: '安全扶手', hook: '掛衣勾', bathacc: '衛浴配件',
     faucet: '廚房檯面龍頭', wallfaucet: '壁式龍頭', basin: '臉盆龍頭', shower: '沐浴龍頭組', showercol: '淋浴柱', slidebar: '滑桿', bidet: '沖洗器',
-    toilet: '馬桶', seat: '便座', washbasin: '臉盆', urinal: '小便斗', bathtub: '浴缸', flushvalve: '沖水閥', dryerfan: '浴室換氣暖房乾燥機', handdryer: '烘手機', vanity: '浴櫃', mirrorcab: '鏡櫃', showerdoor: '淋浴拉門' };
+    toilet: '馬桶', seat: '便座', washbasin: '臉盆', urinal: '小便斗', bathtub: '浴缸', flushvalve: '沖水閥', dryerfan: '浴室換氣暖房乾燥機', handdryer: '烘手機', vanity: '浴櫃', mirrorcab: '鏡櫃', showerdoor: '淋浴拉門',
+    bed: '床組', nightstand: '床頭櫃', sofa: '沙發', coffeetable: '茶几', sidetable: '邊几', diningtable: '餐桌', chair: '餐椅', barstool: '吧台椅', armchair: '單椅', studydesk: '書桌', tvstand: '電視櫃', wardrobe: '衣櫃' };
   const APPLIANCES = [
     { code: 'SF-550A', at: 'sink', name: '手工方形水槽 55cm', w: 550, d: 460, h: 220, cut: [520, 430], price: 8505, finish: 'steel', mount: 'counter', spec: '外徑 550×460×220　內槽約 500×410　SUS304' },
     { code: 'SF-750A', est: true, at: 'sink', name: '手工方形水槽 75cm', w: 750, d: 460, h: 220, cut: [720, 430], price: 11000, finish: 'steel', mount: 'counter', spec: '外徑 750×460×220　內槽約 700×410　SUS304' },
@@ -1746,6 +1747,41 @@
   });
   HCG.forEach(a => items.push(a));
 
+  /* 家具（通用款，非特定品牌）：尺寸為台灣常見規格，可在屬性面板改寬深高；售價為暫定參考，請於板材售價修改
+     [類型, 代碼, 品名, W, D, H, 參考售價, 備註] */
+  const FURN_RAW = [
+    ['bed', 'BED-35', '單人床組 3.5 尺', 1060, 2000, 950, 12000, '床架＋床頭片＋床墊，床墊面高約 500'],
+    ['bed', 'BED-50', '雙人床組 5 尺', 1520, 2000, 950, 18000, '床架＋床頭片＋床墊'],
+    ['bed', 'BED-60', '加大雙人床組 6 尺', 1820, 2000, 950, 22000, '床架＋床頭片＋床墊'],
+    ['bed', 'BED-70', '特大雙人床組 7 尺', 2120, 2100, 950, 28000, '床架＋床頭片＋床墊'],
+    ['nightstand', 'NS-45', '床頭櫃', 450, 400, 500, 3500, '單抽'],
+    ['sofa', 'SOFA-1', '單人沙發', 900, 900, 850, 12000, '座高 430'],
+    ['sofa', 'SOFA-2', '雙人沙發', 1600, 900, 850, 22000, '座高 430'],
+    ['sofa', 'SOFA-3', '三人沙發', 2200, 950, 850, 32000, '座高 430'],
+    ['sofa', 'SOFA-L', 'L 型沙發（右貴妃）', 2800, 1700, 850, 48000, '貴妃椅在右側，深 1700；可旋轉改左'],
+    ['armchair', 'ARM-1', '休閒單椅', 750, 800, 800, 8000, '座高 420'],
+    ['coffeetable', 'CT-120', '茶几 120', 1200, 600, 420, 6000, '木作／玻璃面'],
+    ['coffeetable', 'CT-90R', '圓形茶几 Ø90', 900, 900, 400, 5500, '圓形'],
+    ['sidetable', 'ST-45', '邊几', 450, 450, 550, 2500, ''],
+    ['tvstand', 'TV-180', '電視櫃 180', 1800, 400, 450, 9000, '落地式'],
+    ['diningtable', 'DT-120', '餐桌 120（4 人）', 1200, 750, 750, 9000, ''],
+    ['diningtable', 'DT-150', '餐桌 150（6 人）', 1500, 850, 750, 12000, ''],
+    ['diningtable', 'DT-180', '餐桌 180（6～8 人）', 1800, 900, 750, 15000, ''],
+    ['diningtable', 'DT-120R', '圓桌 Ø120（4～6 人）', 1200, 1200, 750, 11000, '圓形'],
+    ['chair', 'CH-1', '餐椅', 450, 500, 850, 2500, '座高 450'],
+    ['chair', 'CH-ARM', '餐椅（扶手）', 550, 550, 850, 3500, '座高 450'],
+    ['barstool', 'BS-1', '吧台椅', 400, 400, 1000, 3000, '座高 650～750'],
+    ['studydesk', 'SD-120', '書桌 120', 1200, 600, 750, 6000, ''],
+    ['studydesk', 'SD-140', '書桌 140', 1400, 700, 750, 7500, ''],
+    ['wardrobe', 'WD-120', '衣櫃 120（活動式）', 1200, 600, 2000, 15000, '雙門'],
+    ['wardrobe', 'WD-180', '衣櫃 180（活動式）', 1800, 600, 2100, 22000, '三門']
+  ];
+  const FURN = FURN_RAW.map(([at, code, name, w, d, h, price, note]) => ({
+    at, code, name, w, d, h, price, mount: 'top', y: 0, finish: 'white', est: false, note, series: '家具', brand: '通用家具',
+    spec: `${w}×${d}×${h}　落地${note ? '　' + note : ''}　參考價，尺寸可改`, hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'furn', hanging: false, img: ''
+  }));
+  FURN.forEach(a => items.push(a));
+
   const CAI = 303 * 303; // 1 才＝303mm×303mm（1 台尺見方，mm²）；櫃體板材與桌面共用
   const CHI = 303;       // 1 尺（mm）
 
@@ -1880,7 +1916,7 @@
   ];
 
   window.DATA = {
-    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
+    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
     HEIGHTS, HEIGHT_LABEL, HEIGHT_USE, DEPTHS, DEPTH_NAME, CORNER_W, KICK, BOARD, BACK,
     FRONT_NAME, FRONT_HEIGHTS, TRI_TYPE_NAME,
     items, byCode,

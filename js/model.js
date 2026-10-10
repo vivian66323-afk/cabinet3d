@@ -758,7 +758,9 @@
       gold: () => new THREE.MeshStandardMaterial({ color: 0xc9a24a, metalness: 0.8, roughness: 0.3 }),
       gray: () => new THREE.MeshStandardMaterial({ color: 0x6e7074, metalness: 0.6, roughness: 0.45 }),
       black: () => new THREE.MeshStandardMaterial({ color: 0x2b2b2d, metalness: 0.5, roughness: 0.55 }),
-      mirror: () => new THREE.MeshStandardMaterial({ color: 0xcfd8e0, metalness: 0.95, roughness: 0.05 })
+      mirror: () => new THREE.MeshStandardMaterial({ color: 0xcfd8e0, metalness: 0.95, roughness: 0.05 }),
+      fabric: () => new THREE.MeshStandardMaterial({ color: 0xb3a596, roughness: 0.95 }),   // 沙發布面（暖灰）
+      mattress: () => new THREE.MeshStandardMaterial({ color: 0xf5f1ea, roughness: 0.9 })
     };
     const k = 'appl_' + name;
     if (!special[k]) special[k] = P[name]();
@@ -890,6 +892,59 @@
       return;
     }
     const white = applMat('white');
+    if (cab.at === 'bed') {
+      // 床組：床架（門板色）＋床墊（白）＋床頭片＋枕頭
+      const wood = getMat(cab.doorColor || '110'), mat = applMat('mattress'), bedH = Math.min(500, h * 0.55);
+      addBox(g, w, bedH * 0.5, d - 60, 0, y0 + bedH * 0.25, 30, wood);
+      addBox(g, w - 40, bedH * 0.45, d - 120, 0, y0 + bedH * 0.5 + bedH * 0.225, 30, mat);
+      addBox(g, w, h - bedH, 60, 0, y0 + bedH + (h - bedH) / 2, -d / 2 + 30, wood);
+      const pw = Math.min(600, (w - 120) / 2);
+      [-1, 1].forEach(k => { if (w > 1200 || k < 0) addBox(g, pw, 100, 400, k * (w > 1200 ? pw / 2 + 20 : 0), y0 + bedH + 50, -d / 2 + 60 + 260, mat); });
+      return;
+    }
+    if (cab.at === 'sofa' || cab.at === 'armchair') {
+      // 沙發：座墊、靠背、扶手；L 型在右側加貴妃椅（可旋轉 180° 改左）
+      const fab = applMat('fabric'), base = applMat('burner'), armW = Math.min(180, w * 0.1), seatH = Math.min(430, h * 0.5), backD = Math.min(250, d * 0.28), seatD = Math.min(950, d);
+      const isL = /L 型|L型/.test(cab.name || (D.byCode[cab.code] || {}).name || '');
+      const mainD = isL ? seatD : d;
+      addBox(g, w, seatH - 80, mainD - 20, 0, y0 + 80 + (seatH - 80) / 2, (d - mainD) / 2 + 10, fab);
+      addBox(g, w - 2 * armW, 120, mainD - backD - 40, 0, y0 + seatH + 40, (d - mainD) / 2 + backD / 2 + 10, fab);
+      addBox(g, w - 2 * armW, h - seatH, backD, 0, y0 + seatH + (h - seatH) / 2, (d - mainD) / 2 - mainD / 2 + backD / 2 + 10, fab);
+      [-1, 1].forEach(k => addBox(g, armW, h - seatH - 150, mainD - 20, k * (w / 2 - armW / 2), y0 + seatH + (h - seatH - 150) / 2, (d - mainD) / 2 + 10, fab));
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([kx, kz]) => cyl(g, 25, 80, kx * (w / 2 - 60), y0 + 40, (d - mainD) / 2 + 10 + kz * (mainD / 2 - 80), base, 12));
+      if (isL) { const cw = Math.min(900, w * 0.35); addBox(g, cw, seatH + 40, d - mainD + 40, w / 2 - cw / 2, y0 + 80 + (seatH - 40) / 2, -d / 2 + (d - mainD + 40) / 2 + 0, fab); }
+      return;
+    }
+    if (['coffeetable', 'sidetable', 'diningtable', 'studydesk'].includes(cab.at)) {
+      // 桌几：桌面（門板色）＋四腳；圓形者用圓柱桌面
+      const wood = getMat(cab.doorColor || '110'), tt = cab.at === 'diningtable' ? 40 : 30, round = /圓/.test((D.byCode[cab.code] || {}).name || '');
+      if (round) cyl(g, Math.min(w, d) / 2, tt, 0, y0 + h - tt / 2, 0, wood, 40);
+      else addBox(g, w, tt, d, 0, y0 + h - tt / 2, 0, wood);
+      const lw = cab.at === 'sidetable' ? 30 : 50, leg = applMat('burner');
+      if (round) cyl(g, Math.min(w, d) * 0.08 + 20, h - tt, 0, y0 + (h - tt) / 2, 0, leg, 16);
+      else [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([kx, kz]) => addBox(g, lw, h - tt, lw, kx * (w / 2 - lw / 2 - 20), y0 + (h - tt) / 2, kz * (d / 2 - lw / 2 - 20), leg, false));
+      if (cab.at === 'studydesk') addBox(g, Math.min(420, w * 0.35), h - tt - 60, d - 60, w / 2 - Math.min(420, w * 0.35) / 2 - 20, y0 + 60 + (h - tt - 60) / 2, 0, wood);
+      return;
+    }
+    if (cab.at === 'chair' || cab.at === 'barstool') {
+      const wood = getMat(cab.doorColor || '110'), leg = applMat('burner'), seatH = cab.at === 'barstool' ? Math.min(700, h * 0.7) : Math.min(450, h * 0.55);
+      if (cab.at === 'barstool') { cyl(g, Math.min(w, d) / 2, 40, 0, y0 + seatH - 20, 0, wood, 24); cyl(g, 22, seatH - 40, 0, y0 + (seatH - 40) / 2, 0, leg, 12); cyl(g, Math.min(w, d) / 2 - 20, 12, 0, y0 + 6, 0, leg, 24); }
+      else {
+        addBox(g, w, 40, d, 0, y0 + seatH - 20, 0, wood);
+        addBox(g, w, h - seatH, 30, 0, y0 + seatH + (h - seatH) / 2, -d / 2 + 15, wood);
+        [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([kx, kz]) => addBox(g, 30, seatH - 40, 30, kx * (w / 2 - 25), y0 + (seatH - 40) / 2, kz * (d / 2 - 25), leg, false));
+      }
+      return;
+    }
+    if (cab.at === 'nightstand' || cab.at === 'tvstand' || cab.at === 'wardrobe') {
+      // 箱型家具：櫃體用櫃身色、門片／抽屜面用門板色
+      const body = getMat(cab.bodyColor || cab.doorColor || '110'), door = getMat(cab.doorColor || '110');
+      addBox(g, w, h, d, 0, y0 + h / 2, 0, body);
+      const n = cab.at === 'wardrobe' ? Math.max(2, Math.round(w / 600)) : cab.at === 'tvstand' ? Math.max(2, Math.round(w / 600)) : 1;
+      const fw = (w - 8) / n;
+      for (let i = 0; i < n; i++) { addBox(g, fw - 6, h - 8, 18, -w / 2 + 4 + fw * i + fw / 2, y0 + h / 2, d / 2 - 9 + 2, door); addBox(g, 120, 10, 20, -w / 2 + 4 + fw * i + fw / 2, y0 + (cab.at === 'wardrobe' ? h * 0.5 : h - 40), d / 2 + 10, sMat('handle')); }
+      return;
+    }
     if (cab.at === 'vanity') {
       // 浴櫃：櫃體（用門板色）＋ 上方檯面臉盆
       addBox(g, w, h - 180, d, 0, y0 + (h - 180) / 2, 0, getMat(cab.doorColor || '110'));

@@ -141,10 +141,10 @@
     const cai = deskCai(cab);
     // 賽麗石：桌面色板是賽麗石色號時，單價直接用該色板的元/才（板材售價可改），不看材質表
     const sw = D.SWATCH_BY_CODE[cab.topColor];
-    const sil = sw && /賽麗石/.test(sw.brand || '') && sw.price != null ? sw : null;
+    const sil = sw && (sw.top || /賽麗石/.test(sw.brand || '')) && sw.price != null ? sw : null;   // 檯面材色板（賽麗石、人造石、石英石）：用該色板的元/才
     const unit = sil ? sil.price : (((dp.prices[cab.deskMat] || {})[cab.thick]) || 0);
     const chi = g.exposed / D.CHI, eu = (dp.edge[cab.edge] || 0);
-    const lines = [{ name: sil ? `桌面 賽麗石 ${sil.code} ${sil.name}　${cai} 才 × ${unit}` : `桌面 ${deskMatName(cab.deskMat)} ${cab.thick}mm　${cai} 才 × ${unit}`, amount: Math.round(cai * unit), qty: cai, unit }];
+    const lines = [{ name: sil ? `桌面 ${(sil.brand || '').replace(/ .*$/, '')} ${sil.code} ${sil.name}　${cai} 才 × ${unit}` : `桌面 ${deskMatName(cab.deskMat)} ${cab.thick}mm　${cai} 才 × ${unit}`, amount: Math.round(cai * unit), qty: cai, unit }];
     if (eu && cab.edge !== 'none') lines.push({ name: `端部 ${deskEdgeName(cab.edge)}　${chi.toFixed(1)} 尺 × ${eu}`, amount: Math.round(chi * eu) });
     const total = lines.reduce((a, l) => a + l.amount, 0);
     return { base: 0, catalogPrice: 0, total, lines, cai, chi };

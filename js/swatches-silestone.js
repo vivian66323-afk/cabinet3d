@@ -10,7 +10,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#f5f5f5",
 "img": "swatches/silestone/sl_CS005.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS005.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS006",
@@ -21,7 +22,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#161719",
 "img": "swatches/silestone/sl_CS006.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS006.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS007",
@@ -32,7 +34,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#eeeef0",
 "img": "swatches/silestone/sl_CS007.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS007.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS008",
@@ -43,7 +46,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#bbbbbb",
 "img": "swatches/silestone/sl_CS008.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS008.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS012",
@@ -54,7 +58,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e1e6e2",
 "img": "swatches/silestone/sl_CS012.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS012.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS013",
@@ -65,7 +70,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e3eaea",
 "img": "swatches/silestone/sl_CS013.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS013.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS014",
@@ -76,7 +82,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e4e8e8",
 "img": "swatches/silestone/sl_CS014.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS014.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS015",
@@ -87,7 +94,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e4e8e8",
 "img": "swatches/silestone/sl_CS015.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS015.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS102",
@@ -98,7 +106,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#6b6b66",
 "img": "swatches/silestone/sl_CS102.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS102.jpg",
-"price": 1668
+"price": 1668,
+"top": true
 },
 {
 "code": "CS201",
@@ -109,7 +118,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#dbd8d0",
 "img": "swatches/silestone/sl_CS201.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS201.jpg",
-"price": 1668
+"price": 1668,
+"top": true
 },
 {
 "code": "CS503",
@@ -120,7 +130,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#f6f3ef",
 "img": "swatches/silestone/sl_CS503.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS503.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS504",
@@ -131,7 +142,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#efefe6",
 "img": "swatches/silestone/sl_CS504.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS504.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS505",
@@ -142,7 +154,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#f2f1e9",
 "img": "swatches/silestone/sl_CS505.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS505.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS506",
@@ -153,7 +166,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#f6f3ef",
 "img": "swatches/silestone/sl_CS506.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS506.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS509",
@@ -164,7 +178,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#949590",
 "img": "swatches/silestone/sl_CS509.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS509.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS516",
@@ -175,7 +190,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#39322c",
 "img": "swatches/silestone/sl_CS516.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS516.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS526",
@@ -186,7 +202,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#dad8d3",
 "img": "swatches/silestone/sl_CS526.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS526.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS527",
@@ -197,7 +214,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e1ded7",
 "img": "swatches/silestone/sl_CS527.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS527.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS534",
@@ -208,7 +226,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#161719",
 "img": "swatches/silestone/sl_CS534.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS534.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS535",
@@ -219,7 +238,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#eeeef0",
 "img": "swatches/silestone/sl_CS535.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS535.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS537",
@@ -230,7 +250,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#2f3134",
 "img": "swatches/silestone/sl_CS537.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS537.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS538",
@@ -241,7 +262,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#c2bfb9",
 "img": "swatches/silestone/sl_CS538.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS538.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS543",
@@ -252,7 +274,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#212124",
 "img": "swatches/silestone/sl_CS543.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS543.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS544",
@@ -263,7 +286,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#9c9794",
 "img": "swatches/silestone/sl_CS544.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS544.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS545",
@@ -274,7 +298,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#d9d5cd",
 "img": "swatches/silestone/sl_CS545.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS545.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS558",
@@ -285,7 +310,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#68696c",
 "img": "swatches/silestone/sl_CS558.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS558.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS562",
@@ -296,7 +322,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#565b5f",
 "img": "swatches/silestone/sl_CS562.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS562.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS601",
@@ -307,7 +334,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#f6f3ef",
 "img": "swatches/silestone/sl_CS601.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS601.jpg",
-"price": 1668
+"price": 1668,
+"top": true
 },
 {
 "code": "CS602",
@@ -318,7 +346,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e1ded7",
 "img": "swatches/silestone/sl_CS602.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS602.jpg",
-"price": 2127
+"price": 2127,
+"top": true
 },
 {
 "code": "CS603",
@@ -329,7 +358,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#cbc9c3",
 "img": "swatches/silestone/sl_CS603.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS603.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS611",
@@ -340,7 +370,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#dad8d3",
 "img": "swatches/silestone/sl_CS611.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS611.jpg",
-"price": 2127
+"price": 2127,
+"top": true
 },
 {
 "code": "CS612",
@@ -351,7 +382,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#ede5db",
 "img": "swatches/silestone/sl_CS612.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS612.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS621",
@@ -362,7 +394,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#1a1c1e",
 "img": "swatches/silestone/sl_CS621.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS621.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS623",
@@ -373,7 +406,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#6b6b66",
 "img": "swatches/silestone/sl_CS623.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS623.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS625",
@@ -384,7 +418,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#6b6b66",
 "img": "swatches/silestone/sl_CS625.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS625.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS626",
@@ -395,7 +430,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#5b5d58",
 "img": "swatches/silestone/sl_CS626.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS626.jpg",
-"price": 1668
+"price": 1668,
+"top": true
 },
 {
 "code": "CS627",
@@ -406,7 +442,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#ac9c88",
 "img": "swatches/silestone/sl_CS627.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS627.jpg",
-"price": 1668
+"price": 1668,
+"top": true
 },
 {
 "code": "CS634",
@@ -417,7 +454,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#2f3134",
 "img": "swatches/silestone/sl_CS634.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS634.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS635",
@@ -428,7 +466,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#c2bfb9",
 "img": "swatches/silestone/sl_CS635.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS635.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS637",
@@ -439,7 +478,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#7a7064",
 "img": "swatches/silestone/sl_CS637.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS637.jpg",
-"price": 2127
+"price": 2127,
+"top": true
 },
 {
 "code": "CS639",
@@ -450,7 +490,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#b4afab",
 "img": "swatches/silestone/sl_CS639.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS639.jpg",
-"price": 2127
+"price": 2127,
+"top": true
 },
 {
 "code": "CS640",
@@ -461,7 +502,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e3e3de",
 "img": "swatches/silestone/sl_CS640.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS640.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS641",
@@ -472,7 +514,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#c5c1bd",
 "img": "swatches/silestone/sl_CS641.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS641.jpg",
-"price": 2739
+"price": 2739,
+"top": true
 },
 {
 "code": "CS685",
@@ -483,7 +526,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#eeecf1",
 "img": "swatches/silestone/sl_CS685.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS685.jpg",
-"price": 1821
+"price": 1821,
+"top": true
 },
 {
 "code": "CS708",
@@ -494,7 +538,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#f5f5f5",
 "img": "swatches/silestone/sl_CS708.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS708.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS709",
@@ -505,7 +550,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#1e1f21",
 "img": "swatches/silestone/sl_CS709.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS709.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS710",
@@ -516,7 +562,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e1e6e2",
 "img": "swatches/silestone/sl_CS710.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS710.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS711",
@@ -527,7 +574,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e3eaea",
 "img": "swatches/silestone/sl_CS711.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS711.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS712",
@@ -538,7 +586,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e4e8e8",
 "img": "swatches/silestone/sl_CS712.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS712.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS713",
@@ -549,7 +598,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e4e8e8",
 "img": "swatches/silestone/sl_CS713.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS713.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS714",
@@ -560,7 +610,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#717479",
 "img": "swatches/silestone/sl_CS714.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS714.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS715",
@@ -571,7 +622,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#bebab6",
 "img": "swatches/silestone/sl_CS715.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS715.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS716",
@@ -582,7 +634,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#262626",
 "img": "swatches/silestone/sl_CS716.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS716.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS717",
@@ -593,7 +646,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#413d3a",
 "img": "swatches/silestone/sl_CS717.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS717.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS719",
@@ -604,7 +658,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#e2dddb",
 "img": "swatches/silestone/sl_CS719.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS719.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS720",
@@ -615,7 +670,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#f2eee8",
 "img": "swatches/silestone/sl_CS720.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS720.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS722",
@@ -626,7 +682,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#57645d",
 "img": "swatches/silestone/sl_CS722.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS722.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 },
 {
 "code": "CS723",
@@ -637,6 +694,7 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "hex": "#352820",
 "img": "swatches/silestone/sl_CS723.jpg",
 "thumb": "swatches/silestone/thumb/sl_CS723.jpg",
-"price": 3657
+"price": 3657,
+"top": true
 }
 ]);

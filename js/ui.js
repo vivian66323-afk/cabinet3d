@@ -248,7 +248,7 @@
       D.HANDLES.map(h => `<option value="${h.id}"${h.id === cur ? ' selected' : ''}>${h.name}${h.pair ? '（雙門片適用）' : ''}</option>`).join('');
   }
   /* ================= 型錄 ================= */
-  const FILTERS = [['all', '全部'], ['A', 'D580mm'], ['B', 'D408mm'], ['C', 'D360mm'], ['T', '電視空櫃 D500'], ['K', '電器櫃'], ['corner', '轉角櫃'], ['hang', '吊櫃'], ['double', '雙開隔間'], ['tri', '三角邊櫃'], ['filler', '補板'], ['desk', '桌面'], ['appl', '廚房設備'], ['dayday', 'DAY&DAY 廚房'], ['daydayb', 'DAY&DAY 衛浴'], ['daydayf', 'DAY&DAY 龍頭'], ['toto', 'TOTO'], ['hcg', '和成 HCG']];
+  const FILTERS = [['all', '全部'], ['A', 'D580mm'], ['B', 'D408mm'], ['C', 'D360mm'], ['T', '電視空櫃 D500'], ['K', '電器櫃'], ['corner', '轉角櫃'], ['hang', '吊櫃'], ['double', '雙開隔間'], ['tri', '三角邊櫃'], ['filler', '補板'], ['desk', '桌面'], ['appl', '廚房設備'], ['dayday', 'DAY&DAY 廚房'], ['daydayb', 'DAY&DAY 衛浴'], ['daydayf', 'DAY&DAY 龍頭'], ['toto', 'TOTO'], ['hcg', '和成 HCG'], ['furn', '家具']];
   let curFilter = 'all', curBrand = 'all', curType = 'all', curColor = 'all';
   let subCollapsed = (() => { try { return localStorage.getItem('cab3d_subfilters') === '0'; } catch (e) { return false; } })();
   const COLOR_NAME = { steel: '不鏽鋼／絲光', gold: '金色', gray: '暮灰色', black: '黑色', white: '白色陶瓷' };
@@ -274,7 +274,7 @@
   }
   // 第二列：品項分類（廚房設備、DAY&DAY 廚房／衛浴／龍頭）；第三列：色系（DAY&DAY 衛浴／龍頭）
   function typeChips() {
-    if (!['appl', 'dayday', 'daydayb', 'daydayf', 'toto', 'hcg'].includes(curFilter)) return '';
+    if (!['appl', 'dayday', 'daydayb', 'daydayf', 'toto', 'hcg', 'furn'].includes(curFilter)) return '';
     const its = D.items.filter(it => it.group === curFilter && (curFilter !== 'appl' || curBrand === 'all' || it.brand === curBrand));
     const cnt = {}; its.forEach(it => { cnt[it.at] = (cnt[it.at] || 0) + 1; });
     const types = AORDER.filter(t => cnt[t]);
@@ -288,9 +288,9 @@
     if (cols.length < 2) return '';
     return `<div class="brand-chips color-chips">${[['all', '全部色系'], ...cols.map(c => [c, `${COLOR_NAME[c]} ${cnt[c]}`])].map(([k, n]) => `<button class="chip small${k === curColor ? ' active' : ''}" data-c="${k}">${n}</button>`).join('')}</div>`;
   }
-  const AORDER = ['sink', 'hob', 'dw', 'dryer', 'oven', 'hood', 'rack', 'rod', 'spice', 'knife', 'cup', 'util', 'basket', 'bath', 'towel', 'paper', 'mirror', 'mshelf', 'toothcup', 'soap', 'brush', 'hairdryer', 'grab', 'hook', 'bathacc', 'faucet', 'wallfaucet', 'basin', 'shower', 'showercol', 'slidebar', 'bidet', 'toilet', 'seat', 'washbasin', 'vanity', 'mirrorcab', 'showerdoor', 'urinal', 'bathtub', 'flushvalve', 'dryerfan', 'handdryer'];
+  const AORDER = ['sink', 'hob', 'dw', 'dryer', 'oven', 'hood', 'rack', 'rod', 'spice', 'knife', 'cup', 'util', 'basket', 'bath', 'towel', 'paper', 'mirror', 'mshelf', 'toothcup', 'soap', 'brush', 'hairdryer', 'grab', 'hook', 'bathacc', 'faucet', 'wallfaucet', 'basin', 'shower', 'showercol', 'slidebar', 'bidet', 'toilet', 'seat', 'washbasin', 'vanity', 'mirrorcab', 'showerdoor', 'urinal', 'bathtub', 'flushvalve', 'dryerfan', 'handdryer', 'bed', 'nightstand', 'sofa', 'armchair', 'coffeetable', 'sidetable', 'tvstand', 'diningtable', 'chair', 'barstool', 'studydesk', 'wardrobe'];
   const HORDER = ['1', '15', '2', '21', '22', '3', '4', '5', '6', '65', '7', '75', '8'];
-  const GORDER = ['desk', 'appl', 'dayday', 'daydayb', 'daydayf', 'toto', 'hcg', 'A', 'B', 'C', 'T', 'K', 'corner', 'hang', 'double', 'tri', 'filler'];
+  const GORDER = ['desk', 'appl', 'dayday', 'daydayb', 'daydayf', 'toto', 'hcg', 'furn', 'A', 'B', 'C', 'T', 'K', 'corner', 'hang', 'double', 'tri', 'filler'];
   const GNAME = { A: 'A深', B: 'B深', C: 'C深', T: 'T深 電視空櫃', corner: '轉角櫃', hang: '吊櫃', double: 'C深雙開隔間櫃', tri: '三角邊櫃' };
   // 以 H/W/D 直接寫出尺寸，不用再背型號代碼
   const GROUP_SUFFIX = { K: '電器櫃', corner: '轉角櫃', hang: '吊櫃', double: '雙開隔間櫃 D360', tri: '三角邊櫃' };
@@ -306,7 +306,7 @@
   const wbrName = s => esc(s).replace(/([-+＋/])/g, '$1<wbr>');
   function catName(it) {
     if (it.kind === 'desk') return D.DESK_SHAPES[it.shape] + '桌面';
-    if (it.kind === 'appl') return it.code;
+    if (it.kind === 'appl') return it.group === 'furn' ? it.name : it.code;
     return M().cabName(it, true);   // 型錄都是標準款，固定 -S
   }
   // 卡片規格：W×D×H（和 3D 標籤、屬性面板同一個順序）
@@ -332,7 +332,7 @@
   // 小字那行：門片配置（不顯示舊型號代碼；設備顯示類別）
   function catSubline(it) {
     if (it.kind === 'desk') return '';
-    if (it.kind === 'appl') return esc(D.APPL_TYPES[it.at] || '');
+    if (it.kind === 'appl') return it.group === 'furn' ? `W${it.w} × D${it.d} × H${it.h}` : esc(D.APPL_TYPES[it.at] || '');
     return esc(frontLabel(it));
   }
   // 卡片售價：櫃體以「110 白」每才單價 × 單櫃體總才數；桌面與設備維持原本的
@@ -370,8 +370,8 @@
     $('#catList').innerHTML = keys.length ? keys.map((k, i) => {
       const [g, hc] = k.split('|');
       const its = groups.get(k);
-      const title = /^(dayday|toto|hcg)/.test(g) ? D.APPL_TYPES[hc] : g === 'appl' ? '廚房設備｜' + D.APPL_TYPES[hc] : g === 'desk' ? '桌面' : g === 'filler' ? '補板' : groupTitle(g, hc);
-      const sub = /^(dayday|toto|hcg)/.test(g) ? '' : g === 'appl' ? `${[...new Set(its.map(x => x.brand.split(' ')[0]))].join('、')} · ${its.length} 款` : g === 'desk' ? `${its.length} 款 · 依材質每才計價，尺寸可自訂` : g === 'filler' ? `${its.length} 款 · 補滿櫃體與牆之間的空隙，寬高深可自訂` : `${its.length} 款 · ${esc(g === 'K' ? '廚房電器櫃（電器抽可拉出）' : D.HEIGHT_USE[hc] || '')}`;
+      const title = /^(dayday|toto|hcg|furn)/.test(g) ? D.APPL_TYPES[hc] : g === 'appl' ? '廚房設備｜' + D.APPL_TYPES[hc] : g === 'desk' ? '桌面' : g === 'filler' ? '補板' : groupTitle(g, hc);
+      const sub = /^(dayday|toto|hcg|furn)/.test(g) ? '' : g === 'appl' ? `${[...new Set(its.map(x => x.brand.split(' ')[0]))].join('、')} · ${its.length} 款` : g === 'desk' ? `${its.length} 款 · 依材質每才計價，尺寸可自訂` : g === 'filler' ? `${its.length} 款 · 補滿櫃體與牆之間的空隙，寬高深可自訂` : `${its.length} 款 · ${esc(g === 'K' ? '廚房電器櫃（電器抽可拉出）' : D.HEIGHT_USE[hc] || '')}`;
       return `<details class="cat-group"${openAll || i < 2 ? ' open' : ''}><summary><b>${esc(title)}</b><span>${sub}</span></summary>
         <div class="cat-grid">${its.map(it => `<div class="cat-item${it.code === pickedCode ? ' picked' : ''}" draggable="true" data-code="${it.code}" title="${esc(tipOf(it))}">
           ${UI.thumb(it)}<span class="code">${wbrName(catName(it))}</span>${it.kind === 'desk' ? `<span class="dims">${catDims(it)}</span>` : `<span class="oldcode">${catSubline(it)}</span>`}<span class="price">${catPrice(it)}</span></div>`).join('')}</div></details>`;
@@ -416,6 +416,18 @@
     util: () => `<path d="M18 18H46L43 54H21Z" fill="none" stroke="${DK}" stroke-width="1.2"/>${[26, 32, 38].map(x => `<line x1="${x}" y1="18" x2="${x}" y2="54" stroke="${DK}" stroke-width=".6"/>`).join('')}<line x1="26" y1="6" x2="26" y2="18" stroke="${DK}" stroke-width="1.6"/><line x1="36" y1="4" x2="36" y2="18" stroke="${DK}" stroke-width="1.6"/>`,
     basket: () => `<rect x="2" y="26" width="60" height="4" fill="${ST}" stroke="${LN}"/><rect x="6" y="30" width="52" height="14" fill="none" stroke="${DK}" stroke-width="1.2"/>${[14, 22, 30, 38, 46].map(x => `<line x1="${x}" y1="30" x2="${x}" y2="44" stroke="${DK}" stroke-width=".7"/>`).join('')}`,
     bath: it => APPL_SVG.rack(it), mshelf: it => APPL_SVG.rack(it), toothcup: it => APPL_SVG.rack(it), soap: it => APPL_SVG.rack(it), brush: it => APPL_SVG.util(it), hairdryer: it => APPL_SVG.util(it), bathacc: it => APPL_SVG.rack(it), paper: it => APPL_SVG.rod(it),
+    bed: () => `<rect x="6" y="14" width="52" height="40" rx="3" fill="#f6efe3" stroke="${DK}"/><rect x="6" y="8" width="52" height="8" rx="2" fill="${DK}"/><rect x="10" y="18" width="18" height="10" rx="3" fill="#fff" stroke="${LN}"/><rect x="36" y="18" width="18" height="10" rx="3" fill="#fff" stroke="${LN}"/>`,
+    nightstand: () => `<rect x="14" y="16" width="36" height="40" rx="2" fill="#f6efe3" stroke="${DK}"/><line x1="14" y1="34" x2="50" y2="34" stroke="${DK}"/><circle cx="32" cy="25" r="2" fill="${DK}"/>`,
+    sofa: () => `<rect x="6" y="22" width="52" height="24" rx="4" fill="#d9c7b0" stroke="${DK}"/><rect x="10" y="14" width="44" height="12" rx="3" fill="#e7d9bf" stroke="${DK}"/><rect x="4" y="26" width="8" height="20" rx="3" fill="#cdb89c" stroke="${DK}"/><rect x="52" y="26" width="8" height="20" rx="3" fill="#cdb89c" stroke="${DK}"/>`,
+    armchair: () => `<rect x="14" y="22" width="36" height="24" rx="4" fill="#d9c7b0" stroke="${DK}"/><rect x="18" y="12" width="28" height="14" rx="3" fill="#e7d9bf" stroke="${DK}"/>`,
+    coffeetable: () => `<rect x="8" y="26" width="48" height="8" rx="2" fill="#e7d9bf" stroke="${DK}"/><line x1="12" y1="34" x2="12" y2="50" stroke="${DK}" stroke-width="2"/><line x1="52" y1="34" x2="52" y2="50" stroke="${DK}" stroke-width="2"/>`,
+    sidetable: () => `<rect x="18" y="22" width="28" height="6" rx="2" fill="#e7d9bf" stroke="${DK}"/><line x1="22" y1="28" x2="22" y2="52" stroke="${DK}" stroke-width="2"/><line x1="42" y1="28" x2="42" y2="52" stroke="${DK}" stroke-width="2"/>`,
+    tvstand: () => `<rect x="4" y="30" width="56" height="18" rx="2" fill="#f6efe3" stroke="${DK}"/><line x1="24" y1="30" x2="24" y2="48" stroke="${DK}"/><line x1="40" y1="30" x2="40" y2="48" stroke="${DK}"/><rect x="18" y="10" width="28" height="18" fill="${DK}"/>`,
+    diningtable: () => `<rect x="6" y="20" width="52" height="8" rx="2" fill="#e7d9bf" stroke="${DK}"/><line x1="12" y1="28" x2="12" y2="54" stroke="${DK}" stroke-width="2.5"/><line x1="52" y1="28" x2="52" y2="54" stroke="${DK}" stroke-width="2.5"/>`,
+    chair: () => `<rect x="20" y="8" width="24" height="22" rx="3" fill="#e7d9bf" stroke="${DK}"/><rect x="18" y="30" width="28" height="8" rx="2" fill="#d9c7b0" stroke="${DK}"/><line x1="22" y1="38" x2="22" y2="56" stroke="${DK}" stroke-width="2"/><line x1="42" y1="38" x2="42" y2="56" stroke="${DK}" stroke-width="2"/>`,
+    barstool: () => `<ellipse cx="32" cy="14" rx="14" ry="5" fill="#d9c7b0" stroke="${DK}"/><line x1="32" y1="19" x2="32" y2="48" stroke="${DK}" stroke-width="3"/><ellipse cx="32" cy="52" rx="12" ry="4" fill="none" stroke="${DK}" stroke-width="2"/>`,
+    studydesk: () => `<rect x="6" y="18" width="52" height="7" rx="2" fill="#e7d9bf" stroke="${DK}"/><rect x="38" y="25" width="18" height="26" fill="#f6efe3" stroke="${DK}"/><line x1="10" y1="25" x2="10" y2="52" stroke="${DK}" stroke-width="2"/>`,
+    wardrobe: () => `<rect x="12" y="4" width="40" height="56" rx="2" fill="#f6efe3" stroke="${DK}"/><line x1="32" y1="4" x2="32" y2="60" stroke="${DK}"/><circle cx="29" cy="32" r="1.6" fill="${DK}"/><circle cx="35" cy="32" r="1.6" fill="${DK}"/>`,
     vanity: () => `<rect x="6" y="20" width="52" height="36" rx="2" fill="#f6efe3" stroke="${DK}"/><path d="M14 20h36a18 10 0 0 1-36 0z" fill="#f4f4f2" stroke="${DK}"/><line x1="32" y1="34" x2="32" y2="56" stroke="${DK}"/>`,
     mirrorcab: () => `<rect x="10" y="6" width="44" height="52" rx="2" fill="#dfe6ec" stroke="${DK}" stroke-width="1.2"/><line x1="32" y1="6" x2="32" y2="58" stroke="${DK}"/><line x1="16" y1="50" x2="30" y2="14" stroke="#fff" stroke-width="3" opacity=".8"/>`,
     showerdoor: () => `<rect x="8" y="4" width="48" height="56" fill="#e3ecf2" stroke="${DK}" stroke-width="1.2" opacity=".9"/><line x1="32" y1="4" x2="32" y2="60" stroke="${DK}"/><rect x="26" y="30" width="4" height="10" fill="${DK}"/>`,
@@ -713,7 +725,7 @@
     const pr = P().cabinetPrice(cab, App.state.pricing);
     const ov = window.Viewer.overlaps && window.Viewer.overlaps.get(cab.id);
     const same = D.items.filter(a => a.kind === 'appl' && a.at === cab.at);
-    const mountTxt = { counter: '嵌入檯面（放在櫃體上方自動對齊、桌面自動開孔）', floor: '落地嵌入（置於櫃體之間）', builtin: '嵌入櫃內', wall: '壁掛／掛桿掛式（可調離地高度）', top: '放置於檯面或地面（不開孔，可調離地高度）' }[cab.mount];
+    const mountTxt = { counter: '嵌入檯面（放在櫃體上方自動對齊、桌面自動開孔）', floor: '落地嵌入（置於櫃體之間）', builtin: '嵌入櫃內', wall: '壁掛／掛桿掛式（可調離地高度）', top: cab.y === 0 ? '落地放置' : '放置於檯面或地面（不開孔，可調離地高度）' }[cab.mount];
     let html = `<div class="hero">${UI.thumb(it)}<div><h3>${esc(cab.code)} ${lockBtn(cab)}</h3>
       <p>${esc(D.APPL_TYPES[cab.at])}｜${esc(it.brand)}</p><p>${esc(it.name)}</p></div></div>
       ${ov ? `<p class="note danger">⚠ 與 ${esc([...ov.why].join('、'))} 重疊，請調整位置（紅色線框）。</p>` : ''}
@@ -724,7 +736,7 @@
         <label>型號</label><select data-key="applCode" data-f="applCode">${[...new Set(same.map(a => a.brand))].map(b => { const l = same.filter(a => a.brand === b); return l.length ? `<optgroup label="${esc(b)}">${l.map(a => `<option value="${a.code}"${a.code === cab.code ? ' selected' : ''}>${a.code}　${esc(a.name)}</option>`).join('')}</optgroup>` : ''; }).join('')}</select>
         <label>品牌</label><div>${esc(it.brand)}</div>
         <label>規格</label><div>${esc(it.spec)}</div>
-        <label>尺寸</label><div>W${cab.w} × D${cab.d} × H${cab.h} mm</div>
+        <label>尺寸</label>${it.group === 'furn' ? `<div class="inline">${num('cw', cab.w, 'step="10" min="200" max="4000"')}<span class="unit">W</span>${num('cd', cab.d, 'step="10" min="200" max="3000"')}<span class="unit">D</span>${num('ch', cab.h, 'step="10" min="100" max="2600"')}<span class="unit">H</span></div>` : `<div>W${cab.w} × D${cab.d} × H${cab.h} mm</div>`}
         ${it.cut ? `<label>檯面開孔</label><div>${it.cut[0]} × ${it.cut[1]} mm</div>` : ''}
         <label>安裝方式</label><div>${mountTxt}</div>
       </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">參考 ${esc(it.brand)} 官方／通路公開規格${it.est ? '；此型號查無公開售價，目前為估計價，請依實際報價修改' : ''}。實際尺寸、開孔與售價以原廠最新資料為準。</p></div>
@@ -942,6 +954,11 @@
       return;
     }
     if (f === 'atop') { App.updateCab(cab.id, '修改設備高度', c => { c.y = Math.round(+val || 0) - c.h; }); return; }
+    if ((f === 'cw' || f === 'ch' || f === 'cd') && cab.kind === 'appl') {
+      const v = Math.max(100, Math.min(4000, Math.round(+val || 0)));
+      App.updateCab(cab.id, '修改家具尺寸', c => { c[f === 'cw' ? 'w' : f === 'ch' ? 'h' : 'd'] = v; });
+      return;
+    }
     if (f === 'cw' || f === 'ch' || f === 'cd') {
       const v = Math.round(+val || 0);
       const fl = cab.kind === 'filler';   // 補板可以很窄
@@ -1200,8 +1217,8 @@
         <div class="sec"><div class="sec-title">廚房設備售價 <small>元 / 台（空白＝參考價）</small></div>
         <table class="pt"><tbody>${D.APPLIANCES.map(a => `<tr><td>${esc(a.brand.split(' ')[0])}｜${D.APPL_TYPES[a.at]}｜${a.code}${a.est ? ' <small style="color:#b45309">估</small>' : ''}<br><small class="muted">${esc(a.name)}</small></td><td style="width:100px"><input type="number" data-key="ap${a.code}" data-apc="${a.code}" value="${pr.codeOverrides[a.code] != null ? pr.codeOverrides[a.code] : ''}" placeholder="${a.price}"></td></tr>`).join('')}</tbody></table></div>
 
-        <div class="sec"><div class="sec-title">DAY&DAY／TOTO／和成 售價 <small>元 / 個（空白＝官網訂價）</small></div>
-        <table class="pt"><tbody>${[...D.DAYDAY, ...D.TOTO, ...D.HCG].map(a => `<tr><td>${a.brand === 'TOTO' ? 'TOTO｜' : a.brand === '和成 HCG' ? 'HCG｜' : ''}${D.APPL_TYPES[a.at]}｜${a.code}${a.est ? ' <small style="color:#b45309">估</small>' : ''}<br><small class="muted">${esc(a.name)}　${a.w}×${a.d}×${a.h}</small></td><td style="width:100px"><input type="number" data-key="ap${a.code}" data-apc="${a.code}" value="${pr.codeOverrides[a.code] != null ? pr.codeOverrides[a.code] : ''}" placeholder="${a.price}"></td></tr>`).join('')}</tbody></table></div>
+        <div class="sec"><div class="sec-title">DAY&DAY／TOTO／和成／家具 售價 <small>元 / 個（空白＝官網訂價）</small></div>
+        <table class="pt"><tbody>${[...D.DAYDAY, ...D.TOTO, ...D.HCG, ...D.FURN].map(a => `<tr><td>${a.brand === 'TOTO' ? 'TOTO｜' : a.brand === '和成 HCG' ? 'HCG｜' : a.group === 'furn' ? '家具｜' : ''}${D.APPL_TYPES[a.at]}｜${a.code}${a.est ? ' <small style="color:#b45309">估</small>' : ''}<br><small class="muted">${esc(a.name)}　${a.w}×${a.d}×${a.h}</small></td><td style="width:100px"><input type="number" data-key="ap${a.code}" data-apc="${a.code}" value="${pr.codeOverrides[a.code] != null ? pr.codeOverrides[a.code] : ''}" placeholder="${a.price}"></td></tr>`).join('')}</tbody></table></div>
 
         <div class="sec"><div class="sec-title">其他配件</div><div class="kv">
           <label>吊衣桿</label><div class="inline"><input type="number" data-key="prod" data-po="ROD" value="${pr.parts.ROD}"><span class="unit">元 / 支</span></div>
