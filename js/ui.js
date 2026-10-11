@@ -252,9 +252,11 @@
       D.HANDLES.map(h => `<option value="${h.id}"${h.id === cur ? ' selected' : ''}>${h.name}${h.pair ? '（雙門片適用）' : ''}</option>`).join('');
   }
   /* ================= 型錄 ================= */
-  const FILTERS = [['all', '全部'], ['A', 'D580mm'], ['B', 'D408mm'], ['C', 'D360mm'], ['T', '電視空櫃 D500'], ['K', '電器櫃'], ['corner', '轉角櫃'], ['hang', '吊櫃'], ['double', '雙開隔間'], ['tri', '三角邊櫃'], ['filler', '補板'], ['desk', '桌面'], ['appl', '廚房設備'], ['dayday', 'DAY&DAY 廚房'], ['daydayb', 'DAY&DAY 衛浴'], ['daydayf', 'DAY&DAY 龍頭'], ['toto', 'TOTO'], ['hcg', '和成 HCG'], ['furn', '家具']];
+  const FILTERS = [['all', '全部'], ['A', 'D580mm'], ['B', 'D408mm'], ['C', 'D360mm'], ['T', '電視空櫃 D500'], ['K', '電器櫃'], ['corner', '轉角櫃'], ['hang', '吊櫃'], ['double', '雙開隔間'], ['tri', '三角邊櫃'], ['filler', '補板'], ['desk', '桌面'], ['appl', '廚房／浴室設備'], ['furn', '家具']];
+  const APPL_GROUPS = ['appl', 'dayday', 'daydayb', 'daydayf', 'toto', 'hcg'];
+  const applBrands = () => { const seen = [...D.APPL_BRANDS]; D.items.forEach(it => { if (APPL_GROUPS.includes(it.group) && !seen.includes(it.brand)) seen.push(it.brand); }); return seen; };
   const FURN_GROUPS = ['furn', 'ikea', 'muji'];
-  const inGroup = (it, f) => f === 'furn' ? FURN_GROUPS.includes(it.group) : it.group === f;
+  const inGroup = (it, f) => f === 'furn' ? FURN_GROUPS.includes(it.group) : f === 'appl' ? APPL_GROUPS.includes(it.group) : it.group === f;
   const furnBrands = () => [...new Set(D.items.filter(it => FURN_GROUPS.includes(it.group)).map(it => it.brand))];
   let curFilter = 'all', curBrand = 'all', curType = 'all', curColor = 'all';
   let subCollapsed = (() => { try { return localStorage.getItem('cab3d_subfilters') === '0'; } catch (e) { return false; } })();
@@ -262,7 +264,7 @@
   let pickedCode = null;
   function buildFilters() {
     $('#catFilters').innerHTML = FILTERS.map(([k, n]) => `<button class="chip${k === curFilter ? ' active' : ''}" data-f="${k}">${n}</button>`).join('') +
-      (curFilter === 'appl' ? `<div class="brand-chips">${[['all', '全部品牌'], ...D.APPL_BRANDS.map(b => [b, b.split(' ')[0]])].map(([k, n]) => `<button class="chip small${k === curBrand ? ' active' : ''}" data-b="${k}">${n}</button>`).join('')}</div>` : '') +
+      (curFilter === 'appl' ? `<div class="brand-chips">${[['all', '全部品牌'], ...applBrands().map(b => [b, b.split(' ')[0]])].map(([k, n]) => `<button class="chip small${k === curBrand ? ' active' : ''}" data-b="${k}">${n}</button>`).join('')}</div>` : '') +
       (curFilter === 'furn' ? `<div class="brand-chips">${[['all', '全部品牌'], ...furnBrands().map(b => [b, b])].map(([k, n]) => `<button class="chip small${k === curBrand ? ' active' : ''}" data-b="${k}">${n}</button>`).join('')}</div>` : '') +
       subFilters();
     $('#catFilters').onclick = e => {
@@ -289,8 +291,8 @@
     return `<div class="brand-chips type-chips">${[['all', `全部分類 ${its.length}`], ...types.map(t => [t, `${D.APPL_TYPES[t]} ${cnt[t]}`])].map(([k, n]) => `<button class="chip small${k === curType ? ' active' : ''}" data-t="${k}">${n}</button>`).join('')}</div>`;
   }
   function colorChips() {
-    if (curFilter !== 'daydayb' && curFilter !== 'daydayf') return '';
-    const its = D.items.filter(it => inGroup(it, curFilter) && (curType === 'all' || it.at === curType));
+    if (curFilter !== 'appl') return '';
+    const its = D.items.filter(it => inGroup(it, curFilter) && (curBrand === 'all' || it.brand === curBrand) && (curType === 'all' || it.at === curType));
     const cnt = {}; its.forEach(it => { const c = it.finish || 'steel'; cnt[c] = (cnt[c] || 0) + 1; });
     const cols = ['steel', 'gold', 'gray', 'black'].filter(c => cnt[c]);
     if (cols.length < 2) return '';
