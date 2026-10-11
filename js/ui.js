@@ -819,7 +819,7 @@
     if (['std', 'tv', 'double', 'hang'].includes(cab.kind)) {
       const custom = P().isCustom(cab);
       html += `<div class="sec"><div class="sec-title">尺寸 <small>${custom ? '非規格尺寸（板材才數依實際尺寸重算）' : '型錄規格'}</small></div><div class="kv">
-        <label>寬 W</label><div class="inline">${num('cw', cab.w, 'step="10" min="200" max="1200"')}<span class="unit">mm（型錄 ${it.w}）</span></div>
+        <label>寬 W</label><div class="inline">${num('cw', cab.w, 'step="10" min="200" max="3600"')}<span class="unit">mm（型錄 ${it.w}）</span></div>
         <label>高 H</label><div class="inline">${num('ch', cab.h, 'step="10" min="200" max="2800"')}<span class="unit">mm（型錄 ${it.h}）</span></div>
         <label>深 D</label><div class="inline">${num('cd', cab.d, 'step="10" min="150" max="900"')}<span class="unit">mm（型錄 ${it.d}）</span></div>
         ${custom ? `<label></label><div class="inline"><button class="btn small" data-a="size-reset">還原型錄尺寸</button></div>` : ''}
@@ -975,7 +975,7 @@
     if (f === 'cw' || f === 'ch' || f === 'cd') {
       const v = Math.round(+val || 0);
       const fl = cab.kind === 'filler';   // 補板可以很窄
-      const w = f === 'cw' ? Math.max(fl ? 20 : 200, Math.min(fl ? 600 : 1200, v)) : cab.w;
+      const w = f === 'cw' ? Math.max(fl ? 20 : 200, Math.min(fl ? 600 : 3600, v)) : cab.w;
       const h = f === 'ch' ? Math.max(fl ? 100 : 200, Math.min(2800, v)) : cab.h;
       const d = f === 'cd' ? Math.max(fl ? 50 : 150, Math.min(900, v)) : cab.d;
       App.updateCab(cab.id, '修改櫃體尺寸', c => M().resizeCabinet(c, w, h, d));
