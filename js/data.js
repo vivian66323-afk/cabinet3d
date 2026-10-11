@@ -1800,6 +1800,13 @@
   }));
   MUJI.forEach(a => items.push(a));
 
+  /* 大吉熊 LUCKY BEAR 水槽／龍頭／掛件（js/catalog-bear.js → window.BEAR_RAW）：規格取自功林不銹鋼官網，售價取自日成廚衛公開售價，無者為估計 */
+  const BEAR = (window.BEAR_RAW || []).map(([at, code, name, w, d, h, price, est, cut, finish, img, url, cat, spec]) => ({
+    at, code, name, w, d, h, price, est: !!est, cut: cut || undefined, finish, mount: at === 'rack' ? 'wall' : 'counter', y: at === 'rack' ? 1400 : undefined, series: cat, brand: '大吉熊 LUCKY BEAR',
+    spec, url, img, note: '', hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'appl', hanging: at === 'rack'
+  }));
+  BEAR.forEach(a => items.push(a));
+
   const CAI = 303 * 303; // 1 才＝303mm×303mm（1 台尺見方，mm²）；櫃體板材與桌面共用
   const CHI = 303;       // 1 尺（mm）
 
@@ -1934,7 +1941,7 @@
   ];
 
   window.DATA = {
-    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, IKEA, MUJI, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
+    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, IKEA, MUJI, BEAR, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
     HEIGHTS, HEIGHT_LABEL, HEIGHT_USE, DEPTHS, DEPTH_NAME, CORNER_W, KICK, BOARD, BACK,
     FRONT_NAME, FRONT_HEIGHTS, TRI_TYPE_NAME,
     items, byCode,
