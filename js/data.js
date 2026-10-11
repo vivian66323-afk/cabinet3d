@@ -58,7 +58,8 @@
     faucet: '廚房檯面龍頭', wallfaucet: '壁式龍頭', basin: '臉盆龍頭', shower: '沐浴龍頭組', showercol: '淋浴柱', slidebar: '滑桿', bidet: '沖洗器',
     toilet: '馬桶', seat: '便座', washbasin: '臉盆', urinal: '小便斗', bathtub: '浴缸', flushvalve: '沖水閥', dryerfan: '浴室換氣暖房乾燥機', handdryer: '烘手機', vanity: '浴櫃', mirrorcab: '鏡櫃', showerdoor: '淋浴拉門',
     bed: '床組', nightstand: '床頭櫃', sofa: '沙發', coffeetable: '茶几', sidetable: '邊几', diningtable: '餐桌', chair: '餐椅', barstool: '吧台椅', armchair: '單椅', studydesk: '書桌', tvstand: '電視櫃', wardrobe: '衣櫃',
-    sofabed: '沙發床', footstool: '椅凳／腳凳', daybed: '坐臥兩用床', dresser: '化妝台', drawers: '抽屜櫃', bartable: '吧台桌', bench: '長凳', stool: '板凳', officechair: '辦公椅／工作椅', bookcase: '書櫃', shelf: '層架組', shoecab: '鞋櫃／玄關家具' };
+    sofabed: '沙發床', footstool: '椅凳／腳凳', daybed: '坐臥兩用床', dresser: '化妝台', drawers: '抽屜櫃', bartable: '吧台桌', bench: '長凳', stool: '板凳', officechair: '辦公椅／工作椅', bookcase: '書櫃', shelf: '層架組', shoecab: '鞋櫃／玄關家具',
+    kidsbed: '兒童床', bunkbed: '上下舖／高腳床', cot: '嬰兒床', changingtable: '尿布更換桌', highchair: '嬰幼兒餐椅', kidsdesk: '兒童書桌', kidstable: '兒童桌', kidschair: '兒童椅', kidsstorage: '兒童收納' };
   const APPLIANCES = [
     { code: 'SF-550A', at: 'sink', name: '手工方形水槽 55cm', w: 550, d: 460, h: 220, cut: [520, 430], price: 8505, finish: 'steel', mount: 'counter', spec: '外徑 550×460×220　內槽約 500×410　SUS304' },
     { code: 'SF-750A', est: true, at: 'sink', name: '手工方形水槽 75cm', w: 750, d: 460, h: 220, cut: [720, 430], price: 11000, finish: 'steel', mount: 'counter', spec: '外徑 750×460×220　內槽約 700×410　SUS304' },

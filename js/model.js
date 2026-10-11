@@ -892,7 +892,17 @@
       return;
     }
     const white = applMat('white');
-    if (cab.at === 'bed' || cab.at === 'daybed') {
+    if (cab.at === 'bunkbed') {
+      // 上下舖／高腳床：四根立柱＋上層床板（含床墊）＋下層床板（上下舖）＋梯子
+      const wood = getMat(cab.doorColor || '110'), mat = applMat('mattress'), post = 50, upper = h - 350, twoBeds = /上下舖|雙層/.test(cab.name || (D.byCode[cab.code] || {}).name || '');
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([kx, kz]) => addBox(g, post, h, post, kx * (w / 2 - post / 2), y0 + h / 2, kz * (d / 2 - post / 2), wood));
+      addBox(g, w, 60, d, 0, y0 + upper - 30, 0, wood); addBox(g, w - 100, 120, d - 100, 0, y0 + upper + 60, 0, mat);
+      [-1, 1].forEach(kz => addBox(g, w, 250, 20, 0, y0 + upper + 125, kz * (d / 2 - 10), wood));
+      if (twoBeds) { addBox(g, w, 60, d, 0, y0 + 280, 0, wood); addBox(g, w - 100, 120, d - 100, 0, y0 + 370, 0, mat); }
+      for (let i = 0; i < Math.floor(upper / 280); i++) addBox(g, 30, 30, 300, w / 2 - 30, y0 + 140 + i * 280, 0, wood, false);
+      return;
+    }
+    if (cab.at === 'bed' || cab.at === 'daybed' || cab.at === 'kidsbed' || cab.at === 'cot') {
       // 床組：床架（門板色）＋床墊（白）＋床頭片＋枕頭
       const wood = getMat(cab.doorColor || '110'), mat = applMat('mattress'), bedH = Math.min(500, h * 0.55);
       addBox(g, w, bedH * 0.5, d - 60, 0, y0 + bedH * 0.25, 30, wood);
@@ -915,7 +925,7 @@
       if (isL) { const cw = Math.min(900, w * 0.35); addBox(g, cw, seatH + 40, d - mainD + 40, (chaiseLeft ? -1 : 1) * (w / 2 - cw / 2), y0 + 80 + (seatH - 40) / 2, -d / 2 + (d - mainD + 40) / 2 + 0, fab); }
       return;
     }
-    if (['coffeetable', 'sidetable', 'diningtable', 'studydesk', 'bartable', 'dresser'].includes(cab.at)) {
+    if (['coffeetable', 'sidetable', 'diningtable', 'studydesk', 'bartable', 'dresser', 'kidsdesk', 'kidstable'].includes(cab.at)) {
       // 桌几：桌面（門板色）＋四腳；圓形者用圓柱桌面
       const wood = getMat(cab.doorColor || '110'), tt = cab.at === 'diningtable' ? 40 : 30, round = /圓/.test((D.byCode[cab.code] || {}).name || '');
       if (round) cyl(g, Math.min(w, d) / 2, tt, 0, y0 + h - tt / 2, 0, wood, 40);
@@ -924,7 +934,7 @@
       if (round) cyl(g, Math.min(w, d) * 0.08 + 20, h - tt, 0, y0 + (h - tt) / 2, 0, leg, 16);
       else [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([kx, kz]) => addBox(g, lw, h - tt, lw, kx * (w / 2 - lw / 2 - 20), y0 + (h - tt) / 2, kz * (d / 2 - lw / 2 - 20), leg, false));
       if (cab.at === 'dresser') addBox(g, w * 0.6, Math.min(600, h * 0.8), 20, 0, y0 + h + Math.min(600, h * 0.8) / 2, -d / 2 + 10, applMat('mirror'));
-      if (cab.at === 'studydesk' || cab.at === 'dresser') addBox(g, Math.min(420, w * 0.35), h - tt - 60, d - 60, w / 2 - Math.min(420, w * 0.35) / 2 - 20, y0 + 60 + (h - tt - 60) / 2, 0, wood);
+      if (cab.at === 'studydesk' || cab.at === 'dresser' || cab.at === 'kidsdesk') addBox(g, Math.min(420, w * 0.35), h - tt - 60, d - 60, w / 2 - Math.min(420, w * 0.35) / 2 - 20, y0 + 60 + (h - tt - 60) / 2, 0, wood);
       return;
     }
     if (cab.at === 'footstool' || cab.at === 'stool' || cab.at === 'bench') {
@@ -943,17 +953,17 @@
       for (let i = 0; i < 5; i++) { const a = i / 5 * Math.PI * 2, r = Math.min(w, d) / 2 - 20; addBox(g, 30, 30, r, Math.sin(a) * r / 2, y0 + 30, Math.cos(a) * r / 2, base, false).rotation.y = a; }
       return;
     }
-    if (cab.at === 'bookcase' || cab.at === 'shelf') {
+    if (cab.at === 'bookcase' || cab.at === 'shelf' || cab.at === 'kidsstorage') {
       // 書櫃／層架：側板＋頂底板＋層板（櫃身色）
       const body = getMat(cab.bodyColor || cab.doorColor || '110'), t = 18, n = Math.max(2, Math.round(h / 380));
       [-1, 1].forEach(k => addBox(g, t, h, d, k * (w / 2 - t / 2), y0 + h / 2, 0, body));
       for (let i = 0; i <= n; i++) addBox(g, w - 2 * t, t, d, 0, y0 + t / 2 + (h - t) * i / n, 0, body);
-      if (cab.at === 'bookcase') addBox(g, w, h, 6, 0, y0 + h / 2, -d / 2 + 3, body);
+      if (cab.at === 'bookcase' || cab.at === 'kidsstorage') addBox(g, w, h, 6, 0, y0 + h / 2, -d / 2 + 3, body);
       return;
     }
-    if (cab.at === 'chair' || cab.at === 'barstool') {
-      const wood = getMat(cab.doorColor || '110'), leg = applMat('burner'), seatH = cab.at === 'barstool' ? Math.min(700, h * 0.7) : Math.min(450, h * 0.55);
-      if (cab.at === 'barstool') { cyl(g, Math.min(w, d) / 2, 40, 0, y0 + seatH - 20, 0, wood, 24); cyl(g, 22, seatH - 40, 0, y0 + (seatH - 40) / 2, 0, leg, 12); cyl(g, Math.min(w, d) / 2 - 20, 12, 0, y0 + 6, 0, leg, 24); }
+    if (cab.at === 'chair' || cab.at === 'barstool' || cab.at === 'kidschair' || cab.at === 'highchair') {
+      const wood = getMat(cab.doorColor || '110'), leg = applMat('burner'), seatH = (cab.at === 'barstool' || cab.at === 'highchair') ? Math.min(700, h * 0.7) : Math.min(450, h * 0.55);
+      if (cab.at === 'barstool' || cab.at === 'highchair') { cyl(g, Math.min(w, d) / 2, 40, 0, y0 + seatH - 20, 0, wood, 24); cyl(g, 22, seatH - 40, 0, y0 + (seatH - 40) / 2, 0, leg, 12); cyl(g, Math.min(w, d) / 2 - 20, 12, 0, y0 + 6, 0, leg, 24); }
       else {
         addBox(g, w, 40, d, 0, y0 + seatH - 20, 0, wood);
         addBox(g, w, h - seatH, 30, 0, y0 + seatH + (h - seatH) / 2, -d / 2 + 15, wood);
@@ -961,12 +971,12 @@
       }
       return;
     }
-    if (cab.at === 'nightstand' || cab.at === 'tvstand' || cab.at === 'wardrobe' || cab.at === 'drawers' || cab.at === 'shoecab') {
+    if (cab.at === 'nightstand' || cab.at === 'tvstand' || cab.at === 'wardrobe' || cab.at === 'drawers' || cab.at === 'shoecab' || cab.at === 'changingtable') {
       // 箱型家具：櫃體用櫃身色、門片／抽屜面用門板色
       const body = getMat(cab.bodyColor || cab.doorColor || '110'), door = getMat(cab.doorColor || '110');
       addBox(g, w, h, d, 0, y0 + h / 2, 0, body);
       const n = cab.at === 'wardrobe' ? Math.max(2, Math.round(w / 600)) : cab.at === 'tvstand' ? Math.max(2, Math.round(w / 600)) : 1;
-      if (cab.at === 'drawers' || cab.at === 'shoecab') { const rows = Math.max(2, Math.round(h / (cab.at === 'drawers' ? 220 : 300))), fh = (h - 8) / rows; for (let i = 0; i < rows; i++) { addBox(g, w - 8, fh - 6, 18, 0, y0 + 4 + fh * i + fh / 2, d / 2 - 9 + 2, door); addBox(g, Math.min(120, w * 0.3), 10, 20, 0, y0 + 4 + fh * i + fh / 2, d / 2 + 10, sMat('handle')); } return; }
+      if (cab.at === 'drawers' || cab.at === 'shoecab' || cab.at === 'changingtable') { const rows = Math.max(2, Math.round(h / (cab.at === 'drawers' ? 220 : 300))), fh = (h - 8) / rows; for (let i = 0; i < rows; i++) { addBox(g, w - 8, fh - 6, 18, 0, y0 + 4 + fh * i + fh / 2, d / 2 - 9 + 2, door); addBox(g, Math.min(120, w * 0.3), 10, 20, 0, y0 + 4 + fh * i + fh / 2, d / 2 + 10, sMat('handle')); } return; }
       const fw = (w - 8) / n;
       for (let i = 0; i < n; i++) { addBox(g, fw - 6, h - 8, 18, -w / 2 + 4 + fw * i + fw / 2, y0 + h / 2, d / 2 - 9 + 2, door); addBox(g, 120, 10, 20, -w / 2 + 4 + fw * i + fw / 2, y0 + (cab.at === 'wardrobe' ? h * 0.5 : h - 40), d / 2 + 10, sMat('handle')); }
       return;
