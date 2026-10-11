@@ -49,6 +49,7 @@
   U.import = function () { $('#fileUnderlay').click(); };
   U.load = async function (file) {
     if (!file) return;
+    if (/\.dxf$/i.test(file.name)) { if (window.DxfIn) window.DxfIn.open(file); else App.toast('DXF 模組未載入'); return; }
     App.busy(true, '讀取底圖…');
     let img = null;
     try { img = /\.pdf$/i.test(file.name) || file.type === 'application/pdf' ? await fromPdf(file) : await fromImage(file); }
@@ -92,8 +93,8 @@
   /* ---------- 屬性面板（空間區塊內） ---------- */
   U.panel = function (st) {
     const u = st.underlay, icon = UI().icon;
-    if (!u) return `<div class="sec"><div class="sec-title">平面圖底圖 <small>JPG／PNG／PDF</small></div>
-      <p class="muted" style="font-size:12px;margin:0 0 6px">匯入既有平面圖當半透明底圖，設定比例尺後沿圖描牆線，不必手動量尺寸。</p>
+    if (!u) return `<div class="sec"><div class="sec-title">平面圖底圖 <small>JPG／PNG／PDF／DXF</small></div>
+      <p class="muted" style="font-size:12px;margin:0 0 6px">匯入既有平面圖當半透明底圖，設定比例尺後沿圖描牆線；DXF（CAD）可直接由牆線建立空間。</p>
       <div class="btn-row"><button class="btn small" data-a="ul-import">${icon('image')}匯入底圖</button></div></div>`;
     const W = u.w * u.scale, H = u.h * u.scale;
     return `<div class="sec"><div class="sec-title">平面圖底圖 <small>${UI().esc(u.name || '')}</small></div>

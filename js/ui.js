@@ -42,7 +42,7 @@
     [{ tool: 'select', i: 'select', k: '␣', t: '選取（空白鍵）' }, { tool: 'move', i: 'move', k: 'M', t: '移動（M）' }, { tool: 'rotate', i: 'rotate', k: 'Q', t: '旋轉 90°（Q）' },
       { act: 'autowall', i: 'magnet', txt: '靠牆', t: '自動靠牆：移動/放置櫃體時，櫃背離牆 5cm 內自動貼齊牆面（拖曳時按住 Alt 可暫時停用）' },
       { act: 'dup', i: 'dup', k: '', t: '複製選取櫃體（Ctrl+D）' }, { act: 'delete', i: 'delete', k: '', t: '刪除（Delete）' }],
-    [{ act: 'rect', i: 'rect', k: 'R', t: '矩形空間：輸入寬/深/高（R）' }, { tool: 'line', i: 'line', k: 'L', t: '自由繪製多線段空間（L）' }, { act: 'underlay', i: 'image', txt: '底圖', t: '匯入平面圖底圖（JPG／PNG／PDF），設定比例尺後沿圖描牆線' }, { tool: 'tape', i: 'tape', k: 'T', t: '捲尺量測（T）' }],
+    [{ act: 'rect', i: 'rect', k: 'R', t: '矩形空間：輸入寬/深/高（R）' }, { tool: 'line', i: 'line', k: 'L', t: '自由繪製多線段空間（L）' }, { act: 'underlay', i: 'image', txt: '底圖', t: '匯入平面圖：JPG／PNG／PDF 當底圖描牆線；DXF（CAD）可自動建立空間' }, { tool: 'tape', i: 'tape', k: 'T', t: '捲尺量測（T）' }],
     [{ tool: 'orbit', i: 'orbit', k: 'O', t: '環轉（O）｜任何時候可用滑鼠中鍵' }, { tool: 'pan', i: 'pan', k: 'H', t: '平移（H）｜Shift+中鍵 或 右鍵' }, { tool: 'zoom', i: 'zoom', k: 'Z', t: '縮放（Z）｜滾輪' }, { act: 'extents', i: 'extents', k: '', t: '充滿視窗（Shift+Z）' }],
     [{ act: 'view:iso', txt: '等角', t: '等角視圖' }, { act: 'view:top', txt: '上', t: '上視圖' }, { act: 'view:front', txt: '前', t: '前視圖' }, { act: 'view:right', txt: '右', t: '右視圖' }, { act: 'view:back', txt: '後', t: '後視圖' }, { act: 'view:left', txt: '左', t: '左視圖' }, { act: 'persp', txt: '透視', t: '切換透視／平行投影' }],
     [{ act: 'walls', i: 'walls', txt: '牆:自動', t: '牆面顯示：自動隱藏靠近鏡頭的牆／顯示／隱藏' }, { act: 'render', i: 'render', txt: '材質', t: '顯示樣式：材質／白模／X光' }, { act: 'open', i: 'open', t: '全部開門預覽（Shift＋快按兩下櫃體可單獨開關）' }, { act: 'dims', i: 'dims', t: '顯示牆長標註' }],

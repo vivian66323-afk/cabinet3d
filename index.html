@@ -27,7 +27,7 @@
       <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>新專案
     </button>
     <input type="file" id="fileImport" accept=".json,application/json" hidden>
-    <input type="file" id="fileUnderlay" accept="image/*,.pdf,application/pdf" hidden>
+    <input type="file" id="fileUnderlay" accept="image/*,.pdf,application/pdf,.dxf" hidden>
   </div>
   <div class="top-right">
     <button class="btn ghost" id="btnLogout" title="登出" onclick="window.Auth.logout()">登出</button>
@@ -84,7 +84,7 @@
       <div class="row">
         <button class="btn primary" data-act="rect">矩形空間（寬／深／高）</button>
         <button class="btn" data-act="line">自由繪製多線段</button>
-        <button class="btn" data-act="underlay">匯入平面圖底圖描圖（JPG／PDF）</button>
+        <button class="btn" data-act="underlay">匯入平面圖（JPG／PDF／DXF）</button>
       </div>
     </div>
   </section>
@@ -144,6 +144,7 @@
 <script src="js/dxf.js?v=20261007x"></script>
 <script src="js/export.js?v=20261012a"></script>
 <script src="js/airender.js?v=20261007x"></script>
+<script src="js/dxfin.js?v=20261012c"></script>
 <script src="js/underlay.js?v=20261012c"></script>
 <script src="js/ui.js?v=20261012c"></script>
 <script src="js/swatchadmin.js?v=20261007x"></script>
