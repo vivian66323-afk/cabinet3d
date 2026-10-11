@@ -45,12 +45,18 @@
     if (S.length > maxN) S = S.sort((a, b) => Math.hypot(b[2] - b[0], b[3] - b[1]) - Math.hypot(a[2] - a[0], a[3] - a[1])).slice(0, maxN);   // 太多線時保留最長的
     // 1. 線段在交點／T 接處切開（含端點落在他線上）
     const cuts = S.map(() => [0, 1]);
-    for (let i = 0; i < S.length; i++) {
-      const bi = [Math.min(S[i][0], S[i][2]) - Q, Math.max(S[i][0], S[i][2]) + Q, Math.min(S[i][1], S[i][3]) - Q, Math.max(S[i][1], S[i][3]) + Q];
-      for (let j = i + 1; j < S.length; j++) {
-        const s = S[j];
-        if (Math.max(s[0], s[2]) < bi[0] || Math.min(s[0], s[2]) > bi[1] || Math.max(s[1], s[3]) < bi[2] || Math.min(s[1], s[3]) > bi[3]) continue;
-        const r = segIntersect(S[i], s); if (!r) continue;
+    // 格網（400 mm）：只比對共用格子的線段；每對只在其外框交集的左下格處理一次
+    const CS = 400, grid = new Map(), BB = S.map(s => [Math.min(s[0], s[2]) - Q, Math.max(s[0], s[2]) + Q, Math.min(s[1], s[3]) - Q, Math.max(s[1], s[3]) + Q]);
+    const ck = (x, y) => x + ',' + y;
+    BB.forEach((b, i) => { for (let gx = Math.floor(b[0] / CS); gx <= Math.floor(b[1] / CS); gx++) for (let gy = Math.floor(b[2] / CS); gy <= Math.floor(b[3] / CS); gy++) { const k = ck(gx, gy); let a = grid.get(k); if (!a) grid.set(k, a = []); a.push(i); } });
+    for (const [k, arr] of grid) {
+      const [gx, gy] = k.split(',').map(Number);
+      for (let u = 0; u < arr.length; u++) for (let w = u + 1; w < arr.length; w++) {
+        const i = arr[u], j = arr[w], bi = BB[i], bj = BB[j];
+        const x0 = Math.max(bi[0], bj[0]), y0 = Math.max(bi[2], bj[2]);
+        if (x0 > Math.min(bi[1], bj[1]) || y0 > Math.min(bi[3], bj[3])) continue;
+        if (Math.floor(x0 / CS) !== gx || Math.floor(y0 / CS) !== gy) continue;
+        const r = segIntersect(S[i], S[j]); if (!r) continue;
         cuts[i].push(r[0]); cuts[j].push(r[1]);
       }
     }
@@ -116,7 +122,7 @@
     out.sort((a, b) => b.area - a.area);
     // 外框面（包含其他所有面）通常是最大的那個：若它完整包住第二大的面且面積差 < 40%，視為雙線牆外緣，排到後面
     if (out.length >= 2 && contains(out[0].pts, out[1].pts) && out[1].area > out[0].area * 0.6) out.push(out.shift());
-    return out.slice(0, 12);
+    return out.filter(f => f.area <= 400e6).slice(0, 30);
   };
   function pip(x, y, poly) {
     let c = false;
@@ -150,7 +156,8 @@
       if (best != null) ds.push(best);
     }
     if (!ds.length) return null;
-    ds.sort((a, b) => a - b); return Math.round(ds[Math.floor(ds.length / 2)] / 5) * 5;
+    ds.sort((a, b) => a - b); const t = Math.round(ds[Math.floor(ds.length / 2)] / 5) * 5;
+    return t >= 60 && t <= 260 ? t : null;   // 超出常見牆厚（陽台／結構柱誤判）就不採用
   };
 
 
@@ -159,12 +166,18 @@
      先把同一直線上、相距 450～4500 mm 且中間沒有其他牆線的兩段牆線用虛擬線段接起來，並記住這些「橋」= 開口 */
   X.bridge = function (segs) {
     const out = segs.map(s => s.slice()), bridges = [];
-    const info = segs.map(s => { const L = Math.hypot(s[2] - s[0], s[3] - s[1]) || 1; return { L, d: [(s[2] - s[0]) / L, (s[3] - s[1]) / L] }; });
+    const info = segs.map(s => { const L = Math.hypot(s[2] - s[0], s[3] - s[1]) || 1; let d = [(s[2] - s[0]) / L, (s[3] - s[1]) / L]; if (d[0] < 0 || (d[0] === 0 && d[1] < 0)) d = [-d[0], -d[1]]; const ang = Math.atan2(d[1], d[0]) * 180 / Math.PI; const off = s[0] * -d[1] + s[1] * d[0]; return { L, d, ang, off }; });
+    // 分桶：方向 0.5°、直線位置 3 mm；只在同一直線（含相鄰桶）內找缺口
+    const BO = 3, buckets = new Map();
+    const bk = (a, o) => Math.round(a * 2) + ':' + o;
+    info.forEach((f, i) => { if (f.L < 60) return; const k = bk(f.ang, Math.round(f.off / BO)); let a = buckets.get(k); if (!a) buckets.set(k, a = []); a.push(i); });
+    const near = (f, span) => { const res = []; const ob = Math.round(f.off / BO); for (let da = -1; da <= 1; da++) for (let dob = -span; dob <= span; dob++) { const a = buckets.get(bk(f.ang + da * 0.5, ob + dob)); if (a) res.push(...a); } return res; };
     const seen = new Set();
     for (let i = 0; i < segs.length; i++) {
-      const s = segs[i], { L, d } = info[i];
+      const s = segs[i], { L, d } = info[i]; if (L < 60) continue;
       const proj = (x, y) => ({ t: (x - s[0]) * d[0] + (y - s[1]) * d[1], n: Math.abs((x - s[0]) * d[1] - (y - s[1]) * d[0]) });
-      for (let j = 0; j < segs.length; j++) {
+      const cand = near(info[i], 1), blockers = near(info[i], 10);
+      for (const j of cand) {
         if (i === j || Math.abs(d[0] * info[j].d[0] + d[1] * info[j].d[1]) < 0.9995) continue;
         const t = segs[j], p1 = proj(t[0], t[1]), p2 = proj(t[2], t[3]);
         if (p1.n > 3 || p2.n > 3) continue;
@@ -175,12 +188,12 @@
         if (gap < 450 || gap > 4500) continue;
         // 缺口中間不能有其他牆線（貼近同一直線）
         let blocked = false;
-        for (let m = 0; m < segs.length && !blocked; m++) {
+        for (const m of blockers) {
           if (m === i || m === j) continue;
           const u = segs[m], q1 = proj(u[0], u[1]), q2 = proj(u[2], u[3]);
           if (q1.n > 30 && q2.n > 30) continue;
           const lo = Math.min(q1.t, q2.t), hi = Math.max(q1.t, q2.t);
-          if (hi > g0 + 20 && lo < g1 - 20) blocked = true;
+          if (hi > g0 + 20 && lo < g1 - 20) { blocked = true; break; }
         }
         if (blocked) continue;
         const k = [i, j].sort((x, y) => x - y).join('-') + ':' + Math.round(g0);
@@ -196,7 +209,7 @@
      1. 房間面在開口處會沿門邊線凹進牆厚（缺口）：找「轉出 t、沿牆 w、轉回 t」的四段，拉直並記成開口
      2. 門：附近有半徑≈開口寬的門弧線；窗：窗圖層線條橫過開口；否則寬 ≥1300 視為窗、其餘為門
      3. 沒有缺口但窗圖層線條貼在牆線上：合併成區間當作窗 */
-  X.openings = function (poly, thick, ents, k, layers, bridges) {
+  X.openings = function (poly, thick, ents, k, layers, bridges, wallSegs) {
     const T = Math.max(60, thick || 120);
     let pts = poly.map(p => p.slice()), opens = [];   // opens: {i:牆序, off, w, type}
     const len = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
@@ -240,7 +253,7 @@
       if (out.some(o => o.i === best.i && Math.abs(o.off - best.off) < Math.max(o.w, w) * 0.6)) return;   // 已有重疊開口
       out.push(Object.assign({ i: best.i, off: Math.round(best.off), w: Math.round(w), type }, extra));
     };
-    const arcs = ents.filter(e => e.k === 'A').map(e => ({ c: [e.c[0] * k, e.c[1] * k], r: e.r * k }));
+    const arcs = ents.filter(e => e.k === 'A').map(e => ({ c: [e.c[0] * k, e.c[1] * k], r: e.r * k, ang: e.ang != null ? e.ang : ((e.a2 - e.a1) % 360 + 360) % 360 })).filter(a => a.ang >= 25 && a.ang <= 120 && a.r >= 500 && a.r <= 1300);
     const winLines = ents.filter(e => e.k === 'L' && /win|glaz|窗/i.test(e.l)).map(e => [e.p[0] * k, e.p[1] * k, e.p[2] * k, e.p[3] * k]);
     const crossesWin = o => winLines.some(s => Math.hypot(s[0] - o.c[0], s[1] - o.c[1]) < o.w || Math.hypot(s[2] - o.c[0], s[3] - o.c[1]) < o.w);
     (bridges || []).forEach(b => {
@@ -254,6 +267,89 @@
       const type = isDoor ? 'door' : crossesWin(o) ? 'window' : (o.w >= 1300 ? 'window' : 'door');
       assign(o.c, o.w, type, { src: o.src || 'gap' });
     });
+    // 2b. 牆線覆蓋缺口：沿每道牆邊，把牆圖層的平行線投影上去，沒被覆蓋的區段（450～4500）就是門窗開口
+    //     （房間輪廓若來自天花板線／地坪線等細線矩形，牆本身的缺口仍可由此找到）
+    if (wallSegs && wallSegs.length) {
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i], q = pts[(i + 1) % pts.length], L = len(p, q), d = dir(p, q);
+        if (L < 600) continue;
+        const iv = [];
+        wallSegs.forEach(s => {
+          const ex = s[2] - s[0], ey = s[3] - s[1], l2 = Math.hypot(ex, ey); if (l2 < 30) return;
+          if (Math.abs((ex * d[0] + ey * d[1]) / l2) < 0.98) return;
+          const n1 = Math.abs((s[0] - p[0]) * d[1] - (s[1] - p[1]) * d[0]), n2 = Math.abs((s[2] - p[0]) * d[1] - (s[3] - p[1]) * d[0]);
+          if (n1 > T + 40 || n2 > T + 40) return;
+          const t1 = dot([s[0] - p[0], s[1] - p[1]], d), t2 = dot([s[2] - p[0], s[3] - p[1]], d);
+          const a = Math.max(0, Math.min(t1, t2)), b = Math.min(L, Math.max(t1, t2));
+          if (b > a) iv.push([a, b]);
+        });
+        if (!iv.length) continue;
+        iv.sort((u, v) => u[0] - v[0]);
+        const merged = [];
+        iv.forEach(x => { const m = merged[merged.length - 1]; if (m && x[0] <= m[1] + 15) m[1] = Math.max(m[1], x[1]); else merged.push(x.slice()); });
+        const total = merged.reduce((s2, m) => s2 + (m[1] - m[0]), 0);
+        if (total < L * 0.3) continue;   // 這道邊幾乎沒有牆線貼著（可能不是牆），略過
+        for (let g = 0; g + 1 < merged.length; g++) {
+          const a = merged[g][1], b = merged[g + 1][0], w = b - a;
+          if (w < 450 || w > 4500) continue;
+          const c = [p[0] + d[0] * (a + b) / 2, p[1] + d[1] * (a + b) / 2];
+          const ends = [[p[0] + d[0] * a, p[1] + d[1] * a], [p[0] + d[0] * b, p[1] + d[1] * b]];
+          const isDoor = arcs.some(ar => ar.r > w * 0.6 && ar.r < w * 1.3 && ends.some(e => Math.hypot(ar.c[0] - e[0], ar.c[1] - e[1]) < 250));
+          const o = { off: 0, w, t: T, c, d, src: 'cover' };
+          const type = isDoor ? 'door' : crossesWin(o) ? 'window' : (w >= 1300 ? 'window' : 'door');
+          assign(c, w, type, { src: 'cover' });
+        }
+      }
+    }
+    // 2c. 門弧符號：鉸鏈（圓心）貼在牆邊、半徑＝門扇寬；牆線沒斷開的畫法也能找到門
+    arcs.forEach(ar => {
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i], q = pts[(i + 1) % pts.length], L = len(p, q), d = dir(p, q);
+        const n = Math.abs((ar.c[0] - p[0]) * d[1] - (ar.c[1] - p[1]) * d[0]), tc = dot([ar.c[0] - p[0], ar.c[1] - p[1]], d);
+        if (n > T + 60 || tc < -50 || tc > L + 50) continue;
+        // 弧的哪一端貼在牆線上 → 門扇關閉方向
+        const e = ents.find(x => x.k === 'A' && Math.abs(x.c[0] * k - ar.c[0]) < 1 && Math.abs(x.c[1] * k - ar.c[1]) < 1);
+        let sgn = 0;
+        if (e) {
+          const ends = [e.a1, e.a2].map(a => [ar.c[0] + ar.r * Math.cos(a * Math.PI / 180), ar.c[1] + ar.r * Math.sin(a * Math.PI / 180)]);
+          const best = ends.map(pt => ({ n: Math.abs((pt[0] - p[0]) * d[1] - (pt[1] - p[1]) * d[0]), t: dot([pt[0] - p[0], pt[1] - p[1]], d) })).sort((u, v) => u.n - v.n)[0];
+          if (best && best.n < 200) sgn = Math.sign(best.t - tc);
+        }
+        if (!sgn) sgn = tc < L / 2 ? 1 : -1;
+        const w = Math.min(ar.r + 40, 1300), c = [p[0] + d[0] * (tc + sgn * w / 2), p[1] + d[1] * (tc + sgn * w / 2)];
+        assign(c, w, 'door', { src: 'arc' });
+        break;
+      }
+    });
+    // 2d. 窗符號：牆帶內兩條（以上）平行於牆、長度相近且重疊的短線（450～4000），且附近沒有門弧
+    {
+      const dark = ents.filter(e => e.k === 'L' && !/8d728d|fe0100/.test(e.l)).map(e => [e.p[0] * k, e.p[1] * k, e.p[2] * k, e.p[3] * k]);
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i], q = pts[(i + 1) % pts.length], L = len(p, q), d = dir(p, q);
+        const cand = [];
+        dark.forEach(s => {
+          const ex = s[2] - s[0], ey = s[3] - s[1], l2 = Math.hypot(ex, ey); if (l2 < 450 || l2 > 4000 || l2 > L - 100) return;
+          if (Math.abs((ex * d[0] + ey * d[1]) / l2) < 0.995) return;
+          const n1 = (s[0] - p[0]) * d[1] - (s[1] - p[1]) * d[0], n2 = (s[2] - p[0]) * d[1] - (s[3] - p[1]) * d[0];
+          if (Math.abs(n1 - n2) > 5 || Math.abs(n1) > T + 150 || Math.abs(n1) < 15) return;
+          const t1 = dot([s[0] - p[0], s[1] - p[1]], d), t2 = dot([s[2] - p[0], s[3] - p[1]], d), a = Math.min(t1, t2), b = Math.max(t1, t2);
+          if (a < -50 || b > L + 50) return;
+          cand.push({ n: n1, a, b });
+        });
+        cand.sort((u, v) => u.a - v.a);
+        const used = new Set();
+        cand.forEach((c1, ci) => {
+          if (used.has(ci)) return;
+          const grp = cand.filter((c2, cj) => cj !== ci && !used.has(cj) && Math.abs(c2.n - c1.n) >= 8 && Math.abs(c2.n - c1.n) <= 120 && Math.min(c1.b, c2.b) - Math.max(c1.a, c2.a) > 0.8 * Math.min(c1.b - c1.a, c2.b - c2.a));
+          if (!grp.length) return;
+          used.add(ci); grp.forEach(c2 => used.add(cand.indexOf(c2)));
+          const a = Math.min(c1.a, ...grp.map(g => g.a)), b = Math.max(c1.b, ...grp.map(g => g.b)), w = b - a;
+          const c = [p[0] + d[0] * (a + b) / 2, p[1] + d[1] * (a + b) / 2];
+          if (out.some(o => o.type === 'door' && o.i === i && Math.abs(o.off + o.w / 2 - (a + b) / 2) < w)) return;
+          assign(c, w, 'window', { src: 'sym' });
+        });
+      }
+    }
     // 3. 窗圖層線條貼在牆線上（無缺口）
     for (let i = 0; i < pts.length; i++) {
       const p = pts[i], q = pts[(i + 1) % pts.length], L = len(p, q), d = dir(p, q);
@@ -288,7 +384,37 @@
 
   // PDF 向量平面圖：fr.ents 為紙面 mm；比例分母 S 由牆厚（平行雙線間距）推測
   const SCALES = [20, 25, 30, 40, 50, 60, 75, 80, 100, 120, 125, 150, 200, 250, 300, 400, 500];
-  X.guessScale = function (segs) {
+  X.guessScale = function (segs, arcs) {
+    const PREF = [100, 50, 200, 30, 25, 20, 40, 60, 150, 75, 80, 120, 125, 250, 300, 400, 500];
+    // 1. 門窗開口：同一直線上兩段牆線的間隙（紙面 2～40 mm）做直方圖
+    const G = segs.map(s => { const L = Math.hypot(s[2] - s[0], s[3] - s[1]) || 1; return { s, L, d: [(s[2] - s[0]) / L, (s[3] - s[1]) / L] }; }).filter(o => o.L >= 3).sort((a, b) => b.L - a.L).slice(0, 4000);
+    const gh = {};
+    for (let i = 0; i < G.length; i++) {
+      const { s, L, d } = G[i];
+      for (let j = 0; j < G.length; j++) {
+        if (i === j || Math.abs(d[0] * G[j].d[0] + d[1] * G[j].d[1]) < 0.9995) continue;
+        const t = G[j].s, n1 = Math.abs((t[0] - s[0]) * d[1] - (t[1] - s[1]) * d[0]), n2 = Math.abs((t[2] - s[0]) * d[1] - (t[3] - s[1]) * d[0]);
+        if (n1 > 0.05 || n2 > 0.05) continue;
+        const t1 = (t[0] - s[0]) * d[0] + (t[1] - s[1]) * d[1], t2 = (t[2] - s[0]) * d[0] + (t[3] - s[1]) * d[1], a = Math.min(t1, t2), b = Math.max(t1, t2);
+        let gap; if (b < 0) gap = -b; else if (a > L) gap = a - L; else continue;
+        if (gap < 2 || gap > 40) continue;
+        const key = (Math.round(gap * 2) / 2).toFixed(1); gh[key] = (gh[key] || 0) + 1;
+      }
+    }
+    const gaps = Object.entries(gh).map(([k, n]) => ({ g: +k, n: n / 2 })).filter(o => o.n >= 3);   // 每對算了兩次
+    const door = (arcs || []).filter(a => a.ang >= 70 && a.ang <= 110 && a.r >= 2 && a.r <= 40);
+    // 2. 評分：各比例下，開口寬落在門（600～1000）得 2 分、窗／大開口（1000～2500）得 1 分；門弧半徑（門扇寬）落在 600～950 得 2 分
+    if (gaps.length || door.length >= 3) {
+      let best = null;
+      PREF.forEach(S => {
+        let sc = 0;
+        gaps.forEach(o => { const w = o.g * S; if (w >= 600 && w <= 1000) sc += 2 * o.n; else if (w > 1000 && w <= 2500) sc += o.n; });
+        door.forEach(a => { const w = a.r * S; if (w >= 600 && w <= 950) sc += 2; });
+        if (!best || sc > best.sc) best = { S, sc };
+      });
+      if (best && best.sc > 0) return best.S;
+    }
+    // 3. 牆厚：平行雙線間距的眾數
     const L = segs.map(s => ({ s, l: Math.hypot(s[2] - s[0], s[3] - s[1]) })).filter(o => o.l > 4).sort((a, b) => b.l - a.l).slice(0, 1500);
     const hist = {};
     for (let i = 0; i < L.length; i++) {
@@ -303,26 +429,24 @@
         const key = (Math.round(d * 10) / 10).toFixed(1); hist[key] = (hist[key] || 0) + Math.min(la, lb);
       }
     }
-    const best = Object.entries(hist).sort((a, b) => b[1] - a[1])[0];
-    if (!best) return 100;
-    const tp = +best[0];
-    // 牆厚落在 100～220 mm 都合理；多個比例都合理時優先常用比例
-    const PREF = [100, 50, 200, 30, 25, 20, 40, 60, 150, 75, 80, 120, 125, 250, 300, 400, 500];
-    const err = S => Math.max(0, 100 - tp * S, tp * S - 220);
+    const tb = Object.entries(hist).sort((a, b) => b[1] - a[1])[0];
+    if (!tb) return 100;
+    const tp = +tb[0], err = S => Math.max(0, 100 - tp * S, tp * S - 220);
     const ok = PREF.filter(S => err(S) === 0);
     return ok.length ? ok[0] : PREF.reduce((p, c) => err(c) < err(p) ? c : p, 100);
   };
 
   X.openFrame = async function (fr, name, opt) {
-    const st = { fr, mode: opt.mode || 'dxf', unit: opt.unit || 4, scaleDen: opt.scaleDen || 100, image: opt.image || null, layers: {}, cands: [], pick: 0, faces: null, warn: fr.warnings || [] };
+    const st = X._st = { fr, mode: opt.mode || 'dxf', unit: opt.unit || 4, scaleDen: opt.scaleDen || 100, image: opt.image || null, renderImage: opt.renderImage || null, paperW: opt.paperW, paperH: opt.paperH, layers: {}, cands: [], pick: 0, faces: null, warn: fr.warnings || [] };
     const counts = {};
     fr.ents.forEach(e => { counts[e.l] = (counts[e.l] || 0) + 1; });
     const layerNames = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
     // 預設勾選：名稱像牆的圖層；都沒有就全部勾
     const wallLike = layerNames.filter(l => /wall|牆|墻|A-WALL|WALL/i.test(l));
     if (st.mode === 'pdf') {   // PDF 假圖層＝線寬：預設只勾粗線（牆），細線多為門窗、標註
-      const lw = l => +((l.match(/線寬 ([\d.]+)/) || [])[1] || 0), mx = Math.max(...layerNames.map(lw));
-      layerNames.forEach(l => { st.layers[l] = lw(l) >= mx * 0.5; });
+      const lum = l => { const m = l.match(/色 ([0-9a-f]{6})/); return m ? parseInt(m[1].slice(0, 2), 16) + parseInt(m[1].slice(2, 4), 16) + parseInt(m[1].slice(4, 6), 16) : 0; };
+      layerNames.forEach(l => { st.layers[l] = lum(l) < 200; });
+      if (!layerNames.some(l => st.layers[l])) layerNames.forEach(l => { st.layers[l] = true; });
     } else
     layerNames.forEach(l => { st.layers[l] = wallLike.length ? wallLike.includes(l) : !/text|dim|標|文字|hatch|furn|家具|door|window|門|窗|軸|axis|grid|title|frame|圖框/i.test(l); });
     await X.dialog(st, counts, layerNames, name);
@@ -367,7 +491,14 @@
       onOpen: back => {
         const cv = back.querySelector('#dxfCv'), ctx = cv.getContext('2d');
         const stat = back.querySelector('#dxfStat'), size = back.querySelector('#dxfSize'), opEl = back.querySelector('#dxfOp');
-        const detect = () => { const c = st.cands[st.pick]; if (!c) { st.det = null; opEl.textContent = ''; return; } st.det = X.openings(c.pts, +back.querySelector('[name=t]').value || 120, st.fr.ents, k0(), st.layers, st.bridges); const nd = st.det.openings.filter(o => o.type === 'door').length, nw = st.det.openings.length - nd; opEl.textContent = `偵測到 門 ${nd}、窗 ${nw}`; };
+        const wallSegsOf = () => {
+          const k = k0(), names = Object.keys(st.layers).filter(l => st.layers[l]);
+          let wall;
+          if (isPdf) { const lw = l => +((l.match(/線寬 ([\d.]+)/) || [])[1] || 0), mx = Math.max(...names.map(lw), 0); wall = names.filter(l => lw(l) >= mx * 0.5); }
+          else { wall = names.filter(l => /wall|牆|墻/i.test(l)); if (!wall.length) wall = names; }
+          return st.fr.ents.filter(e => e.k === 'L' && wall.includes(e.l)).map(e => [e.p[0] * k, e.p[1] * k, e.p[2] * k, e.p[3] * k]);
+        };
+        const detect = () => { const c = st.cands[st.pick]; if (!c) { st.det = null; opEl.textContent = ''; return; } st.det = X.openings(c.pts, +back.querySelector('[name=t]').value || 120, st.fr.ents, k0(), st.layers, st.bridges, wallSegsOf()); const nd = st.det.openings.filter(o => o.type === 'door').length, nw = st.det.openings.length - nd; opEl.textContent = `偵測到 門 ${nd}、窗 ${nw}`; };
         let view = null;
         const draw = () => {
           const k = k0(), bb = st.fr.bbox;
@@ -468,7 +599,12 @@
       App.toast(`已由${isPdf ? ' PDF ' : ' DXF '}建立空間：${pts.length} 面牆、${(c.area / 1e6).toFixed(2)} m²${useOp ? `，門 ${nd}、窗 ${nw}` : ''}`);
       return;
     }
-    // PDF：底圖直接用頁面影像（比例 = 紙面 mm × 比例分母）
+    // PDF：底圖直接用頁面影像（比例 = 紙面 mm × 比例分母）；影像延後到此時才渲染
+    if (!st.image && st.renderImage) {
+      App.busy(true, '渲染 PDF 頁面…');
+      try { const im = await st.renderImage(); st.image = Object.assign({ paperW: st.paperW, paperH: st.paperH }, im); } catch (e) { App.toast('PDF 渲染失敗：' + (e.message || e)); }
+      App.busy(false);
+    }
     if (st.image) {
       const im = st.image, mmPerPx = im.paperW / im.w * k;
       App.mutate('匯入 PDF 底圖', s => { s.underlay = { src: im.src, w: im.w, h: im.h, scale: mmPerPx, x: Math.round((im.paperW / 2 - cx / k) * k), z: Math.round((cy / k - im.paperH / 2) * k), rot: 0, opacity: 0.75, visible: true, name: fname }; }, 'underlay');
