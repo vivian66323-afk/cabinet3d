@@ -43,7 +43,46 @@
     const c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
     const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
     await page.render({ canvasContext: ctx, viewport: vp }).promise;
-    return { src: toJpeg(c), w: c.width, h: c.height };
+    let vec = null;
+    try { vec = await pdfVectors(page, lib); } catch (e) { console.warn('PDF 向量抽取失敗', e); }
+    const PT = 25.4 / 72;
+    return { src: toJpeg(c), w: c.width, h: c.height, vec, paperW: vp1.width * PT, paperH: vp1.height * PT, pageX: 0, pageY: 0 };
+  }
+  // 抽出 PDF 頁面的向量線段（紙面 mm，y 向上；貝茲曲線以弦近似），依線寬／顏色分成假圖層
+  async function pdfVectors(page, lib) {
+    const OPS = lib.OPS, ol = await page.getOperatorList();
+    const PT = 25.4 / 72, mul = (A, B) => [A[0] * B[0] + A[2] * B[1], A[1] * B[0] + A[3] * B[1], A[0] * B[2] + A[2] * B[3], A[1] * B[2] + A[3] * B[3], A[0] * B[4] + A[2] * B[5] + A[4], A[1] * B[4] + A[3] * B[5] + A[5]];
+    let ctm = [1, 0, 0, 1, 0, 0], lw = 1, col = '000000'; const stack = [], ents = [];
+    const hex = (r, g, b) => [r, g, b].map(v => Math.round(v * 255).toString(16).padStart(2, '0')).join('');
+    const ap = (x, y) => [(ctm[0] * x + ctm[2] * y + ctm[4]) * PT, (ctm[1] * x + ctm[3] * y + ctm[5]) * PT];
+    const layerOf = () => { const sc = Math.sqrt(Math.abs(ctm[0] * ctm[3] - ctm[1] * ctm[2])) || 1; return `線寬 ${(lw * sc * PT).toFixed(2)} 色 ${col}`; };
+    for (let i = 0; i < ol.fnArray.length; i++) {
+      const fn = ol.fnArray[i], a = ol.argsArray[i];
+      if (fn === OPS.save) stack.push({ ctm, lw, col });
+      else if (fn === OPS.restore) { const s = stack.pop(); if (s) { ctm = s.ctm; lw = s.lw; col = s.col; } }
+      else if (fn === OPS.transform) ctm = mul(ctm, a);
+      else if (fn === OPS.paintFormXObjectBegin) { stack.push({ ctm, lw, col, form: true }); if (a && a[0]) ctm = mul(ctm, a[0]); }
+      else if (fn === OPS.paintFormXObjectEnd) { let s = stack.pop(); while (s && !s.form && stack.length) s = stack.pop(); if (s) { ctm = s.ctm; lw = s.lw; col = s.col; } }
+      else if (fn === OPS.setLineWidth) lw = a[0];
+      else if (fn === OPS.setStrokeRGBColor) col = hex(a[0], a[1], a[2]);
+      else if (fn === OPS.setStrokeGray) col = hex(a[0], a[0], a[0]);
+      else if (fn === OPS.setStrokeCMYKColor) col = hex((1 - a[0]) * (1 - a[3]), (1 - a[1]) * (1 - a[3]), (1 - a[2]) * (1 - a[3]));
+      else if (fn === OPS.constructPath) {
+        const ops = a[0], c = a[1], lay = layerOf(); let k = 0, cur = null, start = null;
+        const line = (p, q) => { if (Math.hypot(q[0] - p[0], q[1] - p[1]) > 0.05) ents.push({ k: 'L', l: lay, p: [p[0], p[1], q[0], q[1]] }); };
+        for (const op of ops) {
+          if (op === OPS.moveTo) { cur = ap(c[k], c[k + 1]); start = cur; k += 2; }
+          else if (op === OPS.lineTo) { const q = ap(c[k], c[k + 1]); if (cur) line(cur, q); cur = q; k += 2; }
+          else if (op === OPS.curveTo) { const q = ap(c[k + 4], c[k + 5]); if (cur) line(cur, q); cur = q; k += 6; }
+          else if (op === OPS.curveTo2 || op === OPS.curveTo3) { const q = ap(c[k + 2], c[k + 3]); if (cur) line(cur, q); cur = q; k += 4; }
+          else if (op === OPS.closePath) { if (cur && start) line(cur, start); cur = start; }
+          else if (op === OPS.rectangle) { const x = c[k], y = c[k + 1], w = c[k + 2], h = c[k + 3]; const P = [ap(x, y), ap(x + w, y), ap(x + w, y + h), ap(x, y + h)]; for (let j = 0; j < 4; j++) line(P[j], P[(j + 1) % 4]); cur = start = P[0]; k += 4; }
+        }
+      }
+    }
+    const bb = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
+    ents.forEach(e => { [[e.p[0], e.p[1]], [e.p[2], e.p[3]]].forEach(([x, y]) => { if (x < bb.x0) bb.x0 = x; if (y < bb.y0) bb.y0 = y; if (x > bb.x1) bb.x1 = x; if (y > bb.y1) bb.y1 = y; }); });
+    return { ents, bbox: bb, warnings: [] };
   }
 
   U.import = function () { $('#fileUnderlay').click(); };
@@ -56,6 +95,14 @@
     catch (e) { App.toast(e.message || '讀取失敗'); }
     App.busy(false);
     if (!img) return;
+    // 向量 PDF（CAD 輸出）：線條交給 DXF 流程自動找牆與門窗；掃描檔則當底圖描圖
+    U._lastPdf = img;
+    if (img.vec && img.vec.ents.length >= 15 && window.DxfIn) {
+      const segs = img.vec.ents.map(e => e.p);
+      const scaleDen = window.DxfIn.guessScale(segs);
+      await window.DxfIn.openFrame(img.vec, file.name, { mode: 'pdf', scaleDen, image: img });
+      return;
+    }
     const st = App.state, r = st.room;
     // 初始比例：有空間則貼齊空間寬度，否則底圖寬 10 m；置中於空間或原點
     let scale = 10000 / img.w, cx = 0, cz = 0;

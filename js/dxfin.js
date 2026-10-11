@@ -41,7 +41,8 @@
   // segs: [[x1,y1,x2,y2],…]（mm）→ 面清單 [{pts:[[x,y]…], area, per}]
   X.faces = function (segs, opt = {}) {
     const maxN = opt.maxSegs || 6000;
-    let S = segs.filter(s => Math.hypot(s[2] - s[0], s[3] - s[1]) >= Q).slice(0, maxN);
+    let S = segs.filter(s => Math.hypot(s[2] - s[0], s[3] - s[1]) >= Q);
+    if (S.length > maxN) S = S.sort((a, b) => Math.hypot(b[2] - b[0], b[3] - b[1]) - Math.hypot(a[2] - a[0], a[3] - a[1])).slice(0, maxN);   // 太多線時保留最長的
     // 1. 線段在交點／T 接處切開（含端點落在他線上）
     const cuts = S.map(() => [0, 1]);
     for (let i = 0; i < S.length; i++) {
@@ -282,18 +283,54 @@
     App.busy(false);
     if (!fr || fr.error) { await UI().alert('無法讀取', (fr && fr.error) || '這個 DXF 沒有可用圖形'); return; }
     const ins = headerUnits(text);
-    const st = { fr, unit: guessUnit(fr.bbox, ins), layers: {}, cands: [], pick: 0, faces: null, warn: fr.warnings || [] };
+    await X.openFrame(fr, file.name, { mode: 'dxf', unit: guessUnit(fr.bbox, ins) });
+  };
+
+  // PDF 向量平面圖：fr.ents 為紙面 mm；比例分母 S 由牆厚（平行雙線間距）推測
+  const SCALES = [20, 25, 30, 40, 50, 60, 75, 80, 100, 120, 125, 150, 200, 250, 300, 400, 500];
+  X.guessScale = function (segs) {
+    const L = segs.map(s => ({ s, l: Math.hypot(s[2] - s[0], s[3] - s[1]) })).filter(o => o.l > 4).sort((a, b) => b.l - a.l).slice(0, 1500);
+    const hist = {};
+    for (let i = 0; i < L.length; i++) {
+      const a = L[i].s, la = L[i].l, dx = (a[2] - a[0]) / la, dy = (a[3] - a[1]) / la;
+      for (let j = i + 1; j < L.length; j++) {
+        const b = L[j].s, lb = L[j].l, ex = (b[2] - b[0]) / lb, ey = (b[3] - b[1]) / lb;
+        if (Math.abs(dx * ex + dy * ey) < 0.999) continue;
+        const d = Math.abs((b[0] - a[0]) * dy - (b[1] - a[1]) * dx);
+        if (d < 0.4 || d > 8) continue;
+        const t1 = (b[0] - a[0]) * dx + (b[1] - a[1]) * dy, t2 = (b[2] - a[0]) * dx + (b[3] - a[1]) * dy;
+        if (Math.max(t1, t2) < 0 || Math.min(t1, t2) > la) continue;
+        const key = (Math.round(d * 10) / 10).toFixed(1); hist[key] = (hist[key] || 0) + Math.min(la, lb);
+      }
+    }
+    const best = Object.entries(hist).sort((a, b) => b[1] - a[1])[0];
+    if (!best) return 100;
+    const tp = +best[0];
+    // 牆厚落在 100～220 mm 都合理；多個比例都合理時優先常用比例
+    const PREF = [100, 50, 200, 30, 25, 20, 40, 60, 150, 75, 80, 120, 125, 250, 300, 400, 500];
+    const err = S => Math.max(0, 100 - tp * S, tp * S - 220);
+    const ok = PREF.filter(S => err(S) === 0);
+    return ok.length ? ok[0] : PREF.reduce((p, c) => err(c) < err(p) ? c : p, 100);
+  };
+
+  X.openFrame = async function (fr, name, opt) {
+    const st = { fr, mode: opt.mode || 'dxf', unit: opt.unit || 4, scaleDen: opt.scaleDen || 100, image: opt.image || null, layers: {}, cands: [], pick: 0, faces: null, warn: fr.warnings || [] };
     const counts = {};
     fr.ents.forEach(e => { counts[e.l] = (counts[e.l] || 0) + 1; });
     const layerNames = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
     // 預設勾選：名稱像牆的圖層；都沒有就全部勾
     const wallLike = layerNames.filter(l => /wall|牆|墻|A-WALL|WALL/i.test(l));
+    if (st.mode === 'pdf') {   // PDF 假圖層＝線寬：預設只勾粗線（牆），細線多為門窗、標註
+      const lw = l => +((l.match(/線寬 ([\d.]+)/) || [])[1] || 0), mx = Math.max(...layerNames.map(lw));
+      layerNames.forEach(l => { st.layers[l] = lw(l) >= mx * 0.5; });
+    } else
     layerNames.forEach(l => { st.layers[l] = wallLike.length ? wallLike.includes(l) : !/text|dim|標|文字|hatch|furn|家具|door|window|門|窗|軸|axis|grid|title|frame|圖框/i.test(l); });
-    await X.dialog(st, counts, layerNames, file.name);
+    await X.dialog(st, counts, layerNames, name);
   };
 
+  const kOf = st => st.mode === 'pdf' ? st.scaleDen : (UNIT[st.unit] || 1);
   function segsOf(st) {
-    const k = UNIT[st.unit] || 1;
+    const k = kOf(st);
     return st.fr.ents.filter(e => e.k === 'L' && st.layers[e.l]).map(e => [e.p[0] * k, e.p[1] * k, e.p[2] * k, e.p[3] * k]);
   }
   function compute(st) {
@@ -306,12 +343,13 @@
   }
 
   X.dialog = async function (st, counts, layerNames, fname) {
-    const k0 = () => UNIT[st.unit] || 1;
+    const k0 = () => kOf(st);
+    const isPdf = st.mode === 'pdf';
     const body = `<div class="dxfin">
       <div class="dxfin-left"><canvas id="dxfCv" width="560" height="400"></canvas>
         <div class="dxfin-stat muted" id="dxfStat"></div></div>
       <div class="dxfin-right">
-        <div class="kv"><label>單位</label><select name="unit" data-k="unit">${[[4, 'mm（公釐）'], [5, 'cm（公分）'], [6, 'm（公尺）'], [1, 'inch（英吋）']].map(([v, n]) => `<option value="${v}"${v === st.unit ? ' selected' : ''}>${n}</option>`).join('')}</select>
+        <div class="kv"><label>${isPdf ? '圖面比例' : '單位'}</label>${isPdf ? `<div class="inline">1 :&nbsp;<input name="unit" type="number" value="${st.scaleDen}" min="1" max="2000" step="1" style="width:80px"><span class="unit">（自動推測，可改）</span></div>` : `<select name="unit" data-k="unit">${[[4, 'mm（公釐）'], [5, 'cm（公分）'], [6, 'm（公尺）'], [1, 'inch（英吋）']].map(([v, n]) => `<option value="${v}"${v === st.unit ? ' selected' : ''}>${n}</option>`).join('')}</select>`}
         <label>圖幅</label><span id="dxfSize"></span>
         <label>牆厚</label><div class="inline"><input name="t" type="number" value="120" step="5" min="50" max="400"><span class="unit">mm</span></div>
         <label>牆高</label><div class="inline"><input name="h" type="number" value="${App.state.room ? App.state.room.height : 2600}" step="10" min="1800" max="6000"><span class="unit">mm</span></div>
@@ -321,7 +359,7 @@
         <p class="muted" style="font-size:11.5px;margin:8px 0 0">預覽中點選要當作「空間」的封閉區域（藍色＝目前選擇）。找不到時可改「轉成底圖描圖」，圖線會以正確比例放到地面，再用 L 描牆。</p>
       </div></div>`;
     const res = await UI().modal({
-      title: '匯入 DXF：' + fname, body, wide: true, cls: 'dxfin-modal',
+      title: (isPdf ? '匯入 PDF 平面圖：' : '匯入 DXF：') + fname, body, wide: true, cls: 'dxfin-modal',
       buttons: [{ label: '取消', value: null }, { label: '轉成底圖描圖', value: 'underlay' }, { label: '建立空間', primary: true, value: 'room' }],
       onOpen: back => {
         const cv = back.querySelector('#dxfCv'), ctx = cv.getContext('2d');
@@ -359,7 +397,7 @@
         };
         const recompute = () => { compute(st); const c = st.cands[st.pick]; if (c) { const t = X.thickness(c.pts, st.segs); if (t) back.querySelector('[name=t]').value = t; } detect(); draw(); };
         back.querySelector('[name=t]').addEventListener('change', () => { detect(); draw(); });
-        back.querySelector('[name=unit]').addEventListener('change', e => { st.unit = +e.target.value; recompute(); });
+        back.querySelector('[name=unit]').addEventListener('change', e => { if (isPdf) st.scaleDen = Math.max(1, +e.target.value || 100); else st.unit = +e.target.value; recompute(); });
         back.querySelectorAll('[data-layer]').forEach(cb => cb.addEventListener('change', () => { st.layers[cb.dataset.layer] = cb.checked; recompute(); }));
         cv.addEventListener('click', e => {
           if (!view) return;
@@ -392,7 +430,15 @@
         if (op.type === 'door') nd++; else nw++;
       });
       App.setRoom(room);
-      App.toast(`已由 DXF 建立空間：${pts.length} 面牆、${(c.area / 1e6).toFixed(2)} m²${useOp ? `，門 ${nd}、窗 ${nw}` : ''}`);
+      App.toast(`已由${isPdf ? ' PDF ' : ' DXF '}建立空間：${pts.length} 面牆、${(c.area / 1e6).toFixed(2)} m²${useOp ? `，門 ${nd}、窗 ${nw}` : ''}`);
+      return;
+    }
+    // PDF：底圖直接用頁面影像（比例 = 紙面 mm × 比例分母）
+    if (st.image) {
+      const im = st.image, mmPerPx = im.paperW / im.w * k;
+      App.mutate('匯入 PDF 底圖', s => { s.underlay = { src: im.src, w: im.w, h: im.h, scale: mmPerPx, x: Math.round((im.paperW / 2 - cx / k) * k), z: Math.round((cy / k - im.paperH / 2) * k), rot: 0, opacity: 0.75, visible: true, name: fname }; }, 'underlay');
+      V().setView('top');
+      App.toast('PDF 已轉成底圖（比例 1:' + k + '），按 L 沿牆線描出空間；比例不對可在底圖區重新量測');
       return;
     }
     // 轉成底圖：把勾選圖層的圖線畫成影像，比例已知
