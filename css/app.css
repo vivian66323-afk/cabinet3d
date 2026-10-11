@@ -494,9 +494,11 @@ input.ro { background: #f4f5f6; color: var(--muted); }
 .kv input[type=range] { width: 100%; }
 
 /* DXF 匯入對話框 */
-.modal.dxfin-modal { width: min(940px, calc(100vw - 32px)); }
+.modal.dxfin-modal { width: min(1240px, calc(100vw - 24px)); }
 .dxfin { display: grid; grid-template-columns: 1fr 300px; gap: 14px; }
-.dxfin-left canvas { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: #fff; cursor: pointer; }
+.dxfin-left canvas { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: #fff; cursor: grab; touch-action: none; display: block; }
+.dxfin-tools { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
+.dxfin-sep { width: 1px; height: 18px; background: var(--line); margin: 0 4px; }
 .dxfin-stat { font-size: 12px; margin-top: 6px; min-height: 18px; }
 .dxfin-layers { max-height: 180px; overflow-y: auto; border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; font-size: 12.5px; }
 .dxfin-layers label { display: flex; gap: 6px; align-items: center; padding: 2px 0; }

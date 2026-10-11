@@ -470,7 +470,18 @@
     const k0 = () => kOf(st);
     const isPdf = st.mode === 'pdf';
     const body = `<div class="dxfin">
-      <div class="dxfin-left"><canvas id="dxfCv" width="560" height="400"></canvas>
+      <div class="dxfin-left">
+        <div class="dxfin-tools">
+          <button type="button" class="btn small" id="dxfTrace">${UI().icon('line')}圈選空間</button>
+          <button type="button" class="btn small" id="dxfTraceUndo" disabled>退一點</button>
+          <button type="button" class="btn small" id="dxfTraceCancel" disabled>取消圈選</button>
+          <span class="dxfin-sep"></span>
+          <button type="button" class="btn small" id="dxfZoomIn" title="放大（滾輪）">＋</button>
+          <button type="button" class="btn small" id="dxfZoomOut" title="縮小（滾輪）">－</button>
+          <button type="button" class="btn small" id="dxfZoomFit" title="全圖">全圖</button>
+          <span class="muted" style="font-size:11.5px;margin-left:auto">滾輪縮放 · 拖曳平移 · 圈選時點各轉角，點回起點或快按兩下封閉</span>
+        </div>
+        <canvas id="dxfCv" width="860" height="600"></canvas>
         <div class="dxfin-stat muted" id="dxfStat"></div></div>
       <div class="dxfin-right">
         <div class="kv"><label>${isPdf ? '圖面比例' : '單位'}</label>${isPdf ? `<div class="inline">1 :&nbsp;<input name="unit" type="number" value="${st.scaleDen}" min="0.01" max="5000" step="any" style="width:80px"><span class="unit">（自動推測，可改）</span></div>` : `<select name="unit" data-k="unit">${[[4, 'mm（公釐）'], [5, 'cm（公分）'], [6, 'm（公尺）'], [1, 'inch（英吋）']].map(([v, n]) => `<option value="${v}"${v === st.unit ? ' selected' : ''}>${n}</option>`).join('')}</select>`}
@@ -482,15 +493,16 @@
         <label>門窗</label><label class="inline" style="gap:6px"><input type="checkbox" name="op" checked> 自動帶入 <span id="dxfOp" class="muted"></span></label></div>
         <div class="sec-title" style="margin-top:8px">圖層 <small>勾選含牆線的圖層</small></div>
         <div class="dxfin-layers">${layerNames.map(l => `<label><input type="checkbox" data-layer="${UI().esc(l)}"${st.layers[l] ? ' checked' : ''}> ${UI().esc(l)} <span class="muted">${counts[l]}</span></label>`).join('')}</div>
-        <p class="muted" style="font-size:11.5px;margin:8px 0 0">預覽中點選要當作「空間」的封閉區域（藍色＝目前選擇）。找不到時可改「轉成底圖描圖」，圖線會以正確比例放到地面，再用 L 描牆。</p>
+        <p class="muted" style="font-size:11.5px;margin:8px 0 0">自動找到的封閉區域會以淡色標出，點選即成為「空間」（藍色）。自動找不到或不準時按「圈選空間」自己沿牆內緣點轉角（會吸附線段端點與直角），門口直接跨過去即可，門窗會再依符號辨識帶入。</p>
       </div></div>`;
     const res = await UI().modal({
       title: (isPdf ? '匯入 PDF 平面圖：' : '匯入 DXF：') + fname, body, wide: true, cls: 'dxfin-modal',
       buttons: [{ label: '取消', value: null }, { label: '轉成底圖描圖', value: 'underlay' }, { label: '建立空間', primary: true, value: 'room' }],
-      validate: () => { const el = document.activeElement; if (el && el.id === 'dxfPickLen') { el.dispatchEvent(new Event('apply')); return ' '; } return null; },
+      validate: () => { const el = document.activeElement; if (el && el.id === 'dxfPickLen') { el.dispatchEvent(new Event('apply')); return ' '; } if (st.trace) { finishTrace(); return ' '; } return null; },
       onOpen: back => {
         const cv = back.querySelector('#dxfCv'), ctx = cv.getContext('2d');
         const stat = back.querySelector('#dxfStat'), size = back.querySelector('#dxfSize'), opEl = back.querySelector('#dxfOp');
+        const $b = id => back.querySelector('#' + id);
         const wallSegsOf = () => {
           const k = k0(), names = Object.keys(st.layers).filter(l => st.layers[l]);
           let wall;
@@ -499,16 +511,81 @@
           return st.fr.ents.filter(e => e.k === 'L' && wall.includes(e.l)).map(e => [e.p[0] * k, e.p[1] * k, e.p[2] * k, e.p[3] * k]);
         };
         const detect = () => { const c = st.cands[st.pick]; if (!c) { st.det = null; opEl.textContent = ''; return; } st.det = X.openings(c.pts, +back.querySelector('[name=t]').value || 120, st.fr.ents, k0(), st.layers, st.bridges, wallSegsOf()); const nd = st.det.openings.filter(o => o.type === 'door').length, nw = st.det.openings.length - nd; opEl.textContent = `偵測到 門 ${nd}、窗 ${nw}`; };
-        let view = null;
+
+        /* ---- 視圖：縮放／平移 ---- */
+        const W = cv.width, H = cv.height;
+        const vw = { zoom: 1, panX: 0, panY: 0 };
+        let fit = null;   // { sc0, ox0, oy0 }
+        const calcFit = () => { const k = k0(), bb = st.fr.bbox, w = (bb.x1 - bb.x0) * k || 1, h = (bb.y1 - bb.y0) * k || 1; const sc0 = Math.min((W - 20) / w, (H - 20) / h); fit = { sc0, ox0: (W - w * sc0) / 2 - bb.x0 * k * sc0, oy0: H - (H - h * sc0) / 2 + bb.y0 * k * sc0, w, h }; };
+        const tx = x => (x * fit.sc0 + fit.ox0 - W / 2) * vw.zoom + W / 2 + vw.panX;
+        const ty = y => (fit.oy0 - y * fit.sc0 - H / 2) * vw.zoom + H / 2 + vw.panY;
+        const inv = (px, py) => [((px - W / 2 - vw.panX) / vw.zoom + W / 2 - fit.ox0) / fit.sc0, (fit.oy0 - ((py - H / 2 - vw.panY) / vw.zoom + H / 2)) / fit.sc0];
+        const scale = () => fit.sc0 * vw.zoom;   // 畫布 px / mm
+        st._tx = tx; st._ty = ty; st._vw = vw;
+        const cvPos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height]; };
+        const zoomAt = (px, py, f) => { const z = Math.max(0.5, Math.min(40, vw.zoom * f)); f = z / vw.zoom; vw.panX = px - W / 2 - (px - W / 2 - vw.panX) * f; vw.panY = py - H / 2 - (py - H / 2 - vw.panY) * f; vw.zoom = z; draw(); };
+
+        /* ---- 圈選 ---- */
+        let hover = null;   // 吸附後的游標點 { p:[x,y], snap }
+        const snapPoint = (wx, wy) => {
+          const k = k0(), tolPx = 9 / scale(), tr = st.trace;
+          let best = null;
+          // 1. 端點
+          // 端點：距離除以線段長度加權（牆線長，優先吸附牆角而不是家具小線）
+          st.fr.ents.forEach(e => {
+            if (e.k !== 'L' || !st.layers[e.l]) return;
+            const Ls = Math.hypot(e.p[2] - e.p[0], e.p[3] - e.p[1]) * k, wgt = 1 + Math.min(Ls, 3000) / 1500;
+            [[e.p[0] * k, e.p[1] * k], [e.p[2] * k, e.p[3] * k]].forEach(pt => { const d = Math.hypot(pt[0] - wx, pt[1] - wy); if (d < tolPx && (!best || d / wgt < best.s)) best = { p: pt, d, s: d / wgt, snap: '端點' }; });
+          });
+          if (best) return best;
+          // 2. 線上（垂足）
+          const tol2 = 8 / scale();
+          st.fr.ents.forEach(e => {
+            if (e.k !== 'L' || !st.layers[e.l]) return;
+            const ax = e.p[0] * k, ay = e.p[1] * k, bx = e.p[2] * k, by = e.p[3] * k, L2 = (bx - ax) ** 2 + (by - ay) ** 2 || 1;
+            const t = Math.max(0, Math.min(1, ((wx - ax) * (bx - ax) + (wy - ay) * (by - ay)) / L2));
+            const fx = ax + (bx - ax) * t, fy = ay + (by - ay) * t, d = Math.hypot(wx - fx, wy - fy);
+            if (d < tol2 && (!best || d < best.d)) best = { p: [fx, fy], d, snap: '線上' };
+          });
+          if (best) {
+            // 線上點再與上一點對齊直角
+            if (tr && tr.pts.length) { const lp = tr.pts[tr.pts.length - 1]; if (Math.abs(best.p[0] - lp[0]) < tol2 * 2) best.p[0] = lp[0]; else if (Math.abs(best.p[1] - lp[1]) < tol2 * 2) best.p[1] = lp[1]; }
+            return best;
+          }
+          // 3. 與上一點直角對齊
+          if (tr && tr.pts.length) { const lp = tr.pts[tr.pts.length - 1]; const tol3 = 10 / scale(); if (Math.abs(wx - lp[0]) < tol3) return { p: [lp[0], wy], snap: '直角' }; if (Math.abs(wy - lp[1]) < tol3) return { p: [wx, lp[1]], snap: '直角' }; }
+          return { p: [wx, wy], snap: '' };
+        };
+        const setTraceUI = () => { $b('dxfTrace').classList.toggle('primary', !!st.trace); $b('dxfTraceUndo').disabled = !st.trace || !st.trace.pts.length; $b('dxfTraceCancel').disabled = !st.trace; cv.style.cursor = st.trace || st.pickMode ? 'crosshair' : 'grab'; };
+        const startTrace = () => { st.trace = { pts: [] }; st.pickMode = false; $b('dxfPick').classList.remove('primary'); setTraceUI(); App.toast('沿牆內緣依序點各轉角；點回起點或快按兩下封閉，Backspace 退一點'); draw(); };
+        const cancelTrace = () => { st.trace = null; hover = null; setTraceUI(); draw(); };
+        const finishTrace = () => {
+          const tr = st.trace; if (!tr) return;
+          let pts = tr.pts.filter((p, i, a) => i === 0 || Math.hypot(p[0] - a[i - 1][0], p[1] - a[i - 1][1]) > 20);
+          if (pts.length >= 2 && Math.hypot(pts[0][0] - pts[pts.length - 1][0], pts[0][1] - pts[pts.length - 1][1]) < 20) pts.pop();
+          if (pts.length < 3) { App.toast('至少要 3 個點'); return; }
+          pts = simplify(pts);
+          let area = 0, per = 0; for (let i = 0; i < pts.length; i++) { const p = pts[i], q = pts[(i + 1) % pts.length]; area += p[0] * q[1] - q[0] * p[1]; per += Math.hypot(q[0] - p[0], q[1] - p[1]); }
+          area = Math.abs(area / 2);
+          if (area < 5e5) { App.toast('圈選範圍太小'); return; }
+          const k = k0();
+          st.manual = { raw: pts.map(p => [p[0] / k, p[1] / k]) };   // 以原始單位保存，改比例時可重算
+          st.trace = null; hover = null; setTraceUI();
+          st.cands = st.cands.filter(c => !c.manual);
+          st.cands.unshift({ pts, area, per, thin: area / (per * per), manual: true }); st.pick = 0;
+          const t = X.thickness(pts, st.segs); if (t) back.querySelector('[name=t]').value = t;
+          detect(); draw();
+          App.toast(`已圈選：${pts.length} 面牆、${(area / 1e6).toFixed(2)} m²`);
+        };
+        const restoreManual = () => { if (!st.manual) return; const k = k0(); const pts = st.manual.raw.map(p => [p[0] * k, p[1] * k]); let area = 0, per = 0; for (let i = 0; i < pts.length; i++) { const p = pts[i], q = pts[(i + 1) % pts.length]; area += p[0] * q[1] - q[0] * p[1]; per += Math.hypot(q[0] - p[0], q[1] - p[1]); } area = Math.abs(area / 2); st.cands.unshift({ pts, area, per, thin: area / (per * per), manual: true }); st.pick = 0; };
+
+        /* ---- 繪製 ---- */
         const draw = () => {
-          const k = k0(), bb = st.fr.bbox;
-          const W = cv.width, H = cv.height, w = (bb.x1 - bb.x0) * k || 1, h = (bb.y1 - bb.y0) * k || 1;
-          const sc = Math.min((W - 20) / w, (H - 20) / h);
-          const ox = (W - w * sc) / 2 - bb.x0 * k * sc, oy = H - (H - h * sc) / 2 + bb.y0 * k * sc;
-          view = { sc, ox, oy, k };
-          const tx = x => ox + x * sc, ty = y => oy - y * sc;
+          if (!fit) calcFit();
+          const k = k0(), sc = scale();
           ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
           ctx.lineWidth = 1;
+          const vis = e => true;
           st.fr.ents.forEach(e => {
             const on = st.layers[e.l];
             ctx.strokeStyle = on ? '#333' : '#d5d0c8';
@@ -516,62 +593,106 @@
             else if (e.k === 'C') { ctx.beginPath(); ctx.arc(tx(e.c[0] * k), ty(e.c[1] * k), e.r * k * sc, 0, Math.PI * 2); ctx.stroke(); }
             else if (e.k === 'A') { ctx.beginPath(); ctx.arc(tx(e.c[0] * k), ty(e.c[1] * k), e.r * k * sc, -e.a2 * Math.PI / 180, -e.a1 * Math.PI / 180); ctx.stroke(); }
           });
-          if (st.det) st.det.openings.forEach(o => {
-            const p = st.det.pts[o.i], q = st.det.pts[(o.i + 1) % st.det.pts.length], L = Math.hypot(q[0] - p[0], q[1] - p[1]) || 1, d = [(q[0] - p[0]) / L, (q[1] - p[1]) / L];
-            ctx.strokeStyle = o.type === 'door' ? '#d9480f' : '#1f9e89'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(tx(p[0] + d[0] * o.off), ty(p[1] + d[1] * o.off)); ctx.lineTo(tx(p[0] + d[0] * (o.off + o.w)), ty(p[1] + d[1] * (o.off + o.w))); ctx.stroke(); ctx.lineWidth = 1;
-          });
-          if (st.pickSeg) { const s = st.pickSeg; ctx.strokeStyle = '#e8710a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(tx(s[0] * k), ty(s[1] * k)); ctx.lineTo(tx(s[2] * k), ty(s[3] * k)); ctx.stroke(); ctx.lineWidth = 1; }
           st.cands.forEach((c, i) => {
             ctx.beginPath(); c.pts.forEach((p, j) => j ? ctx.lineTo(tx(p[0]), ty(p[1])) : ctx.moveTo(tx(p[0]), ty(p[1]))); ctx.closePath();
-            ctx.fillStyle = i === st.pick ? 'rgba(31,95,214,0.28)' : 'rgba(155,125,71,0.12)'; ctx.fill();
+            ctx.fillStyle = i === st.pick ? 'rgba(31,95,214,0.28)' : 'rgba(155,125,71,0.10)'; ctx.fill();
             ctx.strokeStyle = i === st.pick ? '#1f5fd6' : '#9b7d47'; ctx.lineWidth = i === st.pick ? 2 : 1; ctx.stroke(); ctx.lineWidth = 1;
           });
-          size.textContent = `${(w / 1000).toFixed(2)} × ${(h / 1000).toFixed(2)} m`;
+          if (st.det) st.det.openings.forEach(o => {
+            const p = st.det.pts[o.i], q = st.det.pts[(o.i + 1) % st.det.pts.length], L = Math.hypot(q[0] - p[0], q[1] - p[1]) || 1, d = [(q[0] - p[0]) / L, (q[1] - p[1]) / L];
+            ctx.strokeStyle = o.type === 'door' ? '#d9480f' : '#1f9e89'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(tx(p[0] + d[0] * o.off), ty(p[1] + d[1] * o.off)); ctx.lineTo(tx(p[0] + d[0] * (o.off + o.w)), ty(p[1] + d[1] * (o.off + o.w))); ctx.stroke(); ctx.lineWidth = 1;
+          });
+          if (st.pickSeg) { const s = st.pickSeg; ctx.strokeStyle = '#e8710a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(tx(s[0] * k), ty(s[1] * k)); ctx.lineTo(tx(s[2] * k), ty(s[3] * k)); ctx.stroke(); ctx.lineWidth = 1; }
+          // 圈選中的折線與游標
+          if (st.trace) {
+            const pts = st.trace.pts;
+            ctx.strokeStyle = '#1f5fd6'; ctx.lineWidth = 2; ctx.beginPath();
+            pts.forEach((p, j) => j ? ctx.lineTo(tx(p[0]), ty(p[1])) : ctx.moveTo(tx(p[0]), ty(p[1])));
+            if (hover && pts.length) ctx.lineTo(tx(hover.p[0]), ty(hover.p[1]));
+            ctx.stroke(); ctx.lineWidth = 1;
+            pts.forEach((p, j) => { ctx.fillStyle = j === 0 ? '#1e9e2f' : '#1f5fd6'; ctx.beginPath(); ctx.arc(tx(p[0]), ty(p[1]), j === 0 ? 6 : 4, 0, Math.PI * 2); ctx.fill(); });
+            if (hover) {
+              ctx.strokeStyle = hover.snap === '端點' ? '#1e9e2f' : hover.snap === '線上' ? '#e8710a' : '#1f5fd6'; ctx.lineWidth = 2;
+              ctx.beginPath(); ctx.arc(tx(hover.p[0]), ty(hover.p[1]), 7, 0, Math.PI * 2); ctx.stroke(); ctx.lineWidth = 1;
+              if (pts.length) { const lp = pts[pts.length - 1], len = Math.round(Math.hypot(hover.p[0] - lp[0], hover.p[1] - lp[1])); ctx.fillStyle = '#1f5fd6'; ctx.font = '12px sans-serif'; ctx.fillText(`${len} mm${hover.snap ? '　' + hover.snap : ''}`, tx(hover.p[0]) + 10, ty(hover.p[1]) - 8); }
+            }
+          }
+          size.textContent = `${(fit.w / 1000).toFixed(2)} × ${(fit.h / 1000).toFixed(2)} m`;
           const c = st.cands[st.pick];
-          stat.textContent = st.cands.length ? `找到 ${st.cands.length} 個封閉區域；目前選擇：${c.pts.length} 面牆、${(c.area / 1e6).toFixed(2)} m²（約 ${(c.area / 1e6 * 0.3025).toFixed(1)} 坪）` : '勾選的圖層找不到封閉區域：請勾選牆線所在圖層、確認單位，或改用「轉成底圖描圖」';
+          stat.textContent = st.trace ? `圈選中：已點 ${st.trace.pts.length} 點` : st.cands.length ? `${c.manual ? '自行圈選' : '找到 ' + st.cands.length + ' 個封閉區域；目前選擇'}：${c.pts.length} 面牆、${(c.area / 1e6).toFixed(2)} m²（約 ${(c.area / 1e6 * 0.3025).toFixed(1)} 坪）` : '勾選的圖層找不到封閉區域：按「圈選空間」自己沿牆點轉角，或改用「轉成底圖描圖」';
         };
-        const recompute = () => { compute(st); const c = st.cands[st.pick]; if (c) { const t = X.thickness(c.pts, st.segs); if (t) back.querySelector('[name=t]').value = t; } detect(); draw(); };
+        const recompute = () => { fit = null; compute(st); restoreManual(); const c = st.cands[st.pick]; if (c) { const t = X.thickness(c.pts, st.segs); if (t) back.querySelector('[name=t]').value = t; } detect(); draw(); };
+
+        /* ---- 事件 ---- */
         back.querySelector('[name=t]').addEventListener('change', () => { detect(); draw(); });
         back.querySelector('[name=unit]').addEventListener('change', e => { if (isPdf) st.scaleDen = Math.max(0.01, +e.target.value || 100); else if (e.target.value === 'custom') { /* 保留自訂倍率 */ } else { st.customK = null; st.unit = +e.target.value; } recompute(); });
         back.querySelectorAll('[data-layer]').forEach(cb => cb.addEventListener('change', () => { st.layers[cb.dataset.layer] = cb.checked; recompute(); }));
-        cv.addEventListener('click', e => {
-          if (!view) return;
-          const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) * cv.width / r.width, y = (e.clientY - r.top) * cv.height / r.height;
-          const wx = (x - view.ox) / view.sc, wy = (view.oy - y) / view.sc;
+        $b('dxfZoomIn').addEventListener('click', () => zoomAt(W / 2, H / 2, 1.5));
+        $b('dxfZoomOut').addEventListener('click', () => zoomAt(W / 2, H / 2, 1 / 1.5));
+        $b('dxfZoomFit').addEventListener('click', () => { vw.zoom = 1; vw.panX = vw.panY = 0; draw(); });
+        cv.addEventListener('wheel', e => { e.preventDefault(); const [px, py] = cvPos(e); zoomAt(px, py, e.deltaY < 0 ? 1.2 : 1 / 1.2); }, { passive: false });
+        let drag = null;
+        cv.addEventListener('pointerdown', e => { if (e.button !== 0) return; const [px, py] = cvPos(e); drag = { px, py, panX: vw.panX, panY: vw.panY, moved: false }; try { cv.setPointerCapture(e.pointerId); } catch (x) { } });
+        cv.addEventListener('pointermove', e => {
+          const [px, py] = cvPos(e);
+          if (drag) {
+            if (!drag.moved && Math.hypot(px - drag.px, py - drag.py) > 4) drag.moved = true;
+            if (drag.moved) { vw.panX = drag.panX + (px - drag.px); vw.panY = drag.panY + (py - drag.py); draw(); return; }
+          }
+          if (st.trace) { const [wx, wy] = inv(px, py); hover = snapPoint(wx, wy); draw(); }
+        });
+        cv.addEventListener('pointerup', e => {
+          if (!drag) return; const moved = drag.moved; drag = null;
+          if (moved) return;
+          const [px, py] = cvPos(e), [wx, wy] = inv(px, py);
+          if (st.trace) {   // 圈選：加點；點回起點即封閉
+            const sp = snapPoint(wx, wy), pts = st.trace.pts;
+            if (pts.length >= 3 && Math.hypot(tx(pts[0][0]) - px, ty(pts[0][1]) - py) < 10) { finishTrace(); return; }
+            pts.push(sp.p); setTraceUI(); draw(); return;
+          }
           if (st.pickMode) {   // 找最近的線段（原始單位；畫布上 10px 內）
             const k = k0(); let best = null;
-            st.fr.ents.forEach(e => {
-              if (e.k !== 'L') return;
-              const ax = e.p[0] * k, ay = e.p[1] * k, bx = e.p[2] * k, by = e.p[3] * k, L2 = (bx - ax) ** 2 + (by - ay) ** 2 || 1;
+            st.fr.ents.forEach(e2 => {
+              if (e2.k !== 'L') return;
+              const ax = e2.p[0] * k, ay = e2.p[1] * k, bx = e2.p[2] * k, by = e2.p[3] * k, L2 = (bx - ax) ** 2 + (by - ay) ** 2 || 1;
               const t = Math.max(0, Math.min(1, ((wx - ax) * (bx - ax) + (wy - ay) * (by - ay)) / L2));
-              const d = Math.hypot(wx - (ax + (bx - ax) * t), wy - (ay + (by - ay) * t)) * view.sc;
-              if (d < 10 && (!best || d < best.d)) best = { d, e };
+              const d = Math.hypot(wx - (ax + (bx - ax) * t), wy - (ay + (by - ay) * t)) * scale();
+              if (d < 10 && (!best || d < best.d)) best = { d, e: e2 };
             });
             if (!best) { App.toast('請點在線段上'); return; }
             st.pickSeg = best.e.p;
             const len = Math.hypot(best.e.p[2] - best.e.p[0], best.e.p[3] - best.e.p[1]);
-            back.querySelector('#dxfPickRow').style.display = 'flex';
-            back.querySelector('#dxfPickInfo').textContent = `已選線段（目前比例 ${Math.round(len * k0())} mm）實際長度：`;
-            const inp = back.querySelector('#dxfPickLen'); inp.value = Math.round(len * k0()); inp.focus(); inp.select();
+            $b('dxfPickRow').style.display = 'flex';
+            $b('dxfPickInfo').textContent = `已選線段（目前比例 ${Math.round(len * k0())} mm）實際長度：`;
+            const inp = $b('dxfPickLen'); inp.value = Math.round(len * k0()); inp.focus(); inp.select();
             draw(); return;
           }
           const hits = st.cands.map((c, i) => ({ i, c })).filter(o => pip(wx, wy, o.c.pts)).sort((a, b) => a.c.area - b.c.area);
           if (hits.length) { st.pick = hits[0].i; const t = X.thickness(st.cands[st.pick].pts, st.segs); if (t) back.querySelector('[name=t]').value = t; detect(); draw(); }
         });
-        const pickBtn = back.querySelector('#dxfPick');
-        pickBtn.addEventListener('click', () => { st.pickMode = !st.pickMode; pickBtn.classList.toggle('primary', st.pickMode); cv.style.cursor = st.pickMode ? 'crosshair' : 'pointer'; App.toast(st.pickMode ? '在預覽中點一條已知長度的線段（例如一道牆）' : '已取消選線'); });
+        cv.addEventListener('dblclick', e => { if (st.trace) finishTrace(); });
+        cv.addEventListener('pointerleave', () => { if (st.trace) { hover = null; draw(); } });
+        $b('dxfTrace').addEventListener('click', () => { if (st.trace) finishTrace(); else startTrace(); });
+        $b('dxfTraceUndo').addEventListener('click', () => { if (st.trace) { st.trace.pts.pop(); setTraceUI(); draw(); } });
+        $b('dxfTraceCancel').addEventListener('click', cancelTrace);
+        const keyH = e => { if (!back.isConnected) { document.removeEventListener('keydown', keyH, true); return; } if (st.trace && e.key === 'Backspace' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); e.stopPropagation(); st.trace.pts.pop(); setTraceUI(); draw(); } };
+        document.addEventListener('keydown', keyH, true);
+        const pickBtn = $b('dxfPick');
+        pickBtn.addEventListener('click', () => { if (st.trace) cancelTrace(); st.pickMode = !st.pickMode; pickBtn.classList.toggle('primary', st.pickMode); setTraceUI(); App.toast(st.pickMode ? '在預覽中點一條已知長度的線段（例如一道牆）' : '已取消選線'); });
         const applyPick = () => {
-          const real = +back.querySelector('#dxfPickLen').value; if (!(real > 0) || !st.pickSeg) return;
+          const real = +$b('dxfPickLen').value; if (!(real > 0) || !st.pickSeg) return;
           const raw = Math.hypot(st.pickSeg[2] - st.pickSeg[0], st.pickSeg[3] - st.pickSeg[1]); if (!(raw > 0)) return;
           const kNew = real / raw;
           if (isPdf) { st.scaleDen = Math.round(kNew * 100) / 100; back.querySelector('[name=unit]').value = st.scaleDen; }
           else { st.customK = kNew; const sel = back.querySelector('[name=unit]'); if (![...sel.options].some(o => o.value === 'custom')) sel.add(new Option('自訂（依線段）', 'custom')); sel.value = 'custom'; }
-          st.pickMode = false; pickBtn.classList.remove('primary'); cv.style.cursor = 'pointer';
-          back.querySelector('#dxfPickRow').style.display = 'none'; st.pickSeg = null;
+          st.pickMode = false; pickBtn.classList.remove('primary'); setTraceUI();
+          $b('dxfPickRow').style.display = 'none'; st.pickSeg = null;
           recompute(); App.toast('比例已依線段設定');
         };
-        back.querySelector('#dxfPickApply').addEventListener('click', applyPick);
-        back.querySelector('#dxfPickLen').addEventListener('apply', applyPick);
+        $b('dxfPickApply').addEventListener('click', applyPick);
+        $b('dxfPickLen').addEventListener('apply', applyPick);
+        st.finishTrace = finishTrace;
+        setTraceUI();
         recompute();
       }
     });
