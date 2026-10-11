@@ -1792,6 +1792,14 @@
   }));
   IKEA.forEach(a => items.push(a));
 
+  /* 無印良品 MUJI 台灣網路商店家具（js/catalog-muji.js → window.MUJI_RAW）：尺寸取自官網商品規格，售價為官網 2026/10 售價 */
+  const MUJI = (window.MUJI_RAW || []).map(([at, id, name, w, d, h, price, img, cat, sold]) => ({
+    at, code: 'MJ' + id, name, w, d, h, price, mount: 'top', y: 0, finish: 'white', est: false, note: sold ? '官網目前售完' : '', series: cat, brand: 'MUJI 無印良品',
+    spec: `${w}×${d}×${h}　落地　無印良品 ${cat}${sold ? '　官網目前售完' : ''}　官網售價`, url: 'https://shop.muji.tw/SalePage/Index/' + id,
+    img, hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'muji', hanging: false
+  }));
+  MUJI.forEach(a => items.push(a));
+
   const CAI = 303 * 303; // 1 才＝303mm×303mm（1 台尺見方，mm²）；櫃體板材與桌面共用
   const CHI = 303;       // 1 尺（mm）
 
@@ -1926,7 +1934,7 @@
   ];
 
   window.DATA = {
-    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, IKEA, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
+    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, IKEA, MUJI, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
     HEIGHTS, HEIGHT_LABEL, HEIGHT_USE, DEPTHS, DEPTH_NAME, CORNER_W, KICK, BOARD, BACK,
     FRONT_NAME, FRONT_HEIGHTS, TRI_TYPE_NAME,
     items, byCode,
