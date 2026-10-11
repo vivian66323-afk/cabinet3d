@@ -328,7 +328,7 @@
     await X.dialog(st, counts, layerNames, name);
   };
 
-  const kOf = st => st.mode === 'pdf' ? st.scaleDen : (UNIT[st.unit] || 1);
+  const kOf = st => st.mode === 'pdf' ? st.scaleDen : (st.customK || UNIT[st.unit] || 1);
   function segsOf(st) {
     const k = kOf(st);
     return st.fr.ents.filter(e => e.k === 'L' && st.layers[e.l]).map(e => [e.p[0] * k, e.p[1] * k, e.p[2] * k, e.p[3] * k]);
@@ -349,7 +349,9 @@
       <div class="dxfin-left"><canvas id="dxfCv" width="560" height="400"></canvas>
         <div class="dxfin-stat muted" id="dxfStat"></div></div>
       <div class="dxfin-right">
-        <div class="kv"><label>${isPdf ? '圖面比例' : '單位'}</label>${isPdf ? `<div class="inline">1 :&nbsp;<input name="unit" type="number" value="${st.scaleDen}" min="1" max="2000" step="1" style="width:80px"><span class="unit">（自動推測，可改）</span></div>` : `<select name="unit" data-k="unit">${[[4, 'mm（公釐）'], [5, 'cm（公分）'], [6, 'm（公尺）'], [1, 'inch（英吋）']].map(([v, n]) => `<option value="${v}"${v === st.unit ? ' selected' : ''}>${n}</option>`).join('')}</select>`}
+        <div class="kv"><label>${isPdf ? '圖面比例' : '單位'}</label>${isPdf ? `<div class="inline">1 :&nbsp;<input name="unit" type="number" value="${st.scaleDen}" min="0.01" max="5000" step="any" style="width:80px"><span class="unit">（自動推測，可改）</span></div>` : `<select name="unit" data-k="unit">${[[4, 'mm（公釐）'], [5, 'cm（公分）'], [6, 'm（公尺）'], [1, 'inch（英吋）']].map(([v, n]) => `<option value="${v}"${v === st.unit ? ' selected' : ''}>${n}</option>`).join('')}</select>`}
+        <label></label><div class="inline"><button type="button" class="btn small" id="dxfPick">${UI().icon('tape')}點選線段輸入長度定比例</button></div>
+        <div id="dxfPickRow" class="inline" style="grid-column:1/-1;display:none;gap:6px;align-items:center"><span id="dxfPickInfo" class="muted" style="font-size:12px"></span><input id="dxfPickLen" type="number" step="1" min="10" style="width:90px" placeholder="實際 mm"><span class="unit">mm</span><button type="button" class="btn small primary" id="dxfPickApply">套用</button></div>
         <label>圖幅</label><span id="dxfSize"></span>
         <label>牆厚</label><div class="inline"><input name="t" type="number" value="120" step="5" min="50" max="400"><span class="unit">mm</span></div>
         <label>牆高</label><div class="inline"><input name="h" type="number" value="${App.state.room ? App.state.room.height : 2600}" step="10" min="1800" max="6000"><span class="unit">mm</span></div>
@@ -361,6 +363,7 @@
     const res = await UI().modal({
       title: (isPdf ? '匯入 PDF 平面圖：' : '匯入 DXF：') + fname, body, wide: true, cls: 'dxfin-modal',
       buttons: [{ label: '取消', value: null }, { label: '轉成底圖描圖', value: 'underlay' }, { label: '建立空間', primary: true, value: 'room' }],
+      validate: () => { const el = document.activeElement; if (el && el.id === 'dxfPickLen') { el.dispatchEvent(new Event('apply')); return ' '; } return null; },
       onOpen: back => {
         const cv = back.querySelector('#dxfCv'), ctx = cv.getContext('2d');
         const stat = back.querySelector('#dxfStat'), size = back.querySelector('#dxfSize'), opEl = back.querySelector('#dxfOp');
@@ -386,6 +389,7 @@
             const p = st.det.pts[o.i], q = st.det.pts[(o.i + 1) % st.det.pts.length], L = Math.hypot(q[0] - p[0], q[1] - p[1]) || 1, d = [(q[0] - p[0]) / L, (q[1] - p[1]) / L];
             ctx.strokeStyle = o.type === 'door' ? '#d9480f' : '#1f9e89'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(tx(p[0] + d[0] * o.off), ty(p[1] + d[1] * o.off)); ctx.lineTo(tx(p[0] + d[0] * (o.off + o.w)), ty(p[1] + d[1] * (o.off + o.w))); ctx.stroke(); ctx.lineWidth = 1;
           });
+          if (st.pickSeg) { const s = st.pickSeg; ctx.strokeStyle = '#e8710a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(tx(s[0] * k), ty(s[1] * k)); ctx.lineTo(tx(s[2] * k), ty(s[3] * k)); ctx.stroke(); ctx.lineWidth = 1; }
           st.cands.forEach((c, i) => {
             ctx.beginPath(); c.pts.forEach((p, j) => j ? ctx.lineTo(tx(p[0]), ty(p[1])) : ctx.moveTo(tx(p[0]), ty(p[1]))); ctx.closePath();
             ctx.fillStyle = i === st.pick ? 'rgba(31,95,214,0.28)' : 'rgba(155,125,71,0.12)'; ctx.fill();
@@ -397,15 +401,46 @@
         };
         const recompute = () => { compute(st); const c = st.cands[st.pick]; if (c) { const t = X.thickness(c.pts, st.segs); if (t) back.querySelector('[name=t]').value = t; } detect(); draw(); };
         back.querySelector('[name=t]').addEventListener('change', () => { detect(); draw(); });
-        back.querySelector('[name=unit]').addEventListener('change', e => { if (isPdf) st.scaleDen = Math.max(1, +e.target.value || 100); else st.unit = +e.target.value; recompute(); });
+        back.querySelector('[name=unit]').addEventListener('change', e => { if (isPdf) st.scaleDen = Math.max(0.01, +e.target.value || 100); else if (e.target.value === 'custom') { /* 保留自訂倍率 */ } else { st.customK = null; st.unit = +e.target.value; } recompute(); });
         back.querySelectorAll('[data-layer]').forEach(cb => cb.addEventListener('change', () => { st.layers[cb.dataset.layer] = cb.checked; recompute(); }));
         cv.addEventListener('click', e => {
           if (!view) return;
           const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) * cv.width / r.width, y = (e.clientY - r.top) * cv.height / r.height;
           const wx = (x - view.ox) / view.sc, wy = (view.oy - y) / view.sc;
+          if (st.pickMode) {   // 找最近的線段（原始單位；畫布上 10px 內）
+            const k = k0(); let best = null;
+            st.fr.ents.forEach(e => {
+              if (e.k !== 'L') return;
+              const ax = e.p[0] * k, ay = e.p[1] * k, bx = e.p[2] * k, by = e.p[3] * k, L2 = (bx - ax) ** 2 + (by - ay) ** 2 || 1;
+              const t = Math.max(0, Math.min(1, ((wx - ax) * (bx - ax) + (wy - ay) * (by - ay)) / L2));
+              const d = Math.hypot(wx - (ax + (bx - ax) * t), wy - (ay + (by - ay) * t)) * view.sc;
+              if (d < 10 && (!best || d < best.d)) best = { d, e };
+            });
+            if (!best) { App.toast('請點在線段上'); return; }
+            st.pickSeg = best.e.p;
+            const len = Math.hypot(best.e.p[2] - best.e.p[0], best.e.p[3] - best.e.p[1]);
+            back.querySelector('#dxfPickRow').style.display = 'flex';
+            back.querySelector('#dxfPickInfo').textContent = `已選線段（目前比例 ${Math.round(len * k0())} mm）實際長度：`;
+            const inp = back.querySelector('#dxfPickLen'); inp.value = Math.round(len * k0()); inp.focus(); inp.select();
+            draw(); return;
+          }
           const hits = st.cands.map((c, i) => ({ i, c })).filter(o => pip(wx, wy, o.c.pts)).sort((a, b) => a.c.area - b.c.area);
           if (hits.length) { st.pick = hits[0].i; const t = X.thickness(st.cands[st.pick].pts, st.segs); if (t) back.querySelector('[name=t]').value = t; detect(); draw(); }
         });
+        const pickBtn = back.querySelector('#dxfPick');
+        pickBtn.addEventListener('click', () => { st.pickMode = !st.pickMode; pickBtn.classList.toggle('primary', st.pickMode); cv.style.cursor = st.pickMode ? 'crosshair' : 'pointer'; App.toast(st.pickMode ? '在預覽中點一條已知長度的線段（例如一道牆）' : '已取消選線'); });
+        const applyPick = () => {
+          const real = +back.querySelector('#dxfPickLen').value; if (!(real > 0) || !st.pickSeg) return;
+          const raw = Math.hypot(st.pickSeg[2] - st.pickSeg[0], st.pickSeg[3] - st.pickSeg[1]); if (!(raw > 0)) return;
+          const kNew = real / raw;
+          if (isPdf) { st.scaleDen = Math.round(kNew * 100) / 100; back.querySelector('[name=unit]').value = st.scaleDen; }
+          else { st.customK = kNew; const sel = back.querySelector('[name=unit]'); if (![...sel.options].some(o => o.value === 'custom')) sel.add(new Option('自訂（依線段）', 'custom')); sel.value = 'custom'; }
+          st.pickMode = false; pickBtn.classList.remove('primary'); cv.style.cursor = 'pointer';
+          back.querySelector('#dxfPickRow').style.display = 'none'; st.pickSeg = null;
+          recompute(); App.toast('比例已依線段設定');
+        };
+        back.querySelector('#dxfPickApply').addEventListener('click', applyPick);
+        back.querySelector('#dxfPickLen').addEventListener('apply', applyPick);
         recompute();
       }
     });
