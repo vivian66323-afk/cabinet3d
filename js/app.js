@@ -20,6 +20,7 @@
       client: '',
       created: new Date().toISOString(),
       room: null,
+      underlay: null,
       cabinets: [],
       floors: [{ id: 'f1', name: '1F', room: null, cabinets: [] }],
       floor: 0,
@@ -96,7 +97,7 @@
   App.syncFloor = function () {
     const st = App.state; if (!st || !st.floors) return;
     const f = st.floors[st.floor]; if (!f) return;
-    f.room = st.room; f.cabinets = st.cabinets;
+    f.room = st.room; f.cabinets = st.cabinets; f.underlay = st.underlay || null;
   };
   function snapshot() { App.syncFloor(); return JSON.stringify(App.state); }
   const userKey = u => LS_STATE + '.' + (u && u.name ? u.name : '_guest');
@@ -129,6 +130,7 @@
     const V = window.Viewer;
     if (rebuild === 'all') V.rebuildAll();
     else if (rebuild === 'room') V.rebuildRoom();
+    else if (rebuild === 'underlay') V.rebuildUnderlay();
     else if (Array.isArray(rebuild)) rebuild.forEach(id => V.rebuildCabinet(id));
   }
   App.undo = function () {
@@ -273,6 +275,7 @@
     st.floor = i;
     st.room = st.floors[i].room || null;
     st.cabinets = st.floors[i].cabinets || [];
+    st.underlay = st.floors[i].underlay || null;
     App.sel = null;
     window.Viewer.rebuildAll(); window.Viewer.checkOverlaps();
   };

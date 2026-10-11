@@ -169,6 +169,7 @@
   function sceneBox() {
     const box = new THREE.Box3();
     if (roomGroup) box.expandByObject(roomGroup);
+    if (!roomGroup && underlayGroup) box.expandByObject(underlayGroup);
     cabGroup.children.forEach(c => box.expandByObject(c));
     if (box.isEmpty()) box.set(new THREE.Vector3(-3000, 0, -3000), new THREE.Vector3(3000, 2400, 3000));
     return box;
@@ -284,7 +285,22 @@
     if (buildOne(id)) App.state.cabinets.forEach(c => { if (c.id !== id && (c.kind === 'desk' || (!c.hanging && c.kind !== 'appl' && c.kind !== 'tri'))) buildOne(c.id); });
     updateSelBox();
   };
+  /* ---------- 平面圖底圖 ---------- */
+  let underlayGroup = null, underlayTexSrc = null, underlayTex = null;
+  V.rebuildUnderlay = function () {
+    if (underlayGroup) { scene.remove(underlayGroup); underlayGroup.traverse(o => { if (o.geometry) o.geometry.dispose(); }); underlayGroup = null; }
+    const u = App.state && App.state.underlay;
+    if (!u || !u.visible || !u.src) return;
+    if (underlayTexSrc !== u.src) { if (underlayTex) underlayTex.dispose(); underlayTex = new THREE.TextureLoader().load(u.src); underlayTex.colorSpace = THREE.SRGBColorSpace; underlayTex.anisotropy = 4; underlayTexSrc = u.src; }
+    const W = u.w * u.scale, H = u.h * u.scale;
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(W, H), new THREE.MeshBasicMaterial({ map: underlayTex, transparent: true, opacity: u.opacity == null ? 0.7 : u.opacity, depthWrite: false, side: THREE.DoubleSide }));
+    mesh.rotation.x = -Math.PI / 2; mesh.renderOrder = -5; mesh.userData.isUnderlay = true;
+    underlayGroup = new THREE.Group(); underlayGroup.add(mesh);
+    underlayGroup.position.set(u.x || 0, 3, u.z || 0); underlayGroup.rotation.y = -(u.rot || 0) * deg;
+    scene.add(underlayGroup);
+  };
   V.rebuildAll = function () {
+    V.rebuildUnderlay();
     [...cabObjs.keys()].forEach(id => { const g = cabObjs.get(id); cabGroup.remove(g); dispose(g); });
     cabObjs.clear();
     App.state.cabinets.forEach(c => V.rebuildCabinet(c.id));
@@ -469,7 +485,7 @@
     labels.forEach(l => put(l.p, l.text, l.cls));
     V.gapLabels.forEach(l => put(l.p, l.text, l.cls));
     // 鎖點標記
-    if (V.tool === 'tape' || V.tool === 'line') {
+    if (V.tool === 'tape' || V.tool === 'line' || V.tool === 'uscale') {
       const mark = (p, type, tip) => {
         const v = p.clone().project(camera); if (v.z > 1) return;
         const el = document.createElement('div');
@@ -479,7 +495,7 @@
         if (tip) { const t = document.createElement('span'); t.textContent = typeof tip === 'string' ? tip : type; el.appendChild(t); }
         overlay.appendChild(el);
       };
-      if (V.tool === 'tape' && tape.a) mark(tape.a, tape.aType || '端點', false);
+      if ((V.tool === 'tape' || V.tool === 'uscale') && tape.a) mark(tape.a, tape.aType || '端點', false);
       if (V.tool === 'line' && draw.pts.length) mark(new THREE.Vector3(draw.pts[0][0], 0, draw.pts[0][1]), '起點', draw.pts.length > 2 ? '起點' : false);
       if (V.snapMark) mark(V.snapMark.p, V.snapMark.type, V.tool === 'line' ? (V.snapMark.tip || false) : true);
     }
@@ -638,6 +654,7 @@
     if (t === 'place') { updateGhost(); commitPlace(); return; }
     if (t === 'line') { lineClick(); return; }
     if (t === 'tape') { tapeClick(); return; }
+    if (t === 'uscale') { uscaleClick(); return; }
     if (t === 'rotate') { const h = pick(); if (h && h.type === 'cab') { App.select({ type: 'cab', id: h.id }); App.rotateSelected(e.shiftKey ? -90 : 90); } return; }
     if (t === 'move') {
       if (move.active) { endMove(true); return; }
@@ -663,6 +680,7 @@
     if (t === 'place') updateGhost();
     else if (t === 'line') lineMove(e);
     else if (t === 'tape') tapeMove();
+    else if (t === 'uscale') uscaleMove();
     else if (grip.active) { gripUpdate(); return; }
     else if (move.active) moveUpdate();
     else if (t === 'select' && down && down.cand && down.moved && !move.active) startMove(down.cand, true);
@@ -681,7 +699,7 @@
   }
   function onDbl(e) {
     if (V.tool === 'line') { finishLine(); return; }
-    if (V.tool === 'place' || V.tool === 'tape') return;
+    if (V.tool === 'place' || V.tool === 'tape' || V.tool === 'uscale') return;
     // Shift + 快按兩下櫃體：開門預覽
     if (e && e.shiftKey) { const h = pick(); if (h && h.type === 'cab') { V.toggleOpen(h.id); return; } }
     // 快按左鍵兩下（任何位置）：自動縮放到實際空間最適大小
@@ -1296,23 +1314,41 @@
   });
   window.addEventListener('keyup', e => { if (e.key === 'Shift' && tape.lock) { tape.lock = null; if (V.tool === 'tape') tapeMove(); } });
   V.tapeStart = () => tape.a;
+  // 底圖比例尺：在地面點兩點（不吸附櫃體），完成後呼叫 V.onUscaleDone(a, b, dist)
+  V.onUscaleDone = null;
+  function uscaleMove() {
+    const g = groundPoint(0); if (!g) { V.snapMark = null; return; }
+    V.snapMark = { p: g.clone(), type: '地面' };
+    labels.length = 0;
+    if (tape.a) { tapeLine(tape.a, g); labels.push({ p: tape.a.clone().add(g).multiplyScalar(0.5), text: Math.round(tape.a.distanceTo(g)) + ' mm（目前比例）', cls: 'draw' }); App.status('比例尺：點擊第二點（底圖上另一個已知距離的位置）'); }
+    else App.status('比例尺：在底圖上點擊第一點（挑一道有標示尺寸的牆或門）');
+  }
+  function uscaleClick() {
+    const g = groundPoint(0); if (!g) return;
+    if (!tape.a) { tape.a = g.clone(); tape.aType = '起點'; return; }
+    const a = tape.a.clone(), b = g.clone(), dist = a.distanceTo(b);
+    tapeLine(a, b); labels.length = 0;
+    tape.a = null;
+    if (dist < 1) return;
+    if (V.onUscaleDone) V.onUscaleDone(a, b, dist);
+  }
 
   /* ---------- 工具切換 ---------- */
   V.setTool = function (t) {
     if (V.tool === 'place' && t !== 'place') { placeCab = null; if (ghost) { helperGroup.remove(ghost); ghost = null; } V.checkOverlaps(); }
     if (V.tool === 'line' && t !== 'line') V.cancelLine();
-    if (V.tool === 'tape' && t !== 'tape') V.clearTape();
+    if ((V.tool === 'tape' || V.tool === 'uscale') && t !== 'tape' && t !== 'uscale') V.clearTape();
     if (move.active) endMove(false);
     V.tool = t;
     V.refreshGaps();
     controls.mouseButtons.LEFT = t === 'orbit' ? THREE.MOUSE.ROTATE : t === 'pan' ? THREE.MOUSE.PAN : t === 'zoom' ? THREE.MOUSE.DOLLY : null;
-    renderer.domElement.style.cursor = { orbit: 'grab', pan: 'grab', zoom: 'zoom-in', line: 'crosshair', tape: 'crosshair', place: 'copy' }[t] || 'default';
+    renderer.domElement.style.cursor = { orbit: 'grab', pan: 'grab', zoom: 'zoom-in', line: 'crosshair', tape: 'crosshair', uscale: 'crosshair', place: 'copy' }[t] || 'default';
     const hints = {
       select: '選取：點選櫃體或牆面；拖曳櫃體可移動（自動靠牆，按住 Alt 自由移動）。中鍵環轉、Shift+中鍵平移、滾輪縮放',
       move: '移動：點擊櫃體開始移動，再點擊放下（可輸入距離）',
       rotate: '旋轉：點擊櫃體旋轉 90°（Shift 反向）',
       orbit: '環轉：左鍵拖曳旋轉視角', pan: '平移：左鍵拖曳平移視角', zoom: '縮放：左鍵上下拖曳縮放',
-      line: '畫線：在地面點擊各轉角，雙擊或點回起點完成（可輸入長度）', tape: '捲尺：點擊兩點量測距離'
+      line: '畫線：在地面點擊各轉角，雙擊或點回起點完成（可輸入長度）', tape: '捲尺：點擊兩點量測距離', uscale: '底圖比例尺：在底圖上點擊兩個已知距離的點，再輸入實際距離'
     };
     if (t !== 'place') App.status(hints[t] || '');
     App.ui && App.ui.syncToolbar();

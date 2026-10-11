@@ -33,16 +33,16 @@
     up: 'M12 19V5M6 11l6-6 6 6', down: 'M12 5v14M6 13l6 6 6-6',
     lock: 'M6 11h12v9H6zM8 11V8a4 4 0 0 1 8 0v3', unlock: 'M6 11h12v9H6zM8 11V8a4 4 0 0 1 7.5-2',
     plus: 'M12 5v14M5 12h14', camera: 'M4 8h3l2-3h6l2 3h3v11H4zM12 9.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z',
-    door: 'M5 21V3h11v18M16 21h3M12 12h.01', window: 'M4 4h16v16H4zM12 4v16M4 12h16'
+    image: 'M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4M15 9h.01', door: 'M5 21V3h11v18M16 21h3M12 12h.01', window: 'M4 4h16v16H4zM12 4v16M4 12h16'
   };
   const icon = (n, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24"><path d="${ICON[n]}"/></svg>`;
-  UI.icon = icon;
+  UI.icon = icon; UI.esc = esc;
 
   const TOOLBAR = [
     [{ tool: 'select', i: 'select', k: '␣', t: '選取（空白鍵）' }, { tool: 'move', i: 'move', k: 'M', t: '移動（M）' }, { tool: 'rotate', i: 'rotate', k: 'Q', t: '旋轉 90°（Q）' },
       { act: 'autowall', i: 'magnet', txt: '靠牆', t: '自動靠牆：移動/放置櫃體時，櫃背離牆 5cm 內自動貼齊牆面（拖曳時按住 Alt 可暫時停用）' },
       { act: 'dup', i: 'dup', k: '', t: '複製選取櫃體（Ctrl+D）' }, { act: 'delete', i: 'delete', k: '', t: '刪除（Delete）' }],
-    [{ act: 'rect', i: 'rect', k: 'R', t: '矩形空間：輸入寬/深/高（R）' }, { tool: 'line', i: 'line', k: 'L', t: '自由繪製多線段空間（L）' }, { tool: 'tape', i: 'tape', k: 'T', t: '捲尺量測（T）' }],
+    [{ act: 'rect', i: 'rect', k: 'R', t: '矩形空間：輸入寬/深/高（R）' }, { tool: 'line', i: 'line', k: 'L', t: '自由繪製多線段空間（L）' }, { act: 'underlay', i: 'image', txt: '底圖', t: '匯入平面圖底圖（JPG／PNG／PDF），設定比例尺後沿圖描牆線' }, { tool: 'tape', i: 'tape', k: 'T', t: '捲尺量測（T）' }],
     [{ tool: 'orbit', i: 'orbit', k: 'O', t: '環轉（O）｜任何時候可用滑鼠中鍵' }, { tool: 'pan', i: 'pan', k: 'H', t: '平移（H）｜Shift+中鍵 或 右鍵' }, { tool: 'zoom', i: 'zoom', k: 'Z', t: '縮放（Z）｜滾輪' }, { act: 'extents', i: 'extents', k: '', t: '充滿視窗（Shift+Z）' }],
     [{ act: 'view:iso', txt: '等角', t: '等角視圖' }, { act: 'view:top', txt: '上', t: '上視圖' }, { act: 'view:front', txt: '前', t: '前視圖' }, { act: 'view:right', txt: '右', t: '右視圖' }, { act: 'view:back', txt: '後', t: '後視圖' }, { act: 'view:left', txt: '左', t: '左視圖' }, { act: 'persp', txt: '透視', t: '切換透視／平行投影' }],
     [{ act: 'walls', i: 'walls', txt: '牆:自動', t: '牆面顯示：自動隱藏靠近鏡頭的牆／顯示／隱藏' }, { act: 'render', i: 'render', txt: '材質', t: '顯示樣式：材質／白模／X光' }, { act: 'open', i: 'open', t: '全部開門預覽（Shift＋快按兩下櫃體可單獨開關）' }, { act: 'dims', i: 'dims', t: '顯示牆長標註' }],
@@ -73,7 +73,7 @@
       else if (a === 'dup') App.duplicateSelected();
       else if (a === 'del') App.deleteSelected();
     });
-    document.querySelectorAll('#emptyHint [data-act]').forEach(b => b.addEventListener('click', () => UI.action(b.dataset.act === 'line' ? 'line' : 'rect')));
+    document.querySelectorAll('#emptyHint [data-act]').forEach(b => b.addEventListener('click', () => UI.action(b.dataset.act === 'line' ? 'line' : b.dataset.act === 'underlay' ? 'underlay' : 'rect')));
 
     // 專案
     $('#projName').addEventListener('change', e => App.mutate('專案名稱', s => { s.name = e.target.value.trim() || '未命名專案'; }));
@@ -198,7 +198,7 @@
     const v = V();
     // 空間提示：已有空間/櫃體、或正在繪製、放置時隱藏
     const st = App.state;
-    $('#emptyHint').hidden = !!(st.room || st.cabinets.length) || ['line', 'place'].includes(v.tool) || !!document.querySelector('.modal-back');
+    $('#emptyHint').hidden = !!(st.room || st.cabinets.length || st.underlay) || ['line', 'place'].includes(v.tool) || !!document.querySelector('.modal-back');
     document.querySelectorAll('.tbtn[data-tool]').forEach(b => b.classList.toggle('active', b.dataset.tool === v.tool));
     const set = (act, on, label) => {
       const b = document.querySelector(`.tbtn[data-act="${act}"]`); if (!b) return;
@@ -221,6 +221,7 @@
     if (a.startsWith('view:')) { v.setView(a.slice(5)); return; }
     switch (a) {
       case 'rect': UI.roomDialog(); break;
+      case 'underlay': window.Underlay.import(); break;
       case 'line':
         v.setTool('line');
         if (App.state.room) App.toast('完成繪製後將取代目前空間（櫃體保留）');
@@ -648,6 +649,7 @@
       }).join('')}</div>
       <div class="btn-row"><button class="btn small" data-a="floor-add">${icon('plus')}新增樓層</button></div>
       <p class="muted" style="font-size:11.5px;margin:6px 0 0">新樓層會沿用目前樓層的空間外框（不含門窗與櫃體）；報價、拆料清單、平立面圖會包含全部樓層。</p></div>`;
+    html += window.Underlay ? window.Underlay.panel(st) : '';
     html += '<div class="sec"><div class="sec-title">空間 <small>模型空間由使用者自訂</small></div>';
     if (!r) {
       html += `<p class="note">尚未建立空間。可輸入矩形寬／深／高，或以多線段自由繪製後封閉並輸入高度。</p>
@@ -914,6 +916,7 @@
     const val = t.type === 'checkbox' ? t.checked : t.value;
     if (t.dataset.swq) return;
     if (t.dataset.fn != null) { App.renameFloor(+t.dataset.fn, val); return; }
+    if (t.dataset.f && t.dataset.f.startsWith('ul-')) { window.Underlay.change(t.dataset.f, val); return; }
     if (t.dataset.sws) { UI.swSeries = val; UI.showProps(); return; }
     if (t.dataset.swb) { UI.swBrand = val; UI.swSeries = 'all'; UI.showProps(); return; }
     // 專案層級
@@ -1031,6 +1034,7 @@
       return;
     }
     if (a === 'room-rect') { UI.roomDialog(); return; }
+    if (a.startsWith('ul-')) { window.Underlay.click(a); return; }
     if (a === 'room-line') { UI.action('line'); return; }
     if (a === 'room-del') { if (await UI.confirm('刪除空間', '刪除牆面與門窗（櫃體保留）？')) { App.sel = null; App.mutate('刪除空間', x => { x.room = null; }, 'room'); } return; }
     if (a === 'wall') { App.select({ type: 'wall', index: +b.dataset.i }); return; }

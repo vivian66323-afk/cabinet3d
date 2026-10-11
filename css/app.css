@@ -487,3 +487,8 @@ input.ro { background: #f4f5f6; color: var(--muted); }
 .sub-toggle small { color: var(--accent); font-size: 11px; margin-left: auto; }
 .sub-filters .sub-body .brand-chips { border-top: 0; margin-top: 0; padding-top: 2px; }
 .sub-filters.collapsed .sub-body { display: none; }
+
+/* 平面圖底圖預覽 */
+.ul-prev { margin: 0 0 8px; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #fff; }
+.ul-prev img { display: block; width: 100%; max-height: 160px; object-fit: contain; }
+.kv input[type=range] { width: 100%; }
