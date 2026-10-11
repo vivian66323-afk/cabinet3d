@@ -57,7 +57,8 @@
     bath: '置物架', towel: '毛巾架／掛桿', paper: '衛生紙／面紙架', mirror: '鏡子', mshelf: '鏡子平台架', toothcup: '牙刷杯架', soap: '香皂架', brush: '馬桶刷架', hairdryer: '吹風機架', grab: '安全扶手', hook: '掛衣勾', bathacc: '衛浴配件',
     faucet: '廚房檯面龍頭', wallfaucet: '壁式龍頭', basin: '臉盆龍頭', shower: '沐浴龍頭組', showercol: '淋浴柱', slidebar: '滑桿', bidet: '沖洗器',
     toilet: '馬桶', seat: '便座', washbasin: '臉盆', urinal: '小便斗', bathtub: '浴缸', flushvalve: '沖水閥', dryerfan: '浴室換氣暖房乾燥機', handdryer: '烘手機', vanity: '浴櫃', mirrorcab: '鏡櫃', showerdoor: '淋浴拉門',
-    bed: '床組', nightstand: '床頭櫃', sofa: '沙發', coffeetable: '茶几', sidetable: '邊几', diningtable: '餐桌', chair: '餐椅', barstool: '吧台椅', armchair: '單椅', studydesk: '書桌', tvstand: '電視櫃', wardrobe: '衣櫃' };
+    bed: '床組', nightstand: '床頭櫃', sofa: '沙發', coffeetable: '茶几', sidetable: '邊几', diningtable: '餐桌', chair: '餐椅', barstool: '吧台椅', armchair: '單椅', studydesk: '書桌', tvstand: '電視櫃', wardrobe: '衣櫃',
+    sofabed: '沙發床', footstool: '椅凳／腳凳', daybed: '坐臥兩用床', dresser: '化妝台', drawers: '抽屜櫃', bartable: '吧台桌', bench: '長凳', stool: '板凳', officechair: '辦公椅／工作椅', bookcase: '書櫃', shelf: '層架組', shoecab: '鞋櫃／玄關家具' };
   const APPLIANCES = [
     { code: 'SF-550A', at: 'sink', name: '手工方形水槽 55cm', w: 550, d: 460, h: 220, cut: [520, 430], price: 8505, finish: 'steel', mount: 'counter', spec: '外徑 550×460×220　內槽約 500×410　SUS304' },
     { code: 'SF-750A', est: true, at: 'sink', name: '手工方形水槽 75cm', w: 750, d: 460, h: 220, cut: [720, 430], price: 11000, finish: 'steel', mount: 'counter', spec: '外徑 750×460×220　內槽約 700×410　SUS304' },
@@ -1782,6 +1783,14 @@
   }));
   FURN.forEach(a => items.push(a));
 
+  /* IKEA 台灣官網家具（js/catalog-ikea.js → window.IKEA_RAW）：尺寸取自官網產品頁，可在屬性面板改寬深高；售價為官網 2026/10 一般售價 */
+  const IKEA = (window.IKEA_RAW || []).map(([at, id, name, facts, w, d, h, price, img, href]) => ({
+    at, code: 'IK' + id, name: `${name} ${facts}`, w, d, h, price, mount: 'top', y: 0, finish: 'white', est: false, note: '', series: name, brand: 'IKEA',
+    spec: `${w}×${d}×${h}　落地　IKEA 貨號 ${id.slice(0, 3)}.${id.slice(3, 6)}.${id.slice(6)}　官網一般售價`, url: 'https://www.ikea.com.tw/zh/products/' + href,
+    img: img ? 'https://www.ikea.com.tw/dairyfarm/tw/images/' + img : '', hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'ikea', hanging: false
+  }));
+  IKEA.forEach(a => items.push(a));
+
   const CAI = 303 * 303; // 1 才＝303mm×303mm（1 台尺見方，mm²）；櫃體板材與桌面共用
   const CHI = 303;       // 1 尺（mm）
 
@@ -1916,7 +1925,7 @@
   ];
 
   window.DATA = {
-    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
+    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, IKEA, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
     HEIGHTS, HEIGHT_LABEL, HEIGHT_USE, DEPTHS, DEPTH_NAME, CORNER_W, KICK, BOARD, BACK,
     FRONT_NAME, FRONT_HEIGHTS, TRI_TYPE_NAME,
     items, byCode,
