@@ -33,7 +33,7 @@
     up: 'M12 19V5M6 11l6-6 6 6', down: 'M12 5v14M6 13l6 6 6-6',
     lock: 'M6 11h12v9H6zM8 11V8a4 4 0 0 1 8 0v3', unlock: 'M6 11h12v9H6zM8 11V8a4 4 0 0 1 7.5-2',
     plus: 'M12 5v14M5 12h14', camera: 'M4 8h3l2-3h6l2 3h3v11H4zM12 9.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z',
-    image: 'M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4M15 9h.01', door: 'M5 21V3h11v18M16 21h3M12 12h.01', window: 'M4 4h16v16H4zM12 4v16M4 12h16'
+    image: 'M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4M15 9h.01', snap: 'M3 12h4M17 12h4M9 6h6v12H9zM12 2v4M12 18v4', door: 'M5 21V3h11v18M16 21h3M12 12h.01', window: 'M4 4h16v16H4zM12 4v16M4 12h16'
   };
   const icon = (n, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24"><path d="${ICON[n]}"/></svg>`;
   UI.icon = icon; UI.esc = esc;
@@ -41,6 +41,7 @@
   const TOOLBAR = [
     [{ tool: 'select', i: 'select', k: '␣', t: '選取（空白鍵）' }, { tool: 'move', i: 'move', k: 'M', t: '移動（M）' }, { tool: 'rotate', i: 'rotate', k: 'Q', t: '旋轉 90°（Q）' },
       { act: 'autowall', i: 'magnet', txt: '靠牆', t: '自動靠牆：移動/放置櫃體時，櫃背離牆 5cm 內自動貼齊牆面（拖曳時按住 Alt 可暫時停用）' },
+      { act: 'objsnap', i: 'snap', txt: '吸附', t: '物件吸附：移動/放置時自動對齊鄰近櫃體的邊緣（6cm 內靠齊或邊緣對齊，洋紅虛線提示；按住 Alt 可暫時停用）' },
       { act: 'dup', i: 'dup', k: '', t: '複製選取櫃體（Ctrl+D）' }, { act: 'delete', i: 'delete', k: '', t: '刪除（Delete）' }],
     [{ act: 'rect', i: 'rect', k: 'R', t: '矩形空間：輸入寬/深/高（R）' }, { tool: 'line', i: 'line', k: 'L', t: '自由繪製多線段空間（L）' }, { act: 'underlay', i: 'image', txt: '底圖', t: '匯入平面圖：JPG／PNG／PDF 當底圖描牆線；DXF（CAD）可自動建立空間' }, { tool: 'tape', i: 'tape', k: 'T', t: '捲尺量測（T）' }],
     [{ tool: 'orbit', i: 'orbit', k: 'O', t: '環轉（O）｜任何時候可用滑鼠中鍵' }, { tool: 'pan', i: 'pan', k: 'H', t: '平移（H）｜Shift+中鍵 或 右鍵' }, { tool: 'zoom', i: 'zoom', k: 'Z', t: '縮放（Z）｜滾輪' }, { act: 'extents', i: 'extents', k: '', t: '充滿視窗（Shift+Z）' }],
@@ -210,6 +211,7 @@
     set('open', v.isOpenAll && v.isOpenAll());
     set('dims', v.showWallDims);
     set('autowall', v.autoWall, v.autoWall ? '靠牆' : '自由');
+    set('objsnap', v.objSnap, v.objSnap ? '吸附' : '不吸附');
     set('persp', v.isOrtho && v.isOrtho(), v.isOrtho && v.isOrtho() ? '平行' : '透視');
     const lbl = { line: '長度', move: '距離', rotate: '角度' }[v.tool] || (App.selectedCab() ? '位移 x,z' : '尺寸');
     $('#vcbLabel').textContent = lbl;
@@ -234,6 +236,7 @@
       case 'render': { const next = { '': 'white', white: 'xray', xray: 'shaded' }[App.renderMode || '']; v.setRenderMode(next); UI.syncToolbar(); break; }
       case 'open': v.toggleOpenAll(); UI.syncToolbar(); break;
       case 'dims': v.showWallDims = !v.showWallDims; UI.syncToolbar(); break;
+      case 'objsnap': v.setObjSnap(!v.objSnap); UI.syncToolbar(); App.toast(v.objSnap ? '已開啟物件吸附（對齊鄰近櫃體邊緣）' : '已關閉物件吸附'); break;
       case 'autowall': v.setAutoWall(!v.autoWall); UI.syncToolbar(); App.toast(v.autoWall ? '已開啟自動靠牆（拖曳時按住 Alt 可暫時停用）' : '已關閉自動靠牆'); break;
       case 'undo': App.undo(); break;
       case 'redo': App.redo(); break;

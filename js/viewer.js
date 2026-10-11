@@ -717,6 +717,32 @@
   window.addEventListener('keyup', e => { if (e.key === 'Alt') V.altDown = false; });
   window.addEventListener('blur', () => { V.altDown = false; });
   V.setAutoWall = on => { V.autoWall = on; try { localStorage.setItem('cab3d.autowall', on ? 'on' : 'off'); } catch (e) { /* 忽略 */ } };
+  // 物件吸附：移動／放置時自動對齊鄰近櫃體的邊緣（可開關；Alt 暫時停用）
+  V.objSnap = localStorage.getItem('cab3d.objsnap') !== 'off';
+  V.objSnapDist = 60;
+  V.setObjSnap = on => { V.objSnap = on; try { localStorage.setItem('cab3d.objsnap', on ? 'on' : 'off'); } catch (e) { /* 忽略 */ } };
+  // 世界座標外框 [minx,maxx,minz,maxz]（任意角度：取四角外框）
+  function worldBox(c, x, z, rot) {
+    const fp = M().footprint(c), v = rotVec(rot == null ? c.rot : rot), cx = x == null ? c.x : x, cz = z == null ? c.z : z;
+    let b = [Infinity, -Infinity, Infinity, -Infinity];
+    [[fp[0], fp[2]], [fp[1], fp[2]], [fp[0], fp[3]], [fp[1], fp[3]]].forEach(([lx, lz]) => {
+      const wx = cx + v.rx * lx + v.fx * lz, wz = cz + v.rz * lx + v.fz * lz;
+      b = [Math.min(b[0], wx), Math.max(b[1], wx), Math.min(b[2], wz), Math.max(b[3], wz)];
+    });
+    return b;
+  }
+  // 吸附輔助線（洋紅色虛線）
+  let snapGuide = null;
+  V.showSnapGuides = function (lines) {
+    if (snapGuide) { helperGroup.remove(snapGuide); snapGuide.traverse(o => { if (o.geometry) o.geometry.dispose(); }); snapGuide = null; }
+    if (!lines || !lines.length) return;
+    snapGuide = new THREE.Group();
+    lines.forEach(([x1, z1, x2, z2]) => {
+      const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x1, 2, z1), new THREE.Vector3(x2, 2, z2)]), new THREE.LineDashedMaterial({ color: 0xd63384, dashSize: 60, gapSize: 40, depthTest: false }));
+      ln.computeLineDistances(); ln.renderOrder = 997; snapGuide.add(ln);
+    });
+    helperGroup.add(snapGuide);
+  };
 
   // opts.force：不論距離，貼齊最近的牆；opts.free：不吸附牆面（只吸附網格與鄰櫃）
   V.snap = function (cab, px, pz, excludeId, opts = {}) {
@@ -776,7 +802,8 @@
     // 鄰櫃吸附（同方向）
     const v = rotVec(rot);
     let bestN = null;
-    st.cabinets.forEach(o => {
+    const objOn = V.objSnap && !V.altDown && !opts.noObj;
+    if (objOn) st.cabinets.forEach(o => {
       if (o.id === excludeId || o.id === cab.id) return;
       if (Math.abs(((o.rot - rot) % 360 + 360) % 360) > 1) return;
       const dxw = o.x - x, dzw = o.z - z;
@@ -794,7 +821,33 @@
       if (!info) { const shift = bestN.across - (bestN.odepth - fd) / 2; x += v.fx * shift; z += v.fz * shift; }
       info = (info ? info + '、' : '') + bestN.name;
     }
-    return { x: Math.round(x), z: Math.round(z), rot: ((rot % 360) + 360) % 360, info };
+    // 邊緣對齊（任何方向）：外框的 X 邊對 X 邊、Z 邊對 Z 邊，60 mm 內吸附；已貼牆時只沿牆方向吸附
+    const guides = [];
+    if (objOn) {
+      const rr = ((rot % 360) + 360) % 360, alongX = rr === 0 || rr === 180;
+      const tryAxis = (ax) => {
+        const mb = worldBox(cab, x, z, rot), i0 = ax === 'x' ? 0 : 2, i1 = ax === 'x' ? 1 : 3;
+        let best = null;
+        st.cabinets.forEach(o => {
+          if (o.id === excludeId || o.id === cab.id) return;
+          const ob = worldBox(o);
+          // 另一軸要有重疊或靠近（1.5 m 內），才算是鄰近物件
+          const j0 = ax === 'x' ? 2 : 0, j1 = ax === 'x' ? 3 : 1;
+          if (ob[j0] > mb[j1] + 1500 || ob[j1] < mb[j0] - 1500) return;
+          [[ob[i0] - mb[i0], '邊緣對齊'], [ob[i1] - mb[i1], '邊緣對齊'], [ob[i0] - mb[i1], '靠齊'], [ob[i1] - mb[i0], '靠齊']].forEach(([delta, name], q) => {
+            if (Math.abs(delta) < V.objSnapDist && (!best || Math.abs(delta) < Math.abs(best.delta))) best = { delta, name: name + ' ' + M().cabName(o), edge: q < 2 ? (q === 0 ? ob[i0] : ob[i1]) : (q === 2 ? ob[i0] : ob[i1]), ob };
+          });
+        });
+        if (!best) return;
+        if (ax === 'x') x += best.delta; else z += best.delta;
+        const mb2 = worldBox(cab, x, z, rot), lo = Math.min(mb2[ax === 'x' ? 2 : 0], best.ob[ax === 'x' ? 2 : 0]) - 300, hi = Math.max(mb2[ax === 'x' ? 3 : 1], best.ob[ax === 'x' ? 3 : 1]) + 300;
+        guides.push(ax === 'x' ? [best.edge, lo, best.edge, hi] : [lo, best.edge, hi, best.edge]);
+        if (!info.includes(best.name)) info = (info ? info + '、' : '') + best.name;
+      };
+      if (!info || !/貼齊|吸附牆角/.test(info)) { tryAxis('x'); tryAxis('z'); }
+      else tryAxis(alongX ? 'x' : 'z');   // 貼牆中：只沿牆方向對齊鄰櫃
+    }
+    return { x: Math.round(x), z: Math.round(z), rot: ((rot % 360) + 360) % 360, info, guides };
   };
 
   /* ---------- 重疊偵測（紅色線框警示） ---------- */
@@ -1031,6 +1084,7 @@
       s = V.snap(placeCab, p.x, p.z);
     }
     placeCab.x = s.x; placeCab.z = s.z; placeCab.rot = s.rot;
+    V.showSnapGuides(s.guides);
     ghost.position.set(s.x, 0, s.z); ghost.rotation.y = s.rot * deg;
     ghost.visible = true;
     const bad = V.checkOverlaps(placeCab), me = bad.get(placeCab.id);
@@ -1040,6 +1094,7 @@
   function commitPlace() {
     if (!placeCab || !ghost || !ghost.visible) return;
     const cab = placeCab;
+    V.showSnapGuides(null);
     const me = V.findOverlaps(cab).get(cab.id);
     App.addCabinet(cab);
     if (me) App.toast(`⚠ ${M().cabName(cab)} 與 ${[...me.why].join('、')} 重疊，已以紅色線框標示`);
@@ -1076,6 +1131,7 @@
       s = { x: f.x, z: f.z, rot: f.rot, info: `放在 ${M().cabName(base)} 上方` };
     } else s = V.snap(cab, gp.x - move.grab[0], gp.z - move.grab[1], cab.id);
     cab.x = s.x; cab.z = s.z; cab.rot = s.rot;
+    V.showSnapGuides(s.guides);
     const g = cabObjs.get(cab.id);
     g.position.set(cab.x, 0, cab.z); g.rotation.y = cab.rot * deg;
     updateSelBox();
@@ -1090,6 +1146,7 @@
     const cab = App.state.cabinets.find(c => c.id === move.id);
     controls.enabled = true;
     move.active = false;
+    V.showSnapGuides(null);
     if (!cab) return;
     const after = { x: cab.x, z: cab.z, rot: cab.rot, y: cab.y, w: cab.w, d: cab.d };
     Object.assign(cab, move.start);
@@ -1335,7 +1392,7 @@
 
   /* ---------- 工具切換 ---------- */
   V.setTool = function (t) {
-    if (V.tool === 'place' && t !== 'place') { placeCab = null; if (ghost) { helperGroup.remove(ghost); ghost = null; } V.checkOverlaps(); }
+    if (V.tool === 'place' && t !== 'place') { V.showSnapGuides(null); placeCab = null; if (ghost) { helperGroup.remove(ghost); ghost = null; } V.checkOverlaps(); }
     if (V.tool === 'line' && t !== 'line') V.cancelLine();
     if ((V.tool === 'tape' || V.tool === 'uscale') && t !== 'tape' && t !== 'uscale') V.clearTape();
     if (move.active) endMove(false);
