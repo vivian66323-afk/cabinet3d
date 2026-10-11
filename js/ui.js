@@ -636,7 +636,14 @@
 
   const matOptions = (use, cur) => App.state.pricing.materials.filter(m => m.use === use || m.use === 'both').map(m => `<option value="${m.code}"${m.code === cur ? ' selected' : ''}>${m.code}　${esc(m.name)}${m.cat !== '規格色' ? '（' + m.cat + '）' : ''}</option>`).join('');
   const styleOptions = cur => D.DOOR_STYLES.map(s => `<option value="${s.id}"${s.id === cur ? ' selected' : ''}>${s.name}</option>`).join('');
-  const num = (key, val, attrs = '') => `<input type="number" data-key="${key}" data-f="${key}" value="${val}" ${attrs}>`;
+  // 數字欄位用文字框，才能直接輸入算式（如 2970/2、600*3+18），Enter 或離開欄位時自動算出
+  const num = (key, val, attrs = '') => `<input type="text" inputmode="decimal" class="numf" data-key="${key}" data-f="${key}" value="${val}" ${attrs} title="可輸入算式，如 2970/2">`;
+  const evalNum = s => {
+    if (typeof s !== 'string') return s;
+    const e = s.trim().replace(/[×ｘx]/g, '*').replace(/÷/g, '/');
+    if (!/[+\-*/()]/.test(e.slice(1)) || !/^[\d\s.+\-*/()]+$/.test(e)) return s;
+    try { const v = Function('"use strict";return (' + e + ')')(); return isFinite(v) ? String(Math.round(v * 100) / 100) : s; } catch (x) { return s; }
+  };
 
   function projectPanel() {
     const st = App.state, r = st.room;
@@ -913,7 +920,8 @@
     const t = e.target;
     const st = App.state;
     const s = App.sel;
-    const val = t.type === 'checkbox' ? t.checked : t.value;
+    const val = t.type === 'checkbox' ? t.checked : evalNum(t.value);
+    if (t.classList.contains('numf') && val !== t.value) t.value = val;
     if (t.dataset.swq) return;
     if (t.dataset.fn != null) { App.renameFloor(+t.dataset.fn, val); return; }
     if (t.dataset.f && t.dataset.f.startsWith('ul-')) { window.Underlay.change(t.dataset.f, val); return; }

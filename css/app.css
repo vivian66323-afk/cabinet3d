@@ -504,3 +504,6 @@ input.ro { background: #f4f5f6; color: var(--muted); }
 .dxfin-layers label { display: flex; gap: 6px; align-items: center; padding: 2px 0; }
 .dxfin-layers label .muted { margin-left: auto; }
 @media (max-width: 760px) { .dxfin { grid-template-columns: 1fr; } }
+
+/* 可輸入算式的數字欄 */
+input.numf { text-align: right; }
