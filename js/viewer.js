@@ -861,6 +861,24 @@
     helperGroup.add(snapGuide);
   };
 
+  // 同方向鄰櫃：側邊靠齊或左右緣對齊（90mm 內），回傳 { delta, name, across, odepth }
+  function neighborAlign(cab, x, z, rot, excludeId, fd) {
+    const v = rotVec(rot); let bestN = null;
+    App.state.cabinets.forEach(o => {
+      if (o.id === excludeId || o.id === cab.id) return;
+      if (Math.abs(((o.rot - rot) % 360 + 360) % 360) > 1) return;
+      const dxw = o.x - x, dzw = o.z - z;
+      const along = dxw * v.rx + dzw * v.rz;
+      const across = dxw * v.fx + dzw * v.fz;
+      const odepth = M().footDepth(o);
+      if (Math.abs(across - (odepth - fd) / 2) > Math.max(fd, odepth) * 0.8) return;
+      const myL = -cab.w / 2, myR = cab.w / 2, oL = along - o.w / 2, oR = along + o.w / 2;
+      [[oR - myL, '靠齊'], [oL - myR, '靠齊'], [oL - myL, '左緣對齊'], [oR - myR, '右緣對齊']].forEach(([delta, name]) => {
+        if (Math.abs(delta) < 90 && (!bestN || Math.abs(delta) < Math.abs(bestN.delta))) bestN = { delta, name: name + ' ' + M().cabName(o), across, odepth };
+      });
+    });
+    return bestN;
+  }
   // opts.force：不論距離，貼齊最近的牆；opts.free：不吸附牆面（只吸附網格與鄰櫃）
   V.snap = function (cab, px, pz, excludeId, opts = {}) {
     const st = App.state;
@@ -868,7 +886,13 @@
     let info = '';
     const fd = M().footDepth(cab);
     const wallOn = opts.force || (V.autoWall && !opts.free && !V.altDown);
-    if (st.room && wallOn) {
+    // 鄰櫃優先：靠近同方向鄰櫃（側邊 90mm 內）時直接貼齊鄰櫃，不再被牆面拉回（可凸出牆面）
+    let pre = null;
+    if (!opts.force && V.objSnap && !V.altDown && !opts.noObj) {
+      const v0 = rotVec(rot), n0 = neighborAlign(cab, x, z, rot, excludeId, fd);
+      if (n0) { x += v0.rx * n0.delta; z += v0.rz * n0.delta; const shift = n0.across - (n0.odepth - fd) / 2; x += v0.fx * shift; z += v0.fz * shift; info = n0.name; pre = n0; }
+    }
+    if (st.room && wallOn && !pre) {
       const room = st.room;
       if (cab.kind === 'corner' || (cab.kind === 'desk' && cab.shape === 'L')) {
         const ha = cab.kind === 'desk' ? M().footDepth(cab) / 2 : cab.w / 2, hb = cab.w / 2;
@@ -916,23 +940,10 @@
         info = '貼齊' + M().wallName(bestW.i);
       }
     }
-    // 鄰櫃吸附（同方向）
+    // 鄰櫃吸附（同方向）：若前面已以鄰櫃為準（pre），這裡不重複
     const v = rotVec(rot);
-    let bestN = null;
     const objOn = V.objSnap && !V.altDown && !opts.noObj;
-    if (objOn) st.cabinets.forEach(o => {
-      if (o.id === excludeId || o.id === cab.id) return;
-      if (Math.abs(((o.rot - rot) % 360 + 360) % 360) > 1) return;
-      const dxw = o.x - x, dzw = o.z - z;
-      const along = dxw * v.rx + dzw * v.rz;
-      const across = dxw * v.fx + dzw * v.fz;
-      const odepth = M().footDepth(o);
-      if (Math.abs(across - (odepth - fd) / 2) > Math.max(fd, odepth) * 0.8) return;
-      const myL = -cab.w / 2, myR = cab.w / 2, oL = along - o.w / 2, oR = along + o.w / 2;
-      [[oR - myL, '靠齊'], [oL - myR, '靠齊'], [oL - myL, '左緣對齊'], [oR - myR, '右緣對齊']].forEach(([delta, name]) => {
-        if (Math.abs(delta) < 90 && (!bestN || Math.abs(delta) < Math.abs(bestN.delta))) bestN = { delta, name: name + ' ' + M().cabName(o), across, odepth };
-      });
-    });
+    const bestN = objOn && !pre ? neighborAlign(cab, x, z, rot, excludeId, fd) : null;
     if (bestN) {
       x += v.rx * bestN.delta; z += v.rz * bestN.delta;
       if (!info) { const shift = bestN.across - (bestN.odepth - fd) / 2; x += v.fx * shift; z += v.fz * shift; }

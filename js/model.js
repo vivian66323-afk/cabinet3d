@@ -348,7 +348,10 @@
       doorGray: () => new THREE.MeshStandardMaterial({ color: 0x8e8e8a, roughness: 0.55 }),
       frameBlack: () => new THREE.MeshStandardMaterial({ color: 0x2b2b2b, roughness: 0.5, metalness: 0.3 }),
       frameSilver: () => new THREE.MeshStandardMaterial({ color: 0xc4c7cb, roughness: 0.35, metalness: 0.7 }),
-      frameWood: () => new THREE.MeshStandardMaterial({ color: 0xb58d62, roughness: 0.6, map: getGrain() })
+      frameWood: () => new THREE.MeshStandardMaterial({ color: 0xb58d62, roughness: 0.6, map: getGrain() }),
+      glassFrost: () => new THREE.MeshPhysicalMaterial({ color: 0xe9eef0, roughness: 0.6, transparent: true, opacity: 0.62, depthWrite: false }),
+      glassReeded: () => new THREE.MeshPhysicalMaterial({ color: 0xdfe8ea, roughness: 0.35, transparent: true, opacity: 0.5, depthWrite: false }),
+      screen: () => new THREE.MeshStandardMaterial({ color: 0x3a3a3a, transparent: true, opacity: 0.22, depthWrite: false })
     };
     special[name] = P[name]();
     return special[name];
@@ -1242,7 +1245,8 @@
     ['入戶門', [['entry', '單玄關門（鋼木／硫化銅）'], ['entry2', '雙玄關門（外白鐵、內鋼木）'], ['mother', '子母門'], ['entrydouble', '雙開大門'], ['iron', '鍛造門（鐵花＋玻璃）'], ['fire', '防火門（鋼製）']]]
   ];
   const DOOR_STYLES = DOOR_STYLE_GROUPS.flatMap(g => g[1]);
-  const DOOR_COLORS = [['wood', '原木'], ['walnut', '胡桃'], ['white', '白色'], ['gray', '灰色'], ['black', '黑色']];
+  const DOOR_COLORS = [['wood', '原木'], ['walnut', '胡桃'], ['white', '白色'], ['gray', '灰色'], ['black', '黑色'], ['glass', '清玻璃'], ['frost', '霧面玻璃'], ['reeded', '長虹玻璃']];
+  const GLASSY = { glass: 'glass', frost: 'glassFrost', reeded: 'glassReeded' };
   const WIN_STYLES = [['slide', '橫拉窗（兩扇）'], ['slide3', '三扇橫拉'], ['fixed', '固定窗（景觀窗）'], ['picture', '中間景觀固定＋兩側推射窗'], ['casement', '推開窗（兩扇）'], ['awning', '推射窗（上懸）'], ['grid', '格子窗']];
   const FRAME_COLORS = [['white', '白框'], ['silver', '銀框'], ['black', '黑框'], ['wood', '木框']];
   const doorMat = c => sMat({ wood: 'doorLeaf', walnut: 'doorWalnut', white: 'doorWhite', gray: 'doorGray', black: 'doorBlack' }[c] || 'doorLeaf');
@@ -1264,7 +1268,18 @@
       const noFrame = ['pocket', 'flush', 'barn'].includes(ds);
       if (!noFrame) frame();
       const iw = noFrame ? w : w - 2 * fw - 6, ih = noFrame ? h : h - fw - 10, cy = noFrame ? h / 2 : (h - fw) / 2, x0 = noFrame ? 0 : fw + 3;
-      const leafOf = (x, wd, th = 40, mat = dm, z = Tk / 2) => { const l = addBox(og, wd, ih, th, x, cy, z, mat); l.userData.doorLeaf = true; return l; };
+      const gk = GLASSY[o.color];
+      const leafOf = (x, wd, th = 40, mat = dm, z = Tk / 2) => {
+        if (gk && mat === dm) {   // 玻璃門片：四邊門框＋整片玻璃（清／霧面／長虹）
+          const b = 55, fmL = frameMat(o.frame || (ENTRY ? 'black' : ALU ? 'silver' : 'black'));
+          addBox(og, b, ih, th, x - wd / 2 + b / 2, cy, z, fmL); addBox(og, b, ih, th, x + wd / 2 - b / 2, cy, z, fmL);
+          addBox(og, wd - 2 * b, b, th, x, cy + ih / 2 - b / 2, z, fmL); addBox(og, wd - 2 * b, b, th, x, cy - ih / 2 + b / 2, z, fmL);
+          const g2 = addBox(og, wd - 2 * b, ih - 2 * b, 8, x, cy, z, sMat(gk), false); g2.castShadow = false;
+          if (o.color === 'reeded') for (let k = 1; k < Math.round((wd - 2 * b) / 60); k++) addBox(og, 2, ih - 2 * b, 10, x - (wd - 2 * b) / 2 + 60 * k, cy, z, sMat('frameSilver'), false);
+          const l = addBox(og, wd, ih, 2, x, cy, z - th / 2 - 2, sMat('glass'), false); l.visible = false; l.userData.doorLeaf = true; return l;
+        }
+        const l = addBox(og, wd, ih, th, x, cy, z, mat); l.userData.doorLeaf = true; return l;
+      };
       const glassIn = (x, wd, hh, y, z = Tk / 2) => { const g2 = addBox(og, wd, hh, 6, x, y, z, sMat('glass'), false); g2.castShadow = false; return g2; };
       const panels = (n, x0p, tw, zoff) => { for (let i = 0; i < n; i++) { const pw = tw / n, cx = x0p + pw * i + pw / 2, z = Tk / 2 + (zoff ? (i % 2 ? 24 : -24) : 0); addBox(og, pw, 40, 50, cx, cy + ih / 2 - 20, z, fmD); addBox(og, pw, 40, 50, cx, cy - ih / 2 + 20, z, fmD); addBox(og, 40, ih, 50, cx - pw / 2 + 20, cy, z, fmD); addBox(og, 40, ih, 50, cx + pw / 2 - 20, cy, z, fmD); glassIn(cx, pw - 80, ih - 80, cy, z); } };
       switch (ds) {
@@ -1277,7 +1292,16 @@
         case 'flush': { const l = addBox(og, w, h, Tk, w / 2, h / 2, Tk / 2, sMat('wall'), false); l.userData.doorLeaf = true; addBox(og, 4, h, Tk + 4, 4, h / 2, Tk / 2, sMat('dark'), false); addBox(og, 4, h, Tk + 4, w - 4, h / 2, Tk / 2, sMat('dark'), false); addBox(og, w, 4, Tk + 4, w / 2, h - 2, Tk / 2, sMat('dark'), false); break; }
         case 'glass': leafOf(w / 2, iw); glassIn(w / 2, iw - 160, ih - 200, cy + 40); knob(w - fw - 90, 1000); break;
         case 'sliding': [0, 1].forEach(i => { const z = Tk / 2 + (i ? 22 : -22), cx = x0 + iw / 4 + iw / 2 * i, pw = iw / 2 + 20; addBox(og, pw, ih, 30, cx, cy, z, fmD); glassIn(cx, pw - 90, ih - 90, cy, z); addBox(og, 30, ih * 0.35, 10, cx + (i ? -pw / 2 + 40 : pw / 2 - 40), cy, z + (i ? 20 : -20), sMat('handle'), false); }); addBox(og, w, 30, fd + 60, w / 2, h + 15, Tk / 2, fmD); break;
-        case 'balcony3': { leafOf(w / 2, iw, 40, fmD); const gy = cy + ih * 0.12, gh = ih * 0.62; glassIn(w / 2, iw - 120, gh, gy, Tk / 2 - 14); addBox(og, iw - 120, gh, 2, w / 2, gy, Tk / 2 + 14, sMat('dark'), false).material = new THREE.MeshStandardMaterial({ color: 0x333333, transparent: true, opacity: 0.35 }); for (let k = 0; k < 4; k++) addBox(og, iw - 110, 14, 14, w / 2, gy - gh / 2 + gh * (k + 0.5) / 4, Tk + 12, fmD, false); addBox(og, iw - 120, ih * 0.3, 10, w / 2, cy - ih * 0.33, Tk / 2, fmD, false); knob(w - fw - 90, 1000); break; }
+        case 'balcony3': {   // 三合一通風門：鋁框門片，上段玻璃（可開啟通風）＋內側紗網＋外側格柵，下段鋁板
+          const b = 50, lowH = ih * 0.32, gy = cy + lowH / 2, gh = ih - lowH - 2 * b;
+          addBox(og, b, ih, 40, w / 2 - iw / 2 + b / 2, cy, Tk / 2, fmD); addBox(og, b, ih, 40, w / 2 + iw / 2 - b / 2, cy, Tk / 2, fmD);
+          addBox(og, iw, b, 40, w / 2, cy + ih / 2 - b / 2, Tk / 2, fmD); addBox(og, iw, b, 40, w / 2, cy - ih / 2 + lowH + b / 2, Tk / 2, fmD);
+          addBox(og, iw, lowH, 40, w / 2, cy - ih / 2 + lowH / 2, Tk / 2, fmD);   // 下段鋁板
+          const g2 = addBox(og, iw - 2 * b, gh, 6, w / 2, gy + b / 2, Tk / 2, sMat(gk || 'glass'), false); g2.castShadow = false;   // 玻璃
+          addBox(og, iw - 2 * b, gh, 2, w / 2, gy + b / 2, Tk / 2 - 16, sMat('screen'), false).castShadow = false;   // 紗網（內側）
+          for (let k = 0; k < 5; k++) addBox(og, iw - 2 * b, 12, 12, w / 2, gy + b / 2 - gh / 2 + gh * (k + 0.5) / 5, Tk / 2 + 26, fmD, false);   // 格柵（外側）
+          [-1, 1].forEach(k => addBox(og, 12, gh, 12, w / 2 + k * (iw - 2 * b) / 6, gy + b / 2, Tk / 2 + 26, fmD, false));
+          knob(w - fw - 90, 1000); break; }
         case 'aluglass': leafOf(w / 2, iw, 40, fmD); glassIn(w / 2, iw - 140, ih - 160, cy); knob(w - fw - 90, 1000); break;
         case 'patio2': panels(2, x0, iw, true); addBox(og, w, 30, fd + 60, w / 2, h + 15, Tk / 2, fmD); break;
         case 'patio4': panels(4, x0, iw, true); addBox(og, w, 30, fd + 60, w / 2, h + 15, Tk / 2, fmD); break;
