@@ -911,10 +911,10 @@
       <label>高</label><input type="number" data-key="oh${j}" data-of="height" data-j="${j}" value="${o.height}" step="10"${dis}>
       <label>抬高</label><input type="number" data-key="os${j}" data-of="sill" data-j="${j}" value="${o.sill}" step="10"${dis}>
       <label>距左</label><input type="number" data-key="ol${j}" data-of="left" data-j="${j}" value="${Math.round(leftOffset(wi, o))}" step="10"${dis}>
-      <label>款式</label><select data-key="ost${j}" data-of="style" data-j="${j}"${dis}>${(o.type === 'door' ? M().DOOR_STYLES : M().WIN_STYLES).map(([k, n]) => `<option value="${k}"${(o.style || (o.type === 'door' ? 'single' : 'slide')) === k ? ' selected' : ''}>${n}</option>`).join('')}</select>
+      <label>款式</label><select data-key="ost${j}" data-of="style" data-j="${j}"${dis}>${o.type === 'door' ? M().DOOR_STYLE_GROUPS.map(([gn, list]) => `<optgroup label="${gn}">${list.map(([k, n]) => `<option value="${k}"${(o.style || 'single') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup>`).join('') : M().WIN_STYLES.map(([k, n]) => `<option value="${k}"${(o.style || 'slide') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>
       ${o.type === 'door' ? `<label>門片色</label><select data-key="oc${j}" data-of="color" data-j="${j}"${dis}>${M().DOOR_COLORS.map(([k, n]) => `<option value="${k}"${(o.color || 'wood') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>` : ''}
       <label>框色</label><select data-key="of${j}" data-of="frame" data-j="${j}"${dis}>${M().FRAME_COLORS.map(([k, n]) => `<option value="${k}"${(o.frame || 'white') === k ? ' selected' : ''}>${n}</option>`).join('')}</select></div></div>`).join('') : '<p class="muted" style="margin:0 0 6px">此牆面尚無門窗</p>';
-    if (!w.locked) html += `<div class="btn-row"><button class="btn small" data-a="add-door">${icon('door')}加門 900×2100</button><button class="btn small" data-a="add-window">${icon('window')}加窗 1200×1200</button></div>`;
+    if (!w.locked) html += `<div class="btn-row"><button class="btn small" data-a="add-door">${icon('door')}房間門 900×2100</button><button class="btn small" data-a="add-balcony">${icon('door')}陽台門 800×2100</button><button class="btn small" data-a="add-entry">${icon('door')}玄關門 1000×2100</button><button class="btn small" data-a="add-window">${icon('window')}加窗 1200×1200</button></div>`;
     html += `</div><div class="btn-row">${w.locked ? `<button class="btn" data-a="unlock">${icon('unlock')}解鎖牆面</button>` : `<button class="btn primary" data-a="lock">${icon('lock')}確認並鎖定牆面</button>`}
       <button class="btn" data-a="back">返回專案</button></div>`;
     return html;
@@ -1067,8 +1067,8 @@
     if (a === 'back') { App.select(null); return; }
     if (s && s.type === 'wall') {
       const r = st.room, wi = M().wallInfo(r, s.index);
-      if (a === 'add-door' || a === 'add-window') {
-        const o = a === 'add-door' ? { id: M().uid('o'), type: 'door', width: 900, height: 2100, sill: 0 } : { id: M().uid('o'), type: 'window', width: 1200, height: 1200, sill: 900 };
+      if (a === 'add-door' || a === 'add-window' || a === 'add-balcony' || a === 'add-entry') {
+        const o = a === 'add-door' ? { id: M().uid('o'), type: 'door', width: 900, height: 2100, sill: 0, style: 'single' } : a === 'add-balcony' ? { id: M().uid('o'), type: 'door', width: 800, height: 2100, sill: 0, style: 'balcony3', frame: 'silver' } : a === 'add-entry' ? { id: M().uid('o'), type: 'door', width: 1000, height: 2100, sill: 0, style: 'entry', color: 'walnut', frame: 'black' } : { id: M().uid('o'), type: 'window', width: 1200, height: 1200, sill: 900 };
         o.offset = (wi.len - o.width) / 2;
         clampOpening(r, wi, o);
         App.mutate('新增' + (o.type === 'door' ? '門' : '窗'), x => x.room.walls[s.index].openings.push(o), 'room');

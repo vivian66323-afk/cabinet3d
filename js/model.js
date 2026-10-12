@@ -1235,9 +1235,15 @@
     return g;
   }
 
-  const DOOR_STYLES = [['single', '單開門'], ['double', '雙開門'], ['sliding', '推拉門'], ['glass', '玻璃框門'], ['pocket', '隱藏拉門（無框）']];
+  // 門款式（依台灣常見分類：房間門／陽台門／入戶門）
+  const DOOR_STYLE_GROUPS = [
+    ['房間門', [['single', '平板門（單開）'], ['panel', '造型門（凹線門板）'], ['double', '雙開門'], ['louver', '百葉門'], ['barn', '穀倉門（外露軌道橫拉）'], ['pocket', '隱藏拉門（無框）'], ['flush', '隱藏門（平開、與牆同色）'], ['glass', '玻璃框門'], ['sliding', '玻璃推拉門（兩扇）']]],
+    ['陽台門', [['balcony3', '三合一通風門（鋁門＋紗窗＋格柵）'], ['aluglass', '鋁框玻璃單開門'], ['patio2', '落地推拉門（兩扇）'], ['patio4', '落地推拉門（四扇）'], ['bifold', '折疊門（四扇）']]],
+    ['入戶門', [['entry', '單玄關門（鋼木／硫化銅）'], ['entry2', '雙玄關門（外白鐵、內鋼木）'], ['mother', '子母門'], ['entrydouble', '雙開大門'], ['iron', '鍛造門（鐵花＋玻璃）'], ['fire', '防火門（鋼製）']]]
+  ];
+  const DOOR_STYLES = DOOR_STYLE_GROUPS.flatMap(g => g[1]);
   const DOOR_COLORS = [['wood', '原木'], ['walnut', '胡桃'], ['white', '白色'], ['gray', '灰色'], ['black', '黑色']];
-  const WIN_STYLES = [['slide', '橫拉窗（兩扇）'], ['slide3', '三扇橫拉'], ['fixed', '固定窗'], ['casement', '推開窗'], ['grid', '格子窗']];
+  const WIN_STYLES = [['slide', '橫拉窗（兩扇）'], ['slide3', '三扇橫拉'], ['fixed', '固定窗（景觀窗）'], ['picture', '中間景觀固定＋兩側推射窗'], ['casement', '推開窗（兩扇）'], ['awning', '推射窗（上懸）'], ['grid', '格子窗']];
   const FRAME_COLORS = [['white', '白框'], ['silver', '銀框'], ['black', '黑框'], ['wood', '木框']];
   const doorMat = c => sMat({ wood: 'doorLeaf', walnut: 'doorWalnut', white: 'doorWhite', gray: 'doorGray', black: 'doorBlack' }[c] || 'doorLeaf');
   const frameMat = c => sMat({ white: 'frame', silver: 'frameSilver', black: 'frameBlack', wood: 'frameWood' }[c] || 'frame');
@@ -1248,14 +1254,42 @@
     const fd = Tk + 20, fw = 45;
     // 局部：x 沿牆、y 上、z 朝外
     if (o.type === 'door') {
-      const ds = o.style || 'single', dm = doorMat(o.color || 'wood');
+      const ds = o.style || 'single';
+      const ALU = ['balcony3', 'aluglass', 'patio2', 'patio4', 'bifold'].includes(ds), ENTRY = ['entry', 'entry2', 'mother', 'entrydouble', 'iron', 'fire'].includes(ds);
+      const dm = ds === 'fire' ? doorMat(o.color || 'gray') : ENTRY ? doorMat(o.color || 'walnut') : ds === 'flush' ? sMat('wall') : doorMat(o.color || 'wood');
+      const fmD = ALU ? frameMat(o.frame || 'silver') : ENTRY ? frameMat(o.frame || 'black') : fm;
       const knob = (x, y) => { const k = new THREE.Mesh(new THREE.SphereGeometry(22, 16, 12), sMat('handle')); k.position.set(x, y, -12); og.add(k); const k2 = k.clone(); k2.position.z = Tk + 12; og.add(k2); };
-      if (ds !== 'pocket') { addBox(og, fw, h, fd, fw / 2, h / 2, Tk / 2, fm); addBox(og, fw, h, fd, w - fw / 2, h / 2, Tk / 2, fm); addBox(og, w, fw, fd, w / 2, h - fw / 2, Tk / 2, fm); }
-      const iw = ds === 'pocket' ? w : w - 2 * fw - 6, ih = ds === 'pocket' ? h : h - fw - 10, cy = ds === 'pocket' ? h / 2 : (h - fw) / 2;
-      if (ds === 'single') { const leaf = addBox(og, iw, ih, 40, w / 2, cy, Tk / 2, dm); leaf.userData.doorLeaf = true; knob(w - fw - 90, 1000); }
-      else if (ds === 'double') { [0, 1].forEach(i => { const leaf = addBox(og, iw / 2 - 3, ih, 40, fw + 3 + iw / 2 * i + (iw / 2 - 3) / 2, cy, Tk / 2, dm); leaf.userData.doorLeaf = true; }); knob(w / 2 - 60, 1000); knob(w / 2 + 60, 1000); }
-      else if (ds === 'sliding' || ds === 'pocket') { [0, 1].forEach(i => { const leaf = addBox(og, iw / 2 + 20, ih, 35, (ds === 'pocket' ? 0 : fw + 3) + iw / 4 + iw / 2 * i, cy, Tk / 2 + (i ? 22 : -22), dm); leaf.userData.doorLeaf = true; addBox(og, 30, ih * 0.35, 10, (ds === 'pocket' ? 0 : fw + 3) + iw / 4 + iw / 2 * i + (i ? -iw / 4 + 40 : iw / 4 - 40), cy, Tk / 2 + (i ? 42 : -42), sMat('handle'), false); }); addBox(og, w, 30, fd + 60, w / 2, h + 15, Tk / 2, fm); }
-      else if (ds === 'glass') { const leaf = addBox(og, iw, ih, 40, w / 2, cy, Tk / 2, dm); leaf.userData.doorLeaf = true; const gl = addBox(og, iw - 160, ih - 200, 50, w / 2, cy + 40, Tk / 2, sMat('glass'), false); gl.castShadow = false; knob(w - fw - 90, 1000); }
+      const bar = (x, y, len) => { addBox(og, 22, len, 22, x, y, -16, sMat('handle'), false); addBox(og, 22, len, 22, x, y, Tk + 16, sMat('handle'), false); };
+      const frame = (thick) => { addBox(og, fw, h, fd, fw / 2, h / 2, Tk / 2, fmD); addBox(og, fw, h, fd, w - fw / 2, h / 2, Tk / 2, fmD); addBox(og, w, fw, fd, w / 2, h - fw / 2, Tk / 2, fmD); };
+      const noFrame = ['pocket', 'flush', 'barn'].includes(ds);
+      if (!noFrame) frame();
+      const iw = noFrame ? w : w - 2 * fw - 6, ih = noFrame ? h : h - fw - 10, cy = noFrame ? h / 2 : (h - fw) / 2, x0 = noFrame ? 0 : fw + 3;
+      const leafOf = (x, wd, th = 40, mat = dm, z = Tk / 2) => { const l = addBox(og, wd, ih, th, x, cy, z, mat); l.userData.doorLeaf = true; return l; };
+      const glassIn = (x, wd, hh, y, z = Tk / 2) => { const g2 = addBox(og, wd, hh, 6, x, y, z, sMat('glass'), false); g2.castShadow = false; return g2; };
+      const panels = (n, x0p, tw, zoff) => { for (let i = 0; i < n; i++) { const pw = tw / n, cx = x0p + pw * i + pw / 2, z = Tk / 2 + (zoff ? (i % 2 ? 24 : -24) : 0); addBox(og, pw, 40, 50, cx, cy + ih / 2 - 20, z, fmD); addBox(og, pw, 40, 50, cx, cy - ih / 2 + 20, z, fmD); addBox(og, 40, ih, 50, cx - pw / 2 + 20, cy, z, fmD); addBox(og, 40, ih, 50, cx + pw / 2 - 20, cy, z, fmD); glassIn(cx, pw - 80, ih - 80, cy, z); } };
+      switch (ds) {
+        case 'single': leafOf(w / 2, iw); knob(w - fw - 90, 1000); break;
+        case 'panel': { leafOf(w / 2, iw); [[cy + ih * 0.2, ih * 0.42], [cy - ih * 0.3, ih * 0.3]].forEach(([y, hh]) => { addBox(og, iw - 200, hh, 8, w / 2, y, Tk / 2 - 24, sMat('dark'), false); addBox(og, iw - 230, hh - 30, 12, w / 2, y, Tk / 2 - 26, dm, false); }); knob(w - fw - 90, 1000); break; }
+        case 'double': [0, 1].forEach(i => leafOf(x0 + iw / 2 * i + (iw / 2 - 3) / 2, iw / 2 - 3)); knob(w / 2 - 60, 1000); knob(w / 2 + 60, 1000); break;
+        case 'louver': { leafOf(w / 2, iw); const n = Math.max(6, Math.round(ih / 110)); for (let k = 0; k < n; k++) addBox(og, iw - 140, 14, 60, w / 2, cy - ih / 2 + 70 + (ih - 140) * k / (n - 1), Tk / 2 - 10, dm, false); knob(w - fw - 90, 1000); break; }
+        case 'barn': { const lw = w + 120, lh = h + 40; const l = addBox(og, lw, lh, 40, w / 2, lh / 2, -40, dm); l.userData.doorLeaf = true; const np = Math.max(3, Math.round(lw / 150)); for (let k = 1; k < np; k++) addBox(og, 4, lh, 6, w / 2 - lw / 2 + lw * k / np, lh / 2, -62, sMat('dark'), false); addBox(og, lw * 2, 30, 30, w / 2, lh + 60, -40, sMat('dark')); [w / 2 - lw / 2 + 120, w / 2 + lw / 2 - 120].forEach(x => addBox(og, 20, 140, 20, x, lh + 10, -72, sMat('dark'), false)); bar(w / 2 - lw / 2 + 110, h * 0.5, 300); break; }
+        case 'pocket': [0, 1].forEach(i => { leafOf(iw / 4 + iw / 2 * i, iw / 2 + 20, 35, dm, Tk / 2 + (i ? 22 : -22)); }); addBox(og, w, 30, fd + 60, w / 2, h + 15, Tk / 2, fm); break;
+        case 'flush': { const l = addBox(og, w, h, Tk, w / 2, h / 2, Tk / 2, sMat('wall'), false); l.userData.doorLeaf = true; addBox(og, 4, h, Tk + 4, 4, h / 2, Tk / 2, sMat('dark'), false); addBox(og, 4, h, Tk + 4, w - 4, h / 2, Tk / 2, sMat('dark'), false); addBox(og, w, 4, Tk + 4, w / 2, h - 2, Tk / 2, sMat('dark'), false); break; }
+        case 'glass': leafOf(w / 2, iw); glassIn(w / 2, iw - 160, ih - 200, cy + 40); knob(w - fw - 90, 1000); break;
+        case 'sliding': [0, 1].forEach(i => { const z = Tk / 2 + (i ? 22 : -22), cx = x0 + iw / 4 + iw / 2 * i, pw = iw / 2 + 20; addBox(og, pw, ih, 30, cx, cy, z, fmD); glassIn(cx, pw - 90, ih - 90, cy, z); addBox(og, 30, ih * 0.35, 10, cx + (i ? -pw / 2 + 40 : pw / 2 - 40), cy, z + (i ? 20 : -20), sMat('handle'), false); }); addBox(og, w, 30, fd + 60, w / 2, h + 15, Tk / 2, fmD); break;
+        case 'balcony3': { leafOf(w / 2, iw, 40, fmD); const gy = cy + ih * 0.12, gh = ih * 0.62; glassIn(w / 2, iw - 120, gh, gy, Tk / 2 - 14); addBox(og, iw - 120, gh, 2, w / 2, gy, Tk / 2 + 14, sMat('dark'), false).material = new THREE.MeshStandardMaterial({ color: 0x333333, transparent: true, opacity: 0.35 }); for (let k = 0; k < 4; k++) addBox(og, iw - 110, 14, 14, w / 2, gy - gh / 2 + gh * (k + 0.5) / 4, Tk + 12, fmD, false); addBox(og, iw - 120, ih * 0.3, 10, w / 2, cy - ih * 0.33, Tk / 2, fmD, false); knob(w - fw - 90, 1000); break; }
+        case 'aluglass': leafOf(w / 2, iw, 40, fmD); glassIn(w / 2, iw - 140, ih - 160, cy); knob(w - fw - 90, 1000); break;
+        case 'patio2': panels(2, x0, iw, true); addBox(og, w, 30, fd + 60, w / 2, h + 15, Tk / 2, fmD); break;
+        case 'patio4': panels(4, x0, iw, true); addBox(og, w, 30, fd + 60, w / 2, h + 15, Tk / 2, fmD); break;
+        case 'bifold': panels(4, x0, iw, false); addBox(og, w, 30, fd + 60, w / 2, h + 15, Tk / 2, fmD); break;
+        case 'entry': leafOf(w / 2, iw, 55); bar(w - fw - 110, 1050, 600); break;
+        case 'entry2': { leafOf(w / 2, iw, 50, dm, Tk / 2 - 30); const outer = leafOf(w / 2, iw, 40, sMat('alu'), Tk + 24); [[cy + ih * 0.36], [cy - ih * 0.36]].forEach(([y]) => { for (let k = 0; k < 6; k++) addBox(og, iw - 160, 10, 6, w / 2, y - 50 + k * 20, Tk + 48, sMat('dark'), false); }); bar(w - fw - 110, 1050, 500); break; }
+        case 'mother': { const mw = iw * 0.66, cw = iw - mw - 3; leafOf(x0 + mw / 2, mw, 55); leafOf(x0 + mw + 3 + cw / 2, cw, 55); bar(x0 + mw - 70, 1050, 500); break; }
+        case 'entrydouble': [0, 1].forEach(i => leafOf(x0 + iw / 2 * i + (iw / 2 - 3) / 2, iw / 2 - 3, 55)); bar(w / 2 - 60, 1050, 500); bar(w / 2 + 60, 1050, 500); break;
+        case 'iron': { leafOf(w / 2, iw, 30, fmD); glassIn(w / 2, iw - 120, ih - 140, cy, Tk / 2 - 10); const nb = Math.max(4, Math.round(iw / 110)); for (let k = 1; k < nb; k++) addBox(og, 16, ih - 160, 16, w / 2 - iw / 2 + 60 + (iw - 120) * k / nb, cy, Tk / 2 + 20, sMat('dark'), false); [0.25, 0.5, 0.75].forEach(f => addBox(og, iw - 120, 16, 16, w / 2, cy - ih / 2 + 70 + (ih - 140) * f, Tk / 2 + 20, sMat('dark'), false)); bar(w - fw - 110, 1050, 500); break; }
+        case 'fire': leafOf(w / 2, iw, 50); addBox(og, iw - 200, 40, 50, w / 2, 1000, -30, sMat('handle'), false); knob(w - fw - 90, 1000); break;
+        default: leafOf(w / 2, iw); knob(w - fw - 90, 1000);
+      }
     } else {
       addBox(og, fw, h, fd, fw / 2, o.sill + h / 2, Tk / 2, fm);
       addBox(og, fw, h, fd, w - fw / 2, o.sill + h / 2, Tk / 2, fm);
@@ -1268,6 +1302,16 @@
       const trans = (y) => addBox(og, w - 2 * fw, 40, 60, w / 2, y, Tk / 2, fm);
       if (ws === 'slide') { if (w > 900) mull(w / 2); }
       else if (ws === 'slide3') { mull(fw + (w - 2 * fw) / 3); mull(fw + (w - 2 * fw) * 2 / 3); }
+      else if (ws === 'picture') {   // 中間 50% 固定景觀玻璃，兩側各 25% 推射窗（有內框、斜開示意）
+        const gw = w - 2 * fw, sw = gw * 0.25;
+        mull(fw + sw); mull(fw + gw - sw);
+        [fw + sw / 2, fw + gw - sw / 2].forEach(cx => { addBox(og, sw - 10, h - 2 * fw - 10, 30, cx, o.sill + h / 2, Tk / 2 - 20, fm, false); addBox(og, sw - 70, h - 2 * fw - 70, 4, cx, o.sill + h / 2, Tk / 2 - 24, sMat('glass'), false).castShadow = false; });
+      }
+      else if (ws === 'awning') {   // 推射窗：整扇內框，上緣為軸
+        addBox(og, w - 2 * fw - 10, h - 2 * fw - 10, 30, w / 2, o.sill + h / 2, Tk / 2 - 20, fm, false);
+        addBox(og, w - 2 * fw - 70, h - 2 * fw - 70, 4, w / 2, o.sill + h / 2, Tk / 2 - 24, sMat('glass'), false).castShadow = false;
+        addBox(og, 60, 20, 30, w / 2, o.sill + fw + 30, Tk / 2 - 40, sMat('handle'), false);
+      }
       else if (ws === 'casement') { mull(w / 2); [0, 1].forEach(i => addBox(og, (w - 2 * fw) / 2 - 10, h - 2 * fw - 10, 30, fw + (w - 2 * fw) / 4 + (w - 2 * fw) / 2 * i, o.sill + h / 2, Tk / 2 - 20, fm, false)); }
       else if (ws === 'grid') { const nx = Math.max(2, Math.round(w / 350)), ny = Math.max(2, Math.round(h / 350)); for (let i = 1; i < nx; i++) addBox(og, 20, h - 2 * fw, 40, fw + (w - 2 * fw) * i / nx, o.sill + h / 2, Tk / 2, fm, false); for (let i = 1; i < ny; i++) addBox(og, w - 2 * fw, 20, 40, w / 2, o.sill + fw + (h - 2 * fw) * i / ny, Tk / 2, fm, false); }
       // fixed：整片玻璃，不加分隔
@@ -1358,7 +1402,7 @@
 
   window.Model = {
     init(T) { THREE = T; },
-    uid, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_COLORS, WIN_STYLES, FRAME_COLORS,
+    uid, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS,
     createRoom, rectRoom, wallInfo, wallName, polyArea, pointInPoly, isModified, cabName,
     rowLip, OPEN_ROW, E_FRONT, buildCabinet, buildRoom, triShape, getMat, clearMatCache, clearSwatchTex, grainOf, imgGrainOf, floorDef, deskGeom, resizeCabinet, handleOf, handleEdge, insetPos, counterOver, deskHoles, isCounterAppl, toLocal, toWorld
   };
