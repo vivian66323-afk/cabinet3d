@@ -341,7 +341,14 @@
       doorLeaf: () => new THREE.MeshStandardMaterial({ color: 0xb58d62, roughness: 0.6, map: getGrain() }),
       frame: () => new THREE.MeshStandardMaterial({ color: 0xe8e6e1, roughness: 0.7 }),
       floor: () => new THREE.MeshStandardMaterial({ color: 0xd9c7a8, roughness: 0.85 }),
-      rod: () => new THREE.MeshStandardMaterial({ color: 0xc9ccd0, metalness: 0.9, roughness: 0.2 })
+      rod: () => new THREE.MeshStandardMaterial({ color: 0xc9ccd0, metalness: 0.9, roughness: 0.2 }),
+      doorWhite: () => new THREE.MeshStandardMaterial({ color: 0xf4f2ee, roughness: 0.55 }),
+      doorWalnut: () => new THREE.MeshStandardMaterial({ color: 0x6b4a33, roughness: 0.6, map: getGrain() }),
+      doorBlack: () => new THREE.MeshStandardMaterial({ color: 0x2a2a2c, roughness: 0.5 }),
+      doorGray: () => new THREE.MeshStandardMaterial({ color: 0x8e8e8a, roughness: 0.55 }),
+      frameBlack: () => new THREE.MeshStandardMaterial({ color: 0x2b2b2b, roughness: 0.5, metalness: 0.3 }),
+      frameSilver: () => new THREE.MeshStandardMaterial({ color: 0xc4c7cb, roughness: 0.35, metalness: 0.7 }),
+      frameWood: () => new THREE.MeshStandardMaterial({ color: 0xb58d62, roughness: 0.6, map: getGrain() })
     };
     special[name] = P[name]();
     return special[name];
@@ -1228,29 +1235,42 @@
     return g;
   }
 
+  const DOOR_STYLES = [['single', '單開門'], ['double', '雙開門'], ['sliding', '推拉門'], ['glass', '玻璃框門'], ['pocket', '隱藏拉門（無框）']];
+  const DOOR_COLORS = [['wood', '原木'], ['walnut', '胡桃'], ['white', '白色'], ['gray', '灰色'], ['black', '黑色']];
+  const WIN_STYLES = [['slide', '橫拉窗（兩扇）'], ['slide3', '三扇橫拉'], ['fixed', '固定窗'], ['casement', '推開窗'], ['grid', '格子窗']];
+  const FRAME_COLORS = [['white', '白框'], ['silver', '銀框'], ['black', '黑框'], ['wood', '木框']];
+  const doorMat = c => sMat({ wood: 'doorLeaf', walnut: 'doorWalnut', white: 'doorWhite', gray: 'doorGray', black: 'doorBlack' }[c] || 'doorLeaf');
+  const frameMat = c => sMat({ white: 'frame', silver: 'frameSilver', black: 'frameBlack', wood: 'frameWood' }[c] || 'frame');
   function buildOpening(g, wi, o, Tk, H, wallIndex) {
     const og = new THREE.Group();
-    const fm = sMat('frame');
+    const fm = frameMat(o.frame || (o.type === 'door' ? 'white' : 'white'));
     const w = o.width, h = Math.min(o.height, H - o.sill);
     const fd = Tk + 20, fw = 45;
     // 局部：x 沿牆、y 上、z 朝外
     if (o.type === 'door') {
-      addBox(og, fw, h, fd, fw / 2, h / 2, Tk / 2, fm);
-      addBox(og, fw, h, fd, w - fw / 2, h / 2, Tk / 2, fm);
-      addBox(og, w, fw, fd, w / 2, h - fw / 2, Tk / 2, fm);
-      const leaf = addBox(og, w - 2 * fw - 6, h - fw - 10, 40, w / 2, (h - fw) / 2, Tk / 2, sMat('doorLeaf'));
-      leaf.userData.doorLeaf = true;
-      const k = new THREE.Mesh(new THREE.SphereGeometry(22, 16, 12), sMat('handle'));
-      k.position.set(w - fw - 90, 1000, -12); og.add(k);
-      const k2 = k.clone(); k2.position.z = Tk + 12; og.add(k2);
+      const ds = o.style || 'single', dm = doorMat(o.color || 'wood');
+      const knob = (x, y) => { const k = new THREE.Mesh(new THREE.SphereGeometry(22, 16, 12), sMat('handle')); k.position.set(x, y, -12); og.add(k); const k2 = k.clone(); k2.position.z = Tk + 12; og.add(k2); };
+      if (ds !== 'pocket') { addBox(og, fw, h, fd, fw / 2, h / 2, Tk / 2, fm); addBox(og, fw, h, fd, w - fw / 2, h / 2, Tk / 2, fm); addBox(og, w, fw, fd, w / 2, h - fw / 2, Tk / 2, fm); }
+      const iw = ds === 'pocket' ? w : w - 2 * fw - 6, ih = ds === 'pocket' ? h : h - fw - 10, cy = ds === 'pocket' ? h / 2 : (h - fw) / 2;
+      if (ds === 'single') { const leaf = addBox(og, iw, ih, 40, w / 2, cy, Tk / 2, dm); leaf.userData.doorLeaf = true; knob(w - fw - 90, 1000); }
+      else if (ds === 'double') { [0, 1].forEach(i => { const leaf = addBox(og, iw / 2 - 3, ih, 40, fw + 3 + iw / 2 * i + (iw / 2 - 3) / 2, cy, Tk / 2, dm); leaf.userData.doorLeaf = true; }); knob(w / 2 - 60, 1000); knob(w / 2 + 60, 1000); }
+      else if (ds === 'sliding' || ds === 'pocket') { [0, 1].forEach(i => { const leaf = addBox(og, iw / 2 + 20, ih, 35, (ds === 'pocket' ? 0 : fw + 3) + iw / 4 + iw / 2 * i, cy, Tk / 2 + (i ? 22 : -22), dm); leaf.userData.doorLeaf = true; addBox(og, 30, ih * 0.35, 10, (ds === 'pocket' ? 0 : fw + 3) + iw / 4 + iw / 2 * i + (i ? -iw / 4 + 40 : iw / 4 - 40), cy, Tk / 2 + (i ? 42 : -42), sMat('handle'), false); }); addBox(og, w, 30, fd + 60, w / 2, h + 15, Tk / 2, fm); }
+      else if (ds === 'glass') { const leaf = addBox(og, iw, ih, 40, w / 2, cy, Tk / 2, dm); leaf.userData.doorLeaf = true; const gl = addBox(og, iw - 160, ih - 200, 50, w / 2, cy + 40, Tk / 2, sMat('glass'), false); gl.castShadow = false; knob(w - fw - 90, 1000); }
     } else {
       addBox(og, fw, h, fd, fw / 2, o.sill + h / 2, Tk / 2, fm);
       addBox(og, fw, h, fd, w - fw / 2, o.sill + h / 2, Tk / 2, fm);
       addBox(og, w, fw, fd, w / 2, o.sill + h - fw / 2, Tk / 2, fm);
       addBox(og, w + 80, 25, fd + 40, w / 2, o.sill - 12, Tk / 2 - 20, fm);
-      if (w > 900) addBox(og, 40, h - 2 * fw, 60, w / 2, o.sill + h / 2, Tk / 2, fm);
+      const ws = o.style || 'slide';
       const gl = addBox(og, w - 2 * fw, h - 2 * fw, 6, w / 2, o.sill + h / 2, Tk / 2, sMat('glass'), false);
       gl.castShadow = false;
+      const mull = (x) => addBox(og, 40, h - 2 * fw, 60, x, o.sill + h / 2, Tk / 2, fm);
+      const trans = (y) => addBox(og, w - 2 * fw, 40, 60, w / 2, y, Tk / 2, fm);
+      if (ws === 'slide') { if (w > 900) mull(w / 2); }
+      else if (ws === 'slide3') { mull(fw + (w - 2 * fw) / 3); mull(fw + (w - 2 * fw) * 2 / 3); }
+      else if (ws === 'casement') { mull(w / 2); [0, 1].forEach(i => addBox(og, (w - 2 * fw) / 2 - 10, h - 2 * fw - 10, 30, fw + (w - 2 * fw) / 4 + (w - 2 * fw) / 2 * i, o.sill + h / 2, Tk / 2 - 20, fm, false)); }
+      else if (ws === 'grid') { const nx = Math.max(2, Math.round(w / 350)), ny = Math.max(2, Math.round(h / 350)); for (let i = 1; i < nx; i++) addBox(og, 20, h - 2 * fw, 40, fw + (w - 2 * fw) * i / nx, o.sill + h / 2, Tk / 2, fm, false); for (let i = 1; i < ny; i++) addBox(og, w - 2 * fw, 20, 40, w / 2, o.sill + fw + (h - 2 * fw) * i / ny, Tk / 2, fm, false); }
+      // fixed：整片玻璃，不加分隔
     }
     const X = new THREE.Vector3(wi.dir[0], 0, wi.dir[1]);
     const Z = new THREE.Vector3(wi.nOut[0], 0, wi.nOut[1]);
@@ -1338,7 +1358,7 @@
 
   window.Model = {
     init(T) { THREE = T; },
-    uid, rowsWithFiller, genShelves, createCabinet, footprint, footDepth,
+    uid, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_COLORS, WIN_STYLES, FRAME_COLORS,
     createRoom, rectRoom, wallInfo, wallName, polyArea, pointInPoly, isModified, cabName,
     rowLip, OPEN_ROW, E_FRONT, buildCabinet, buildRoom, triShape, getMat, clearMatCache, clearSwatchTex, grainOf, imgGrainOf, floorDef, deskGeom, resizeCabinet, handleOf, handleEdge, insetPos, counterOver, deskHoles, isCounterAppl, toLocal, toWorld
   };
