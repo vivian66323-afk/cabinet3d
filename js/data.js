@@ -61,9 +61,6 @@
     sofabed: '沙發床', footstool: '椅凳／腳凳', daybed: '坐臥兩用床', dresser: '化妝台', drawers: '抽屜櫃', bartable: '吧台桌', bench: '長凳', stool: '板凳', officechair: '辦公椅／工作椅', bookcase: '書櫃', shelf: '層架組', shoecab: '鞋櫃／玄關家具',
     kidsbed: '兒童床', bunkbed: '上下舖／高腳床', cot: '嬰兒床', changingtable: '尿布更換桌', highchair: '嬰幼兒餐椅', kidsdesk: '兒童書桌', kidstable: '兒童桌', kidschair: '兒童椅', kidsstorage: '兒童收納' };
   const APPLIANCES = [
-    { code: 'SF-550A', at: 'sink', name: '手工方形水槽 55cm', w: 550, d: 460, h: 220, cut: [520, 430], price: 8505, finish: 'steel', mount: 'counter', spec: '外徑 550×460×220　內槽約 500×410　SUS304' },
-    { code: 'SF-750A', est: true, at: 'sink', name: '手工方形水槽 75cm', w: 750, d: 460, h: 220, cut: [720, 430], price: 11000, finish: 'steel', mount: 'counter', spec: '外徑 750×460×220　內槽約 700×410　SUS304' },
-    { code: 'SF-850A-01', at: 'sink', name: '手工方形水槽 85cm', w: 850, d: 460, h: 220, cut: [820, 430], price: 13410, finish: 'steel', mount: 'counter', spec: '外徑 850×460×220　內槽 800×410×220　SUS304' },
     { code: 'G2522S', est: true, at: 'hob', name: '二口小面板易清檯面爐（不鏽鋼）', w: 730, d: 420, h: 130, cut: [670, 350], price: 9900, finish: 'steel', burners: 2, mount: 'counter', spec: '機體 730×420×130　挖孔 670×350 R85　LPG/NG 8.6kW' },
     { code: 'G2522BG', est: true, at: 'hob', name: '二口小面板易清檯面爐（黑玻璃）', w: 730, d: 420, h: 125, cut: [670, 350], price: 10900, finish: 'glass', burners: 2, mount: 'counter', spec: '機體 730×420×125　挖孔 670×350 R85　強化玻璃' },
     { code: 'G2623AG', est: true, at: 'hob', name: '二口大面板易清檯面爐（黑玻璃）', w: 775, d: 520, h: 130, cut: [728, 468], price: 14900, finish: 'glass', burners: 2, mount: 'counter', spec: '機體 775×520×130　挖孔 728×468 R113' },
@@ -79,7 +76,7 @@
     { code: 'DR3590AXL', est: true, at: 'hood', name: '全隱藏式除油煙機 90cm', w: 890, d: 346, h: 286, price: 23900, finish: 'steel', style: 'hidden', mount: 'builtin', y: 1550, spec: '890×346×286　排風口 Φ179　17 m³/min' },
     { code: 'R7650XL', at: 'hood', name: '近吸除油煙機 90cm', w: 890, d: 430, h: 474, price: 19700, finish: 'glass', style: 'near', mount: 'wall', y: 1450, spec: '890×430×474　近吸式　延遲除味' },
     // ---- 林內 Rinnai
-    { brand: '林內 Rinnai', code: 'RB-2GMB', at: 'hob', name: '檯面式美食家二口爐（黑玻璃）', w: 750, d: 450, h: 133, cut: [670, 350], price: 11500, est: true, finish: 'glass', burners: 2, mount: 'counter', spec: '外觀 750×450×133　挖孔 670×350　強化玻璃' },
+    { brand: '林內 Rinnai', code: 'RB-M2600G', at: 'hob', name: '檯面式極炎玻璃雙口爐', w: 750, d: 450, h: 133, cut: [670, 350], price: 14200, est: true, finish: 'glass', burners: 2, mount: 'counter', spec: '外觀約 750×450×133　挖孔約 670×350　強化玻璃　尺寸為同級估計' },
     { brand: '林內 Rinnai', code: 'RKD-6035S', at: 'dryer', name: '落地式臭氧殺菌烘碗機 60cm（嵌門式）', w: 596, d: 500, h: 700, price: 19800, finish: 'panel', mount: 'floor', y: 100, spec: '596×500×700　臭氧殺菌　可自備嵌門板' },
     { brand: '林內 Rinnai', code: 'RBO-5CS1-TW', at: 'oven', name: '嵌入式電燒烤五段功能烹調烤箱 61L', w: 595, d: 550, h: 595, price: 25100, finish: 'steel', mount: 'builtin', y: 180, spec: '595×550×595　嵌入開口 565×585×550　220V　義大利原裝' },
     { brand: '林內 Rinnai', code: 'RH-9033S', at: 'hood', name: '斜背深罩式水洗＋電熱除油排油煙機 90cm', w: 894, d: 574, h: 330, price: 9700, finish: 'steel', style: 'deep', mount: 'wall', y: 1550, spec: '894×574×330　SUS430　175W' },
@@ -87,16 +84,13 @@
     { brand: '豪山 HOSUN', code: 'VSTQ40-2', at: 'sink', name: 'SMEG 方形水槽（下嵌式）', w: 420, d: 418, h: 210, cut: [400, 398], price: 17900, finish: 'steel', mount: 'counter', spec: '外觀 420×418×210　內徑 400×398×200　下嵌式（豪山代理 SMEG）' },
     { brand: '豪山 HOSUN', code: 'SB-2202', at: 'hob', name: '雙口歐化玻璃檯面爐', w: 780, d: 520, h: 115, cut: [725, 465], price: 13000, finish: 'glass', burners: 2, mount: 'counter', spec: '機體 780×520×115　挖孔 725×465 R85' },
     { brand: '豪山 HOSUN', code: 'SK-2051S', at: 'hob', name: '歐化嵌入爐（不鏽鋼）', w: 700, d: 464, h: 238, cut: [670, 320], price: 7700, finish: 'steel', burners: 2, mount: 'counter', spec: '機體 700×464×238　挖孔 670×320' },
-    { brand: '豪山 HOSUN', code: 'PLTW64X-2', at: 'dw', name: 'SMEG 嵌入式洗碗機 60cm', w: 598, d: 568, h: 818, price: 47500, finish: 'steel', mount: 'floor', y: 0, spec: '598×568×818　12人份　不鏽鋼前板（豪山代理 SMEG）' },
     { brand: '豪山 HOSUN', code: 'FD-6201', at: 'dryer', name: '觸控立式雙抽烘碗機 60cm', w: 596, d: 500, h: 700, price: 15900, finish: 'glass', mount: 'floor', y: 100, spec: '596×500×700　雙抽屜' },
     { brand: '豪山 HOSUN', code: 'FD-5201', at: 'dryer', name: '觸控立式雙抽烘碗機 50cm', w: 496, d: 500, h: 700, price: 14900, finish: 'glass', mount: 'floor', y: 100, spec: '496×500×700　雙抽屜' },
     { brand: '豪山 HOSUN', code: 'FW-8909', at: 'dryer', name: '紫外線殺菌懸掛式烘碗機 80cm', w: 798, d: 327, h: 397, price: 10200, finish: 'white', mount: 'wall', y: 1500, spec: '798×327×397　紫外線殺菌' },
     { brand: '豪山 HOSUN', code: 'FW-9909', at: 'dryer', name: '紫外線殺菌懸掛式烘碗機 90cm', w: 898, d: 327, h: 397, price: 10400, finish: 'white', mount: 'wall', y: 1500, spec: '898×327×397　紫外線殺菌' },
-    { brand: '豪山 HOSUN', code: 'VEA-9031PH', at: 'hood', name: '隱藏式熱除油排油煙機 90cm', w: 891, d: 380, h: 185, price: 9900, finish: 'steel', style: 'hidden', mount: 'builtin', y: 1550, spec: '891×380×185　超薄隱藏式　熱除油' },
+    { brand: '豪山 HOSUN', code: 'VEQ-9158P', at: 'hood', name: '隱藏式排油煙機 90cm（烤漆白）', w: 891, d: 380, h: 185, price: 6553, est: true, finish: 'white', style: 'hidden', mount: 'builtin', y: 1550, spec: '約 891×380×185　隱藏式　尺寸為同級估計' },
     { brand: '豪山 HOSUN', code: 'VSR-9301', at: 'hood', name: '近吸排油煙機 90cm', w: 895, d: 400, h: 461, price: 18500, finish: 'glass', style: 'near', mount: 'wall', y: 1450, spec: '895×400×461　玻璃觸控　熱除油' },
     // ---- 喜特麗 JTL
-    { brand: '喜特麗 JTL', code: 'JT-A6015', at: 'sink', name: '不鏽鋼雙槽水槽 76cm', w: 760, d: 520, h: 220, cut: [730, 490], bowls: [0.62, 0.38], price: 6900, finish: 'steel', mount: 'counter', spec: '外徑 760×520×220　內徑 685×445　SUS304 0.8mm' },
-    { brand: '喜特麗 JTL', code: 'JT-A6020', at: 'sink', name: '不鏽鋼水槽 82cm', w: 820, d: 520, h: 220, cut: [790, 490], price: 7500, est: true, finish: 'steel', mount: 'counter', spec: '外徑 820×520×220　SUS304' },
     { brand: '喜特麗 JTL', code: 'JT-GC229AS', at: 'hob', name: '雙口黑色玻璃檯面爐', w: 730, d: 425, h: 120, cut: [670, 350], price: 9800, est: true, finish: 'glass', burners: 2, mount: 'counter', spec: '機身 730×425×120　挖孔 670×350 R85' },
     { brand: '喜特麗 JTL', code: 'JT-3066Q', at: 'dryer', name: '落地式烘碗機 60cm', w: 597, d: 520, h: 697, price: 15600, finish: 'glass', mount: 'floor', y: 100, spec: '597×520×697　臭氧殺菌' },
     { brand: '喜特麗 JTL', code: 'JT-3056Q', at: 'dryer', name: '落地式烘碗機 50cm', w: 497, d: 520, h: 697, price: 15200, finish: 'glass', mount: 'floor', y: 100, spec: '497×520×697　臭氧殺菌' },
@@ -112,7 +106,9 @@
     { brand: '莊頭北 TOPAX', code: 'TR-5195-80', at: 'hood', name: '單層式排油煙機 80cm', w: 790, d: 565, h: 190, price: 6800, finish: 'steel', style: 'std', mount: 'wall', y: 1600, spec: '790×565×190　排風 Ø150　LED' },
     { brand: '莊頭北 TOPAX', code: 'TR-5195-90', at: 'hood', name: '單層式排油煙機 90cm', w: 890, d: 565, h: 190, price: 7000, finish: 'steel', style: 'std', mount: 'wall', y: 1600, spec: '890×565×190　排風 Ø150　LED' }
   ];
-  APPLIANCES.forEach(a => { a.brand = a.brand || '櫻花 SAKURA'; items.push({ ...a, hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'appl', hanging: a.mount === 'wall' || a.at === 'hood' }); });
+  // 廚房設備產品照片（PChome 商品圖；VSTQ40-2 取自 SMEG 官網）
+  const APPL_IMG = {"G2522S": "catalog/appl/G2522S.jpg", "G2522BG": "catalog/appl/G2522BG.jpg", "G2623AG": "catalog/appl/G2623AG.jpg", "E7783": "catalog/appl/E7783.jpg", "E7683": "catalog/appl/E7683.jpg", "Q7693": "catalog/appl/Q7693.jpg", "Q7693L": "catalog/appl/Q7693L.jpg", "Q7596BML": "catalog/appl/Q7596BML.jpg", "Q7565BWL": "catalog/appl/Q7565BWL.jpg", "Q7565BWXL": "catalog/appl/Q7565BWXL.jpg", "E6672": "catalog/appl/E6672.jpg", "DR3590AL": "catalog/appl/DR3590AL.jpg", "DR3590AXL": "catalog/appl/DR3590AXL.jpg", "R7650XL": "catalog/appl/R7650XL.jpg", "RKD-6035S": "catalog/appl/RKD-6035S.jpg", "RBO-5CS1-TW": "catalog/appl/RBO-5CS1-TW.jpg", "RH-9033S": "catalog/appl/RH-9033S.jpg", "SB-2202": "catalog/appl/SB-2202.jpg", "SK-2051S": "catalog/appl/SK-2051S.jpg", "FD-6201": "catalog/appl/FD-6201.jpg", "FD-5201": "catalog/appl/FD-5201.jpg", "FW-8909": "catalog/appl/FW-8909.jpg", "FW-9909": "catalog/appl/FW-9909.jpg", "VSR-9301": "catalog/appl/VSR-9301.jpg", "JT-GC229AS": "catalog/appl/JT-GC229AS.jpg", "JT-3066Q": "catalog/appl/JT-3066Q.jpg", "JT-3056Q": "catalog/appl/JT-3056Q.jpg", "JT-3818Q": "catalog/appl/JT-3818Q.jpg", "JT-3819Q": "catalog/appl/JT-3819Q.jpg", "JT-1680": "catalog/appl/JT-1680.jpg", "JT-1690": "catalog/appl/JT-1690.jpg", "TG-8503BG": "catalog/appl/TG-8503BG.jpg", "TD-3652": "catalog/appl/TD-3652.jpg", "TR-5195-80": "catalog/appl/TR-5195-80.jpg", "TR-5195-90": "catalog/appl/TR-5195-90.jpg", "TD-3103-80": "catalog/appl/TD-3103-80.jpg", "TD-3103-90": "catalog/appl/TD-3103-90.jpg", "VSTQ40-2": "catalog/VSTQ40-2.jpg", "RB-M2600G": "catalog/appl/RB-M2600G.jpg", "VEQ-9158P": "catalog/appl/VEQ-9158P.jpg"};
+  APPLIANCES.forEach(a => { a.brand = a.brand || '櫻花 SAKURA'; a.img = a.img || APPL_IMG[a.code] || ''; items.push({ ...a, hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'appl', hanging: a.mount === 'wall' || a.at === 'hood' }); });
   const APPL_BRANDS = ['櫻花 SAKURA', '林內 Rinnai', '豪山 HOSUN', '喜特麗 JTL', '莊頭北 TOPAX'];
 
   /* DAY&DAY 日日（daynday.com.tw）#304 不鏽鋼廚房配件與衛浴置物架，2026-10 官網訂價與尺寸（W×D×H mm）

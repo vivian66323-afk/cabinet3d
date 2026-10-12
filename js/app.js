@@ -34,6 +34,12 @@
   function normalize(s) {
     const d = App.defaultState();
     const out = { ...d, ...s };
+    // 型錄已移除的型號（舊專案）：略過，避免後續讀不到規格而出錯
+    const D = window.DATA, dropped = [];
+    const clean = list => (list || []).filter(c => { if (c && c.kind === 'appl' && D && D.byCode && !D.byCode[c.code]) { dropped.push(c.code); return false; } return true; });
+    out.cabinets = clean(out.cabinets);
+    if (Array.isArray(out.floors)) out.floors.forEach(f => { f.cabinets = clean(f.cabinets); });
+    if (dropped.length) setTimeout(() => App.toast && App.toast('型錄已無這些設備型號，已略過：' + [...new Set(dropped)].join('、')), 500);
     out.defaults = { ...d.defaults, ...(s.defaults || {}) };
     out.pricing = { ...d.pricing, ...(s.pricing || {}) };
     out.pricing.parts = { ...d.pricing.parts, ...((s.pricing || {}).parts || {}) };
