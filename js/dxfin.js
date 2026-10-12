@@ -721,14 +721,16 @@
       return;
     }
     // PDF：底圖直接用頁面影像（比例 = 紙面 mm × 比例分母）；影像延後到此時才渲染
+    const vecOf = (toPx) => { const out = []; st.fr.ents.forEach(e => { if (e.k !== 'L' || !st.layers[e.l]) return; const a = toPx(e.p[0], e.p[1]), b = toPx(e.p[2], e.p[3]); if (Math.hypot(b[0] - a[0], b[1] - a[1]) < 1) return; out.push([+a[0].toFixed(1), +a[1].toFixed(1), +b[0].toFixed(1), +b[1].toFixed(1)]); }); return out.slice(0, 25000); };
     if (!st.image && st.renderImage) {
       App.busy(true, '渲染 PDF 頁面…');
-      try { const im = await st.renderImage(); st.image = Object.assign({ paperW: st.paperW, paperH: st.paperH }, im); } catch (e) { App.toast('PDF 渲染失敗：' + (e.message || e)); }
+      try { const im = await st.renderImage(); st.image = Object.assign({ paperW: st.paperW, paperH: st.paperH }, im); } catch (e) { App.toast('頁面影像渲染失敗（' + (e.message || e) + '），改以線條繪製底圖'); st.image = null; }
       App.busy(false);
     }
     if (st.image) {
-      const im = st.image, mmPerPx = im.paperW / im.w * k;
-      App.mutate('匯入 PDF 底圖', s => { s.underlay = { src: im.src, w: im.w, h: im.h, scale: mmPerPx, x: Math.round((im.paperW / 2 - cx / k) * k), z: Math.round((cy / k - im.paperH / 2) * k), rot: 0, opacity: 0.75, visible: true, name: fname }; }, 'underlay');
+      const im = st.image, mmPerPx = im.paperW / im.w * k, pxPerMm = im.w / im.paperW;
+      const vec = vecOf((x, y) => [(x - im.paperW / 2) * pxPerMm, (im.paperH / 2 - y) * pxPerMm]);
+      App.mutate('匯入 PDF 底圖', s => { s.underlay = { src: im.src, w: im.w, h: im.h, scale: mmPerPx, x: Math.round((im.paperW / 2 - cx / k) * k), z: Math.round((cy / k - im.paperH / 2) * k), rot: 0, opacity: 0.75, visible: true, name: fname, vec }; }, 'underlay');
       V().setView('top');
       App.toast('PDF 已轉成底圖（比例 1:' + k + '），按 L 沿牆線描出空間；比例不對可在底圖區重新量測');
       return;
@@ -747,7 +749,8 @@
       else if (e.k === 'A') { ctx.beginPath(); ctx.arc(tx(e.c[0]), ty(e.c[1]), e.r * k * sc, -e.a2 * Math.PI / 180, -e.a1 * Math.PI / 180); ctx.stroke(); }
     });
     const src = cv.toDataURL('image/jpeg', 0.85);
-    App.mutate('匯入 DXF 底圖', s => { s.underlay = { src, w: cv.width, h: cv.height, scale: 1 / sc, x: 0, z: 0, rot: 0, opacity: 0.8, visible: true, name: fname }; }, 'underlay');
+    const vec = vecOf((x, y) => [tx(x) - cv.width / 2, ty(y) - cv.height / 2]);
+    App.mutate('匯入 DXF 底圖', s => { s.underlay = { src, w: cv.width, h: cv.height, scale: 1 / sc, x: 0, z: 0, rot: 0, opacity: 0.8, visible: true, name: fname, vec }; }, 'underlay');
     V().setView('top');
     App.toast('DXF 已轉成底圖（比例正確），按 L 沿牆線描出空間');
   };

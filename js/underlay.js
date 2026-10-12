@@ -29,7 +29,9 @@
   }
   async function fromPdf(file) {
     const lib = await loadPdfJs();
-    const pdf = await lib.getDocument({ data: await file.arrayBuffer(), cMapUrl: PDFJS + 'cmaps/', cMapPacked: true, standardFontDataUrl: PDFJS + 'standard_fonts/' }).promise;
+    const buf = await file.arrayBuffer(), keep = buf.slice(0);   // pdf.js 會把緩衝區轉移給 worker，留一份給之後渲染用
+    const docOpts = {};   // 不指定外部 CMap／字型（跨網域抓取可能被擋住而卡死）；CJK 文字多為內嵌字型
+    const pdf = await lib.getDocument({ data: buf, ...docOpts }).promise;
     let pageNo = 1;
     if (pdf.numPages > 1) {
       const r = await UI().modal({ title: 'PDF 有 ' + pdf.numPages + ' 頁', body: `<div class="kv"><label>使用第幾頁</label><div class="inline"><input name="p" type="number" min="1" max="${pdf.numPages}" value="1"><span class="unit">頁</span></div></div>`, buttons: [{ label: '取消', value: null }, { label: '確定', primary: true, value: 'ok' }] });
@@ -42,11 +44,16 @@
     let vec = null;
     try { vec = await pdfVectors(page, lib, vp1); } catch (e) { console.warn('PDF 向量抽取失敗', e); }
     const render = async () => {
+      // 取過 operator list 的頁面物件再 render 會卡住：另開一份文件來渲染
+      const pdf2 = await lib.getDocument({ data: keep.slice(0), ...docOpts }).promise, page2 = await pdf2.getPage(pageNo);
       const k = MAX / Math.max(vp1.width, vp1.height);
-      const vp = page.getViewport({ scale: k });
+      const vp = page2.getViewport({ scale: k });
       const c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
       const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
-      await page.render({ canvasContext: ctx, viewport: vp }).promise;
+      const task = page2.render({ canvasContext: ctx, viewport: vp });
+      const ok = await Promise.race([task.promise.then(() => true), new Promise(r => setTimeout(() => r(false), 20000))]);
+      if (!ok) { try { task.cancel(); } catch (e) { } try { pdf2.destroy(); } catch (e) { } throw new Error('PDF 頁面渲染逾時'); }
+      try { pdf2.destroy(); } catch (e) { }
       return { src: toJpeg(c), w: c.width, h: c.height };
     };
     return { vec, render, paperW: vp1.width * PT, paperH: vp1.height * PT };

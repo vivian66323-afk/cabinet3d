@@ -497,7 +497,7 @@
       };
       if ((V.tool === 'tape' || V.tool === 'uscale') && tape.a) mark(tape.a, tape.aType || '端點', false);
       if (V.tool === 'line' && draw.pts.length) mark(new THREE.Vector3(draw.pts[0][0], 0, draw.pts[0][1]), '起點', draw.pts.length > 2 ? '起點' : false);
-      if (V.snapMark) mark(V.snapMark.p, V.snapMark.type, V.tool === 'line' ? (V.snapMark.tip || false) : true);
+      if (V.snapMark) mark(V.snapMark.p, V.snapMark.type, V.tool === 'line' || V.tool === 'uscale' ? (V.snapMark.tip || false) : true);
     }
     const s = App.sel;
     const mini = document.getElementById('miniBar');
@@ -731,6 +731,41 @@
     });
     return b;
   }
+  // 底圖向量端點：底圖由向量 PDF／DXF 轉成時保留線段（影像像素、相對影像中心），畫線與比例尺可鎖到端點與中點
+  let ulPts = null, ulKey = '';
+  function underlayPoints() {
+    const u = App.state && App.state.underlay;
+    if (!u || !u.visible || !u.vec || !u.vec.length) { ulPts = null; ulKey = ''; return null; }
+    const key = [u.x, u.z, u.rot, u.scale, u.vec.length, u.w, u.h].join(',');
+    if (key === ulKey && ulPts) return ulPts;
+    const th = -(u.rot || 0) * deg, c = Math.cos(th), s = Math.sin(th), k = u.scale;
+    const W = (lx, lz) => [u.x + lx * c + lz * s, u.z - lx * s + lz * c];
+    const pts = [];
+    u.vec.forEach(sg => {
+      const a = W(sg[0] * k, sg[1] * k), b = W(sg[2] * k, sg[3] * k);
+      pts.push({ x: a[0], z: a[1], t: '端點' }, { x: b[0], z: b[1], t: '端點' });
+      if (Math.hypot(b[0] - a[0], b[1] - a[1]) > 300) pts.push({ x: (a[0] + b[0]) / 2, z: (a[1] + b[1]) / 2, t: '中點' });
+    });
+    ulPts = pts; ulKey = key; return pts;
+  }
+  // 以游標附近（螢幕 px 內）最近的底圖端點回傳 { p:[x,z], type }
+  function underlaySnap(g, px = 11) {
+    const pts = underlayPoints(); if (!pts || !g) return null;
+    const cr = renderer.domElement.getBoundingClientRect();
+    const ms = [(mouse.x + 1) / 2 * cr.width, (1 - mouse.y) / 2 * cr.height];
+    const q0 = new THREE.Vector3(g.x, 0, g.z).project(camera), q1 = new THREE.Vector3(g.x + 1000, 0, g.z).project(camera);
+    const pxPerMM = Math.hypot((q1.x - q0.x) / 2 * cr.width, (q1.y - q0.y) / 2 * cr.height) / 1000 || 1e-6;
+    const R = px / pxPerMM * 1.5;   // 先以世界距離粗篩
+    let best = null;
+    for (const p of pts) {
+      if (Math.abs(p.x - g.x) > R || Math.abs(p.z - g.z) > R) continue;
+      const q = new THREE.Vector3(p.x, 0, p.z).project(camera), sx = (q.x + 1) / 2 * cr.width, sy = (1 - q.y) / 2 * cr.height;
+      const d = Math.hypot(sx - ms[0], sy - ms[1]);
+      if (d < px && (!best || d < best.d || (p.t === '端點' && best.t !== '端點' && d < best.d + 3))) best = { d, p: [Math.round(p.x), Math.round(p.z)], t: p.t };
+    }
+    return best;
+  }
+  V.underlaySnap = underlaySnap;
   // 吸附輔助線（洋紅色虛線）
   let snapGuide = null;
   V.showSnapGuides = function (lines) {
@@ -1183,6 +1218,8 @@
       if (r.q === pts[pts.length - 1]) continue;
       if (near(r.q[0], r.q[1], 11)) return { p: [r.q[0], r.q[1]], snap: '端點（' + r.name + '）', guides: [] };
     }
+    // 2b. 底圖線段端點／中點（向量 PDF／DXF 轉成的底圖）
+    { const us = underlaySnap(raw, 11); if (us) return { p: us.p, snap: us.t + '（底圖）', guides: [] }; }
     // 3. 中點（已畫線段）
     for (let i = 0; i + 1 < pts.length; i++) {
       const mx = (pts[i][0] + pts[i + 1][0]) / 2, mz = (pts[i][1] + pts[i + 1][1]) / 2;
@@ -1250,7 +1287,7 @@
     const r = inferPoint(g, draw.pts[draw.pts.length - 1]);
     draw.cursor = r.p; draw.snap = r.snap; draw.axis = r.axis; draw.cursorGuides = r.guides; draw.last = r;
     redrawLine();
-    const type = r.close ? '起點' : r.snap.startsWith('端點') ? '端點' : r.snap === '中點' ? '中點' : r.axis === 'X' ? '紅軸' : r.axis === 'Z' ? '綠軸' : r.guides && r.guides.length ? '對齊' : '地面';
+    const type = r.close ? '起點' : r.snap.startsWith('端點') ? '端點' : r.snap.startsWith('中點') ? '中點' : r.axis === 'X' ? '紅軸' : r.axis === 'Z' ? '綠軸' : r.guides && r.guides.length ? '對齊' : '地面';
     V.snapMark = { p: new THREE.Vector3(r.p[0], 0, r.p[1]), type, tip: r.snap || '' };
     App.status(`畫線：${draw.pts.length ? '點擊下一點' : '點擊起點'}　${r.snap ? '鎖點【' + r.snap + '】' : ''}${draw.lock ? '（Shift 鎖定）' : ''}　可直接打數字：長度 或 長度,角度 再按 Enter；Backspace 退回上一點；按住 Shift 鎖定軸向；點回起點、雙擊或空白時按 Enter 完成`);
   }
@@ -1374,14 +1411,16 @@
   // 底圖比例尺：在地面點兩點（不吸附櫃體），完成後呼叫 V.onUscaleDone(a, b, dist)
   V.onUscaleDone = null;
   function uscaleMove() {
-    const g = groundPoint(0); if (!g) { V.snapMark = null; return; }
-    V.snapMark = { p: g.clone(), type: '地面' };
+    let g = groundPoint(0); if (!g) { V.snapMark = null; return; }
+    const us = underlaySnap(g, 12); if (us) g = new THREE.Vector3(us.p[0], 0, us.p[1]);
+    V.snapMark = { p: g.clone(), type: us ? '端點' : '地面', tip: us ? us.t + '（底圖）' : '' };
     labels.length = 0;
     if (tape.a) { tapeLine(tape.a, g); labels.push({ p: tape.a.clone().add(g).multiplyScalar(0.5), text: Math.round(tape.a.distanceTo(g)) + ' mm（目前比例）', cls: 'draw' }); App.status('比例尺：點擊第二點（底圖上另一個已知距離的位置）'); }
     else App.status('比例尺：在底圖上點擊第一點（挑一道有標示尺寸的牆或門）');
   }
   function uscaleClick() {
-    const g = groundPoint(0); if (!g) return;
+    let g = groundPoint(0); if (!g) return;
+    const us = underlaySnap(g, 12); if (us) g = new THREE.Vector3(us.p[0], 0, us.p[1]);
     if (!tape.a) { tape.a = g.clone(); tape.aType = '起點'; return; }
     const a = tape.a.clone(), b = g.clone(), dist = a.distanceTo(b);
     tapeLine(a, b); labels.length = 0;
