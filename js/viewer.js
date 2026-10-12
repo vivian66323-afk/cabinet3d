@@ -332,6 +332,19 @@
   function updateGrips() {
     if (gripGroup) { helperGroup.remove(gripGroup); gripGroup.traverse(o => { if (o.geometry) o.geometry.dispose(); }); gripGroup = null; }
     const s = App.sel;
+    if (s && s.type === 'wall' && App.state.room && !move.active) {   // 門窗：左右邊（寬）、上緣（高）、窗台（抬高）掣點
+      gripGroup = new THREE.Group();
+      openingGrips().forEach(({ kind, p, o }) => {
+        const act = grip.active && grip.opening && grip.opening.oid === o.id && grip.opening.kind === kind;
+        const m = new THREE.Mesh(new THREE.SphereGeometry(30, 18, 12), new THREE.MeshBasicMaterial({ color: act ? 0xff8f00 : kind === 't' || kind === 'b' ? 0x1e88e5 : 0x5a8f00, depthTest: false }));
+        m.position.copy(p); m.renderOrder = 1000; m.userData.grip = { kind, oid: o.id };
+        const ring = new THREE.Mesh(new THREE.SphereGeometry(40, 18, 12), new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false }));
+        ring.position.copy(p); ring.renderOrder = 999;
+        gripGroup.add(ring, m);
+      });
+      helperGroup.add(gripGroup);
+      return;
+    }
     const cab = s && s.type === 'cab' ? App.state.cabinets.find(c => c.id === s.id) : null;
     if (!cab || cab.kind !== 'desk' || move.active) return;
     gripGroup = new THREE.Group();
@@ -347,6 +360,7 @@
   function pickGrip() {
     if (!gripGroup) return null;
     { const c = App.selectedCab && App.selectedCab(); if (c && c.locked) return null; }
+    { const s = App.sel; if (s && s.type === 'wall' && App.state.room && App.state.room.walls[s.index].locked) return null; }
     gripGroup.updateMatrixWorld();
     raycaster.setFromCamera(mouse, camera);
     const h = raycaster.intersectObjects(gripGroup.children.filter(o => o.userData.grip), false)[0];
@@ -363,7 +377,59 @@
     });
     return best;
   }
+  /* ---------- 門窗拖曳（選取牆面後：拖門窗本體移動、拖掣點改寬／高／窗台高） ---------- */
+  function openingGrips() {
+    const s = App.sel; if (!s || s.type !== 'wall' || !App.state.room) return [];
+    const room = App.state.room, wi = M().wallInfo(room, s.index), wall = room.walls[s.index]; if (!wall) return [];
+    const at = (t, y) => new THREE.Vector3(wi.p[0] + wi.dir[0] * t + wi.nIn[0] * 10, y, wi.p[1] + wi.dir[1] * t + wi.nIn[1] * 10);
+    const out = [];
+    wall.openings.forEach(o => {
+      const h = Math.min(o.height, room.height - o.sill);
+      out.push({ o, kind: 'l', p: at(o.offset, o.sill + h / 2) }, { o, kind: 'r', p: at(o.offset + o.width, o.sill + h / 2) }, { o, kind: 't', p: at(o.offset + o.width / 2, o.sill + h) });
+      if (o.type === 'window') out.push({ o, kind: 'b', p: at(o.offset + o.width / 2, o.sill) });
+    });
+    return out;
+  }
+  function wallHit(wi) {   // 滑鼠射線與牆面（內面所在的垂直平面）交點 → { t: 沿牆, y }
+    raycaster.setFromCamera(mouse, camera);
+    const plane = new THREE.Plane().setFromNormalAndCoplanarPoint(new THREE.Vector3(wi.nOut[0], 0, wi.nOut[1]), new THREE.Vector3(wi.p[0], 0, wi.p[1]));
+    const p = new THREE.Vector3(); if (!raycaster.ray.intersectPlane(plane, p)) return null;
+    return { t: (p.x - wi.p[0]) * wi.dir[0] + (p.z - wi.p[1]) * wi.dir[1], y: p.y };
+  }
+  function startOpeningGrip(g) {
+    const s = App.sel, room = App.state.room; if (!s || s.type !== 'wall' || !room) return;
+    const wall = room.walls[s.index], o = wall.openings.find(x => x.id === g.oid); if (!o || wall.locked) return;
+    const wi = M().wallInfo(room, s.index), hit = wallHit(wi); if (!hit) return;
+    Object.assign(grip, { active: true, side: null, opening: { kind: g.kind, oid: o.id, wall: s.index, grab: hit.t - o.offset, start: { offset: o.offset, width: o.width, height: o.height, sill: o.sill } } });
+    controls.enabled = false;
+    updateGrips();
+  }
+  function openingUpdate() {
+    const room = App.state.room, gi = grip.opening, wall = room.walls[gi.wall], o = wall.openings.find(x => x.id === gi.oid); if (!o) return;
+    const wi = M().wallInfo(room, gi.wall), hit = wallHit(wi); if (!hit) return;
+    const H = room.height, L = wi.len, r10 = v => Math.round(v / 10) * 10;
+    const right = gi.start.offset + gi.start.width;
+    if (gi.kind === 'm') { o.offset = Math.max(10, Math.min(Math.round(L - o.width - 10), r10(hit.t - gi.grab))); }
+    else if (gi.kind === 'l') { const off = Math.max(10, Math.min(right - 300, r10(hit.t))); o.offset = off; o.width = right - off; }
+    else if (gi.kind === 'r') { o.width = Math.max(300, Math.min(Math.round(L - o.offset - 10), r10(hit.t) - o.offset)); }
+    else if (gi.kind === 't') { o.height = Math.max(200, Math.min(H - o.sill - 10, r10(hit.y) - o.sill)); }
+    else if (gi.kind === 'b') { o.sill = Math.max(0, Math.min(H - o.height - 10, r10(hit.y))); }
+    V.rebuildRoom(); updateGrips();
+    const name = o.type === 'door' ? '門' : '窗';
+    App.status(`${name}：寬 ${o.width}　高 ${o.height}${o.type === 'window' ? '　抬高 ' + o.sill : ''}　距左 ${o.offset} mm　放開完成，Esc 取消`);
+  }
+  function endOpeningGrip(commit) {
+    const gi = grip.opening; grip.active = false; grip.opening = null; controls.enabled = true;
+    const room = App.state.room, wall = room && room.walls[gi.wall], o = wall && wall.openings.find(x => x.id === gi.oid);
+    if (!o) return;
+    const after = { offset: o.offset, width: o.width, height: o.height, sill: o.sill };
+    Object.assign(o, gi.start);
+    if (commit && Object.keys(after).some(k => after[k] !== gi.start[k])) App.mutate(gi.kind === 'm' ? '移動門窗' : '調整門窗', () => Object.assign(o, after), 'room');
+    else { V.rebuildRoom(); updateGrips(); }
+    App.status('');
+  }
   function startGrip(side) {
+    if (side && typeof side === 'object') { startOpeningGrip(side); return; }
     const cab = App.state.cabinets.find(c => c.id === App.sel.id);
     const xa = xAxisOf(cab.rot);
     if (side === 'd') {
@@ -379,6 +445,7 @@
     updateGrips();
   }
   function gripUpdate() {
+    if (grip.opening) { openingUpdate(); return; }
     const cab = App.state.cabinets.find(c => c.id === grip.id); if (!cab) return;
     const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -(cab.y + cab.thick));
     raycaster.setFromCamera(mouse, camera);
@@ -437,6 +504,7 @@
   }
   function endGrip(commit) {
     if (!grip.active) return;
+    if (grip.opening) { endOpeningGrip(commit); return; }
     const cab = App.state.cabinets.find(c => c.id === grip.id);
     grip.active = false; controls.enabled = true;
     if (!cab) return;
@@ -466,6 +534,8 @@
     }
   }
   V.updateSelection = function () { updateSelBox(); V.refreshGaps(); };
+  // 世界座標 → 畫布 client 座標（測試與外掛用）
+  V.project = function (x, y, z) { const r = renderer.domElement.getBoundingClientRect(); const q = new THREE.Vector3(x, y, z).project(camera); return { x: r.left + (q.x + 1) / 2 * r.width, y: r.top + (1 - q.y) / 2 * r.height, behind: q.z > 1 }; };
 
   /* ---------- 標籤 ---------- */
   const labels = [];
@@ -570,8 +640,9 @@
     const hits = raycaster.intersectObjects(objs, true).filter(h => h.object.isMesh && h.object.visible && !(h.object.material && h.object.material.opacity < 0.2));
     for (const h of hits) {
       if (h.object.userData.cabId) return { type: 'cab', id: h.object.userData.cabId, point: h.point };
-      let o = h.object;
-      while (o && o.userData.wallIndex == null && o.parent) o = o.parent;
+      let o = h.object, opening = null;
+      while (o && o.userData.wallIndex == null && o.parent) { if (o.userData.opening) opening = { id: o.userData.opening, wall: o.userData.ofWall }; o = o.parent; }
+      if (opening) return { type: 'wall', index: opening.wall, opening: opening.id, point: h.point };
       if (o && o.userData.wallIndex != null) return { type: 'wall', index: o.userData.wallIndex, point: h.point };
       if (h.object.userData.isFloor) return { type: 'floor', point: h.point };
     }
@@ -670,7 +741,12 @@
       if (h.type === 'cab') {
         App.select({ type: 'cab', id: h.id });
         down.cand = h;
-      } else if (h.type === 'wall') App.select({ type: 'wall', index: h.index });
+      } else if (h.type === 'wall') {
+        const cur = App.sel;
+        if (h.opening && cur && cur.type === 'wall' && cur.index === h.index) { startOpeningGrip({ kind: 'm', oid: h.opening }); return; }
+        App.select({ type: 'wall', index: h.index });
+        if (h.opening) App.status('已選取牆面：拖曳門窗可移動，拖綠色掣點改寬、藍色掣點改高／窗台高');
+      }
     }
   }
   function onMove(e) {
@@ -686,7 +762,7 @@
     else if (t === 'select' && down && down.cand && down.moved && !move.active) startMove(down.cand, true);
     // 游標
     const pg0 = t === 'select' ? pickGrip() : null;
-    if (pg0) { renderer.domElement.style.cursor = pg0 === 'd' ? 'ns-resize' : 'ew-resize'; return; }
+    if (pg0) { renderer.domElement.style.cursor = (typeof pg0 === 'object' ? (pg0.kind === 't' || pg0.kind === 'b') : pg0 === 'd') ? 'ns-resize' : 'ew-resize'; return; }
     if (t === 'select' || t === 'move' || t === 'rotate') {
       const h = pick();
       renderer.domElement.style.cursor = h && h.type === 'cab' ? (t === 'rotate' ? 'alias' : 'move') : (h && h.type === 'wall' ? 'pointer' : 'default');
