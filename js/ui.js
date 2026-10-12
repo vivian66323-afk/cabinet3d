@@ -937,7 +937,7 @@
     if (t.dataset.sws) { UI.swSeries = val; UI.showProps(); return; }
     if (t.dataset.swb) { UI.swBrand = val; UI.swSeries = 'all'; UI.showProps(); return; }
     // 專案層級
-    if (t.dataset.f === 'room-height') { const v = Math.max(1800, Math.min(6000, +val || 2600)); App.mutate('牆高', x => { x.room.height = v; x.room.walls.forEach(w => w.openings.forEach(o => { o.height = Math.min(o.height, v - o.sill - 10); })); }, 'room'); return; }
+    if (t.dataset.f === 'room-height') { const v = Math.max(1800, Math.min(6000, +val || 2800)); App.mutate('牆高', x => { x.room.height = v; x.room.walls.forEach(w => w.openings.forEach(o => { o.height = Math.min(o.height, v - o.sill - 10); })); }, 'room'); return; }
     if (t.dataset.f === 'room-floor') { const f = D.FLOORS.find(x => x.id === val); App.mutate('地板 ' + (f ? f.name : val), x => { x.room.floor = val; }, 'room'); App.toast('地板已改為「' + (f ? f.name : val) + '」'); return; }
     if (t.dataset.f === 'room-thick') { const v = Math.max(50, Math.min(400, +val || 120)); App.mutate('牆厚', x => { x.room.thickness = v; }, 'room'); return; }
     if (t.dataset.f === 'def-body') { App.mutate('預設櫃體色', x => { x.defaults.bodyColor = val; }); return; }
@@ -1345,7 +1345,7 @@
       body: `<p>輸入空間內淨尺寸（mm）。${r ? '<br><b>將取代目前空間與門窗</b>，櫃體會保留。' : ''}</p><div class="kv">
         <label>寬（X 向）</label><input name="w" type="number" value="4000" step="10">
         <label>深（Z 向）</label><input name="d" type="number" value="3500" step="10">
-        <label>高</label><input name="h" type="number" value="${r ? r.height : 2600}" step="10">
+        <label>高</label><input name="h" type="number" value="${r ? r.height : 2800}" step="10">
         <label>牆厚</label><input name="t" type="number" value="${r ? r.thickness : 120}" step="5"></div>`,
       buttons: [{ label: '取消', value: null }, { label: '建立空間', primary: true, value: 'ok' }],
       validate: d => (+d.w < 600 || +d.d < 600) ? '寬、深至少 600 mm' : (+d.h < 1800 || +d.h > 6000) ? '高度需介於 1800–6000 mm' : (+d.t < 50 || +d.t > 400) ? '牆厚需介於 50–400 mm' : null
@@ -1357,7 +1357,7 @@
     const res = await UI.modal({
       title: '封閉空間',
       body: `<p>已繪製 ${pts.length} 段牆。請輸入空間高度。${App.state.room ? '<br><b>將取代目前空間</b>，櫃體會保留。' : ''}</p><div class="kv">
-        <label>高</label><input name="h" type="number" value="${App.state.room ? App.state.room.height : 2600}" step="10">
+        <label>高</label><input name="h" type="number" value="${App.state.room ? App.state.room.height : 2800}" step="10">
         <label>牆厚</label><input name="t" type="number" value="120" step="5"></div>`,
       buttons: [{ label: '取消', value: null }, { label: '建立空間', primary: true, value: 'ok' }],
       validate: d => (+d.h < 1800 || +d.h > 6000) ? '高度需介於 1800–6000 mm' : null

@@ -489,7 +489,7 @@
         <div id="dxfPickRow" class="inline" style="grid-column:1/-1;display:none;gap:6px;align-items:center"><span id="dxfPickInfo" class="muted" style="font-size:12px"></span><input id="dxfPickLen" type="number" step="1" min="10" style="width:90px" placeholder="實際 mm"><span class="unit">mm</span><button type="button" class="btn small primary" id="dxfPickApply">套用</button></div>
         <label>圖幅</label><span id="dxfSize"></span>
         <label>牆厚</label><div class="inline"><input name="t" type="number" value="120" step="5" min="50" max="400"><span class="unit">mm</span></div>
-        <label>牆高</label><div class="inline"><input name="h" type="number" value="${App.state.room ? App.state.room.height : 2600}" step="10" min="1800" max="6000"><span class="unit">mm</span></div>
+        <label>牆高</label><div class="inline"><input name="h" type="number" value="${App.state.room ? App.state.room.height : 2800}" step="10" min="1800" max="6000"><span class="unit">mm</span></div>
         <label>門窗</label><label class="inline" style="gap:6px"><input type="checkbox" name="op" checked> 自動帶入 <span id="dxfOp" class="muted"></span></label></div>
         <div class="sec-title" style="margin-top:8px">圖層 <small>勾選含牆線的圖層</small></div>
         <div class="dxfin-layers">${layerNames.map(l => `<label><input type="checkbox" data-layer="${UI().esc(l)}"${st.layers[l] ? ' checked' : ''}> ${UI().esc(l)} <span class="muted">${counts[l]}</span></label>`).join('')}</div>
@@ -703,7 +703,7 @@
     if (res.button === 'room') {
       const c = st.cands[st.pick];
       if (!c) { App.toast('沒有可用的封閉區域，請改用「轉成底圖描圖」'); return; }
-      const h = Math.max(1800, Math.min(6000, +res.data.h || 2600)), t = Math.max(50, Math.min(400, +res.data.t || 120));
+      const h = Math.max(1800, Math.min(6000, +res.data.h || 2800)), t = Math.max(50, Math.min(400, +res.data.t || 120));
       const useOp = res.data.op && st.det && st.det.openings.length;
       const pts = useOp ? st.det.pts : c.pts;
       const room = M().createRoom(pts.map(toApp), h, t);

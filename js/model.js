@@ -222,7 +222,7 @@
   function createRoom(points, height, thickness) {
     return {
       points: points.map(p => [Math.round(p[0]), Math.round(p[1])]),
-      height: height || 2600, thickness: thickness || 120,
+      height: height || 2800, thickness: thickness || 120,
       walls: points.map(() => ({ id: uid('w'), locked: false, openings: [] }))
     };
   }
