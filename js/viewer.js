@@ -698,7 +698,13 @@
     down = null;
   }
   function onDbl(e) {
-    if (V.tool === 'line') { finishLine(); return; }
+    if (V.tool === 'line') {
+      // 真正的快按兩下會在同一位置連點兩次（最後兩點重合）；兩個不同位置快速點擊不算完成
+      const n = draw.pts.length, p = draw.pts[n - 1], q = draw.pts[n - 2];
+      if (n >= 4 && p && q && Math.hypot(p[0] - q[0], p[1] - q[1]) < 1) finishLine();
+      else App.status('畫線：點回起點封閉；或按兩次 Enter 自動連回起點完成');
+      return;
+    }
     if (V.tool === 'place' || V.tool === 'tape' || V.tool === 'uscale') return;
     // Shift + 快按兩下櫃體：開門預覽
     if (e && e.shiftKey) { const h = pick(); if (h && h.type === 'cab') { V.toggleOpen(h.id); return; } }
@@ -1345,7 +1351,14 @@
     if (draw.pts.length) { redrawLine(); lineMove(); } else V.cancelLine();
     return true;
   };
-  V.lineFinish = () => finishLine();
+  // Enter 完成：避免輸入長度後多按一次 Enter 就意外封閉，要在 2 秒內按兩次
+  let finishArmed = 0;
+  V.lineFinish = (force) => {
+    if (force) { finishLine(); return; }
+    if (draw.pts.length < 3) { App.toast('至少需要 3 個點才能封閉空間'); return; }
+    if (Date.now() - finishArmed < 2000) { finishArmed = 0; finishLine(); return; }
+    finishArmed = Date.now(); App.toast('再按一次 Enter 封閉空間（自動連回起點）；或點回起點封閉');
+  };
   V.linePointCount = () => draw.pts.length;
   V.linePoints = () => draw.pts.map(p => p.slice());
   function finishLine() {
