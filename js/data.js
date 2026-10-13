@@ -57,7 +57,7 @@
     bath: '置物架', towel: '毛巾架／掛桿', paper: '衛生紙／面紙架', mirror: '鏡子', mshelf: '鏡子平台架', toothcup: '牙刷杯架', soap: '香皂架', brush: '馬桶刷架', hairdryer: '吹風機架', grab: '安全扶手', hook: '掛衣勾', bathacc: '衛浴配件',
     faucet: '廚房檯面龍頭', wallfaucet: '壁式龍頭', basin: '臉盆龍頭', shower: '沐浴龍頭組', showercol: '淋浴柱', slidebar: '滑桿', bidet: '沖洗器',
     toilet: '馬桶', seat: '便座', washbasin: '臉盆', urinal: '小便斗', bathtub: '浴缸', flushvalve: '沖水閥', dryerfan: '浴室換氣暖房乾燥機', handdryer: '烘手機', vanity: '浴櫃', mirrorcab: '鏡櫃', showerdoor: '淋浴拉門',
-    doorleaf: '門片', bed: '床組', nightstand: '床頭櫃', sofa: '沙發', coffeetable: '茶几', sidetable: '邊几', diningtable: '餐桌', chair: '餐椅', barstool: '吧台椅', armchair: '單椅', studydesk: '書桌', tvstand: '電視櫃', wardrobe: '衣櫃',
+    doorleaf: '門片', curtain: '窗簾', bed: '床組', nightstand: '床頭櫃', sofa: '沙發', coffeetable: '茶几', sidetable: '邊几', diningtable: '餐桌', chair: '餐椅', barstool: '吧台椅', armchair: '單椅', studydesk: '書桌', tvstand: '電視櫃', wardrobe: '衣櫃',
     sofabed: '沙發床', footstool: '椅凳／腳凳', daybed: '坐臥兩用床', dresser: '化妝台', drawers: '抽屜櫃', bartable: '吧台桌', bench: '長凳', stool: '板凳', officechair: '辦公椅／工作椅', bookcase: '書櫃', shelf: '層架組', shoecab: '鞋櫃／玄關家具',
     kidsbed: '兒童床', bunkbed: '上下舖／高腳床', cot: '嬰兒床', changingtable: '尿布更換桌', highchair: '嬰幼兒餐椅', kidsdesk: '兒童書桌', kidstable: '兒童桌', kidschair: '兒童椅', kidsstorage: '兒童收納' };
   const APPLIANCES = [
@@ -1748,6 +1748,7 @@
   /* 家具（通用款，非特定品牌）：尺寸為台灣常見規格，可在屬性面板改寬深高；售價為暫定參考，請於板材售價修改
      [類型, 代碼, 品名, W, D, H, 參考售價, 備註] */
   const FURN_RAW = [
+    ['curtain', 'CURTAIN', '窗簾', 1500, 120, 2400, 3500, '蛇形簾／打摺簾／紗簾／捲簾／斑馬簾／百葉／直立百葉／羅馬簾／蜂巢簾；顏色、片數、開合可改'],
     ['doorleaf', 'DOOR-LEAF', '單片門（更衣室／房間入口）', 900, 100, 2100, 6000, '獨立門片＋門框，不需靠牆開口；款式、門片色、框色、鉸鏈側可改'],
     ['bed', 'BED-35', '單人床組 3.5 尺', 1060, 2000, 950, 12000, '床架＋床頭片＋床墊，床墊面高約 500'],
     ['bed', 'BED-50', '雙人床組 5 尺', 1520, 2000, 950, 18000, '床架＋床頭片＋床墊'],

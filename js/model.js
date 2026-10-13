@@ -780,10 +780,70 @@
     const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat);
     m.position.set(x, y, z); m.castShadow = true; g.add(m); return m;
   }
+  /* ---------- 窗簾 ---------- */
+  const CURTAIN_STYLES = [['wave', '蛇形簾（S 形）'], ['pleat', '打摺布簾'], ['sheer', '紗簾'], ['roller', '捲簾'], ['zebra', '斑馬簾（調光簾）'], ['venetian', '橫式百葉'], ['vertical', '直立百葉'], ['roman', '羅馬簾'], ['honeycomb', '蜂巢簾']];
+  const CURTAIN_COLORS = [['white', '白'], ['beige', '米白'], ['sand', '奶茶'], ['gray', '淺灰'], ['dark', '深灰'], ['blue', '灰藍'], ['green', '墨綠'], ['brown', '咖啡'], ['pink', '粉'], ['wood', '木色']];
+  const CURTAIN_HEX = { white: 0xf5f3ee, beige: 0xe6ddcc, sand: 0xcdb79a, gray: 0xb9b9b6, dark: 0x5c5c5e, blue: 0x8798a8, green: 0x4f6a5b, brown: 0x7a5c48, pink: 0xe3c1c4, wood: 0xb58d62 };
+  const ROLLS = ['roller', 'zebra', 'roman', 'honeycomb'];
+  function buildCurtain(g, cab) {
+    const { w, d, h } = cab, y0 = cab.y, st = cab.cstyle || 'wave';
+    const open = Math.max(0, Math.min(1, (cab.copen != null ? +cab.copen : 0) / 100));
+    const hex = CURTAIN_HEX[cab.ccolor || 'beige'] || CURTAIN_HEX.beige;
+    const sheer = st === 'sheer';
+    const fab = new THREE.MeshStandardMaterial({ color: hex, roughness: 0.92, side: THREE.DoubleSide, ...(sheer ? { transparent: true, opacity: 0.42, depthWrite: false } : {}) });
+    const rail = sMat('rod'), rodDark = applMat('gray');
+    const zb = -d / 2 + 25;   // 軌道／布面位置（靠牆側，正面朝 +z）
+    const top = y0 + h;
+    if (!ROLLS.includes(st) && st !== 'venetian' && st !== 'vertical') {
+      // 布簾：軌道 + 波浪狀布面（ExtrudeGeometry：XZ 波形往下擠出）
+      addBox(g, w, 24, 30, 0, top - 12, zb, rail, false);
+      const panels = cab.cpanels === '1' ? 1 : 2, covered = w * (1 - open), A = st === 'pleat' ? 22 : 34, P = st === 'pleat' ? 95 : 150, t = 7, fh = h - 40;
+      const makePanel = (x0, pw) => {
+        if (pw < 40) return;
+        const sh = new THREE.Shape(), n = Math.max(4, Math.round(pw / 10));
+        const zAt = x => zb + A * Math.sin(2 * Math.PI * x / P);
+        sh.moveTo(x0, zAt(0) + t / 2);
+        for (let i = 1; i <= n; i++) { const x = pw * i / n; sh.lineTo(x0 + x, zAt(x) + t / 2); }
+        for (let i = n; i >= 0; i--) { const x = pw * i / n; sh.lineTo(x0 + x, zAt(x) - t / 2); }
+        sh.closePath();
+        const geo = new THREE.ExtrudeGeometry(sh, { depth: fh, bevelEnabled: false, steps: 1 });
+        geo.rotateX(Math.PI / 2);   // (x, z, 擠出) → (x, 往下, z)
+        const m = new THREE.Mesh(geo, fab); m.position.y = top - 30; m.castShadow = !sheer; m.receiveShadow = true; g.add(m);
+      };
+      if (panels === 1) makePanel(-w / 2, covered);
+      else { makePanel(-w / 2, covered / 2); makePanel(w / 2 - covered / 2, covered / 2); }
+    } else if (st === 'venetian') {
+      addBox(g, w, 50, 50, 0, top - 25, zb, rodDark, false);
+      const fh = (h - 60) * (1 - open), pitch = 50, n = Math.max(1, Math.floor(fh / pitch));
+      const slat = new THREE.MeshStandardMaterial({ color: hex, roughness: 0.6, side: THREE.DoubleSide });
+      for (let i = 0; i < n; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(w - 10, 2, 40), slat); m.position.set(0, top - 60 - pitch * i, zb); m.rotation.x = -0.35; m.castShadow = true; g.add(m); }
+      addBox(g, w - 10, 14, 30, 0, top - 60 - pitch * n, zb, slat, false);   // 底軌
+      [-w / 2 + 80, w / 2 - 80].forEach(x => addBox(g, 3, fh, 3, x, top - 50 - fh / 2, zb + 24, rodDark, false));
+    } else if (st === 'vertical') {
+      addBox(g, w, 40, 50, 0, top - 20, zb, rodDark, false);
+      const pitch = 80, n = Math.max(1, Math.floor(w * (1 - open) / pitch));
+      const slat = new THREE.MeshStandardMaterial({ color: hex, roughness: 0.85, side: THREE.DoubleSide });
+      for (let i = 0; i < n; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(89, h - 60, 2), slat); m.position.set(-w / 2 + 45 + pitch * i, top - 40 - (h - 60) / 2, zb); m.rotation.y = 0.5; m.castShadow = true; g.add(m); }
+    } else {
+      // 捲簾類：上盒 + 平面布 + 底桿；斑馬簾加橫條、蜂巢簾加橫紋、羅馬簾分段摺
+      addBox(g, w, 60, 60, 0, top - 30, zb, st === 'honeycomb' ? rail : rodDark, false);
+      const fh = Math.max(30, (h - 70) * (1 - open)), ftop = top - 60;
+      if (st === 'roman') {
+        const seg = 320, n = Math.max(1, Math.ceil(fh / seg));
+        for (let i = 0; i < n; i++) { const sh = Math.min(seg, fh - seg * i); addBox(g, w, sh, 6, 0, ftop - seg * i - sh / 2, zb + 4 + i * 2, fab, false); addBox(g, w, 18, 26, 0, ftop - seg * i - sh + 9, zb + 8 + i * 2, fab, false); }
+      } else {
+        addBox(g, w, fh, 5, 0, ftop - fh / 2, zb, fab, false);
+        if (st === 'zebra') { const lite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, transparent: true, opacity: 0.55 }); for (let y = 60; y + 70 < fh; y += 150) addBox(g, w, 70, 7, 0, ftop - y - 35, zb, lite, false); }
+        if (st === 'honeycomb') { const line = applMat('gray'); for (let y = 0; y < fh; y += 60) addBox(g, w, 1.5, 9, 0, ftop - y, zb, line, false); }
+        addBox(g, w, 12, 14, 0, ftop - fh - 6, zb, st === 'zebra' ? rodDark : fab, false);   // 底桿
+      }
+    }
+  }
   function buildAppl(g, cab) {
     const it = D.byCode[cab.code] || cab, { w, d, h } = cab, y0 = cab.y;
     const steel = applMat('steel'), black = applMat('glassBlack');
     const face = it.finish === 'glass' ? black : it.finish === 'white' ? applMat('white') : steel;
+    if (cab.at === 'curtain') { buildCurtain(g, cab); return; }
     if (cab.at === 'doorleaf') {   // 獨立門片：重用牆面門的款式幾何（局部 x 沿寬、z 朝前），d = 門框深
       const Tk = Math.max(40, d - 20);
       const og = buildOpening(null, null, { id: 'leaf', type: 'door', width: w, height: h, sill: 0, style: cab.dstyle || 'single', color: cab.dcolor || 'wood', frame: cab.dframe || 'white' }, Tk, h, -1);
@@ -1436,7 +1496,7 @@
 
   window.Model = {
     init(T) { THREE = T; },
-    uid, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS,
+    uid, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS,
     createRoom, rectRoom, wallInfo, wallName, polyArea, pointInPoly, isModified, cabName,
     rowLip, OPEN_ROW, E_FRONT, buildCabinet, buildRoom, triShape, getMat, clearMatCache, clearSwatchTex, grainOf, imgGrainOf, floorDef, deskGeom, resizeCabinet, handleOf, handleEdge, insetPos, counterOver, deskHoles, isCounterAppl, toLocal, toWorld
   };

@@ -470,6 +470,7 @@
     wardrobe: () => `<rect x="12" y="4" width="40" height="56" rx="2" fill="#f6efe3" stroke="${DK}"/><line x1="32" y1="4" x2="32" y2="60" stroke="${DK}"/><circle cx="29" cy="32" r="1.6" fill="${DK}"/><circle cx="35" cy="32" r="1.6" fill="${DK}"/>`,
     vanity: () => `<rect x="6" y="20" width="52" height="36" rx="2" fill="#f6efe3" stroke="${DK}"/><path d="M14 20h36a18 10 0 0 1-36 0z" fill="#f4f4f2" stroke="${DK}"/><line x1="32" y1="34" x2="32" y2="56" stroke="${DK}"/>`,
     mirrorcab: () => `<rect x="10" y="6" width="44" height="52" rx="2" fill="#dfe6ec" stroke="${DK}" stroke-width="1.2"/><line x1="32" y1="6" x2="32" y2="58" stroke="${DK}"/><line x1="16" y1="50" x2="30" y2="14" stroke="#fff" stroke-width="3" opacity=".8"/>`,
+    curtain: () => `<rect x="6" y="6" width="52" height="4" rx="1" fill="${DK}"/><path d="M8 10c4 0 4 4 8 4s4-4 8-4 4 4 8 4 4-4 8-4 4 4 8 4 4-4 8-4v48c-4 0-4-4-8-4s-4 4-8 4-4-4-8-4-4 4-8 4-4-4-8-4-4 4-8 4z" fill="#e6ddcc" stroke="${DK}" stroke-width=".8"/>`,
     doorleaf: () => `<rect x="14" y="4" width="36" height="58" fill="#c9a27a" stroke="${DK}"/><rect x="18" y="8" width="28" height="50" fill="#d9b48c" stroke="${DK}" stroke-width=".8"/><circle cx="44" cy="34" r="2" fill="${DK}"/>`,
     showerdoor: () => `<rect x="8" y="4" width="48" height="56" fill="#e3ecf2" stroke="${DK}" stroke-width="1.2" opacity=".9"/><line x1="32" y1="4" x2="32" y2="60" stroke="${DK}"/><rect x="26" y="30" width="4" height="10" fill="${DK}"/>`,
     toilet: () => `<path d="M14 30h36v8a18 10 0 0 1-36 0z" fill="#f4f4f2" stroke="${DK}"/><rect x="36" y="8" width="16" height="22" rx="2" fill="#f4f4f2" stroke="${DK}"/><path d="M22 48v10h20V48" fill="none" stroke="${DK}"/>`,
@@ -797,6 +798,16 @@
         <label></label><div class="inline"><button class="btn small" data-a="snapwall">${icon('magnet')}靠最近牆面</button></div>
       </div></div>`;
     if (it.finish === 'panel') html += swatchPicker(cab, 'cab', [['doorColor', '嵌門板']]);
+    if (cab.at === 'curtain') {
+      const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${cur === k ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
+      const st = cab.cstyle || 'wave', isRoll = ['roller', 'zebra', 'roman', 'honeycomb', 'venetian'].includes(st);
+      html += `<div class="sec"><div class="sec-title">窗簾款式</div><div class="kv">
+        <label>款式</label>${sel('cstyle', M().CURTAIN_STYLES, st)}
+        <label>顏色</label>${sel('ccolor', M().CURTAIN_COLORS, cab.ccolor || 'beige')}
+        ${!isRoll && st !== 'vertical' ? `<label>片數</label>${sel('cpanels', [['2', '雙開（左右各一片）'], ['1', '單開（一片）']], cab.cpanels || '2')}` : ''}
+        <label>${isRoll ? '拉起' : '拉開'}</label><div class="inline">${num('copen', cab.copen != null ? cab.copen : 0, 'step="10" min="0" max="100"')}<span class="unit">%（0＝全部放下／拉上）</span></div>
+      </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">寬、高、深在上方「尺寸」修改：布簾高度通常到地（離地 0、高＝天花高或 2400）；捲簾類高＝窗高＋100，離地＝窗台高－50。選取牆面可一鍵為該牆的窗加窗簾。</p></div>`;
+    }
     if (cab.at === 'doorleaf') {
       const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${cur === k ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
       html += `<div class="sec"><div class="sec-title">門片款式</div><div class="kv">
@@ -945,7 +956,7 @@
       <label>款式</label><select data-key="ost${j}" data-of="style" data-j="${j}"${dis}>${o.type === 'door' ? M().DOOR_STYLE_GROUPS.map(([gn, list]) => `<optgroup label="${gn}">${list.map(([k, n]) => `<option value="${k}"${(o.style || 'single') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup>`).join('') : M().WIN_STYLES.map(([k, n]) => `<option value="${k}"${(o.style || 'slide') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>
       ${o.type === 'door' ? `<label>門片色</label><select data-key="oc${j}" data-of="color" data-j="${j}"${dis}>${M().DOOR_COLORS.map(([k, n]) => `<option value="${k}"${(o.color || 'wood') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>` : ''}
       <label>框色</label><select data-key="of${j}" data-of="frame" data-j="${j}"${dis}>${M().FRAME_COLORS.map(([k, n]) => `<option value="${k}"${(o.frame || 'white') === k ? ' selected' : ''}>${n}</option>`).join('')}</select></div></div>`).join('') : '<p class="muted" style="margin:0 0 6px">此牆面尚無門窗</p>';
-    if (!w.locked) html += `<div class="btn-row"><button class="btn small" data-a="add-door">${icon('door')}房間門 900×2100</button><button class="btn small" data-a="add-balcony">${icon('door')}陽台門 800×2100</button><button class="btn small" data-a="add-entry">${icon('door')}玄關門 1000×2100</button><button class="btn small" data-a="add-window">${icon('window')}加窗 1200×1200</button></div>`;
+    if (!w.locked) html += `<div class="btn-row"><button class="btn small" data-a="add-door">${icon('door')}房間門 900×2100</button><button class="btn small" data-a="add-balcony">${icon('door')}陽台門 800×2100</button><button class="btn small" data-a="add-entry">${icon('door')}玄關門 1000×2100</button><button class="btn small" data-a="add-window">${icon('window')}加窗 1200×1200</button>${w.openings.some(o => o.type === 'window' || /^(balcony3|aluglass|patio2|patio4|bifold)$/.test(o.style || '')) ? `<button class="btn small" data-a="add-curtains" title="為這面牆的每個窗（含陽台門）各加一組窗簾：高窗用捲簾、落地窗用蛇形簾">${icon('window')}加窗簾</button>` : ''}</div>`;
     html += `</div><div class="btn-row">${w.locked ? `<button class="btn" data-a="unlock">${icon('unlock')}解鎖牆面</button>` : `<button class="btn primary" data-a="lock">${icon('lock')}確認並鎖定牆面</button>`}
       <button class="btn" data-a="back">返回專案</button></div>`;
     return html;
@@ -1039,6 +1050,7 @@
     }
     if (f) {
       const numF = ['x', 'z', 'y'];
+      if (f === 'copen') { App.updateCab(cab.id, '窗簾開合', c => { c.copen = Math.max(0, Math.min(100, Math.round(+val || 0))); }); return; }
       App.updateCab(cab.id, '修改櫃體', c => {
         if (numF.includes(f)) c[f] = Math.round(+val || 0);
         else if (f === 'rot') c.rot = parseInt(val, 10) || 0;
@@ -1098,6 +1110,25 @@
     if (a === 'back') { App.select(null); return; }
     if (s && s.type === 'wall') {
       const r = st.room, wi = M().wallInfo(r, s.index);
+      if (a === 'add-curtains') {   // 每個窗／陽台門前各放一組窗簾（室內側貼牆）
+        const H = r.height, made = [];
+        r.walls[s.index].openings.forEach(o => {
+          if (!(o.type === 'window' || /^(balcony3|aluglass|patio2|patio4|bifold)$/.test(o.style || ''))) return;
+          const c = M().createCabinet('CURTAIN', App.state.defaults); if (!c) return;
+          const high = o.type === 'window' && o.sill >= 600;
+          if (high) { Object.assign(c, { cstyle: 'roller', w: o.width + 100, h: o.height + 100, y: Math.max(0, o.sill - 50), d: 80 }); }
+          else { Object.assign(c, { cstyle: 'wave', w: o.width + 400, h: Math.min(H - 20, o.sill + o.height + 250), y: 0, d: 120 }); }
+          c.rot = Math.round(Math.atan2(wi.nIn[0], wi.nIn[1]) * 180 / Math.PI);
+          const cx = o.offset + o.width / 2, off = c.d / 2 + 5;
+          c.x = Math.round(wi.p[0] + wi.dir[0] * cx + wi.nIn[0] * off); c.z = Math.round(wi.p[1] + wi.dir[1] * cx + wi.nIn[1] * off);
+          made.push(c);
+        });
+        if (!made.length) { App.toast('這面牆沒有窗或陽台門'); return; }
+        App.mutate('加窗簾', x => made.forEach(c => x.cabinets.push(c)), made.map(c => c.id));
+        App.select({ type: 'cab', id: made[0].id });
+        App.toast(`已加入 ${made.length} 組窗簾，可在右側面板改款式、顏色與開合`);
+        return;
+      }
       if (a === 'add-door' || a === 'add-window' || a === 'add-balcony' || a === 'add-entry') {
         const o = a === 'add-door' ? { id: M().uid('o'), type: 'door', width: 900, height: 2100, sill: 0, style: 'single' } : a === 'add-balcony' ? { id: M().uid('o'), type: 'door', width: 800, height: 2100, sill: 0, style: 'balcony3', frame: 'silver' } : a === 'add-entry' ? { id: M().uid('o'), type: 'door', width: 1000, height: 2100, sill: 0, style: 'entry', color: 'walnut', frame: 'black' } : { id: M().uid('o'), type: 'window', width: 1200, height: 1200, sill: 900 };
         o.offset = (wi.len - o.width) / 2;
