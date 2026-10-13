@@ -13,9 +13,11 @@
     history: [], future: [], user: null
   };
 
+  const newId = () => 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   App.defaultState = function () {
     return {
       app: 'cab3d', version: 1,
+      id: newId(),
       name: '未命名專案',
       client: '',
       created: new Date().toISOString(),
@@ -34,6 +36,7 @@
   function normalize(s) {
     const d = App.defaultState();
     const out = { ...d, ...s };
+    if (!out.id) out.id = newId();
     // 型錄已移除的型號（舊專案）：略過，避免後續讀不到規格而出錯
     const D = window.DATA, dropped = [];
     const clean = list => (list || []).filter(c => { if (c && c.kind === 'appl' && D && D.byCode && !D.byCode[c.code]) { dropped.push(c.code); return false; } return true; });
@@ -93,6 +96,7 @@
     App.ui.refresh();
     // 色板庫（使用者新增 / 修改的色板，存在瀏覽器）
     if (window.SwatchLib) window.SwatchLib.init();
+    if (window.Cloud) window.Cloud.init();
     // 未匯出就關閉網站：瀏覽器跳出確認
     window.addEventListener('beforeunload', e => {
       if (App.dirty && App.hasContent()) { e.preventDefault(); e.returnValue = ''; }
@@ -131,6 +135,7 @@
     window.Viewer.refreshGaps();
     App.ui.refresh();
     App.save();
+    if (window.Cloud) window.Cloud.touch();
   };
   function applyRebuild(rebuild) {
     const V = window.Viewer;
@@ -228,10 +233,20 @@
     if (App.user) App.state.owner = App.state.owner || App.user.name;
     App.dirty = false;
     setTimeout(() => App.ui.refresh(), 0);
-    // 自訂 / 修改過的色板（含貼圖）一併存入專案，換電腦匯入也能顯示
-    const out = window.SwatchLib ? { ...App.state, swatches: window.SwatchLib.projectSwatches(App.state) } : App.state;
-    const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+    const blob = new Blob([App.projectJSON()], { type: 'application/json' });
     App.download(blob, (App.state.name || '專案') + '.json');
+  };
+  // 專案檔內容（含自訂 / 修改過的色板與貼圖，換電腦匯入也能顯示）；匯出 .json 與雲端儲存共用
+  App.projectJSON = function (pretty = true) {
+    App.syncFloor();
+    const out = window.SwatchLib ? { ...App.state, swatches: window.SwatchLib.projectSwatches(App.state) } : App.state;
+    return pretty ? JSON.stringify(out, null, 2) : JSON.stringify(out);   // 雲端用壓縮格式（約 1/3 大小）
+  };
+  // 載入專案檔資料（匯入 .json 與雲端開啟共用）
+  App.loadProject = function (data) {
+    const sws = data.swatches; delete data.swatches;
+    App.loadState(data);
+    if (sws && sws.length && window.SwatchLib) window.SwatchLib.importProject(sws).then(n => { if (n) App.toast(`已載入專案「${App.state.name}」，並將 ${n} 個專案色板加入色板庫`); });
   };
   App.importJSON = function (file) {
     const r = new FileReader();
@@ -239,10 +254,9 @@
       try {
         const data = JSON.parse(r.result);
         if (!data || data.app !== 'cab3d') throw new Error('不是本平台的專案檔');
-        const sws = data.swatches; delete data.swatches;
-        App.loadState(data);
+        App.loadProject(data);
         App.toast('已匯入專案「' + App.state.name + '」');
-        if (sws && sws.length && window.SwatchLib) window.SwatchLib.importProject(sws).then(n => { if (n) App.toast(`已匯入專案「${App.state.name}」，並將 ${n} 個專案色板加入色板庫`); });
+        if (window.Cloud) window.Cloud.newProjectReset();
       } catch (e) { App.ui.alert('匯入失敗', '無法讀取此檔案：' + e.message); }
     };
     r.readAsText(file, 'utf-8');
@@ -255,6 +269,7 @@
     App.state.name = `新專案 ${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}-${p2(d.getHours())}${p2(d.getMinutes())}`;
     App.state.owner = App.user ? App.user.name : '';
     App.sel = null;
+    if (window.Cloud) window.Cloud.newProjectReset();
     window.Viewer.rebuildAll();
     window.Viewer.checkOverlaps();
     window.Viewer.setView('iso');
