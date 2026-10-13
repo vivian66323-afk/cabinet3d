@@ -43,6 +43,7 @@
     controls.zoomSpeed = 1.2;
     controls.maxPolarAngle = Math.PI * 0.499 * 2;
     controls.mouseButtons = { LEFT: null, MIDDLE: THREE.MOUSE.ROTATE, RIGHT: THREE.MOUSE.PAN };
+    controls.touches = { ONE: null, TWO: THREE.TOUCH.DOLLY_PAN };   // 單指＝目前工具的動作；雙指＝縮放＋平移
     controls.target.set(0, 900, 0);
     controls.update();
 
@@ -85,6 +86,7 @@
     cvs.addEventListener('pointerdown', onDown);
     cvs.addEventListener('pointermove', onMove);
     cvs.addEventListener('pointerup', onUp);
+    cvs.addEventListener('pointercancel', onUp);
     cvs.addEventListener('dblclick', onDbl);
     cvs.addEventListener('contextmenu', e => e.preventDefault());
     cvs.addEventListener('dragover', e => { e.preventDefault(); if (V.tool === 'place') { setMouse(e); updateGhost(); } });
@@ -336,9 +338,9 @@
       gripGroup = new THREE.Group();
       openingGrips().forEach(({ kind, p, o }) => {
         const act = grip.active && grip.opening && grip.opening.oid === o.id && grip.opening.kind === kind;
-        const m = new THREE.Mesh(new THREE.SphereGeometry(30, 18, 12), new THREE.MeshBasicMaterial({ color: act ? 0xff8f00 : kind === 't' || kind === 'b' ? 0x1e88e5 : 0x5a8f00, depthTest: false }));
+        const m = new THREE.Mesh(new THREE.SphereGeometry(30 * GR(), 18, 12), new THREE.MeshBasicMaterial({ color: act ? 0xff8f00 : kind === 't' || kind === 'b' ? 0x1e88e5 : 0x5a8f00, depthTest: false }));
         m.position.copy(p); m.renderOrder = 1000; m.userData.grip = { kind, oid: o.id };
-        const ring = new THREE.Mesh(new THREE.SphereGeometry(40, 18, 12), new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false }));
+        const ring = new THREE.Mesh(new THREE.SphereGeometry(40 * GR(), 18, 12), new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false }));
         ring.position.copy(p); ring.renderOrder = 999;
         gripGroup.add(ring, m);
       });
@@ -349,14 +351,15 @@
     if (!cab || cab.kind !== 'desk' || move.active) return;
     gripGroup = new THREE.Group();
     deskGripPos(cab).forEach(({ side, p }) => {
-      const m = new THREE.Mesh(new THREE.SphereGeometry(32, 20, 14), new THREE.MeshBasicMaterial({ color: grip.active && grip.side === side ? 0xff8f00 : side === 'd' ? 0x1e88e5 : 0x5a8f00, depthTest: false }));
+      const m = new THREE.Mesh(new THREE.SphereGeometry(32 * GR(), 20, 14), new THREE.MeshBasicMaterial({ color: grip.active && grip.side === side ? 0xff8f00 : side === 'd' ? 0x1e88e5 : 0x5a8f00, depthTest: false }));
       m.position.copy(p); m.renderOrder = 1000; m.userData.grip = side;
-      const ring = new THREE.Mesh(new THREE.SphereGeometry(44, 20, 14), new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false }));
+      const ring = new THREE.Mesh(new THREE.SphereGeometry(44 * GR(), 20, 14), new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false }));
       ring.position.copy(p); ring.renderOrder = 999;
       gripGroup.add(ring, m);
     });
     helperGroup.add(gripGroup);
   }
+  const GR = () => V.touch ? 1.8 : 1;   // 觸控裝置掣點放大，手指較好拖
   function pickGrip() {
     if (!gripGroup) return null;
     { const c = App.selectedCab && App.selectedCab(); if (c && c.locked) return null; }
@@ -716,11 +719,25 @@
     return res;
   }
 
-  let down = null;
+  let down = null, lastTap = null;
+  V.touch = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || false;
   function onDown(e) {
     if (e.button !== 0) return;
+    if (e.pointerType === 'touch') {
+      V.touch = true;
+      try { renderer.domElement.setPointerCapture(e.pointerId); } catch (x) { /* 忽略 */ }
+      // 快點兩下（350ms 內、30px 內）：畫線時＝完成封閉；其他＝縮放至空間
+      const now = Date.now();
+      if (lastTap && now - lastTap.t < 350 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 30) {
+        lastTap = null; down = null;
+        if (V.tool === 'line') { if (draw.pts.length >= 3) finishLine(); return; }
+        if (!['place', 'tape', 'uscale', 'move'].includes(V.tool)) { V.fitRoom(); App.status('已縮放至空間最適大小'); }
+        return;
+      }
+      lastTap = { t: now, x: e.clientX, y: e.clientY };
+    }
     setMouse(e);
-    down = { x: e.clientX, y: e.clientY, moved: false };
+    down = { x: e.clientX, y: e.clientY, moved: false, th: e.pointerType === 'touch' ? 10 : 4 };
     const t = V.tool;
     if (t === 'place') { updateGhost(); commitPlace(); return; }
     if (t === 'line') { lineClick(); return; }
@@ -751,7 +768,7 @@
   }
   function onMove(e) {
     setMouse(e);
-    if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 4) down.moved = true;
+    if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) > down.th) down.moved = true;
     const t = V.tool;
     if (t === 'place') updateGhost();
     else if (t === 'line') lineMove(e);
@@ -1538,6 +1555,7 @@
     V.tool = t;
     V.refreshGaps();
     controls.mouseButtons.LEFT = t === 'orbit' ? THREE.MOUSE.ROTATE : t === 'pan' ? THREE.MOUSE.PAN : t === 'zoom' ? THREE.MOUSE.DOLLY : null;
+    controls.touches.ONE = t === 'orbit' ? THREE.TOUCH.ROTATE : t === 'pan' ? THREE.TOUCH.PAN : t === 'zoom' ? THREE.TOUCH.DOLLY_PAN : null;
     renderer.domElement.style.cursor = { orbit: 'grab', pan: 'grab', zoom: 'zoom-in', line: 'crosshair', tape: 'crosshair', uscale: 'crosshair', place: 'copy' }[t] || 'default';
     const hints = {
       select: '選取：點選櫃體或牆面；拖曳櫃體可移動（自動靠牆，按住 Alt 自由移動）。中鍵環轉、Shift+中鍵平移、滾輪縮放',
@@ -1546,6 +1564,7 @@
       orbit: '環轉：左鍵拖曳旋轉視角', pan: '平移：左鍵拖曳平移視角', zoom: '縮放：左鍵上下拖曳縮放',
       line: '畫線：在地面點擊各轉角，雙擊或點回起點完成（可輸入長度）', tape: '捲尺：點擊兩點量測距離', uscale: '底圖比例尺：在底圖上點擊兩個已知距離的點，再輸入實際距離'
     };
+    if (V.touch) Object.assign(hints, { select: '選取：點櫃體或牆面，拖曳可移動；雙指縮放／平移，「環轉」工具單指旋轉視角，快點兩下縮放至空間', line: '畫線：點各轉角，用下方按鈕「完成封閉」或點回起點；可輸入長度', orbit: '環轉：單指拖曳旋轉視角，雙指縮放／平移' });
     if (t !== 'place') App.status(hints[t] || '');
     App.ui && App.ui.syncToolbar();
   };

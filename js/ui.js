@@ -65,6 +65,25 @@
     $('#viewCube').hidden = true;
     initFloorBar();
     // 選取物件浮動工具列：手動旋轉 90°
+    // 畫線浮動按鈕（觸控沒有 Enter／雙擊）：退一點、完成封閉、取消
+    const la = document.createElement('div'); la.className = 'line-actions'; la.id = 'lineActions'; la.hidden = true;
+    la.innerHTML = '<button data-la="undo">退一點</button><button data-la="done" class="primary">完成封閉</button><button data-la="cancel">取消</button>';
+    $('#viewport').appendChild(la);
+    la.addEventListener('pointerdown', e => e.stopPropagation());
+    la.addEventListener('click', e => {
+      const b = e.target.closest('[data-la]'); if (!b) return;
+      if (b.dataset.la === 'undo') { if (!V().lineUndoPoint()) App.toast('還沒有點'); }
+      else if (b.dataset.la === 'done') V().lineFinish(true);
+      else V().setTool('select');
+    });
+    // 左右面板收合（平板、小螢幕可放大 3D 區）
+    const ws = document.querySelector('.workspace');
+    let pst = {}; try { pst = JSON.parse(localStorage.getItem('cab3d.panels') || '{}'); } catch (e) { pst = {}; }
+    const applyPanels = () => { ws.classList.toggle('hide-left', !!pst.l); ws.classList.toggle('hide-right', !!pst.r); $('#togL').textContent = pst.l ? '型錄 ›' : '‹'; $('#togR').textContent = pst.r ? '‹ 屬性' : '›'; $('#togL').title = pst.l ? '展開左側型錄' : '收合左側型錄'; $('#togR').title = pst.r ? '展開右側屬性面板' : '收合右側屬性面板'; };
+    ['togL', 'togR'].forEach(id => { const b = document.createElement('button'); b.id = id; b.className = 'panel-tog ' + (id === 'togL' ? 'l' : 'r'); b.type = 'button'; $('#viewport').appendChild(b);
+      b.addEventListener('pointerdown', e => e.stopPropagation());
+      b.addEventListener('click', () => { if (id === 'togL') pst.l = !pst.l; else pst.r = !pst.r; localStorage.setItem('cab3d.panels', JSON.stringify(pst)); applyPanels(); }); });
+    applyPanels();
     $('#miniBar').addEventListener('pointerdown', e => e.stopPropagation());
     $('#miniBar').addEventListener('click', e => {
       const b = e.target.closest('[data-mini]'); if (!b) return;
@@ -197,6 +216,7 @@
   }
   UI.syncToolbar = function () {
     const v = V();
+    { const la = $('#lineActions'); if (la) la.hidden = v.tool !== 'line'; }
     // 空間提示：已有空間/櫃體、或正在繪製、放置時隱藏
     const st = App.state;
     $('#emptyHint').hidden = !!(st.room || st.cabinets.length || st.underlay) || ['line', 'place'].includes(v.tool) || !!document.querySelector('.modal-back');

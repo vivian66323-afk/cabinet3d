@@ -513,3 +513,46 @@ input.ro { background: #f4f5f6; color: var(--muted); }
 
 /* 可輸入算式的數字欄 */
 input.numf { text-align: right; }
+
+/* ---------- 面板收合 ---------- */
+.workspace.hide-left { grid-template-columns: 0 1fr 350px; }
+.workspace.hide-right { grid-template-columns: 300px 1fr 0; }
+.workspace.hide-left.hide-right { grid-template-columns: 0 1fr 0; }
+.workspace.hide-left .panel.left, .workspace.hide-right .panel.right { overflow: hidden; border: 0; visibility: hidden; }   /* 不能 display:none，否則格線欄位會往前挪 */
+.panel-tog { position: absolute; top: 50%; transform: translateY(-50%); z-index: 6; min-width: 22px; height: 64px; padding: 0 6px; border: 1px solid var(--line-2); background: rgba(255,255,255,.92); color: var(--muted); font-size: 12px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.08); white-space: nowrap; }
+.panel-tog.l { left: 0; border-left: 0; border-radius: 0 8px 8px 0; }
+.panel-tog.r { right: 0; border-right: 0; border-radius: 8px 0 0 8px; }
+.panel-tog:hover { color: var(--accent); border-color: var(--accent); }
+@media (max-width: 1200px) { .workspace.hide-left { grid-template-columns: 0 1fr 310px; } .workspace.hide-right { grid-template-columns: 250px 1fr 0; } }
+@media (max-width: 860px) {
+  .workspace.hide-left, .workspace.hide-right, .workspace.hide-left.hide-right { grid-template-columns: 1fr; }
+  .workspace.hide-left { grid-template-rows: 0 1fr 260px; } .workspace.hide-right { grid-template-rows: 200px 1fr 0; } .workspace.hide-left.hide-right { grid-template-rows: 0 1fr 0; }
+  .panel-tog { top: auto; bottom: 8px; transform: none; height: 32px; }
+}
+/* ---------- 畫線浮動按鈕 ---------- */
+.line-actions { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; gap: 6px; background: #fff; border: 1px solid var(--line-2); border-radius: 10px; padding: 5px; box-shadow: 0 4px 14px rgba(0,0,0,.14); z-index: 6; }
+.line-actions button { border: 1px solid var(--line-2); background: #fff; border-radius: 7px; padding: 7px 14px; font-size: 13px; cursor: pointer; }
+.line-actions button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+/* ---------- 觸控裝置：放大可點區域、避免瀏覽器手勢干擾 ---------- */
+.viewport canvas { touch-action: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+body { overscroll-behavior: none; }
+@media (pointer: coarse) {
+  .tbtn { width: 40px; height: 40px; }
+  .tbtn.wide { padding: 0 10px; font-size: 13px; }
+  .tbtn .key { display: none; }
+  .btn { padding: 8px 14px; font-size: 14px; }
+  .btn.small { padding: 6px 10px; font-size: 13px; }
+  .icon-btn { width: 30px; height: 30px; }
+  .icon-btn svg { width: 16px; height: 16px; }
+  .kv input, .kv select, .lrow input, .lrow select, .modal input, .modal select { min-height: 34px; font-size: 14px; }
+  .kv { grid-template-columns: 90px 1fr; }
+  .cat-item { padding: 8px 4px 6px; }
+  .chip, .chips button { padding: 6px 10px; font-size: 13px; }
+  .mini-bar button { padding: 8px 12px; font-size: 14px; }
+  .view-cube { grid-template-columns: repeat(3, 48px); }
+  .view-cube button { height: 48px; }
+  .line-actions button { padding: 10px 18px; font-size: 15px; }
+  .panel-tog { min-width: 28px; height: 80px; font-size: 14px; }
+  .topbar .btn { padding: 8px 10px; }
+  .statusbar { font-size: 13px; }
+}
