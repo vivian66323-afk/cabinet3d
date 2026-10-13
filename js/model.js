@@ -784,6 +784,15 @@
     const it = D.byCode[cab.code] || cab, { w, d, h } = cab, y0 = cab.y;
     const steel = applMat('steel'), black = applMat('glassBlack');
     const face = it.finish === 'glass' ? black : it.finish === 'white' ? applMat('white') : steel;
+    if (cab.at === 'doorleaf') {   // 獨立門片：重用牆面門的款式幾何（局部 x 沿寬、z 朝前），d = 門框深
+      const Tk = Math.max(40, d - 20);
+      const og = buildOpening(null, null, { id: 'leaf', type: 'door', width: w, height: h, sill: 0, style: cab.dstyle || 'single', color: cab.dcolor || 'wood', frame: cab.dframe || 'white' }, Tk, h, -1);
+      og.position.set(-w / 2, y0, -Tk / 2);
+      const p = new THREE.Group(); p.add(og);
+      if (cab.hinge === 'L') p.scale.x = -1;   // 鉸鏈在左：左右鏡射（把手換邊）
+      g.add(p);
+      return;
+    }
     if (cab.at === 'sink') {
       const cut = it.cut || [w - 30, d - 30], t = 3, bw = cut[0] - 30, bd = cut[1] - 30;
       // 上緣框（含槽口）
@@ -1340,6 +1349,7 @@
       else if (ws === 'grid') { const nx = Math.max(2, Math.round(w / 350)), ny = Math.max(2, Math.round(h / 350)); for (let i = 1; i < nx; i++) addBox(og, 20, h - 2 * fw, 40, fw + (w - 2 * fw) * i / nx, o.sill + h / 2, Tk / 2, fm, false); for (let i = 1; i < ny; i++) addBox(og, w - 2 * fw, 20, 40, w / 2, o.sill + fw + (h - 2 * fw) * i / ny, Tk / 2, fm, false); }
       // fixed：整片玻璃，不加分隔
     }
+    if (!wi) return og;   // 獨立門片：由呼叫端自行定位
     const X = new THREE.Vector3(wi.dir[0], 0, wi.dir[1]);
     const Z = new THREE.Vector3(wi.nOut[0], 0, wi.nOut[1]);
     const m = new THREE.Matrix4().makeBasis(X, new THREE.Vector3(0, 1, 0), Z);

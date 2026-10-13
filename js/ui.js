@@ -450,6 +450,7 @@
     wardrobe: () => `<rect x="12" y="4" width="40" height="56" rx="2" fill="#f6efe3" stroke="${DK}"/><line x1="32" y1="4" x2="32" y2="60" stroke="${DK}"/><circle cx="29" cy="32" r="1.6" fill="${DK}"/><circle cx="35" cy="32" r="1.6" fill="${DK}"/>`,
     vanity: () => `<rect x="6" y="20" width="52" height="36" rx="2" fill="#f6efe3" stroke="${DK}"/><path d="M14 20h36a18 10 0 0 1-36 0z" fill="#f4f4f2" stroke="${DK}"/><line x1="32" y1="34" x2="32" y2="56" stroke="${DK}"/>`,
     mirrorcab: () => `<rect x="10" y="6" width="44" height="52" rx="2" fill="#dfe6ec" stroke="${DK}" stroke-width="1.2"/><line x1="32" y1="6" x2="32" y2="58" stroke="${DK}"/><line x1="16" y1="50" x2="30" y2="14" stroke="#fff" stroke-width="3" opacity=".8"/>`,
+    doorleaf: () => `<rect x="14" y="4" width="36" height="58" fill="#c9a27a" stroke="${DK}"/><rect x="18" y="8" width="28" height="50" fill="#d9b48c" stroke="${DK}" stroke-width=".8"/><circle cx="44" cy="34" r="2" fill="${DK}"/>`,
     showerdoor: () => `<rect x="8" y="4" width="48" height="56" fill="#e3ecf2" stroke="${DK}" stroke-width="1.2" opacity=".9"/><line x1="32" y1="4" x2="32" y2="60" stroke="${DK}"/><rect x="26" y="30" width="4" height="10" fill="${DK}"/>`,
     toilet: () => `<path d="M14 30h36v8a18 10 0 0 1-36 0z" fill="#f4f4f2" stroke="${DK}"/><rect x="36" y="8" width="16" height="22" rx="2" fill="#f4f4f2" stroke="${DK}"/><path d="M22 48v10h20V48" fill="none" stroke="${DK}"/>`,
     seat: () => `<path d="M12 22h40a20 14 0 0 1-40 0z" fill="#f4f4f2" stroke="${DK}" stroke-width="1.5"/><rect x="24" y="18" width="16" height="6" rx="2" fill="${DK}"/>`,
@@ -776,6 +777,15 @@
         <label></label><div class="inline"><button class="btn small" data-a="snapwall">${icon('magnet')}靠最近牆面</button></div>
       </div></div>`;
     if (it.finish === 'panel') html += swatchPicker(cab, 'cab', [['doorColor', '嵌門板']]);
+    if (cab.at === 'doorleaf') {
+      const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${cur === k ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
+      html += `<div class="sec"><div class="sec-title">門片款式</div><div class="kv">
+        <label>款式</label><select data-key="dstyle" data-f="dstyle">${M().DOOR_STYLE_GROUPS.map(([gn, list]) => `<optgroup label="${gn}">${list.map(([k, n]) => `<option value="${k}"${(cab.dstyle || 'single') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup>`).join('')}</select>
+        <label>門片色</label>${sel('dcolor', M().DOOR_COLORS, cab.dcolor || 'wood')}
+        <label>框色</label>${sel('dframe', M().FRAME_COLORS, cab.dframe || 'white')}
+        <label>鉸鏈側</label>${sel('hinge', [['R', '右側（把手在左）'], ['L', '左側（把手在右）']], cab.hinge || 'R')}
+      </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">寬、高、深在上方「尺寸」修改；深度＝門框深。放在櫃體旁會自動與櫃體吸附對齊。</p></div>`;
+    }
     html += `<div class="kv" style="margin-bottom:10px"><label>備註</label><input data-key="note" data-f="note" value="${esc(cab.note || '')}" placeholder="顯示於報價單"></div>
       <div class="btn-row"><button class="btn" data-a="dup">${icon('dup')}複製</button><button class="btn danger" data-a="del">${icon('delete')}刪除</button></div>`;
     return html;
@@ -829,6 +839,7 @@
       <label>離地高度</label><div class="inline">${num('y', cab.y, 'step="10" min="0"')}<span class="unit">${cab.hanging ? '吊櫃底' : '櫃體底（含踢腳）'}</span></div>
       <label>旋轉</label><div class="inline"><select data-key="rot" data-f="rot">${[0, 90, 180, 270].map(a => `<option value="${a}"${a === Math.round(cab.rot) ? ' selected' : ''}>${a}°</option>`).join('')}${[0, 90, 180, 270].includes(Math.round(cab.rot)) ? '' : `<option selected>${Math.round(cab.rot)}°</option>`}</select><button class="btn small" data-a="rot90">${icon('rotate')}90°</button></div>
       <label></label><div class="inline"><button class="btn small" data-a="snapwall">${icon('magnet')}靠最近牆面</button></div>
+      <label>門片</label><div class="inline"><button class="btn small" data-a="add-leaf-l" title="在櫃體左側加一片獨立門片（更衣室／房間入口）">${icon('door')}左側加門片</button><button class="btn small" data-a="add-leaf-r" title="在櫃體右側加一片獨立門片">${icon('door')}右側加門片</button></div>
       ${isTri ? `<label>方向</label><label class="inline"><input type="checkbox" data-f="mirror" data-key="mirror"${cab.mirror ? ' checked' : ''} style="width:auto"> 左右鏡射</label>` : ''}
     </div></div>`;
 
@@ -1095,6 +1106,16 @@
     if (a === 'size-reset') {
       const it0 = D.byCode[cab.code];
       App.updateCab(cab.id, '還原型錄尺寸', c => { c.w = it0.w; c.h = it0.h; c.d = it0.d; c.fronts = c.base.fronts.map(r => ({ ...r })); c.shelves = M().genShelves(c); });
+      return;
+    }
+    if (a === 'add-leaf-l' || a === 'add-leaf-r') {   // 在櫃體側邊放一片獨立門片，前緣對齊櫃體門片面
+      const leaf = M().createCabinet('DOOR-LEAF', App.state.defaults); if (!leaf) return;
+      const s = a === 'add-leaf-r' ? 1 : -1, r = (cab.rot || 0) * Math.PI / 180, rx = Math.cos(r), rz = -Math.sin(r), fx = Math.sin(r), fz = Math.cos(r);
+      const fd = M().footDepth(cab), along = s * (cab.w / 2 + leaf.w / 2), fwd = (fd - leaf.d) / 2;
+      leaf.x = Math.round(cab.x + rx * along + fx * fwd); leaf.z = Math.round(cab.z + rz * along + fz * fwd); leaf.rot = cab.rot || 0;
+      leaf.hinge = s > 0 ? 'L' : 'R';   // 鉸鏈靠櫃體那一側
+      App.addCabinet(leaf); App.select({ type: 'cab', id: leaf.id });
+      App.toast('已在櫃體' + (s > 0 ? '右' : '左') + '側加入門片，可在右側面板改款式、顏色與尺寸');
       return;
     }
     if (a === 'rot90') App.rotateSelected(90);
