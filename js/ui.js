@@ -965,7 +965,7 @@
       <label>款式</label><select data-key="ost${j}" data-of="style" data-j="${j}"${dis}>${o.type === 'door' ? M().DOOR_STYLE_GROUPS.map(([gn, list]) => `<optgroup label="${gn}">${list.map(([k, n]) => `<option value="${k}"${(o.style || 'single') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup>`).join('') : M().WIN_STYLES.map(([k, n]) => `<option value="${k}"${(o.style || 'slide') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>
       ${o.type === 'door' ? `<label>門片色</label><select data-key="oc${j}" data-of="color" data-j="${j}"${dis}>${M().DOOR_COLORS.map(([k, n]) => `<option value="${k}"${(o.color || 'wood') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>` : ''}
       <label>框色</label><select data-key="of${j}" data-of="frame" data-j="${j}"${dis}>${M().FRAME_COLORS.map(([k, n]) => `<option value="${k}"${(o.frame || 'white') === k ? ' selected' : ''}>${n}</option>`).join('')}</select></div></div>`).join('') : '<p class="muted" style="margin:0 0 6px">此牆面尚無門窗</p>';
-    if (!w.locked) html += `<div class="btn-row"><button class="btn small" data-a="add-door">${icon('door')}房間門 900×2100</button><button class="btn small" data-a="add-balcony">${icon('door')}陽台門 800×2100</button><button class="btn small" data-a="add-entry">${icon('door')}玄關門 1000×2100</button><button class="btn small" data-a="add-window">${icon('window')}加窗 1200×1200</button>${w.openings.some(o => o.type === 'window' || /^(balcony3|aluglass|patio2|patio4|bifold)$/.test(o.style || '')) ? `<button class="btn small" data-a="add-curtains" title="為這面牆的每個窗（含陽台門）各加一組窗簾：高窗用捲簾、落地窗用蛇形簾">${icon('window')}加窗簾</button>` : ''}</div>`;
+    if (!w.locked) html += `<div class="btn-row"><button class="btn small" data-a="add-door">${icon('door')}房間門 900×2100</button><button class="btn small" data-a="add-balcony">${icon('door')}陽台門 800×2100</button><button class="btn small" data-a="add-entry">${icon('door')}玄關門 1000×2100</button><button class="btn small" data-a="add-window">${icon('window')}加窗 1200×1200</button>${w.openings.some(o => o.type === 'window' || /^(balcony3|aluglass|patio2|patio4|bifold)$/.test(o.style || '')) ? `<button class="btn small" data-a="add-curtains" title="為這面牆的每個窗（含陽台門）各加一組窗簾，寬度＝窗寬左右各加 10cm：高窗用捲簾、落地窗用蛇形簾">${icon('window')}加窗簾（窗寬＋20cm）</button><button class="btn small" data-a="add-curtain-wall" title="一組蛇形簾與這面牆同寬、到地">${icon('window')}加窗簾（與牆同寬）</button>` : ''}</div>`;
     html += `</div><div class="btn-row">${w.locked ? `<button class="btn" data-a="unlock">${icon('unlock')}解鎖牆面</button>` : `<button class="btn primary" data-a="lock">${icon('lock')}確認並鎖定牆面</button>`}
       <button class="btn" data-a="back">返回專案</button></div>`;
     return html;
@@ -1121,14 +1121,25 @@
     if (a === 'back') { App.select(null); return; }
     if (s && s.type === 'wall') {
       const r = st.room, wi = M().wallInfo(r, s.index);
+      if (a === 'add-curtain-wall') {   // 一組蛇形簾與牆同寬、到地（天花軌道）
+        const c = M().createCabinet('CURTAIN-WAVE', App.state.defaults); if (!c) return;
+        const T = r.thickness || 120, L = Math.max(600, Math.round(wi.len - T));   // 扣掉兩側牆厚，避免插進鄰牆
+        Object.assign(c, { w: L, h: r.height - 20, y: 0, d: 120, rot: Math.round(Math.atan2(wi.nIn[0], wi.nIn[1]) * 180 / Math.PI) });
+        const cx = wi.len / 2, off = c.d / 2 + 5;
+        c.x = Math.round(wi.p[0] + wi.dir[0] * cx + wi.nIn[0] * off); c.z = Math.round(wi.p[1] + wi.dir[1] * cx + wi.nIn[1] * off);
+        App.addCabinet(c); App.select({ type: 'cab', id: c.id });
+        App.toast(`已加入與牆同寬（${L} mm）的蛇形簾，可在右側面板改款式、顏色與開合`);
+        return;
+      }
       if (a === 'add-curtains') {   // 每個窗／陽台門前各放一組窗簾（室內側貼牆）
         const H = r.height, made = [];
         r.walls[s.index].openings.forEach(o => {
           if (!(o.type === 'window' || /^(balcony3|aluglass|patio2|patio4|bifold)$/.test(o.style || ''))) return;
           const high = o.type === 'window' && o.sill >= 600;
           const c = M().createCabinet(high ? 'CURTAIN-ROLLER' : 'CURTAIN-WAVE', App.state.defaults); if (!c) return;
-          if (high) { Object.assign(c, { cstyle: 'roller', w: o.width + 100, h: o.height + 100, y: Math.max(0, o.sill - 50), d: 80 }); }
-          else { Object.assign(c, { cstyle: 'wave', w: o.width + 400, h: Math.min(H - 20, o.sill + o.height + 250), y: 0, d: 120 }); }
+          // 寬度＝窗寬左右各加 10cm；高窗捲簾貼窗、落地窗蛇形簾到地
+          if (high) { Object.assign(c, { cstyle: 'roller', w: o.width + 200, h: o.height + 100, y: Math.max(0, o.sill - 50), d: 80 }); }
+          else { Object.assign(c, { cstyle: 'wave', w: o.width + 200, h: Math.min(H - 20, o.sill + o.height + 250), y: 0, d: 120 }); }
           c.rot = Math.round(Math.atan2(wi.nIn[0], wi.nIn[1]) * 180 / Math.PI);
           const cx = o.offset + o.width / 2, off = c.d / 2 + 5;
           c.x = Math.round(wi.p[0] + wi.dir[0] * cx + wi.nIn[0] * off); c.z = Math.round(wi.p[1] + wi.dir[1] * cx + wi.nIn[1] * off);
