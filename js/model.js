@@ -847,7 +847,7 @@
     if (cab.at === 'curtain') { buildCurtain(g, cab); return; }
     if (cab.at === 'doorleaf') {   // 獨立門片：重用牆面門的款式幾何（局部 x 沿寬、z 朝前），d = 門框深
       const Tk = Math.max(40, d - 20);
-      const og = buildOpening(null, null, { id: 'leaf', type: 'door', width: w, height: h, sill: 0, style: cab.dstyle || 'single', color: cab.dcolor || 'wood', frame: cab.dframe || 'white' }, Tk, h, -1);
+      const og = buildOpening(null, null, { id: 'leaf', type: 'door', width: w, height: h, sill: 0, style: cab.dstyle || 'single', color: cab.dcolor || 'wood', frame: cab.dframe || 'white', noframe: cab.noframe === '1' || cab.noframe === true }, Tk, h, -1);
       og.position.set(-w / 2, y0, -Tk / 2);
       const p = new THREE.Group(); p.add(og);
       if (cab.hinge === 'L') p.scale.x = -1;   // 鉸鏈在左：左右鏡射（把手換邊）
@@ -1335,7 +1335,7 @@
       const knob = (x, y) => { const k = new THREE.Mesh(new THREE.SphereGeometry(22, 16, 12), sMat('handle')); k.position.set(x, y, -12); og.add(k); const k2 = k.clone(); k2.position.z = Tk + 12; og.add(k2); };
       const bar = (x, y, len) => { addBox(og, 22, len, 22, x, y, -16, sMat('handle'), false); addBox(og, 22, len, 22, x, y, Tk + 16, sMat('handle'), false); };
       const frame = (thick) => { addBox(og, fw, h, fd, fw / 2, h / 2, Tk / 2, fmD); addBox(og, fw, h, fd, w - fw / 2, h / 2, Tk / 2, fmD); addBox(og, w, fw, fd, w / 2, h - fw / 2, Tk / 2, fmD); };
-      const noFrame = ['pocket', 'flush', 'barn'].includes(ds);
+      const noFrame = ['pocket', 'flush', 'barn'].includes(ds) || !!o.noframe;   // 獨立門片可選「無門框」
       if (!noFrame) frame();
       const iw = noFrame ? w : w - 2 * fw - 6, ih = noFrame ? h : h - fw - 10, cy = noFrame ? h / 2 : (h - fw) / 2, x0 = noFrame ? 0 : fw + 3;
       const gk = GLASSY[o.color];

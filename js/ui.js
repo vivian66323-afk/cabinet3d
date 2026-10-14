@@ -822,6 +822,7 @@
       html += `<div class="sec"><div class="sec-title">門片款式</div><div class="kv">
         <label>款式</label><select data-key="dstyle" data-f="dstyle">${M().DOOR_STYLE_GROUPS.map(([gn, list]) => `<optgroup label="${gn}">${list.map(([k, n]) => `<option value="${k}"${(cab.dstyle || 'single') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup>`).join('')}</select>
         <label>門片色</label>${sel('dcolor', M().DOOR_COLORS, cab.dcolor || 'wood')}
+        <label>門框</label>${sel('noframe', [['0', '有門框'], ['1', '無門框（只有門片）']], cab.noframe === '1' || cab.noframe === true ? '1' : '0')}
         <label>框色</label>${sel('dframe', M().FRAME_COLORS, cab.dframe || 'white')}
         <label>鉸鏈側</label>${sel('hinge', [['R', '右側（把手在左）'], ['L', '左側（把手在右）']], cab.hinge || 'R')}
       </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">寬、高、深在上方「尺寸」修改；深度＝門框深。放在櫃體旁會自動與櫃體吸附對齊。</p></div>`;
