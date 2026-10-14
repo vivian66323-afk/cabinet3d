@@ -80,6 +80,7 @@
     if (defaults.grain && Object.keys(defaults.grain).length) cab.grain = { ...defaults.grain };
     if (it.kind === 'appl') {
       Object.assign(cab, { at: it.at, mount: it.mount, y: it.y != null ? it.y : 850 - it.h, kick: false, bodyColor: '', doorColor: defaults.doorColor || '110', kickColor: '', topColor: '' });
+      if (it.cstyle) cab.cstyle = it.cstyle;
     }
     if (it.kind === 'desk') {
       Object.assign(cab, { shape: it.shape, l2: it.l2, thick: 18, h: 18, deskMat: 'SYS', edge: 'none', y: 750 - 18, kick: false, topColor: defaults.topColor || '407' });

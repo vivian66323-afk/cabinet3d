@@ -1748,7 +1748,6 @@
   /* 家具（通用款，非特定品牌）：尺寸為台灣常見規格，可在屬性面板改寬深高；售價為暫定參考，請於板材售價修改
      [類型, 代碼, 品名, W, D, H, 參考售價, 備註] */
   const FURN_RAW = [
-    ['curtain', 'CURTAIN', '窗簾', 1500, 120, 2400, 3500, '蛇形簾／打摺簾／紗簾／捲簾／斑馬簾／百葉／直立百葉／羅馬簾／蜂巢簾；顏色、片數、開合可改'],
     ['doorleaf', 'DOOR-LEAF', '單片門（更衣室／房間入口）', 900, 100, 2100, 6000, '獨立門片＋門框，不需靠牆開口；款式、門片色、框色、鉸鏈側可改'],
     ['bed', 'BED-35', '單人床組 3.5 尺', 1060, 2000, 950, 12000, '床架＋床頭片＋床墊，床墊面高約 500'],
     ['bed', 'BED-50', '雙人床組 5 尺', 1520, 2000, 950, 18000, '床架＋床頭片＋床墊'],
@@ -1779,6 +1778,22 @@
   const FURN = FURN_RAW.map(([at, code, name, w, d, h, price, note]) => ({
     at, code, name, w, d, h, price, mount: 'top', y: 0, finish: 'white', est: false, note, series: '家具', brand: '通用家具',
     spec: `${w}×${d}×${h}　落地${note ? '　' + note : ''}　參考價，尺寸可改`, hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'furn', hanging: false, img: ''
+  }));
+  // 窗簾：每種款式一個型號（3D 外觀、縮圖、參考價都不同）；寬高可改
+  const CURTAIN_RAW = [
+    ['wave', '蛇形簾（S 形布簾）', 1500, 120, 2400, 4500, '雙軌 S 形垂墜，落地'],
+    ['pleat', '打摺布簾', 1500, 120, 2400, 4200, '三摺／蛇摺布簾，落地'],
+    ['sheer', '紗簾', 1500, 120, 2400, 2800, '半透明白紗，常與布簾併用'],
+    ['roller', '捲簾', 1300, 80, 1300, 2200, '平面布捲，貼窗安裝'],
+    ['zebra', '斑馬簾（調光簾）', 1300, 80, 1300, 2800, '透光／遮光橫條交錯'],
+    ['venetian', '橫式百葉簾', 1300, 80, 1300, 2600, '鋁／木橫葉片，可調角度'],
+    ['vertical', '直立百葉簾', 1800, 120, 2400, 3000, '直立葉片，適合落地窗'],
+    ['roman', '羅馬簾', 1300, 80, 1300, 3200, '分段摺疊上收'],
+    ['honeycomb', '蜂巢簾', 1300, 80, 1300, 3800, '蜂巢中空隔熱，無拉繩']
+  ];
+  CURTAIN_RAW.forEach(([cstyle, name, w, d, h, price, note]) => items.push({
+    at: 'curtain', code: 'CURTAIN-' + cstyle.toUpperCase(), name: '窗簾－' + name, cstyle, w, d, h, price, mount: 'top', y: 0, finish: 'white', est: true, note, series: '家具', brand: '通用家具',
+    spec: `${w}×${d}×${h}　${note}　顏色、片數、拉開／拉起可改　參考價，尺寸可改`, hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'furn', hanging: false, img: ''
   }));
   FURN.forEach(a => items.push(a));
 

@@ -470,7 +470,16 @@
     wardrobe: () => `<rect x="12" y="4" width="40" height="56" rx="2" fill="#f6efe3" stroke="${DK}"/><line x1="32" y1="4" x2="32" y2="60" stroke="${DK}"/><circle cx="29" cy="32" r="1.6" fill="${DK}"/><circle cx="35" cy="32" r="1.6" fill="${DK}"/>`,
     vanity: () => `<rect x="6" y="20" width="52" height="36" rx="2" fill="#f6efe3" stroke="${DK}"/><path d="M14 20h36a18 10 0 0 1-36 0z" fill="#f4f4f2" stroke="${DK}"/><line x1="32" y1="34" x2="32" y2="56" stroke="${DK}"/>`,
     mirrorcab: () => `<rect x="10" y="6" width="44" height="52" rx="2" fill="#dfe6ec" stroke="${DK}" stroke-width="1.2"/><line x1="32" y1="6" x2="32" y2="58" stroke="${DK}"/><line x1="16" y1="50" x2="30" y2="14" stroke="#fff" stroke-width="3" opacity=".8"/>`,
-    curtain: () => `<rect x="6" y="6" width="52" height="4" rx="1" fill="${DK}"/><path d="M8 10c4 0 4 4 8 4s4-4 8-4 4 4 8 4 4-4 8-4 4 4 8 4 4-4 8-4v48c-4 0-4-4-8-4s-4 4-8 4-4-4-8-4-4 4-8 4-4-4-8-4-4 4-8 4z" fill="#e6ddcc" stroke="${DK}" stroke-width=".8"/>`,
+    curtain: (it) => {
+      const st = (it && it.cstyle) || 'wave', rail = `<rect x="6" y="5" width="52" height="4" rx="1" fill="${DK}"/>`;
+      if (st === 'wave' || st === 'pleat' || st === 'sheer') { const fill = st === 'sheer' ? '#f4f6f8' : '#e6ddcc', op = st === 'sheer' ? ' opacity=".75"' : '', p = st === 'pleat' ? 5 : 8, top = [], bot = [], folds = []; for (let x = 8; x <= 56; x += 2) { const dy = 2.5 * Math.sin((x - 8) / p * Math.PI); top.push(`${x},${(11 + dy).toFixed(1)}`); bot.push(`${x},${(59 + dy).toFixed(1)}`); } for (let x = 8 + p; x < 56; x += 2 * p) folds.push(`<line x1="${x}" y1="12" x2="${x}" y2="58" stroke="${DK}" stroke-width=".5" opacity=".45"/>`); return rail + `<polygon points="${top.join(' ')} ${bot.reverse().join(' ')}" fill="${fill}"${op} stroke="${DK}" stroke-width=".8"/>` + folds.join(''); }
+      if (st === 'roller') return rail + `<rect x="8" y="9" width="48" height="38" fill="#e6ddcc" stroke="${DK}" stroke-width=".8"/><rect x="8" y="47" width="48" height="3" fill="${DK}"/>`;
+      if (st === 'zebra') return rail + `<rect x="8" y="9" width="48" height="40" fill="#e6ddcc" stroke="${DK}" stroke-width=".8"/>` + [14, 24, 34, 44].map(y => `<rect x="8" y="${y}" width="48" height="5" fill="#fff" opacity=".9"/>`).join('') + `<rect x="8" y="49" width="48" height="3" fill="${DK}"/>`;
+      if (st === 'venetian') return rail + [...Array(10)].map((_, k) => `<rect x="8" y="${11 + k * 4.4}" width="48" height="2.4" rx="1" fill="#d9ccb5" stroke="${DK}" stroke-width=".4"/>`).join('') + `<line x1="52" y1="9" x2="52" y2="56" stroke="${DK}" stroke-width=".6"/>`;
+      if (st === 'vertical') return rail + [...Array(7)].map((_, k) => `<rect x="${9 + k * 6.8}" y="9" width="5.5" height="50" fill="#e6ddcc" stroke="${DK}" stroke-width=".5"/>`).join('');
+      if (st === 'roman') return rail + [9, 21, 33].map(y => `<path d="M8 ${y}h48v10q-24 4 -48 0z" fill="#e6ddcc" stroke="${DK}" stroke-width=".8"/>`).join('') + `<rect x="8" y="45" width="48" height="3" fill="${DK}"/>`;
+      return rail + `<rect x="8" y="9" width="48" height="40" fill="#f1ebe0" stroke="${DK}" stroke-width=".8"/>` + [...Array(8)].map((_, k) => `<path d="M8 ${12 + k * 4.6}l4 1.5 4 -1.5 4 1.5 4 -1.5 4 1.5 4 -1.5 4 1.5 4 -1.5 4 1.5 4 -1.5 4 1.5 4 -1.5" fill="none" stroke="${DK}" stroke-width=".5"/>`).join('');
+    },
     doorleaf: () => `<rect x="14" y="4" width="36" height="58" fill="#c9a27a" stroke="${DK}"/><rect x="18" y="8" width="28" height="50" fill="#d9b48c" stroke="${DK}" stroke-width=".8"/><circle cx="44" cy="34" r="2" fill="${DK}"/>`,
     showerdoor: () => `<rect x="8" y="4" width="48" height="56" fill="#e3ecf2" stroke="${DK}" stroke-width="1.2" opacity=".9"/><line x1="32" y1="4" x2="32" y2="60" stroke="${DK}"/><rect x="26" y="30" width="4" height="10" fill="${DK}"/>`,
     toilet: () => `<path d="M14 30h36v8a18 10 0 0 1-36 0z" fill="#f4f4f2" stroke="${DK}"/><rect x="36" y="8" width="16" height="22" rx="2" fill="#f4f4f2" stroke="${DK}"/><path d="M22 48v10h20V48" fill="none" stroke="${DK}"/>`,
@@ -1025,6 +1034,7 @@
       App.updateCab(cab.id, '更換設備型號', c => {
         const top = c.y + c.h;
         Object.assign(c, { code: nx.code, w: nx.w, d: nx.d, h: nx.h, mount: nx.mount, hanging: nx.hanging });
+        if (nx.cstyle) c.cstyle = nx.cstyle;
         if (nx.mount === 'counter') c.y = top - nx.h;
       });
       return;
@@ -1051,6 +1061,7 @@
     if (f) {
       const numF = ['x', 'z', 'y'];
       if (f === 'copen') { App.updateCab(cab.id, '窗簾開合', c => { c.copen = Math.max(0, Math.min(100, Math.round(+val || 0))); }); return; }
+      if (f === 'cstyle') { const nx = D.byCode['CURTAIN-' + String(val).toUpperCase()]; App.updateCab(cab.id, '窗簾款式', c => { c.cstyle = String(val); if (nx) c.code = nx.code; }); return; }
       App.updateCab(cab.id, '修改櫃體', c => {
         if (numF.includes(f)) c[f] = Math.round(+val || 0);
         else if (f === 'rot') c.rot = parseInt(val, 10) || 0;
@@ -1114,8 +1125,8 @@
         const H = r.height, made = [];
         r.walls[s.index].openings.forEach(o => {
           if (!(o.type === 'window' || /^(balcony3|aluglass|patio2|patio4|bifold)$/.test(o.style || ''))) return;
-          const c = M().createCabinet('CURTAIN', App.state.defaults); if (!c) return;
           const high = o.type === 'window' && o.sill >= 600;
+          const c = M().createCabinet(high ? 'CURTAIN-ROLLER' : 'CURTAIN-WAVE', App.state.defaults); if (!c) return;
           if (high) { Object.assign(c, { cstyle: 'roller', w: o.width + 100, h: o.height + 100, y: Math.max(0, o.sill - 50), d: 80 }); }
           else { Object.assign(c, { cstyle: 'wave', w: o.width + 400, h: Math.min(H - 20, o.sill + o.height + 250), y: 0, d: 120 }); }
           c.rot = Math.round(Math.atan2(wi.nIn[0], wi.nIn[1]) * 180 / Math.PI);

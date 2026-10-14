@@ -39,7 +39,7 @@
     if (!out.id) out.id = newId();
     // 型錄已移除的型號（舊專案）：略過，避免後續讀不到規格而出錯
     const D = window.DATA, dropped = [];
-    const clean = list => (list || []).filter(c => { if (c && c.kind === 'appl' && D && D.byCode && !D.byCode[c.code]) { dropped.push(c.code); return false; } return true; });
+    const clean = list => (list || []).map(c => { if (c && c.code === 'CURTAIN') c.code = 'CURTAIN-' + (c.cstyle || 'wave').toUpperCase(); return c; }).filter(c => { if (c && c.kind === 'appl' && D && D.byCode && !D.byCode[c.code]) { dropped.push(c.code); return false; } return true; });
     out.cabinets = clean(out.cabinets);
     if (Array.isArray(out.floors)) out.floors.forEach(f => { f.cabinets = clean(f.cabinets); });
     if (dropped.length) setTimeout(() => App.toast && App.toast('型錄已無這些設備型號，已略過：' + [...new Set(dropped)].join('、')), 500);
