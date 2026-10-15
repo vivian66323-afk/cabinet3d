@@ -470,6 +470,7 @@
     wardrobe: () => `<rect x="12" y="4" width="40" height="56" rx="2" fill="#f6efe3" stroke="${DK}"/><line x1="32" y1="4" x2="32" y2="60" stroke="${DK}"/><circle cx="29" cy="32" r="1.6" fill="${DK}"/><circle cx="35" cy="32" r="1.6" fill="${DK}"/>`,
     vanity: () => `<rect x="6" y="20" width="52" height="36" rx="2" fill="#f6efe3" stroke="${DK}"/><path d="M14 20h36a18 10 0 0 1-36 0z" fill="#f4f4f2" stroke="${DK}"/><line x1="32" y1="34" x2="32" y2="56" stroke="${DK}"/>`,
     mirrorcab: () => `<rect x="10" y="6" width="44" height="52" rx="2" fill="#dfe6ec" stroke="${DK}" stroke-width="1.2"/><line x1="32" y1="6" x2="32" y2="58" stroke="${DK}"/><line x1="16" y1="50" x2="30" y2="14" stroke="#fff" stroke-width="3" opacity=".8"/>`,
+    partition: () => `<rect x="22" y="4" width="20" height="56" fill="#f2f0eb" stroke="${DK}"/><line x1="22" y1="4" x2="42" y2="4" stroke="${DK}" stroke-width="2"/><path d="M26 10v44M38 10v44" stroke="${DK}" stroke-width=".4" opacity=".4"/>`,
     curtain: (it) => {
       const st = (it && it.cstyle) || 'wave', rail = `<rect x="6" y="5" width="52" height="4" rx="1" fill="${DK}"/>`;
       if (st === 'wave' || st === 'pleat' || st === 'sheer') { const fill = st === 'sheer' ? '#f4f6f8' : '#e6ddcc', op = st === 'sheer' ? ' opacity=".75"' : '', p = st === 'pleat' ? 5 : 8, top = [], bot = [], folds = []; for (let x = 8; x <= 56; x += 2) { const dy = 2.5 * Math.sin((x - 8) / p * Math.PI); top.push(`${x},${(11 + dy).toFixed(1)}`); bot.push(`${x},${(59 + dy).toFixed(1)}`); } for (let x = 8 + p; x < 56; x += 2 * p) folds.push(`<line x1="${x}" y1="12" x2="${x}" y2="58" stroke="${DK}" stroke-width=".5" opacity=".45"/>`); return rail + `<polygon points="${top.join(' ')} ${bot.reverse().join(' ')}" fill="${fill}"${op} stroke="${DK}" stroke-width=".8"/>` + folds.join(''); }
@@ -807,6 +808,12 @@
         <label></label><div class="inline"><button class="btn small" data-a="snapwall">${icon('magnet')}靠最近牆面</button></div>
       </div></div>`;
     if (it.finish === 'panel') html += swatchPicker(cab, 'cab', [['doorColor', '嵌門板']]);
+    if (cab.at === 'partition') {
+      const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${cur === k ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
+      html += `<div class="sec"><div class="sec-title">固定牆板</div><div class="kv">
+        <label>面材</label>${sel('pcolor', [['wall', '白牆（油漆）'], ['gray', '灰色'], ['dark', '深色'], ['wood', '木紋'], ['walnut', '胡桃木紋'], ['glass', '清玻璃（固定隔屏）'], ['frost', '霧面玻璃']], cab.pcolor || 'wall')}
+      </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">寬＝牆板長度、深＝牆板厚度、高通常＝天花高；在上方「尺寸」修改。放在門片或櫃體旁會自動吸附對齊。</p></div>`;
+    }
     if (cab.at === 'curtain') {
       const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${cur === k ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
       const st = cab.cstyle || 'wave', isRoll = ['roller', 'zebra', 'roman', 'honeycomb', 'venetian'].includes(st);
@@ -825,6 +832,7 @@
         <label>門框</label>${sel('noframe', [['0', '有門框'], ['1', '無門框（只有門片）']], cab.noframe === '1' || cab.noframe === true ? '1' : '0')}
         <label>框色</label>${sel('dframe', M().FRAME_COLORS, cab.dframe || 'white')}
         <label>鉸鏈側</label>${sel('hinge', [['R', '右側（把手在左）'], ['L', '左側（把手在右）']], cab.hinge || 'R')}
+        <label>固定牆板</label><div class="inline"><button class="btn small" data-a="add-part-l" title="在門片左側加一塊固定牆板（到天花）">${icon('rect')}左側加牆板</button><button class="btn small" data-a="add-part-r" title="在門片右側加一塊固定牆板">${icon('rect')}右側加牆板</button></div>
       </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">寬、高、深在上方「尺寸」修改；深度＝門框深。放在櫃體旁會自動與櫃體吸附對齊。</p></div>`;
     }
     html += `<div class="kv" style="margin-bottom:10px"><label>備註</label><input data-key="note" data-f="note" value="${esc(cab.note || '')}" placeholder="顯示於報價單"></div>
@@ -881,6 +889,7 @@
       <label>旋轉</label><div class="inline"><select data-key="rot" data-f="rot">${[0, 90, 180, 270].map(a => `<option value="${a}"${a === Math.round(cab.rot) ? ' selected' : ''}>${a}°</option>`).join('')}${[0, 90, 180, 270].includes(Math.round(cab.rot)) ? '' : `<option selected>${Math.round(cab.rot)}°</option>`}</select><button class="btn small" data-a="rot90">${icon('rotate')}90°</button></div>
       <label></label><div class="inline"><button class="btn small" data-a="snapwall">${icon('magnet')}靠最近牆面</button></div>
       <label>門片</label><div class="inline"><button class="btn small" data-a="add-leaf-l" title="在櫃體左側加一片獨立門片（更衣室／房間入口）">${icon('door')}左側加門片</button><button class="btn small" data-a="add-leaf-r" title="在櫃體右側加一片獨立門片">${icon('door')}右側加門片</button></div>
+      <label>固定牆板</label><div class="inline"><button class="btn small" data-a="add-part-l" title="在櫃體左側加一塊固定牆板（到天花）">${icon('rect')}左側加牆板</button><button class="btn small" data-a="add-part-r" title="在櫃體右側加一塊固定牆板">${icon('rect')}右側加牆板</button></div>
       ${isTri ? `<label>方向</label><label class="inline"><input type="checkbox" data-f="mirror" data-key="mirror"${cab.mirror ? ' checked' : ''} style="width:auto"> 左右鏡射</label>` : ''}
     </div></div>`;
 
@@ -1180,6 +1189,18 @@
     if (a === 'size-reset') {
       const it0 = D.byCode[cab.code];
       App.updateCab(cab.id, '還原型錄尺寸', c => { c.w = it0.w; c.h = it0.h; c.d = it0.d; c.fronts = c.base.fronts.map(r => ({ ...r })); c.shelves = M().genShelves(c); });
+      return;
+    }
+    if (a === 'add-part-l' || a === 'add-part-r') {   // 在櫃體／門片側邊放固定牆板，前緣對齊、高到天花
+      const p = M().createCabinet('WALL-FIX', App.state.defaults); if (!p) return;
+      const s = a === 'add-part-r' ? 1 : -1, r = (cab.rot || 0) * Math.PI / 180, rx = Math.cos(r), rz = -Math.sin(r), fx = Math.sin(r), fz = Math.cos(r);
+      const fd = M().footDepth(cab);
+      p.h = App.state.room ? App.state.room.height : Math.max(p.h, cab.y + cab.h);
+      p.d = cab.at === 'doorleaf' ? cab.d : Math.min(fd, 100);
+      const along = s * (cab.w / 2 + p.w / 2), fwd = (fd - p.d) / 2;
+      p.x = Math.round(cab.x + rx * along + fx * fwd); p.z = Math.round(cab.z + rz * along + fz * fwd); p.rot = cab.rot || 0;
+      App.addCabinet(p); App.select({ type: 'cab', id: p.id });
+      App.toast('已在' + (s > 0 ? '右' : '左') + '側加入固定牆板，可改寬度（牆板長）、厚度與面材');
       return;
     }
     if (a === 'add-leaf-l' || a === 'add-leaf-r') {   // 在櫃體側邊放一片獨立門片，前緣對齊櫃體門片面

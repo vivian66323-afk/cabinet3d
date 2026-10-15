@@ -844,6 +844,13 @@
     const it = D.byCode[cab.code] || cab, { w, d, h } = cab, y0 = cab.y;
     const steel = applMat('steel'), black = applMat('glassBlack');
     const face = it.finish === 'glass' ? black : it.finish === 'white' ? applMat('white') : steel;
+    if (cab.at === 'partition') {   // 固定牆板：一塊實心板，面材可選
+      const pc = cab.pcolor || 'wall';
+      const mat = pc === 'glass' ? sMat('glass') : pc === 'frost' ? sMat('glassFrost') : pc === 'wood' ? sMat('doorLeaf') : pc === 'walnut' ? sMat('doorWalnut') : pc === 'gray' ? sMat('doorGray') : pc === 'dark' ? sMat('doorBlack') : sMat('wall');
+      const m = addBox(g, w, h, d, 0, y0 + h / 2, 0, mat, pc !== 'glass' && pc !== 'frost');
+      if (pc === 'glass' || pc === 'frost') { m.castShadow = false; addBox(g, w, 40, d + 4, 0, y0 + 20, 0, sMat('frameSilver'), false); addBox(g, w, 40, d + 4, 0, y0 + h - 20, 0, sMat('frameSilver'), false); }
+      return;
+    }
     if (cab.at === 'curtain') { buildCurtain(g, cab); return; }
     if (cab.at === 'doorleaf') {   // 獨立門片：重用牆面門的款式幾何（局部 x 沿寬、z 朝前），d = 門框深
       const Tk = Math.max(40, d - 20);
