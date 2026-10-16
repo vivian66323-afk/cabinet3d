@@ -836,7 +836,7 @@
       </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">寬、高、深在上方「尺寸」修改；深度＝門框深。放在櫃體旁會自動與櫃體吸附對齊。</p></div>`;
     }
     html += `<div class="kv" style="margin-bottom:10px"><label>備註</label><input data-key="note" data-f="note" value="${esc(cab.note || '')}" placeholder="顯示於報價單"></div>
-      <div class="btn-row"><button class="btn" data-a="dup">${icon('dup')}複製</button><button class="btn danger" data-a="del">${icon('delete')}刪除</button></div>`;
+      <div class="btn-row">${['wardrobe', 'tvstand', 'nightstand', 'drawers', 'shoecab', 'changingtable'].includes(cab.at) ? `<button class="btn" data-a="toggle-open">${icon('open')}開門預覽</button>` : ''}<button class="btn" data-a="dup">${icon('dup')}複製</button><button class="btn danger" data-a="del">${icon('delete')}刪除</button></div>`;
     return html;
   }
 

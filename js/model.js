@@ -840,7 +840,7 @@
       }
     }
   }
-  function buildAppl(g, cab) {
+  function buildAppl(g, cab, open = false) {
     const it = D.byCode[cab.code] || cab, { w, d, h } = cab, y0 = cab.y;
     const steel = applMat('steel'), black = applMat('glassBlack');
     const face = it.finish === 'glass' ? black : it.finish === 'white' ? applMat('white') : steel;
@@ -1061,11 +1061,37 @@
     if (cab.at === 'nightstand' || cab.at === 'tvstand' || cab.at === 'wardrobe' || cab.at === 'drawers' || cab.at === 'shoecab' || cab.at === 'changingtable') {
       // 箱型家具：櫃體用櫃身色、門片／抽屜面用門板色
       const body = getMat(cab.bodyColor || cab.doorColor || '110'), door = getMat(cab.doorColor || '110');
-      addBox(g, w, h, d, 0, y0 + h / 2, 0, body);
+      const T = 18, isDrawer = cab.at === 'drawers' || cab.at === 'shoecab' || cab.at === 'changingtable';
+      if (!open) addBox(g, w, h, d, 0, y0 + h / 2, 0, body);
+      else {   // 開門預覽：空心櫃身（側板、頂底板、背板）＋內裝
+        addBox(g, T, h, d - 20, -w / 2 + T / 2, y0 + h / 2, -10, body); addBox(g, T, h, d - 20, w / 2 - T / 2, y0 + h / 2, -10, body);
+        addBox(g, w - 2 * T, T, d - 20, 0, y0 + h - T / 2, -10, body); addBox(g, w - 2 * T, T, d - 20, 0, y0 + T / 2, -10, body);
+        addBox(g, w, h, 6, 0, y0 + h / 2, -d / 2 + 3, body);
+        if (!isDrawer) {
+          if (cab.at === 'wardrobe') { addBox(g, w - 2 * T, T, d - 60, 0, y0 + h - 300, -10, body); const rod = new THREE.Mesh(new THREE.CylinderGeometry(12, 12, w - 2 * T - 10, 14), sMat('rod')); rod.rotation.z = Math.PI / 2; rod.position.set(0, y0 + h - 380, -10); g.add(rod); if (h > 1500) addBox(g, w - 2 * T, T, d - 60, 0, y0 + 300, -10, body); }
+          else addBox(g, w - 2 * T, T, d - 60, 0, y0 + h / 2, -10, body);
+        }
+      }
       const n = cab.at === 'wardrobe' ? Math.max(2, Math.round(w / 600)) : cab.at === 'tvstand' ? Math.max(2, Math.round(w / 600)) : 1;
-      if (cab.at === 'drawers' || cab.at === 'shoecab' || cab.at === 'changingtable') { const rows = Math.max(2, Math.round(h / (cab.at === 'drawers' ? 220 : 300))), fh = (h - 8) / rows; for (let i = 0; i < rows; i++) { addBox(g, w - 8, fh - 6, 18, 0, y0 + 4 + fh * i + fh / 2, d / 2 - 9 + 2, door); addBox(g, Math.min(120, w * 0.3), 10, 20, 0, y0 + 4 + fh * i + fh / 2, d / 2 + 10, sMat('handle')); } return; }
+      if (isDrawer) {
+        const rows = Math.max(2, Math.round(h / (cab.at === 'drawers' ? 220 : 300))), fh = (h - 8) / rows, pull = open ? Math.round(d * 0.55) : 0;
+        for (let i = 0; i < rows; i++) {
+          const yc = y0 + 4 + fh * i + fh / 2;
+          if (open) { const dd = d - 40; addBox(g, w - 2 * T - 20, 12, dd, 0, yc - fh / 2 + 12, pull - 20, body); [-1, 1].forEach(k => addBox(g, 12, fh * 0.55, dd, k * (w / 2 - T - 16), yc - fh * 0.1, pull - 20, body)); addBox(g, w - 2 * T - 20, fh * 0.55, 12, 0, yc - fh * 0.1, pull - d / 2 + 6, body); }
+          addBox(g, w - 8, fh - 6, 18, 0, yc, d / 2 - 9 + 2 + pull, door); addBox(g, Math.min(120, w * 0.3), 10, 20, 0, yc, d / 2 + 10 + pull, sMat('handle'));
+        }
+        return;
+      }
       const fw = (w - 8) / n;
-      for (let i = 0; i < n; i++) { addBox(g, fw - 6, h - 8, 18, -w / 2 + 4 + fw * i + fw / 2, y0 + h / 2, d / 2 - 9 + 2, door); addBox(g, 120, 10, 20, -w / 2 + 4 + fw * i + fw / 2, y0 + (cab.at === 'wardrobe' ? h * 0.5 : h - 40), d / 2 + 10, sMat('handle')); }
+      for (let i = 0; i < n; i++) {
+        const cx = -w / 2 + 4 + fw * i + fw / 2, hy = y0 + (cab.at === 'wardrobe' ? h * 0.5 : h - 40);
+        if (!open) { addBox(g, fw - 6, h - 8, 18, cx, y0 + h / 2, d / 2 - 9 + 2, door); addBox(g, 120, 10, 20, cx, hy, d / 2 + 10, sMat('handle')); continue; }
+        // 開門：以鉸鏈側為軸轉 95°，左半邊門鉸鏈在左、右半邊在右
+        const hingeL = i < n / 2, sgn = hingeL ? -1 : 1, pivot = new THREE.Group();
+        pivot.position.set(cx + sgn * (fw - 6) / 2, 0, d / 2 - 7);
+        addBox(pivot, fw - 6, h - 8, 18, -sgn * (fw - 6) / 2, y0 + h / 2, 0, door); addBox(pivot, 120, 10, 20, -sgn * (fw - 6) / 2, hy, 17, sMat('handle'));
+        pivot.rotation.y = -sgn * (95 * Math.PI / 180); g.add(pivot);
+      }
       return;
     }
     if (cab.at === 'vanity') {
@@ -1209,7 +1235,7 @@
     const g = new THREE.Group();
     const y0 = cab.y;
     const open = !!opts.open;
-    if (cab.kind === 'appl') buildAppl(g, cab);
+    if (cab.kind === 'appl') buildAppl(g, cab, open);
     else if (cab.kind === 'desk') buildDesk(g, cab);
     else if (cab.kind === 'corner') buildCorner(g, cab, y0, open);
     else if (cab.kind === 'tri') buildTri(g, cab, y0);
