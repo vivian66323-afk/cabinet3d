@@ -481,6 +481,7 @@
     lamp_wall: () => `<rect x="6" y="26" width="6" height="14" fill="${DK}"/><line x1="12" y1="32" x2="30" y2="32" stroke="${DK}" stroke-width="2"/><path d="M30 20 A14 14 0 0 1 58 20 L58 36 L30 36 Z" fill="#f2f1ed" stroke="${DK}"/>`,
     lamp_ceiling: () => `<rect x="6" y="8" width="52" height="4" fill="${DK}"/><path d="M12 12 L52 12 L46 26 L18 26 Z" fill="#f2f1ed" stroke="${DK}"/>`,
     lamp_portable: () => `<rect x="26" y="50" width="12" height="6" fill="${DK}"/><line x1="32" y1="50" x2="32" y2="34" stroke="${DK}" stroke-width="2"/><path d="M16 34 A16 10 0 0 1 48 34 Z" fill="#f2f1ed" stroke="${DK}"/>`,
+    slidedoor: () => `<rect x="6" y="6" width="52" height="4" fill="${DK}"/><rect x="8" y="10" width="26" height="46" fill="#f6efe3" stroke="${DK}"/><rect x="30" y="13" width="26" height="43" fill="#e8dcc8" stroke="${DK}"/><rect x="6" y="56" width="52" height="3" fill="${DK}"/><line x1="30" y1="28" x2="30" y2="38" stroke="${DK}" stroke-width="2"/>`,
     partition: () => `<rect x="22" y="4" width="20" height="56" fill="#f2f0eb" stroke="${DK}"/><line x1="22" y1="4" x2="42" y2="4" stroke="${DK}" stroke-width="2"/><path d="M26 10v44M38 10v44" stroke="${DK}" stroke-width=".4" opacity=".4"/>`,
     curtain: (it) => {
       const st = (it && it.cstyle) || 'wave', rail = `<rect x="6" y="5" width="52" height="4" rx="1" fill="${DK}"/>`;
@@ -820,6 +821,15 @@
         <label></label><div class="inline"><button class="btn small" data-a="snapwall">${icon('magnet')}靠最近牆面</button></div>
       </div></div>`;
     if (it.finish === 'panel') html += swatchPicker(cab, 'cab', [['doorColor', '嵌門板']]);
+    if (cab.at === 'slidedoor') {
+      const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${String(cur) === String(k) ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
+      html += `<div class="sec"><div class="sec-title">推拉門</div><div class="kv">
+        <label>片數</label>${sel('panels', [[2, '2 片'], [3, '3 片'], [4, '4 片']], cab.panels || 2)}
+        <label>款式</label>${sel('sstyle', [['board', '板材門片（色板）'], ['alu', '鋁框玻璃門']], cab.sstyle || 'board')}
+        ${cab.sstyle === 'alu' ? `<label>鋁框色</label>${sel('aluColor', M().ALU_COLORS, cab.aluColor || 'silver')}<label>玻璃</label>${sel('glassType', M().GLASS_TYPES, cab.glassType || 'glass')}<label>框寬</label><select data-key="aluSlim" data-f="aluSlim"><option value=""${!cab.aluSlim ? ' selected' : ''}>標準 32mm</option><option value="1"${cab.aluSlim ? ' selected' : ''}>細框 20mm</option></select>` : `<label>軌道色</label>${sel('aluColor', M().ALU_COLORS, cab.aluColor || 'silver')}`}
+      </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">放在開放櫃／衣櫃前方，寬＝整組寬度、高＝門高、深＝軌道深（雙軌約 80）。每片依寬高以門板價表計價，軌道五金另計，可在上方售價欄覆寫總價。「開門預覽」會把第一片推開。</p></div>`;
+      if ((cab.sstyle || 'board') === 'board') html += swatchPicker(cab, 'cab', [['doorColor', '門片色板']]);
+    }
     if (/^lamp_/.test(cab.at)) {
       const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${String(cur) === String(k) ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
       html += `<div class="sec"><div class="sec-title">燈光</div><div class="kv">
@@ -832,7 +842,7 @@
     if (cab.at === 'partition') {
       const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${cur === k ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
       html += `<div class="sec"><div class="sec-title">固定牆板</div><div class="kv">
-        <label>面材</label>${sel('pcolor', [['wall', '白牆（油漆）'], ['gray', '灰色'], ['dark', '深色'], ['wood', '木紋'], ['walnut', '胡桃木紋'], ['glass', '清玻璃（固定隔屏）'], ['frost', '霧面玻璃']], cab.pcolor || 'wall')}
+        <label>面材</label><select data-key="pcolor" data-f="pcolor"><optgroup label="牆面">${[['wall', '白牆（油漆）'], ['gray', '灰色'], ['dark', '深色'], ['wood', '木紋'], ['walnut', '胡桃木紋']].map(([k, n]) => `<option value="${k}"${(cab.pcolor || 'wall') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup><optgroup label="玻璃／鏡（固定隔屏，上下鋁框）">${M().GLASS_TYPES.map(([k, n]) => `<option value="${k}"${cab.pcolor === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup></select>
       </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">寬＝牆板長度、深＝牆板厚度、高通常＝天花高；在上方「尺寸」修改。放在門片或櫃體旁會自動吸附對齊。</p></div>`;
     }
     if (cab.at === 'curtain') {
@@ -849,7 +859,7 @@
       const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${cur === k ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
       html += `<div class="sec"><div class="sec-title">門片款式</div><div class="kv">
         <label>款式</label><select data-key="dstyle" data-f="dstyle">${M().DOOR_STYLE_GROUPS.map(([gn, list]) => `<optgroup label="${gn}">${list.map(([k, n]) => `<option value="${k}"${(cab.dstyle || 'single') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup>`).join('')}</select>
-        <label>門片色</label>${sel('dcolor', M().DOOR_COLORS, cab.dcolor || 'wood')}
+        <label>門片色</label><select data-key="dcolor" data-f="dcolor"><optgroup label="板材">${M().DOOR_COLORS.slice(0, 5).map(([k, n]) => `<option value="${k}"${(cab.dcolor || 'wood') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup><optgroup label="玻璃／鏡">${M().GLASS_TYPES.map(([k, n]) => `<option value="${k}"${cab.dcolor === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup></select>
         <label>門框</label>${sel('noframe', [['0', '有門框'], ['1', '無門框（只有門片）']], cab.noframe === '1' || cab.noframe === true ? '1' : '0')}
         <label>框色</label>${sel('dframe', M().FRAME_COLORS, cab.dframe || 'white')}
         <label>鉸鏈側</label>${sel('hinge', [['R', '右側（把手在左）'], ['L', '左側（把手在右）']], cab.hinge || 'R')}
@@ -857,7 +867,7 @@
       </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">寬、高、深在上方「尺寸」修改；深度＝門框深。放在櫃體旁會自動與櫃體吸附對齊。</p></div>`;
     }
     html += `<div class="kv" style="margin-bottom:10px"><label>備註</label><input data-key="note" data-f="note" value="${esc(cab.note || '')}" placeholder="顯示於報價單"></div>
-      <div class="btn-row">${['wardrobe', 'tvstand', 'nightstand', 'drawers', 'shoecab', 'changingtable'].includes(cab.at) ? `<button class="btn" data-a="toggle-open">${icon('open')}開門預覽</button>` : ''}<button class="btn" data-a="dup">${icon('dup')}複製</button><button class="btn danger" data-a="del">${icon('delete')}刪除</button></div>`;
+      <div class="btn-row">${['wardrobe', 'tvstand', 'nightstand', 'drawers', 'shoecab', 'changingtable', 'slidedoor'].includes(cab.at) ? `<button class="btn" data-a="toggle-open">${icon('open')}開門預覽</button>` : ''}<button class="btn" data-a="dup">${icon('dup')}複製</button><button class="btn danger" data-a="del">${icon('delete')}刪除</button></div>`;
     return html;
   }
 
@@ -910,6 +920,7 @@
       <label>旋轉</label><div class="inline"><select data-key="rot" data-f="rot">${[0, 90, 180, 270].map(a => `<option value="${a}"${a === Math.round(cab.rot) ? ' selected' : ''}>${a}°</option>`).join('')}${[0, 90, 180, 270].includes(Math.round(cab.rot)) ? '' : `<option selected>${Math.round(cab.rot)}°</option>`}</select><button class="btn small" data-a="rot90">${icon('rotate')}90°</button></div>
       <label></label><div class="inline"><button class="btn small" data-a="snapwall">${icon('magnet')}靠最近牆面</button></div>
       <label>門片</label><div class="inline"><button class="btn small" data-a="add-leaf-l" title="在櫃體左側加一片獨立門片（更衣室／房間入口）">${icon('door')}左側加門片</button><button class="btn small" data-a="add-leaf-r" title="在櫃體右側加一片獨立門片">${icon('door')}右側加門片</button></div>
+      <label>推拉門</label><div class="inline"><button class="btn small" data-a="add-slide" title="在此櫃體（或整排開放櫃）前方外掛一組推拉門，寬高同櫃體">${icon('door')}外掛推拉門</button></div>
       <label>固定牆板</label><div class="inline"><button class="btn small" data-a="add-part-l" title="在櫃體左側加一塊固定牆板（到天花）">${icon('rect')}左側加牆板</button><button class="btn small" data-a="add-part-r" title="在櫃體右側加一塊固定牆板">${icon('rect')}右側加牆板</button></div>
       ${isTri ? `<label>方向</label><label class="inline"><input type="checkbox" data-f="mirror" data-key="mirror"${cab.mirror ? ' checked' : ''} style="width:auto"> 左右鏡射</label>` : ''}
     </div></div>`;
@@ -928,6 +939,9 @@
       const isPair = cab.fronts.some(r => ['P', 'GP', 'F'].includes(r.t));
       html += `<div class="sec"><div class="sec-title">門板款式 / 把手</div><div class="kv">
       <label>款式</label><select data-key="doorStyle" data-f="doorStyle">${styleOptions(cab.doorStyle)}</select>
+      ${(cab.fronts || []).some(r => r.t === 'G' || r.t === 'GP') ? `<label>鋁框色</label><select data-key="aluColor" data-f="aluColor">${M().ALU_COLORS.map(([k, n]) => `<option value="${k}"${(cab.aluColor || 'silver') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>
+      <label>玻璃</label><select data-key="glassType" data-f="glassType">${M().GLASS_TYPES.map(([k, n]) => `<option value="${k}"${(cab.glassType || 'glass') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>
+      <label>框寬</label><select data-key="aluSlim" data-f="aluSlim"><option value=""${!cab.aluSlim ? ' selected' : ''}>標準 32mm</option><option value="1"${cab.aluSlim ? ' selected' : ''}>細框 20mm</option></select>` : ''}
       <label>把手</label><select data-key="handle" data-f="handle">${handleOptions(cab.handle, cab.doorStyle)}</select></div>
       ${(D.HANDLE_BY_ID[cab.handle] || {}).pair && !isPair ? '<p class="note">「中間」把手為雙門片（對開）適用；單門片會放在開啟側、抽屜放在上緣。</p>' : ''}</div>`;
     }
@@ -997,9 +1011,9 @@
       <label>抬高</label><input type="number" data-key="os${j}" data-of="sill" data-j="${j}" value="${o.sill}" step="10"${dis}>
       <label>距左</label><input type="number" data-key="ol${j}" data-of="left" data-j="${j}" value="${Math.round(leftOffset(wi, o))}" step="10"${dis}>
       <label>款式</label><select data-key="ost${j}" data-of="style" data-j="${j}"${dis}>${o.type === 'door' ? M().DOOR_STYLE_GROUPS.map(([gn, list]) => `<optgroup label="${gn}">${list.map(([k, n]) => `<option value="${k}"${(o.style || 'single') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup>`).join('') : M().WIN_STYLES.map(([k, n]) => `<option value="${k}"${(o.style || 'slide') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>
-      ${o.type === 'door' ? `<label>門片色</label><select data-key="oc${j}" data-of="color" data-j="${j}"${dis}>${M().DOOR_COLORS.map(([k, n]) => `<option value="${k}"${(o.color || 'wood') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>` : ''}
+      ${o.type === 'door' ? `<label>門片色</label><select data-key="oc${j}" data-of="color" data-j="${j}"${dis}><optgroup label="板材">${M().DOOR_COLORS.slice(0, 5).map(([k, n]) => `<option value="${k}"${(o.color || 'wood') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup><optgroup label="玻璃／鏡">${M().GLASS_TYPES.map(([k, n]) => `<option value="${k}"${o.color === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup></select>` : ''}
       <label>框色</label><select data-key="of${j}" data-of="frame" data-j="${j}"${dis}>${M().FRAME_COLORS.map(([k, n]) => `<option value="${k}"${(o.frame || 'white') === k ? ' selected' : ''}>${n}</option>`).join('')}</select></div></div>`).join('') : '<p class="muted" style="margin:0 0 6px">此牆面尚無門窗</p>';
-    if (!w.locked) html += `<div class="btn-row"><button class="btn small" data-a="add-door">${icon('door')}房間門 900×2100</button><button class="btn small" data-a="add-balcony">${icon('door')}陽台門 800×2100</button><button class="btn small" data-a="add-entry">${icon('door')}玄關門 1000×2100</button><button class="btn small" data-a="add-window">${icon('window')}加窗 1200×1200</button>${w.openings.some(o => o.type === 'window' || /^(balcony3|aluglass|patio2|patio4|bifold)$/.test(o.style || '')) ? `<button class="btn small" data-a="add-curtains" title="為這面牆的每個窗（含陽台門）各加一組窗簾，寬度＝窗寬左右各加 10cm：高窗用捲簾、落地窗用蛇形簾">${icon('window')}加窗簾（窗寬＋20cm）</button><button class="btn small" data-a="add-curtain-wall" title="一組蛇形簾與這面牆同寬、到地">${icon('window')}加窗簾（與牆同寬）</button>` : ''}</div>`;
+    if (!w.locked) html += `<div class="btn-row"><button class="btn small" data-a="add-door">${icon('door')}房間門 900×2100</button><button class="btn small" data-a="add-aluslide" title="細鋁框玻璃推拉門（兩扇），黑框清玻">${icon('door')}鋁框拉門 1600×2100</button><button class="btn small" data-a="add-balcony">${icon('door')}陽台門 800×2100</button><button class="btn small" data-a="add-entry">${icon('door')}玄關門 1000×2100</button><button class="btn small" data-a="add-window">${icon('window')}加窗 1200×1200</button>${w.openings.some(o => o.type === 'window' || /^(balcony3|aluglass|patio2|patio4|bifold)$/.test(o.style || '')) ? `<button class="btn small" data-a="add-curtains" title="為這面牆的每個窗（含陽台門）各加一組窗簾，寬度＝窗寬左右各加 10cm：高窗用捲簾、落地窗用蛇形簾">${icon('window')}加窗簾（窗寬＋20cm）</button><button class="btn small" data-a="add-curtain-wall" title="一組蛇形簾與這面牆同寬、到地">${icon('window')}加窗簾（與牆同寬）</button>` : ''}</div>`;
     html += `</div><div class="btn-row">${w.locked ? `<button class="btn" data-a="unlock">${icon('unlock')}解鎖牆面</button>` : `<button class="btn primary" data-a="lock">${icon('lock')}確認並鎖定牆面</button>`}
       <button class="btn" data-a="back">返回專案</button></div>`;
     return html;
@@ -1094,6 +1108,8 @@
     }
     if (f) {
       const numF = ['x', 'z', 'y'];
+      if (f === 'panels') { App.updateCab(cab.id, '推拉門片數', c => { c.panels = Math.max(2, Math.min(4, +val || 2)); }); return; }
+      if (f === 'aluSlim') { App.updateCab(cab.id, '鋁框寬度', c => { c.aluSlim = val === '1'; }); return; }
       if (f === 'kelvin' || f === 'lum') { App.updateCab(cab.id, '燈光設定', c => { c[f] = +val; }); return; }
       if (f === 'copen') { App.updateCab(cab.id, '窗簾開合', c => { c.copen = Math.max(0, Math.min(100, Math.round(+val || 0))); }); return; }
       if (f === 'cstyle') { const nx = D.byCode['CURTAIN-' + String(val).toUpperCase()]; App.updateCab(cab.id, '窗簾款式', c => { c.cstyle = String(val); if (nx) c.code = nx.code; }); return; }
@@ -1191,8 +1207,8 @@
         App.toast(`已加入 ${made.length} 組窗簾，可在右側面板改款式、顏色與開合`);
         return;
       }
-      if (a === 'add-door' || a === 'add-window' || a === 'add-balcony' || a === 'add-entry') {
-        const o = a === 'add-door' ? { id: M().uid('o'), type: 'door', width: 900, height: 2100, sill: 0, style: 'single' } : a === 'add-balcony' ? { id: M().uid('o'), type: 'door', width: 800, height: 2100, sill: 0, style: 'balcony3', frame: 'silver' } : a === 'add-entry' ? { id: M().uid('o'), type: 'door', width: 1000, height: 2100, sill: 0, style: 'entry', color: 'walnut', frame: 'black' } : { id: M().uid('o'), type: 'window', width: 1200, height: 1200, sill: 900 };
+      if (a === 'add-door' || a === 'add-window' || a === 'add-balcony' || a === 'add-entry' || a === 'add-aluslide') {
+        const o = a === 'add-aluslide' ? { id: M().uid('o'), type: 'door', width: 1600, height: 2100, sill: 0, style: 'aluslide2', color: 'glass', frame: 'black' } : a === 'add-door' ? { id: M().uid('o'), type: 'door', width: 900, height: 2100, sill: 0, style: 'single' } : a === 'add-balcony' ? { id: M().uid('o'), type: 'door', width: 800, height: 2100, sill: 0, style: 'balcony3', frame: 'silver' } : a === 'add-entry' ? { id: M().uid('o'), type: 'door', width: 1000, height: 2100, sill: 0, style: 'entry', color: 'walnut', frame: 'black' } : { id: M().uid('o'), type: 'window', width: 1200, height: 1200, sill: 900 };
         o.offset = (wi.len - o.width) / 2;
         clampOpening(r, wi, o);
         App.mutate('新增' + (o.type === 'door' ? '門' : '窗'), x => x.room.walls[s.index].openings.push(o), 'room');
@@ -1219,6 +1235,15 @@
     if (a === 'size-reset') {
       const it0 = D.byCode[cab.code];
       App.updateCab(cab.id, '還原型錄尺寸', c => { c.w = it0.w; c.h = it0.h; c.d = it0.d; c.fronts = c.base.fronts.map(r => ({ ...r })); c.shelves = M().genShelves(c); });
+      return;
+    }
+    if (a === 'add-slide') {   // 外掛推拉門：寬高同櫃體，貼在櫃體前方
+      const sd = M().createCabinet('SLIDE-DOOR', App.state.defaults); if (!sd) return;
+      const r = (cab.rot || 0) * Math.PI / 180, fx = Math.sin(r), fz = Math.cos(r), fd = M().footDepth(cab);
+      sd.w = cab.w; sd.h = cab.y + cab.h; sd.y = 0; sd.rot = cab.rot || 0; sd.doorColor = cab.doorColor || sd.doorColor;
+      sd.x = Math.round(cab.x + fx * (fd / 2 + sd.d / 2)); sd.z = Math.round(cab.z + fz * (fd / 2 + sd.d / 2));
+      App.addCabinet(sd); App.select({ type: 'cab', id: sd.id });
+      App.toast('已在櫃體前方加入推拉門組；若要罩住整排櫃體，請把寬度改成整排總寬');
       return;
     }
     if (a === 'add-part-l' || a === 'add-part-r') {   // 在櫃體／門片側邊放固定牆板，前緣對齊、高到天花
