@@ -473,6 +473,18 @@
     }
     const hx = drawer ? 0 : (hinge === 'L' ? w / 2 - 40 : -w / 2 + 40);
     const hy = drawer ? h / 2 - Math.min(50, h / 3) : (handleY != null ? handleY : 0);
+    if (hd.type === 'ikea') {   // IKEA 把手：依實際長度／直徑與表面色
+      const fm = { '黑色': 'frameBlack', '白色': 'frame', '古銅色': 'aluBronze', '棕色': 'doorWalnut', '黃銅色': 'aluChampagne', '不鏽鋼色': 'rod', '鎳': 'frameSilver', '木質': 'doorLeaf', '皮革': 'doorWalnut', '灰色': 'doorGray' }[hd.finish] || 'handle';
+      const mat = sMat(fm);
+      if (hd.kind === 'knob') { const r = Math.max(8, (hd.dia || 25) / 2); const k = new THREE.Mesh(new THREE.CylinderGeometry(r, r * 0.8, Math.max(14, hd.dp || 22), 20), mat); k.rotation.x = Math.PI / 2; k.position.set(hx, hy, t / 2 + Math.max(7, (hd.dp || 22) / 2)); k.castShadow = true; g.add(k); return; }
+      if (hd.kind === 'edge') { const len = Math.min(hd.len || 100, drawer ? w : h); if (drawer) addBox(g, len, Math.max(12, hd.wd || 30), Math.max(14, hd.dp || 20), 0, h / 2 - (hd.wd || 30) / 2 + 4, t / 2 + 2, mat, false); else addBox(g, Math.max(12, hd.wd || 30), len, Math.max(14, hd.dp || 20), hinge === 'L' ? w / 2 - (hd.wd || 30) / 2 + 4 : -w / 2 + (hd.wd || 30) / 2 - 4, hy, t / 2 + 2, mat, false); return; }
+      if (hd.kind === 'cup') { const len = Math.min(hd.len || 90, w * 0.6); const c = new THREE.Mesh(new THREE.CylinderGeometry(len / 2, len / 2, Math.max(16, hd.dp || 24), 24, 1, false, 0, Math.PI), mat); c.rotation.x = Math.PI / 2; c.rotation.z = drawer ? Math.PI : (hinge === 'L' ? Math.PI / 2 : -Math.PI / 2); c.position.set(hx, hy, t / 2 + 2); g.add(c); return; }
+      const len = Math.min(hd.len || 128, drawer ? w * 0.8 : h * 0.8), th = Math.max(8, hd.wd || 12), dp = Math.max(12, hd.dp || 30);
+      if (drawer) addBox(g, len, th, dp, hx, hy, t / 2 + dp / 2, mat, false); else addBox(g, th, len, dp, hx, hy, t / 2 + dp / 2, mat, false);
+      if (hd.kind === 'bar' && len > 60) { const legs = Math.max(2, Math.min(3, Math.round(len / 300)));   // 把手腳座
+        for (let i = 0; i < legs; i++) { const p = -len / 2 + 20 + (len - 40) * i / (legs - 1); if (drawer) addBox(g, 8, 8, dp, hx + p, hy, t / 2 + dp / 2 - 2, mat, false); else addBox(g, 8, 8, dp, hx, hy + p, t / 2 + dp / 2 - 2, mat, false); } }
+      return;
+    }
     const style = hd.type === 'style' ? hd.style : hd.type;
     if (style === 'bar') {
       if (drawer) addBox(g, Math.min(160, w * 0.5), 12, 14, hx, hy, t / 2 + 14, sMat('handle'), false);

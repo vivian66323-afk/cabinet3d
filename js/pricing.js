@@ -268,6 +268,13 @@
     if (glass) add('鋁框玻璃門', glass);
     if (nBox) add(`抽屜組（屜牆＋滑軌）×${nBox}`, box);
     if (cab.rod) add('吊衣桿', pricing.parts.ROD);
+    { // 把手：IKEA 等有單價的把手依門片／抽屜數計算
+      const hd = cab.handle && D.HANDLE_BY_ID[cab.handle];
+      if (hd && hd.price) {
+        const n = (cab.fronts || []).reduce((s2, r) => s2 + ({ L: 1, R: 1, G: 1, F: 1, P: 2, GP: 2, D: 1 }[r.t] || 0), 0);
+        if (n) add(`把手 ${hd.series || hd.name} ×${n}`, n * hd.price, { qty: n, unit: hd.price });
+      }
+    }
     const nh = hingeQty(cab), nf = footQty(cab);
     if (nh > 0) { const up = pricing.parts.HINGE != null ? pricing.parts.HINGE : D.PARTS.HINGE; add(`西德鉸鍊 ×${nh}`, nh * up, { qty: nh, unit: up }); }
     if (nf > 0) { const up = pricing.parts.FOOT != null ? pricing.parts.FOOT : D.PARTS.FOOT; add(`調整腳 ×${nf}`, nf * up, { qty: nf, unit: up }); }

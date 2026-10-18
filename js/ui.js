@@ -271,8 +271,11 @@
   function handleOptions(cur, styleId) {
     const st = D.DOOR_STYLES.find(s => s.id === styleId) || D.DOOR_STYLES[0];
     const def = D.HANDLE_BY_ID[(st.visual || {}).handle || 'bar'];
-    return `<option value=""${!cur ? ' selected' : ''}>依門板款式（${def ? def.name : '款式一體把手'}）</option>` +
-      D.HANDLES.map(h => `<option value="${h.id}"${h.id === cur ? ' selected' : ''}>${h.name}${h.pair ? '（雙門片適用）' : ''}</option>`).join('');
+    const gen = D.HANDLES.filter(h => h.type !== 'ikea'), ik = D.HANDLES.filter(h => h.type === 'ikea');
+    const KN = { bar: '把手', knob: '門鈕', edge: '夾式／邊緣把手', cup: '貝殼把手', leather: '皮革把手' };
+    const grpIk = ['bar', 'knob', 'edge', 'cup', 'leather'].map(k => { const l = ik.filter(h => h.kind === k); return l.length ? `<optgroup label="IKEA ${KN[k]}（單支價）">${l.map(h => `<option value="${h.id}"${h.id === cur ? ' selected' : ''}>${esc(h.series)} ${esc(h.facts || h.name.replace('IKEA ' + h.series + ' ', ''))}　$${h.price}</option>`).join('')}</optgroup>` : ''; }).join('');
+    return `<option value=""${!cur ? ' selected' : ''}>依門板款式（${def ? def.name : '款式一體把手'}）</option><optgroup label="系統櫃把手（含於門板價）">` +
+      gen.map(h => `<option value="${h.id}"${h.id === cur ? ' selected' : ''}>${h.name}${h.pair ? '（雙門片適用）' : ''}</option>`).join('') + '</optgroup>' + grpIk;
   }
   /* ================= 型錄 ================= */
   // 我的最愛（型錄收藏，存在瀏覽器）
@@ -952,7 +955,7 @@
       ${(cab.fronts || []).some(r => r.t === 'G' || r.t === 'GP') ? `<label>鋁框色</label><select data-key="aluColor" data-f="aluColor">${M().ALU_COLORS.map(([k, n]) => `<option value="${k}"${(cab.aluColor || 'silver') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>
       <label>玻璃</label><select data-key="glassType" data-f="glassType">${M().GLASS_TYPES.map(([k, n]) => `<option value="${k}"${(cab.glassType || 'glass') === k ? ' selected' : ''}>${n}</option>`).join('')}</select>
       <label>框寬</label><select data-key="aluSlim" data-f="aluSlim"><option value=""${!cab.aluSlim ? ' selected' : ''}>標準 32mm</option><option value="1"${cab.aluSlim ? ' selected' : ''}>細框 20mm</option></select>` : ''}
-      <label>把手</label><select data-key="handle" data-f="handle">${handleOptions(cab.handle, cab.doorStyle)}</select></div>
+      <label>把手</label><select data-key="handle" data-f="handle">${handleOptions(cab.handle, cab.doorStyle)}</select>${(() => { const hd = cab.handle && D.HANDLE_BY_ID[cab.handle]; return hd && hd.type === 'ikea' ? `<label></label><div class="inline" style="gap:8px"><img src="${hd.img}" alt="" style="width:56px;height:56px;object-fit:contain;border:1px solid var(--line);border-radius:6px;background:#fff"><span class="muted" style="font-size:11.5px">${esc(hd.name)}<br>${hd.len ? (hd.kind === 'knob' ? 'Ø' : '長 ') + hd.len + ' mm' : ''}${hd.cc ? '　孔距 ' + hd.cc : ''}　每包 ${hd.pack} 支 $${hd.packPrice}　<a href="${esc(hd.href)}" target="_blank" rel="noopener">IKEA ↗</a></span></div>` : ''; })()}</div>
       ${(D.HANDLE_BY_ID[cab.handle] || {}).pair && !isPair ? '<p class="note">「中間」把手為雙門片（對開）適用；單門片會放在開啟側、抽屜放在上緣。</p>' : ''}</div>`;
     }
 

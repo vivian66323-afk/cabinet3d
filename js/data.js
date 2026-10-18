@@ -1953,6 +1953,10 @@
     { id: 'in-TM', name: '上中內嵌把手', type: 'inset', pos: 'TM', pair: true },
     { id: 'in-BM', name: '下中內嵌把手', type: 'inset', pos: 'BM', pair: true }
   ];
+  // IKEA 門鈕／把手（catalog-handles.js）：有單價、尺寸與照片，報價單會依門片數計把手費用
+  (window.HANDLE_RAW || []).forEach(([id, series, facts, kind, fin, len, dia, wd, dp, cc, unit, pack, packPrice, img, href]) => HANDLES.push({
+    id: 'ik:' + id, name: `IKEA ${series} ${facts}`, facts, type: 'ikea', kind, finish: fin, len, dia, wd, dp, cc, price: unit, pack, packPrice, img, href, series
+  }));
   const HANDLE_BY_ID = {}; HANDLES.forEach(h => { HANDLE_BY_ID[h.id] = h; });
   // 地板選項：type 木地板 / 磁磚 / 素面
   const FLOORS = [
