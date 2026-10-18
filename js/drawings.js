@@ -421,7 +421,7 @@
 
   // 平面圖
   Dr.plan = function (pg, st, box, opts = {}) {
-    const room = st.room, CEIL = !!opts.ceiling;
+    const room = st.room, CEIL = !!opts.ceiling, LAYER = opts.layer || 'ceiling';
     const pts = [];
     if (room) room.points.forEach((_, i) => { const wi = M().wallInfo(room, i); pts.push(wi.p, [wi.p[0] + wi.nOut[0] * room.thickness, wi.p[1] + wi.nOut[1] * room.thickness]); });
     st.cabinets.forEach(c => Dr.cabWorldPoly(c).forEach(p => pts.push(p)));
@@ -442,7 +442,7 @@
     if (room) {
       const fl = M().floorDef(room);
       poly(room.points, CEIL ? '#ffffff' : fl.plan, null);
-      if (CEIL && window.Ceiling) window.Ceiling.drawPlan(pg, room, P, poly, s);
+      if (CEIL && window.Ceiling) window.Ceiling.drawPlan(pg, room, P, poly, s, LAYER);
       if (fl.type === 'tile' && !CEIL) {
         // 磁磚格線（裁切在室內）
         g.save();
@@ -544,7 +544,7 @@
       }
       Dr.tagLines(pg, C[0], C[1] + (c.hanging && under ? 5.2 : 0), lines, maxW);
     });
-    if (CEIL) { if (room && window.Ceiling) window.Ceiling.drawLegend(pg, room, box.x1 - 50, box.y0 + 4); pg.text(box.x0 + 2, box.y1 - 3, `天花板配置圖　比例 1:${s}　單位 mm（標註高度 cm）`, { size: 6.5, color: '#69727d' }); return s; }
+    if (CEIL) { if (room && window.Ceiling) window.Ceiling.drawLegend(pg, room, box.x1 - 50, box.y0 + 4, LAYER); pg.text(box.x0 + 2, box.y1 - 3, `${{ ceiling: '天花板配置圖', lights: '燈具配置圖', hvac: '空調配置圖' }[LAYER]}　比例 1:${s}　單位 mm${LAYER === 'ceiling' ? '（標註高度 cm）' : ''}`, { size: 6.5, color: '#69727d' }); return s; }
     // 圖例
     const lx = box.x0 + 2, ly = box.y1 - 12;
     pg.rect(lx, ly, 6, 3.5, { fill: '#e9dcc3', w: 0.25 }); pg.text(lx + 8, ly + 3, '地櫃 / 高櫃（色板貼圖）', { size: 6.5 });

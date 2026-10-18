@@ -712,11 +712,11 @@
     const C = window.Ceiling; if (!C) return '';
     const c = C.ensure(r), v = V();
     const sel = (key, list, cur) => `<select data-key="${key}" data-f="${key}">${list.map(([k, n]) => `<option value="${k}"${String(cur) === String(k) ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
-    const zones = c.zones.map((z, i) => `<div class="lrow ceil-row"><span><b>${C.KINDS[z.kind] || z.kind}</b>${z.kind === 'box' ? `　${M().wallName(z.wall != null ? z.wall : 0)}` : ''}</span>
+    const C2 = C; const zones = c.zones.map((z, i) => `<div class="lrow ceil-row"><span><b>${C.KINDS[z.kind] || z.kind}</b>${z.kind === 'box' ? `　${M().wallName(z.wall != null ? z.wall : 0)}` : ''}</span>
       ${z.kind === 'box' ? '<span class="muted">開口到樓板</span>' : `<span class="inline">H ${num('zh' + i, z.h, 'step="10" min="2000" max="6000"')}</span>`}
       ${z.kind === 'box' ? '<span></span>' : `<label class="inline" title="沿此區邊緣做間接光燈槽"><input type="checkbox" data-key="zc${i}" data-f="zc${i}"${z.cove ? ' checked' : ''} style="width:auto"> 間接光</label>`}
       <button class="icon-btn del" data-a="ceil-zdel" data-i="${i}" title="刪除">${icon('x')}</button></div>`).join('');
-    const strips = c.strips.map((st, i) => `<div class="lrow ceil-row"><span><b>鋁槽燈</b></span><span class="muted">${Math.round(Math.hypot(st.x2 - st.x1, st.z2 - st.z1))} mm</span><span class="inline">${sel('sk' + i, [[2700, '2700K'], [3000, '3000K'], [4000, '4000K'], [6500, '6500K']], st.kelvin || 3000)}</span><button class="icon-btn del" data-a="ceil-sdel" data-i="${i}" title="刪除">${icon('x')}</button></div>`).join('');
+    const strips = c.strips.filter(st => (st.kind || 'alu') === 'alu').map(st => [st, c.strips.indexOf(st)]).map(([st, i]) => `<div class="lrow ceil-row"><span><b>鋁槽燈</b></span><span class="muted">${Math.round(Math.hypot(st.x2 - st.x1, st.z2 - st.z1))} mm</span><span class="inline">${sel('sk' + i, [[2700, '2700K'], [3000, '3000K'], [4000, '4000K'], [6500, '6500K']], st.kelvin || 3000)}</span><button class="icon-btn del" data-a="ceil-sdel" data-i="${i}" title="刪除">${icon('x')}</button></div>`).join('');
     return `<div class="sec"><div class="sec-title">天花板 <small>${c.on ? '基本高 ' + c.h + ' mm' : '未啟用'}</small></div><div class="kv">
       <label>顯示</label><label class="inline"><input type="checkbox" data-key="ceil-on" data-f="ceil-on"${c.on ? ' checked' : ''} style="width:auto"> 做天花板（相機在天花下方才看得到）</label>
       <label>基本高</label><div class="inline">${num('ceil-h', c.h, 'step="10" min="2000" max="6000"')}<span class="unit">mm（平釘，牆高 ${r.height}）</span></div>
@@ -724,14 +724,20 @@
       <label>線板</label>${sel('ceil-mold', C.MOLDINGS, c.molding || 'none')}
       <label>3D 顯示</label>${sel('ceil-mode', [['auto', '自動（相機在天花下方顯示）'], ['hide', '永遠隱藏']], v.ceilMode || 'auto')}
     </div>
-    <div class="btn-row"><button class="btn small" data-a="ceil-zone">${icon('line')}畫降板區</button><button class="btn small" data-a="ceil-raise">${icon('line')}畫灑水頭下高區</button><button class="btn small" data-a="ceil-beam">${icon('line')}畫包樑</button><button class="btn small" data-a="ceil-box">${icon('window')}自動窗簾盒</button><button class="btn small" data-a="ceil-strip">${icon('open')}畫鋁槽燈</button></div>
+    <div class="sec-title" style="margin-top:10px">燈具與空調 <small>畫在天花上</small></div>
+    <div class="kv"><label>設備</label><select data-key="fx-type" data-f="fx-type">${[['燈具', ['dl_big', 'dl_small', 'ar111', 'pendant', 'wall_lt']], ['空調／設備', ['ac', 'drain', 'access']]].map(([gn, l]) => `<optgroup label="${gn}">${l.map(t => `<option value="${t}"${UI.fxType === t ? ' selected' : ''}>${C.FIX[t].name}</option>`).join('')}</optgroup>`).join('')}</select></div>
+    <div class="btn-row"><button class="btn small" data-a="fx-place">${icon('plus')}逐顆放置</button><button class="btn small" data-a="fx-row">${icon('line')}排一排</button><button class="btn small" data-a="fx-grid">${icon('rect')}區域內矩陣</button><button class="btn small" data-a="fx-undo" title="刪除最後放的一個">退一個</button></div>
+    <div class="btn-row"><button class="btn small" data-a="ceil-track">${icon('line')}軌道燈</button><button class="btn small" data-a="ceil-supply">${icon('line')}線型出風口</button><button class="btn small" data-a="ceil-ret">${icon('line')}回風口</button></div>
+    ${(() => { const rows = [...C.counts(r, 'light'), ...C.counts(r, 'hvac')]; return rows.length ? `<div class="list" style="margin-top:6px">${rows.map(x => `<div class="lrow ceil-row"><span>${esc(x.name)}</span><span class="muted">${x.qty} ${x.unit}</span><span></span>${x.kind === 'fix' || (x.kind === 'line' && x.t !== 'alu') ? `<button class="icon-btn del" data-a="fx-clear" data-t="${x.t}" data-k="${x.kind}" title="全部刪除">${icon('x')}</button>` : '<span></span>'}</div>`).join('')}</div>` : ''; })()}
+    <div class="btn-row" style="margin-top:10px"><button class="btn small" data-a="ceil-zone">${icon('line')}畫降板區</button><button class="btn small" data-a="ceil-raise">${icon('line')}畫灑水頭下高區</button><button class="btn small" data-a="ceil-beam">${icon('line')}畫包樑</button><button class="btn small" data-a="ceil-box">${icon('window')}自動窗簾盒</button><button class="btn small" data-a="ceil-strip">${icon('open')}畫鋁槽燈</button></div>
     ${zones || strips ? `<div class="list" style="margin-top:8px">${zones}${strips}</div>` : '<p class="muted" style="font-size:11.5px;margin:6px 0 0">目前整間平釘。用上方按鈕在平面上畫降板區（可勾間接光）、包樑、窗簾盒或鋁槽燈；高度單位 mm，圖面標註以 cm 顯示。</p>'}
     <p class="muted" style="font-size:11.5px;margin:6px 0 0">報價：平釘與造型依坪數、包樑／窗簾盒／燈槽／線板／鋁槽燈依尺數計價，單價可在「板材售價」修改。</p></div>`;
   }
   UI.startCeilDraw = function (kind) {
     if (!App.state.room) { App.toast('請先建立空間'); return; }
     V().lineTarget = kind; UI.action('line');
-    App.toast({ zone: '在平面上點降板區各轉角，點回起點完成', raise: '點灑水頭下高區各轉角，點回起點完成', beam: '點樑的起點與終點', strip: '點鋁槽燈的起點與終點' }[kind]);
+    const nm = k2 => (window.Ceiling.FIX[k2] || {}).name || '';
+    App.toast(/^fx:/.test(kind) ? `點天花位置放置「${nm(kind.slice(3))}」，可連續點；按「取消」或 Esc 結束` : /^row:/.test(kind) ? `點「${nm(kind.slice(4))}」一排的起點與終點` : /^grid:/.test(kind) ? `點矩形區域的兩個對角，排「${nm(kind.slice(5))}」矩陣` : ({ zone: '在平面上點降板區各轉角，點回起點完成', raise: '點灑水頭下高區各轉角，點回起點完成', beam: '點樑的起點與終點', strip: '點鋁槽燈的起點與終點', track: '點軌道的起點與終點', supply: '點線型出風口的起點與終點', ret: '點回風口的起點與終點' }[kind]));
   };
   UI.finishCeilDraw = async function (kind, pts) {
     const r = App.state.room, C = window.Ceiling; if (!r || !C) return;
@@ -748,7 +754,26 @@
       App.mutate('新增包樑', x => { C.addBeam(x.room, pts[0], pts[1], +res.data.w, +res.data.h); }, 'room');
     } else if (kind === 'strip') {
       App.mutate('新增鋁槽燈', x => { C.addStrip(x.room, pts[0], pts[1], 30, 3000); }, 'room');
+    } else if (kind === 'track' || kind === 'supply' || kind === 'ret') {
+      App.mutate('新增' + C.LINES[kind].name, x => { C.addStrip(x.room, pts[0], pts[1], 30, 3000, kind); }, 'room');
+    } else if (/^row:/.test(kind)) {
+      const t = kind.slice(4), L = Math.hypot(pts[1][0] - pts[0][0], pts[1][1] - pts[0][1]);
+      const res = await UI.modal({ title: '排一排：' + C.FIX[t].name, body: `<div class="kv"><label>數量</label><div class="inline"><input name="n" type="number" value="${Math.max(2, Math.round(L / 900) + 1)}" min="1" max="60"><span class="unit">顆（含兩端，長 ${Math.round(L)} mm）</span></div></div>`, buttons: [{ label: '取消', value: null }, { label: '放置', primary: true, value: 'ok' }] });
+      if (!res) return;
+      App.mutate('排一排 ' + C.FIX[t].name, x => { C.addRow(x.room, t, pts[0], pts[1], +res.data.n); }, 'room');
+    } else if (/^grid:/.test(kind)) {
+      const t = kind.slice(5), a = pts[0], b = pts[1], rect = [[a[0], a[1]], [b[0], a[1]], [b[0], b[1]], [a[0], b[1]]];
+      const res = await UI.modal({ title: '區域內矩陣：' + C.FIX[t].name, body: `<div class="kv"><label>間距</label><div class="inline"><input name="g" type="number" value="1200" step="50"><span class="unit">mm</span></div><label>離邊</label><div class="inline"><input name="m" type="number" value="600" step="50"><span class="unit">mm</span></div></div>`, buttons: [{ label: '取消', value: null }, { label: '放置', primary: true, value: 'ok' }] });
+      if (!res) return;
+      let n = 0; App.mutate('矩陣 ' + C.FIX[t].name, x => { n = C.addGrid(x.room, t, rect, Math.max(300, +res.data.g), Math.max(0, +res.data.m)).length; }, 'room'); App.toast(`已放置 ${n} 個${C.FIX[t].name}`);
     }
+  };
+  UI.fxType = 'dl_small';
+  UI.placeFixture = function (type, p) {
+    const C = window.Ceiling; if (!App.state.room || !C) return;
+    App.mutate('放置 ' + C.FIX[type].name, x => { C.addFixture(x.room, type, p); }, 'room');
+    const n = App.state.room.ceiling.fixtures.filter(f => f.type === type).length;
+    App.status(`已放置 ${C.FIX[type].name} ${n} 個；繼續點擊放置，按「取消」或 Esc 結束`);
   };
   function projectPanel() {
     const st = App.state, r = st.room;
@@ -1096,6 +1121,7 @@
     if (t.dataset.swb) { UI.swBrand = val; UI.swSeries = 'all'; UI.showProps(); return; }
     // 專案層級
     if (t.dataset.f === 'room-height') { const v = Math.max(1800, Math.min(6000, +val || 2800)); App.mutate('牆高', x => { x.room.height = v; x.room.walls.forEach(w => w.openings.forEach(o => { o.height = Math.min(o.height, v - o.sill - 10); })); }, 'room'); return; }
+    if (t.dataset.f === 'fx-type') { UI.fxType = String(val); return; }
     if (t.dataset.f === 'ceil-on') { App.mutate('天花板顯示', x => { window.Ceiling.ensure(x.room).on = !!val; }, 'room'); return; }
     if (t.dataset.f === 'ceil-h') { const v = Math.max(2000, Math.min(6000, Math.round(+val || 2600))); App.mutate('天花基本高', x => { window.Ceiling.ensure(x.room).h = v; }, 'room'); return; }
     if (t.dataset.f === 'ceil-mold') { App.mutate('線板', x => { window.Ceiling.ensure(x.room).molding = String(val); }, 'room'); return; }
@@ -1228,6 +1254,12 @@
     if (a === 'ceil-raise') { UI.startCeilDraw('raise'); return; }
     if (a === 'ceil-beam') { UI.startCeilDraw('beam'); return; }
     if (a === 'ceil-strip') { UI.startCeilDraw('strip'); return; }
+    if (a === 'ceil-track' || a === 'ceil-supply' || a === 'ceil-ret') { UI.startCeilDraw(a.slice(5)); return; }
+    if (a === 'fx-place') { UI.startCeilDraw('fx:' + UI.fxType); return; }
+    if (a === 'fx-row') { UI.startCeilDraw('row:' + UI.fxType); return; }
+    if (a === 'fx-grid') { UI.startCeilDraw('grid:' + UI.fxType); return; }
+    if (a === 'fx-undo') { if (!App.state.room.ceiling || !App.state.room.ceiling.fixtures.length) { App.toast('沒有可刪除的設備'); return; } App.mutate('刪除最後一個設備', x => { x.room.ceiling.fixtures.pop(); }, 'room'); return; }
+    if (a === 'fx-clear') { const t0 = b.dataset.t, k0 = b.dataset.k; if (!(await UI.confirm('全部刪除', '刪除這個空間所有此類設備？（可 Ctrl+Z 復原）'))) return; App.mutate('刪除設備', x => { const c = x.room.ceiling; if (k0 === 'fix') c.fixtures = c.fixtures.filter(f => f.type !== t0); else c.strips = c.strips.filter(st => (st.kind || 'alu') !== (t0 === 'spot' ? 'track' : t0)); }, 'room'); return; }
     if (a === 'ceil-box') { let n = 0; App.mutate('自動窗簾盒', x => { n = window.Ceiling.addCurtainBoxes(x.room); }, 'room'); App.toast(n ? `已在 ${n} 面有窗的牆加窗簾盒（深 180）` : '沒有新增：每面有窗的牆已有窗簾盒，或此空間沒有窗'); return; }
     if (a === 'ceil-zdel') { const i0 = +b.dataset.i; App.mutate('刪除天花區域', x => { x.room.ceiling.zones.splice(i0, 1); }, 'room'); return; }
     if (a === 'ceil-sdel') { const i0 = +b.dataset.i; App.mutate('刪除鋁槽燈', x => { x.room.ceiling.strips.splice(i0, 1); }, 'room'); return; }

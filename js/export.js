@@ -581,7 +581,8 @@ ${tris}</mesh></geometry>`);
     const st0 = App.state;
     const pages = [];
     const floors = App.floorList(), multi = floors.length > 1;
-    const total = floors.reduce((a, f) => a + 1 + (f.room ? f.room.points.length + (f.room.ceiling && f.room.ceiling.on ? 1 : 0) : 0), 0);
+    const extraOf = r => { if (!r || !r.ceiling || !r.ceiling.on || !window.Ceiling) return 0; const C = window.Ceiling; return 1 + (C.counts(r, 'light').length ? 1 : 0) + (C.counts(r, 'hvac').length ? 1 : 0); };
+    const total = floors.reduce((a, f) => a + 1 + (f.room ? f.room.points.length + extraOf(f.room) : 0), 0);
     let pno = 0;
     for (const fl of floors) {
     if (!fl.room && !(fl.cabinets || []).length) continue;
@@ -602,6 +603,14 @@ ${tris}</mesh></geometry>`);
       const s2 = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { ceiling: true });
       Dr().frame(pg, pre + '天花板配置圖', info({ page: pno, pages: total, scale: s2 ? '1:' + s2 : '—' }));
       pages.push(pg);
+      for (const [layer, title, grp] of [['lights', '燈具配置圖', 'light'], ['hvac', '空調設備配置圖', 'hvac']]) {
+        if (!window.Ceiling.counts(st.room, grp).length) continue;
+        pg = Dr().Page('landscape', 200);
+        box = Dr().frame(pg, pre + title, info({ page: ++pno, pages: total }));
+        const s3 = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { ceiling: true, layer });
+        Dr().frame(pg, pre + title, info({ page: pno, pages: total, scale: s3 ? '1:' + s3 : '—' }));
+        pages.push(pg);
+      }
     }
     // 立面
     for (const i of walls) {

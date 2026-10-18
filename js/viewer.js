@@ -640,11 +640,12 @@
     const p = new THREE.Vector3();
     return raycaster.ray.intersectPlane(groundPlane, p) ? p : null;
   }
+  const visDeep = o => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };   // 連同上層群組都可見（隱藏的天花不參與點選／鎖點）
   function pick() {
     raycaster.setFromCamera(mouse, camera);
     const objs = [...cabGroup.children];
     if (roomGroup) objs.push(roomGroup);
-    const hits = raycaster.intersectObjects(objs, true).filter(h => h.object.isMesh && h.object.visible && !(h.object.material && h.object.material.opacity < 0.2));
+    const hits = raycaster.intersectObjects(objs, true).filter(h => h.object.isMesh && visDeep(h.object) && !(h.object.material && h.object.material.opacity < 0.2));
     for (const h of hits) {
       if (h.object.userData.cabId) return { type: 'cab', id: h.object.userData.cabId, point: h.point };
       let o = h.object, opening = null;
@@ -662,7 +663,7 @@
   function pickPoint(from, lockAxis) {
     raycaster.setFromCamera(mouse, camera);
     const objs = [...cabGroup.children]; if (roomGroup) objs.push(roomGroup);
-    const hits = raycaster.intersectObjects(objs, true).filter(h => h.object.isMesh && h.object.visible && !(h.object.material && h.object.material.opacity < 0.2));
+    const hits = raycaster.intersectObjects(objs, true).filter(h => h.object.isMesh && visDeep(h.object) && !(h.object.material && h.object.material.opacity < 0.2));
     const cr = renderer.domElement.getBoundingClientRect();
     const scr = v => { const q = v.clone().project(camera); return [(q.x + 1) / 2 * cr.width, (1 - q.y) / 2 * cr.height]; };
     const ms = [(mouse.x + 1) / 2 * cr.width, (1 - mouse.y) / 2 * cr.height];
@@ -1412,7 +1413,10 @@
     if (r.close) { finishLine(); return; }
     draw.pts.push(r.p);
     redrawLine();
-    if ((V.lineTarget === 'beam' || V.lineTarget === 'strip') && draw.pts.length >= 2) {   // 兩點物件：點第二點即完成
+    if (/^fx:/.test(V.lineTarget)) {   // 點狀設備：每點一下放一個，持續放置直到取消
+      const p = draw.pts.pop(); redrawLine(); App.ui.placeFixture(V.lineTarget.slice(3), p); return;
+    }
+    if ((V.lineTarget === 'beam' || /^(strip|track|supply|ret|row:.+|grid:.+)$/.test(V.lineTarget)) && draw.pts.length >= 2) {   // 兩點物件：點第二點即完成
       const pts = draw.pts.slice(0, 2), tg = V.lineTarget; V.cancelLine(); V.setTool('select'); App.ui.finishCeilDraw(tg, pts);
     }
   }

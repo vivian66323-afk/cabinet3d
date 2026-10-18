@@ -6,10 +6,28 @@
   const M = () => window.Model, V = () => window.Viewer;
   const CHI = 303;   // 台尺 mm
   C.KINDS = { drop: '降板', beam: '包樑', box: '窗簾盒', raise: '灑水頭下（最高）' };
+  // 天花設備：點狀 fixtures[{id,type,x,z,rot}]、線狀 strips[{kind:'alu'|'track'|'supply'|'return', ...}]
+  C.FIX = {
+    dl_big: { name: '大崁燈 Ø12', group: 'light', unit: '盞', price: 650 },
+    dl_small: { name: '小崁燈 Ø9', group: 'light', unit: '盞', price: 450 },
+    ar111: { name: 'AR111 盒燈（雙頭）', group: 'light', unit: '組', price: 2400 },
+    pendant: { name: '吊燈出線位', group: 'light', unit: '處', price: 350 },
+    wall_lt: { name: '壁燈出線位', group: 'light', unit: '處', price: 350 },
+    ac: { name: '吊隱式冷氣（室內機）', group: 'hvac', unit: '台', price: 0 },
+    drain: { name: '冷氣排水口', group: 'hvac', unit: '處', price: 0 },
+    access: { name: '檢修孔 45×45', group: 'hvac', unit: '處', price: 600 }
+  };
+  C.LINES = {
+    alu: { name: '鋁槽燈', group: 'light', unit: '尺', price: 680 },
+    track: { name: '軌道燈軌道', group: 'light', unit: '尺', price: 250 },
+    supply: { name: '線型出風口', group: 'hvac', unit: '支', price: 1800 },
+    ret: { name: '回風口', group: 'hvac', unit: '支', price: 1500 }
+  };
   C.MOLDINGS = [['none', '無線板'], ['flat', '平線板 50'], ['cove', '弧形線板 60'], ['crown', '歐式線板 80']];
   C.ensure = function (room) {
-    if (!room.ceiling) room.ceiling = { on: true, h: Math.max(2200, room.height - 200), color: '#f4f3ef', paint: null, molding: 'none', zones: [], strips: [] };
-    const c = room.ceiling; c.zones = c.zones || []; c.strips = c.strips || [];
+    if (!room.ceiling) room.ceiling = { on: true, h: Math.max(2200, room.height - 200), color: '#f4f3ef', paint: null, molding: 'none', zones: [], strips: [], fixtures: [] };
+    const c = room.ceiling; c.zones = c.zones || []; c.strips = c.strips || []; c.fixtures = c.fixtures || [];
+    c.strips.forEach(st => { if (!st.kind) st.kind = 'alu'; });
     return c;
   };
   const uid = p => (M() ? M().uid(p) : p + Math.random().toString(36).slice(2, 8));
@@ -92,12 +110,49 @@
     }
     // 鋁槽燈
     const alu = sMat('frameSilver');
+    const black = sMat('frameBlack'), grille = new THREE.MeshStandardMaterial({ color: 0x3a3d42, roughness: 0.8 });
     c.strips.forEach(st => {
       const L = Math.hypot(st.x2 - st.x1, st.z2 - st.z1); if (L < 50) return;
       const mx = (st.x1 + st.x2) / 2, mz = (st.z1 + st.z2) / 2, y = C.heightAt(room, mx, mz), w = st.w || 30, rot = -Math.atan2(st.z2 - st.z1, st.x2 - st.x1), col = KEL[st.kelvin] || KEL[3000];
+      if (st.kind === 'track') {   // 軌道 + 投射燈頭
+        const tr = addBox(g, L, 18, 34, mx, y - 9, mz, black, false); tr.rotation.y = rot;
+        const n = Math.max(1, st.heads || Math.round(L / 600));
+        for (let k = 0; k < n; k++) { const t = (k + 0.5) / n, hx = st.x1 + (st.x2 - st.x1) * t, hz = st.z1 + (st.z2 - st.z1) * t;
+          const head = new THREE.Mesh(new THREE.CylinderGeometry(32, 38, 110, 18), black); head.position.set(hx, y - 90, hz); head.rotation.x = 0.35; g.add(head);
+          const lens = new THREE.Mesh(new THREE.CircleGeometry(30, 18), new THREE.MeshBasicMaterial({ color: col })); lens.position.set(hx, y - 146, hz + 20); lens.rotation.x = Math.PI / 2 + 0.35; g.add(lens);
+          if (lampsOn) lights.push([hx, y - 160, hz, col, 300000]); }
+        return;
+      }
+      if (st.kind === 'supply' || st.kind === 'ret') {   // 線型出風口／回風口：深色百葉
+        const bw = st.kind === 'ret' ? 300 : (w || 120);
+        const fr = addBox(g, L, 6, bw, mx, y - 3, mz, sMat('frame'), false); fr.rotation.y = rot;
+        const gr = addBox(g, L - 30, 4, bw - 30, mx, y - 5, mz, grille, false); gr.rotation.y = rot;
+        return;
+      }
       const ch = addBox(g, L, 14, w, mx, y + 6, mz, alu, false); ch.rotation.y = rot;
       const em = addBox(g, L - 4, 4, w - 8, mx, y - 2, mz, new THREE.MeshBasicMaterial({ color: col }), false); em.rotation.y = rot;
       if (lampsOn) { const cnt = Math.max(1, Math.round(L / 1000)); for (let k = 0; k < cnt; k++) { const t = (k + 0.5) / cnt; lights.push([st.x1 + (st.x2 - st.x1) * t, y - 30, st.z1 + (st.z2 - st.z1) * t, col, 450000]); } }
+    });
+    // 點狀設備
+    c.fixtures.forEach(f => {
+      const y = C.heightAt(room, f.x, f.z), T = f.type;
+      if (T === 'dl_big' || T === 'dl_small') {
+        const r = T === 'dl_big' ? 60 : 45;
+        const rim = new THREE.Mesh(new THREE.CylinderGeometry(r + 12, r + 12, 6, 24), sMat('frame')); rim.position.set(f.x, y - 3, f.z); g.add(rim);
+        const lens = new THREE.Mesh(new THREE.CircleGeometry(r, 24), new THREE.MeshBasicMaterial({ color: KEL[f.kelvin] || KEL[3000] })); lens.rotation.x = Math.PI / 2; lens.position.set(f.x, y - 7, f.z); g.add(lens);
+        if (lampsOn) lights.push([f.x, y - 120, f.z, KEL[f.kelvin] || KEL[3000], T === 'dl_big' ? 260000 : 180000]);
+      } else if (T === 'ar111') {
+        const bx = addBox(g, 330, 10, 180, f.x, y - 5, f.z, black, false); bx.rotation.y = (f.rot || 0) * Math.PI / 180;
+        [-1, 1].forEach(k => { const lens = new THREE.Mesh(new THREE.CircleGeometry(55, 20), new THREE.MeshBasicMaterial({ color: KEL[3000] })); lens.rotation.x = Math.PI / 2; const a = (f.rot || 0) * Math.PI / 180; lens.position.set(f.x + Math.cos(a) * k * 80, y - 11, f.z - Math.sin(a) * k * 80); g.add(lens); });
+        if (lampsOn) lights.push([f.x, y - 150, f.z, KEL[3000], 380000]);
+      } else if (T === 'pendant') {
+        const base = new THREE.Mesh(new THREE.CylinderGeometry(55, 55, 18, 20), sMat('frame')); base.position.set(f.x, y - 9, f.z); g.add(base);
+      } else if (T === 'access') {
+        const a = addBox(g, 450, 6, 450, f.x, y - 3, f.z, paintMat, true); a.material = paintMat;
+        const e = addBox(g, 470, 4, 470, f.x, y - 1, f.z, sMat('frameSilver'), false); e.scale.set(1, 1, 1);
+      } else if (T === 'ac') {   // 室內機藏在天花內，只在天花下畫出檢修口輪廓
+        const a = addBox(g, 1000, 6, 600, f.x, y - 3, f.z, paintMat, true); a.rotation.y = (f.rot || 0) * Math.PI / 180;
+      }
     });
     lights.slice(0, 24).forEach(([x, y, z, col, I]) => { const pl = new THREE.PointLight(col, I, 0, 2); pl.position.set(x, y, z); g.add(pl); });
     return g;
@@ -116,8 +171,37 @@
     const c = C.ensure(room); const hs = new Set([c.h]); c.zones.forEach(z => { if (z.kind !== 'box') hs.add(z.h); });
     return [...hs].sort((a, b) => b - a);
   };
-  C.drawPlan = function (pg, room, P, poly, s) {
+  // 圖例符號（頁面 mm 座標）
+  function sym(pg, type, x, y, sc = 1) {
+    const g = pg.g, k = pg.k, L = (x1, y1, x2, y2, w = 0.25, col = '#1f2328') => pg.line(x1, y1, x2, y2, w, col);
+    const circ = (r, fill, col = '#1f2328', w = 0.25) => { g.beginPath(); g.arc(x * k, y * k, r * k, 0, Math.PI * 2); if (fill) { g.fillStyle = fill; g.fill(); } g.strokeStyle = col; g.lineWidth = w * k; g.stroke(); };
+    if (type === 'dl_big' || type === 'dl_small') { const r = (type === 'dl_big' ? 1.6 : 1.15) * sc; circ(r, '#fff'); L(x - r * 1.6, y, x + r * 1.6, y); L(x, y - r * 1.6, x, y + r * 1.6); if (type === 'dl_big') circ(r * 0.45, '#1f2328'); }
+    else if (type === 'ar111') { [-1.4, 1.4].forEach(dx => { g.beginPath(); g.arc((x + dx * sc) * k, y * k, 1.1 * sc * k, 0, Math.PI * 2); g.fillStyle = '#fff'; g.fill(); g.strokeStyle = '#1f2328'; g.lineWidth = 0.25 * k; g.stroke(); }); pg.rect(x - 2.8 * sc, y - 1.5 * sc, 5.6 * sc, 3 * sc, { w: 0.25 }); L(x - 2.8 * sc, y, x + 2.8 * sc, y, 0.2); }
+    else if (type === 'pendant') { circ(1.7 * sc, '#fff'); circ(0.8 * sc, null); L(x + 0.8 * sc, y - 1.2 * sc, x + 1.9 * sc, y - 2.2 * sc); }
+    else if (type === 'wall_lt') { circ(1.1 * sc, '#fff'); L(x, y + 1.1 * sc, x, y + 2.4 * sc); L(x - 1.6 * sc, y + 2.4 * sc, x + 1.6 * sc, y + 2.4 * sc); }
+    else if (type === 'ac') { pg.rect(x - 2.6 * sc, y - 2.6 * sc, 5.2 * sc, 5.2 * sc, { w: 0.3, color: '#d0342c' }); L(x - 2.6 * sc, y + 2.6 * sc, x + 2.6 * sc, y - 2.6 * sc, 0.3, '#d0342c'); pg.text(x - 1.6 * sc, y - 0.2 * sc, 'A', { size: 6 * sc, color: '#d0342c', align: 'center', base: 'middle' }); pg.text(x + 1.4 * sc, y + 1.4 * sc, 'C', { size: 6 * sc, color: '#d0342c', align: 'center', base: 'middle' }); }
+    else if (type === 'drain') { circ(0.8 * sc, '#fff', '#1f5fd6'); L(x + 0.8 * sc, y, x + 3.2 * sc, y, 0.25, '#1f5fd6'); }
+    else if (type === 'access') { pg.rect(x - 1.8 * sc, y - 1.8 * sc, 3.6 * sc, 3.6 * sc, { w: 0.25 }); L(x - 1.8 * sc, y - 1.8 * sc, x + 1.8 * sc, y + 1.8 * sc, 0.2); L(x - 1.8 * sc, y + 1.8 * sc, x + 1.8 * sc, y - 1.8 * sc, 0.2); }
+  }
+  function lineSym(pg, kind, A, B) {
+    if (kind === 'alu') { pg.line(A[0], A[1], B[0], B[1], 1.1, '#1e88e5'); pg.line(A[0], A[1], B[0], B[1], 0.5, '#ffffff'); }
+    else if (kind === 'track') { pg.line(A[0], A[1], B[0], B[1], 0.35, '#1f2328', [1.2, 0.6]); }
+    else if (kind === 'supply' || kind === 'ret') {
+      const col = kind === 'supply' ? '#b02bc4' : '#2e7d32', dx = B[0] - A[0], dy = B[1] - A[1], L = Math.hypot(dx, dy) || 1, nx = -dy / L * 0.7, ny = dx / L * 0.7;
+      pg.line(A[0] + nx, A[1] + ny, B[0] + nx, B[1] + ny, 0.35, col); pg.line(A[0] - nx, A[1] - ny, B[0] - nx, B[1] - ny, 0.35, col);
+      pg.line(A[0] + nx, A[1] + ny, A[0] - nx, A[1] - ny, 0.35, col); pg.line(B[0] + nx, B[1] + ny, B[0] - nx, B[1] - ny, 0.35, col);
+    }
+  }
+  C.drawPlan = function (pg, room, P, poly, s, layer = 'ceiling') {
     const c = C.ensure(room), g = pg.g, k = pg.k;
+    if (layer === 'lights' || layer === 'hvac') {   // 燈具／空調配置圖：天花造型只畫淡綠輪廓
+      const grp = layer === 'lights' ? 'light' : 'hvac';
+      c.zones.forEach(zn => { if (zn.pts && zn.pts.length >= 3) { poly(zn.pts, null, '#2e9e4f', 0.25); if (zn.cove && layer === 'lights') { const inn = offsetPoly(zn.pts, 100); poly(inn, null, '#d0342c', 0.6); } } });
+      c.strips.forEach(st => { const kd = st.kind || 'alu'; if (C.LINES[kd].group !== grp) return; const A = P(st.x1, st.z1), B = P(st.x2, st.z2); lineSym(pg, kd, A, B);
+        if (kd === 'track') { const n = Math.max(1, st.heads || Math.round(Math.hypot(st.x2 - st.x1, st.z2 - st.z1) / 600)); for (let i = 0; i < n; i++) { const t = (i + 0.5) / n; const q = [A[0] + (B[0] - A[0]) * t, A[1] + (B[1] - A[1]) * t]; g.beginPath(); g.moveTo(q[0] * k, (q[1] - 1.2) * k); g.lineTo((q[0] + 1) * k, (q[1] + 0.8) * k); g.lineTo((q[0] - 1) * k, (q[1] + 0.8) * k); g.closePath(); g.fillStyle = '#1f2328'; g.fill(); } } });
+      c.fixtures.forEach(f => { if (C.FIX[f.type] && C.FIX[f.type].group === grp) { const q = P(f.x, f.z); sym(pg, f.type, q[0], q[1]); } });
+      return;
+    }
     const hs = C.heightList(room), colorOf = h => PALETTE[hs.indexOf(h) % PALETTE.length];
     const cm = h => 'H=' + Math.round(h / 10);
     // 基本天花（整間）
@@ -136,8 +220,34 @@
     if (!c.zones.some(z => z.pts && z.pts.length >= 3 && M().pointInPoly(ctr[0], ctr[1], z.pts))) { const q = P(...ctr); pg.text(q[0], q[1], cm(c.h) + ' 平釘', { size: 6, color: '#c0392b', align: 'center', base: 'middle', bold: true }); }
     if (c.molding && c.molding !== 'none') poly(offsetPoly(room.points, 60), null, '#7f8c8d', 0.25, [0.8, 0.6]);
   };
-  C.drawLegend = function (pg, room, x, y) {
+  C.counts = function (room, group) {
+    const c = C.ensure(room), out = [];
+    Object.entries(C.FIX).forEach(([t, d]) => { if (d.group !== group) return; const n = c.fixtures.filter(f => f.type === t).length; if (n) out.push({ t, name: d.name, qty: n, unit: d.unit, kind: 'fix' }); });
+    Object.entries(C.LINES).forEach(([t, d]) => { if (d.group !== group) return; const l = c.strips.filter(st => (st.kind || 'alu') === t); if (!l.length) return;
+      if (d.unit === '尺') out.push({ t, name: d.name, qty: +(l.reduce((s2, st) => s2 + Math.hypot(st.x2 - st.x1, st.z2 - st.z1), 0) / CHI).toFixed(1), unit: '尺', kind: 'line' });
+      else out.push({ t, name: d.name, qty: l.length, unit: d.unit, kind: 'line' });
+      if (t === 'track') out.push({ t: 'spot', name: '軌道投射燈', qty: l.reduce((s2, st) => s2 + Math.max(1, st.heads || Math.round(Math.hypot(st.x2 - st.x1, st.z2 - st.z1) / 600)), 0), unit: '顆', kind: 'spot' }); });
+    if (group === 'light') { const cove = c.zones.filter(z => z.cove).reduce((s2, z) => s2 + perim(z.pts), 0); if (cove) out.unshift({ t: 'cove', name: '天花板 T5／LED 燈條（間接光）', qty: +(cove / CHI).toFixed(1), unit: '尺', kind: 'cove' }); }
+    return out;
+  };
+  C.drawLegend = function (pg, room, x, y, layer = 'ceiling') {
     const c = C.ensure(room), g = pg.g, k = pg.k, hs = C.heightList(room);
+    if (layer === 'lights' || layer === 'hvac') {
+      pg.rect(x - 2, y - 4, 52, 13 + C.counts(room, layer === 'lights' ? 'light' : 'hvac').length * 6, { fill: '#ffffff', stroke: false });
+      pg.text(x, y, layer === 'lights' ? '天花板燈具與迴路圖例' : '空調配置圖例', { size: 7.5, bold: true }); y += 3;
+      pg.text(x, y + 3.5, '圖例', { size: 6, color: '#69727d' }); pg.text(x + 14, y + 3.5, '描述', { size: 6, color: '#69727d' }); pg.text(x + 44, y + 3.5, '數量', { size: 6, color: '#69727d', align: 'right' }); y += 5;
+      C.counts(room, layer === 'lights' ? 'light' : 'hvac').forEach(r => {
+        const cy = y + 2.6;
+        if (r.kind === 'fix') sym(pg, r.t, x + 5, cy, 0.9);
+        else if (r.kind === 'cove') pg.line(x + 1, cy, x + 9, cy, 0.6, '#d0342c');
+        else if (r.kind === 'spot') { g.beginPath(); g.moveTo((x + 5) * k, (cy - 1.2) * k); g.lineTo((x + 6) * k, (cy + 0.8) * k); g.lineTo((x + 4) * k, (cy + 0.8) * k); g.closePath(); g.fillStyle = '#1f2328'; g.fill(); }
+        else lineSym(pg, r.t, [x + 1, cy], [x + 9, cy]);
+        pg.text(x + 14, cy + 1, r.name, { size: 6.2, maxW: 28 }); pg.text(x + 44, cy + 1, `${r.qty} ${r.unit}`, { size: 6.2, align: 'right' });
+        pg.line(x, y + 5.6, x + 46, y + 5.6, 0.1, '#c9ced4'); y += 6;
+      });
+      return y;
+    }
+    { const extra = ['beam', 'box'].filter(kk => c.zones.some(z => z.kind === kk)).length + (c.zones.some(z => z.cove) ? 1 : 0) + (c.strips.length ? 1 : 0) + (c.molding && c.molding !== 'none' ? 1 : 0); pg.rect(x - 2, y - 4, 52, 14 + (hs.length + extra) * 6.5, { fill: '#ffffff', stroke: false }); }
     pg.text(x, y, '天花板高層圖例', { size: 7.5, bold: true }); y += 3;
     pg.text(x, y + 3.5, '圖例', { size: 6, color: '#69727d' }); pg.text(x + 16, y + 3.5, '高層（cm）', { size: 6, color: '#69727d' }); y += 5;
     const row = (fill, stroke, label, dash) => { g.save(); g.fillStyle = fill || '#fff'; g.fillRect(x * k, y * k, 12 * k, 5 * k); g.restore(); pg.rect(x, y, 12, 5, { color: stroke || '#1f2328', w: 0.25, dash }); pg.text(x + 16, y + 3.6, label, { size: 6.5 }); y += 6.5; };
@@ -167,8 +277,13 @@
     add(C.UNITS.COVE[0], +(coveLen / CHI).toFixed(1), u('COVE'), '尺', `${(coveLen / CHI).toFixed(1)} 尺`);
     add(C.UNITS.LEDSTRIP[0], +(coveLen / CHI).toFixed(1), u('LEDSTRIP'), '尺', `${(coveLen / CHI).toFixed(1)} 尺`);
     if (c.molding && c.molding !== 'none') add(C.UNITS.MOLD[0], +(perim(room.points) / CHI).toFixed(1), u('MOLD'), '尺', `${(perim(room.points) / CHI).toFixed(1)} 尺`);
-    const alu = c.strips.reduce((s, st) => s + Math.hypot(st.x2 - st.x1, st.z2 - st.z1), 0);
+    const alu = c.strips.filter(st => (st.kind || 'alu') === 'alu').reduce((s, st) => s + Math.hypot(st.x2 - st.x1, st.z2 - st.z1), 0);
     add(C.UNITS.ALUCH[0], +(alu / CHI).toFixed(1), u('ALUCH'), '尺', `${(alu / CHI).toFixed(1)} 尺`);
+    ['light', 'hvac'].forEach(grp => C.counts(room, grp).forEach(r => {
+      if (r.t === 'cove' || r.t === 'alu') return;
+      const key = 'CF_' + r.t, def = r.t === 'spot' ? 900 : (C.FIX[r.t] || C.LINES[r.t] || {}).price || 0, up = parts[key] != null ? +parts[key] : def;
+      if (up > 0) add(r.name, r.qty, up, r.unit, `${r.qty} ${r.unit}`);
+    }));
     return lines;
   };
 
@@ -191,6 +306,16 @@
     const dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz) || 1, nx = -dz / L * w / 2, nz = dx / L * w / 2;
     return C.addZone(room, 'beam', [[a[0] + nx, a[1] + nz], [b[0] + nx, b[1] + nz], [b[0] - nx, b[1] - nz], [a[0] - nx, a[1] - nz]], h, false);
   };
-  C.addStrip = function (room, a, b, w = 30, kelvin = 3000) { const c = C.ensure(room); const st = { id: uid('cs'), x1: Math.round(a[0]), z1: Math.round(a[1]), x2: Math.round(b[0]), z2: Math.round(b[1]), w, kelvin }; c.strips.push(st); return st; };
+  C.addStrip = function (room, a, b, w = 30, kelvin = 3000, kind = 'alu') { const c = C.ensure(room); const st = { id: uid('cs'), kind, x1: Math.round(a[0]), z1: Math.round(a[1]), x2: Math.round(b[0]), z2: Math.round(b[1]), w: kind === 'supply' ? 120 : w, kelvin }; c.strips.push(st); return st; };
+  C.addFixture = function (room, type, p, extra = {}) { const c = C.ensure(room); const f = { id: uid('cf'), type, x: Math.round(p[0]), z: Math.round(p[1]), kelvin: 3000, ...extra }; c.fixtures.push(f); return f; };
+  // 等距排一排：a→b 兩端點之間放 n 顆（含兩端）
+  C.addRow = function (room, type, a, b, n) { const out = []; n = Math.max(1, Math.min(60, n | 0)); for (let i = 0; i < n; i++) { const t = n === 1 ? 0.5 : i / (n - 1); out.push(C.addFixture(room, type, [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t])); } return out; };
+  // 一個區域內排成矩陣（崁燈常用）：pts 為區域，間距 gap，離邊 margin
+  C.addGrid = function (room, type, pts, gap, margin) {
+    const xs = pts.map(p => p[0]), zs = pts.map(p => p[1]), x0 = Math.min(...xs) + margin, x1 = Math.max(...xs) - margin, z0 = Math.min(...zs) + margin, z1 = Math.max(...zs) - margin;
+    const nx = Math.max(1, Math.round((x1 - x0) / gap) + 1), nz = Math.max(1, Math.round((z1 - z0) / gap) + 1), out = [];
+    for (let i = 0; i < nx; i++) for (let j = 0; j < nz; j++) { const x = nx === 1 ? (x0 + x1) / 2 : x0 + (x1 - x0) * i / (nx - 1), z = nz === 1 ? (z0 + z1) / 2 : z0 + (z1 - z0) * j / (nz - 1); if (M().pointInPoly(x, z, pts)) out.push(C.addFixture(room, type, [x, z])); }
+    return out;
+  };
   window.Ceiling = C;
 })();
