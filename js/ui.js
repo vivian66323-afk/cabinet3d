@@ -708,6 +708,48 @@
     try { const v = Function('"use strict";return (' + e + ')')(); return isFinite(v) ? String(Math.round(v * 100) / 100) : s; } catch (x) { return s; }
   };
 
+  function ceilingSection(r) {
+    const C = window.Ceiling; if (!C) return '';
+    const c = C.ensure(r), v = V();
+    const sel = (key, list, cur) => `<select data-key="${key}" data-f="${key}">${list.map(([k, n]) => `<option value="${k}"${String(cur) === String(k) ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
+    const zones = c.zones.map((z, i) => `<div class="lrow ceil-row"><span><b>${C.KINDS[z.kind] || z.kind}</b>${z.kind === 'box' ? `　${M().wallName(z.wall != null ? z.wall : 0)}` : ''}</span>
+      ${z.kind === 'box' ? '<span class="muted">開口到樓板</span>' : `<span class="inline">H ${num('zh' + i, z.h, 'step="10" min="2000" max="6000"')}</span>`}
+      ${z.kind === 'box' ? '<span></span>' : `<label class="inline" title="沿此區邊緣做間接光燈槽"><input type="checkbox" data-key="zc${i}" data-f="zc${i}"${z.cove ? ' checked' : ''} style="width:auto"> 間接光</label>`}
+      <button class="icon-btn del" data-a="ceil-zdel" data-i="${i}" title="刪除">${icon('x')}</button></div>`).join('');
+    const strips = c.strips.map((st, i) => `<div class="lrow ceil-row"><span><b>鋁槽燈</b></span><span class="muted">${Math.round(Math.hypot(st.x2 - st.x1, st.z2 - st.z1))} mm</span><span class="inline">${sel('sk' + i, [[2700, '2700K'], [3000, '3000K'], [4000, '4000K'], [6500, '6500K']], st.kelvin || 3000)}</span><button class="icon-btn del" data-a="ceil-sdel" data-i="${i}" title="刪除">${icon('x')}</button></div>`).join('');
+    return `<div class="sec"><div class="sec-title">天花板 <small>${c.on ? '基本高 ' + c.h + ' mm' : '未啟用'}</small></div><div class="kv">
+      <label>顯示</label><label class="inline"><input type="checkbox" data-key="ceil-on" data-f="ceil-on"${c.on ? ' checked' : ''} style="width:auto"> 做天花板（相機在天花下方才看得到）</label>
+      <label>基本高</label><div class="inline">${num('ceil-h', c.h, 'step="10" min="2000" max="6000"')}<span class="unit">mm（平釘，牆高 ${r.height}）</span></div>
+      <label>顏色</label><div class="inline"><span class="floor-chip" style="background:${c.color || '#f4f3ef'}"></span><span class="pick-name">${c.paint ? esc(c.paint.code + ' ' + c.paint.name) : '白色（預設）'}</span><button class="btn small" data-a="pick-paint-ceil">${icon('image')}選擇塗料</button></div>
+      <label>線板</label>${sel('ceil-mold', C.MOLDINGS, c.molding || 'none')}
+      <label>3D 顯示</label>${sel('ceil-mode', [['auto', '自動（相機在天花下方顯示）'], ['hide', '永遠隱藏']], v.ceilMode || 'auto')}
+    </div>
+    <div class="btn-row"><button class="btn small" data-a="ceil-zone">${icon('line')}畫降板區</button><button class="btn small" data-a="ceil-raise">${icon('line')}畫灑水頭下高區</button><button class="btn small" data-a="ceil-beam">${icon('line')}畫包樑</button><button class="btn small" data-a="ceil-box">${icon('window')}自動窗簾盒</button><button class="btn small" data-a="ceil-strip">${icon('open')}畫鋁槽燈</button></div>
+    ${zones || strips ? `<div class="list" style="margin-top:8px">${zones}${strips}</div>` : '<p class="muted" style="font-size:11.5px;margin:6px 0 0">目前整間平釘。用上方按鈕在平面上畫降板區（可勾間接光）、包樑、窗簾盒或鋁槽燈；高度單位 mm，圖面標註以 cm 顯示。</p>'}
+    <p class="muted" style="font-size:11.5px;margin:6px 0 0">報價：平釘與造型依坪數、包樑／窗簾盒／燈槽／線板／鋁槽燈依尺數計價，單價可在「板材售價」修改。</p></div>`;
+  }
+  UI.startCeilDraw = function (kind) {
+    if (!App.state.room) { App.toast('請先建立空間'); return; }
+    V().lineTarget = kind; UI.action('line');
+    App.toast({ zone: '在平面上點降板區各轉角，點回起點完成', raise: '點灑水頭下高區各轉角，點回起點完成', beam: '點樑的起點與終點', strip: '點鋁槽燈的起點與終點' }[kind]);
+  };
+  UI.finishCeilDraw = async function (kind, pts) {
+    const r = App.state.room, C = window.Ceiling; if (!r || !C) return;
+    const c = C.ensure(r);
+    if (kind === 'zone' || kind === 'raise') {
+      const res = await UI.modal({ title: kind === 'zone' ? '降板區' : '灑水頭下高區', body: `<div class="kv"><label>高度</label><div class="inline"><input name="h" type="number" value="${kind === 'zone' ? Math.max(2000, c.h - 100) : Math.min(r.height - 20, c.h + 150)}" step="10"><span class="unit">mm（基本高 ${c.h}）</span></div>
+        ${kind === 'zone' ? `<label>間接光</label><label class="inline"><input type="checkbox" name="cove" checked style="width:auto"> 沿區域邊緣做燈槽（封板內縮 10cm）</label><label>色溫</label><select name="k"><option value="2700">2700K 暖黃</option><option value="3000">3000K 暖白</option><option value="4000">4000K 自然白</option></select>` : ''}</div>`,
+        buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }] });
+      if (!res) return;
+      App.mutate(kind === 'zone' ? '新增降板區' : '新增高區', x => { const z = C.addZone(x.room, kind === 'zone' ? 'drop' : 'raise', pts, +res.data.h, kind === 'zone' && res.data.cove); if (res.data.k) z.kelvin = +res.data.k; }, 'room');
+    } else if (kind === 'beam') {
+      const res = await UI.modal({ title: '包樑', body: `<div class="kv"><label>樑寬</label><div class="inline"><input name="w" type="number" value="400" step="10"><span class="unit">mm</span></div><label>樑底高</label><div class="inline"><input name="h" type="number" value="${Math.max(2000, c.h - 150)}" step="10"><span class="unit">mm（基本高 ${c.h}）</span></div></div>`, buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }] });
+      if (!res) return;
+      App.mutate('新增包樑', x => { C.addBeam(x.room, pts[0], pts[1], +res.data.w, +res.data.h); }, 'room');
+    } else if (kind === 'strip') {
+      App.mutate('新增鋁槽燈', x => { C.addStrip(x.room, pts[0], pts[1], 30, 3000); }, 'room');
+    }
+  };
   function projectPanel() {
     const st = App.state, r = st.room;
     let html = `<div class="sec"><div class="sec-title">樓層 <small>目前：${esc(st.floors[st.floor].name)}</small></div>
@@ -735,6 +777,7 @@
         <label>地板</label><div class="inline"><span class="floor-chip" style="background:${M().floorDef(r).color}${M().floorDef(r).thumb ? `;background-image:url(${M().floorDef(r).thumb});background-size:cover` : ''}"></span><span class="pick-name">${esc(M().floorDef(r).name)}</span><button class="btn small" data-a="pick-floor">${icon('image')}選擇地板</button></div>
         <label>牆面</label><div class="inline"><span class="floor-chip" style="background:${r.wallColor || '#f1efea'}"></span><span class="pick-name">${r.wallPaint ? esc(r.wallPaint.code + ' ' + r.wallPaint.name) : '白色（預設）'}</span><button class="btn small" data-a="pick-paint">${icon('image')}選擇塗料</button>${r.wallColor ? `<button class="btn small" data-a="paint-clear" title="恢復預設白">清除</button>` : ''}</div>
       </div>
+      ${ceilingSection(r)}
       <div class="list wall-list" style="margin-top:10px">${r.points.map((_, i) => {
         const w = r.walls[i], wi = M().wallInfo(r, i);
         return `<div class="lrow" data-a="wall" data-i="${i}"><span>${M().wallName(i)}　<span class="muted">${Math.round(wi.len)} mm</span></span><span class="muted">${w.openings.length ? w.openings.length + ' 門窗' : ''}</span><span title="${w.locked ? '已鎖定' : '未鎖定'}" style="color:${w.locked ? '#5f6368' : '#b0b7bf'}">${icon(w.locked ? 'lock' : 'unlock')}</span></div>`;
@@ -1053,6 +1096,13 @@
     if (t.dataset.swb) { UI.swBrand = val; UI.swSeries = 'all'; UI.showProps(); return; }
     // 專案層級
     if (t.dataset.f === 'room-height') { const v = Math.max(1800, Math.min(6000, +val || 2800)); App.mutate('牆高', x => { x.room.height = v; x.room.walls.forEach(w => w.openings.forEach(o => { o.height = Math.min(o.height, v - o.sill - 10); })); }, 'room'); return; }
+    if (t.dataset.f === 'ceil-on') { App.mutate('天花板顯示', x => { window.Ceiling.ensure(x.room).on = !!val; }, 'room'); return; }
+    if (t.dataset.f === 'ceil-h') { const v = Math.max(2000, Math.min(6000, Math.round(+val || 2600))); App.mutate('天花基本高', x => { window.Ceiling.ensure(x.room).h = v; }, 'room'); return; }
+    if (t.dataset.f === 'ceil-mold') { App.mutate('線板', x => { window.Ceiling.ensure(x.room).molding = String(val); }, 'room'); return; }
+    if (t.dataset.f === 'ceil-mode') { V().ceilMode = String(val); UI.refresh(); return; }
+    { const mz = /^zh(\d+)$/.exec(t.dataset.f || ''); if (mz) { const v = Math.max(2000, Math.min(6000, Math.round(+val || 2500))); App.mutate('天花區域高度', x => { x.room.ceiling.zones[+mz[1]].h = v; }, 'room'); return; } }
+    { const mc = /^zc(\d+)$/.exec(t.dataset.f || ''); if (mc) { App.mutate('間接光', x => { x.room.ceiling.zones[+mc[1]].cove = !!val; }, 'room'); return; } }
+    { const ms = /^sk(\d+)$/.exec(t.dataset.f || ''); if (ms) { App.mutate('鋁槽燈色溫', x => { x.room.ceiling.strips[+ms[1]].kelvin = +val; }, 'room'); return; } }
     if (t.dataset.f === 'room-floor') { const f = D.FLOORS.find(x => x.id === val); App.mutate('地板 ' + (f ? f.name : val), x => { x.room.floor = val; }, 'room'); App.toast('地板已改為「' + (f ? f.name : val) + '」'); return; }
     if (t.dataset.f === 'room-thick') { const v = Math.max(50, Math.min(400, +val || 120)); App.mutate('牆厚', x => { x.room.thickness = v; }, 'room'); return; }
     if (t.dataset.f === 'def-body') { App.mutate('預設櫃體色', x => { x.defaults.bodyColor = val; }); return; }
@@ -1173,6 +1223,14 @@
       return;
     }
     if (a === 'pick-floor') { UI.pickFloor(); return; }
+    if (a === 'pick-paint-ceil') { UI.pickPaint('ceil'); return; }
+    if (a === 'ceil-zone') { UI.startCeilDraw('zone'); return; }
+    if (a === 'ceil-raise') { UI.startCeilDraw('raise'); return; }
+    if (a === 'ceil-beam') { UI.startCeilDraw('beam'); return; }
+    if (a === 'ceil-strip') { UI.startCeilDraw('strip'); return; }
+    if (a === 'ceil-box') { let n = 0; App.mutate('自動窗簾盒', x => { n = window.Ceiling.addCurtainBoxes(x.room); }, 'room'); App.toast(n ? `已在 ${n} 面有窗的牆加窗簾盒（深 180）` : '沒有新增：每面有窗的牆已有窗簾盒，或此空間沒有窗'); return; }
+    if (a === 'ceil-zdel') { const i0 = +b.dataset.i; App.mutate('刪除天花區域', x => { x.room.ceiling.zones.splice(i0, 1); }, 'room'); return; }
+    if (a === 'ceil-sdel') { const i0 = +b.dataset.i; App.mutate('刪除鋁槽燈', x => { x.room.ceiling.strips.splice(i0, 1); }, 'room'); return; }
     if (a === 'pick-paint') { UI.pickPaint(null); return; }
     if (a === 'paint-clear') { App.mutate('牆面恢復預設', x => { delete x.room.wallColor; delete x.room.wallPaint; }, 'room'); return; }
     if (a === 'pick-paint-wall') { UI.pickPaint(+b.dataset.i); return; }
@@ -1344,6 +1402,7 @@
       ${q.rows.map((r, i) => `<tr class="qrow" data-q="${i}"><td>${r.floor ? `<span class="floor-tag">${esc(r.floor)}</span>` : ''}<b>${esc(P().fullCode(r.cab))}</b><br><span class="muted">${r.cab.w}×${r.cab.d}×${r.cab.h}　${esc(P().describe(r.cab))}</span></td><td class="num">${r.qty}</td><td class="num">${P().fmt(r.price.total * r.qty)}</td></tr>
         ${r.price.lines.length > 1 ? `<tr class="sub"><td colspan="3">${r.price.lines.map(l => `${esc(l.name)} ${P().fmt(l.amount)}`).join('　·　')}</td></tr>` : ''}`).join('')}
       </tbody></table>` : '<p class="note">空間中尚無系統櫃。從左側型錄取用後，報價會自動計算。</p>'}
+      ${q.ceiling && q.ceiling.length ? `<div class="sec-title" style="margin-top:10px">天花工程 <small>依坪數／尺數自動計算</small></div><table class="qt"><tbody>${q.ceiling.map(l => `<tr><td>${l.floor ? `<span class="floor-tag">${esc(l.floor)}</span>` : ''}${esc(l.name)}<br><span class="muted">單價 ${P().fmt(l.unit)}/${esc(l.unitName)}</span></td><td class="num">1</td><td class="num">${P().fmt(l.amount)}</td></tr>`).join('')}</tbody></table>` : ''}
       <div class="totals"><span>小計</span><b>${P().fmt(q.subtotal)}</b>
         <span class="inline">折數 <input type="number" class="field" style="width:64px" data-key="q-disc" data-qf="discount" value="${st.pricing.discount}" min="1" max="100"> %</span><span>${q.disc ? '−' + P().fmt(q.disc) : '—'}</span>
         <span class="inline">營業稅 <input type="number" class="field" style="width:64px" data-key="q-tax" data-qf="taxRate" value="${st.pricing.taxRate}" min="0" max="20"> %</span><span>${P().fmt(q.tax)}</span>
@@ -1555,7 +1614,7 @@
   // target：null＝整體牆面；數字＝第 i 面牆
   UI.pickPaint = async function (target) {
     const r = App.state.room; if (!r) return;
-    const curHex = target == null ? r.wallColor : (r.walls[target].color || r.wallColor);
+    const curHex = target === 'ceil' ? (r.ceiling && r.ceiling.color) : target == null ? r.wallColor : (r.walls[target].color || r.wallColor);
     let g = '白／米白', q = '';
     if (curHex) { const p = D.PAINTS.find(x => x.hex.toLowerCase() === String(curHex).toLowerCase()); if (p) g = p.group; }
     const render = back => {
@@ -1564,16 +1623,17 @@
       back.querySelectorAll('.pick-chips .chip').forEach(c => c.classList.toggle('active', c.dataset.g === g && !q));
     };
     await UI.modal({
-      title: target == null ? '選擇牆面塗料（整體）' : `選擇塗料：${M().wallName(target)}`, wide: true, cls: 'pick-modal',
+      title: target === 'ceil' ? '選擇天花板塗料' : target == null ? '選擇牆面塗料（整體）' : `選擇塗料：${M().wallName(target)}`, wide: true, cls: 'pick-modal',
       body: `<div class="pick-chips">${D.PAINT_GROUPS.map(x => `<button class="chip small" data-g="${x}"><span class="chip-dot" style="background:${(D.PAINTS.find(p => p.group === x) || { hex: '#ccc' }).hex}"></span>${x} ${D.PAINTS.filter(p => p.group === x).length}</button>`).join('')}</div><div class="inline" style="gap:8px"><input class="pick-search" placeholder="搜尋色號／名稱，如 10YY 或 奶茶" name="q"><label class="inline" style="white-space:nowrap">自訂 <input type="color" class="pick-custom" value="${curHex || '#f1efea'}" style="width:44px;height:30px;padding:0"></label></div><div class="pick-grid paint"></div><p class="muted" style="font-size:11.5px;margin:6px 0 0">得利 Dulux 台灣 2079 電腦調色色卡（官網色彩總覽 384 色）；螢幕顯色僅供參考，施工前請以實體色卡確認。</p>`,
       buttons: [{ label: '關閉', value: null }],
       onOpen: back => {
         render(back);
         const apply = (hex, paint) => {
           const label = paint ? paint.code + ' ' + paint.name : hex;
-          if (target == null) App.mutate('牆面塗料 ' + label, x => { x.room.wallColor = hex; if (paint) x.room.wallPaint = { brand: paint.brand, code: paint.code, name: paint.name }; else delete x.room.wallPaint; }, 'room');
+          if (target === 'ceil') App.mutate('天花塗料 ' + label, x => { const c = window.Ceiling.ensure(x.room); c.color = hex; if (paint) c.paint = { brand: paint.brand, code: paint.code, name: paint.name }; else delete c.paint; }, 'room');
+          else if (target == null) App.mutate('牆面塗料 ' + label, x => { x.room.wallColor = hex; if (paint) x.room.wallPaint = { brand: paint.brand, code: paint.code, name: paint.name }; else delete x.room.wallPaint; }, 'room');
           else App.mutate(M().wallName(target) + ' 塗料 ' + label, x => { const w = x.room.walls[target]; w.color = hex; if (paint) w.paint = { brand: paint.brand, code: paint.code, name: paint.name }; else delete w.paint; }, 'room');
-          App.toast((target == null ? '牆面' : M().wallName(target)) + '已改為 ' + label);
+          App.toast((target === 'ceil' ? '天花板' : target == null ? '牆面' : M().wallName(target)) + '已改為 ' + label);
         };
         back.querySelector('.pick-chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (c) { g = c.dataset.g; q = ''; back.querySelector('.pick-search').value = ''; render(back); } });
         back.querySelector('.pick-search').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); render(back); });

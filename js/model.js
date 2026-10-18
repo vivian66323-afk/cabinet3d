@@ -1516,6 +1516,7 @@
       // 門窗配件
       wall.openings.forEach(o => buildOpening(g, wi, o, Tk, H, i));
     });
+    if (window.Ceiling) { try { g.add(window.Ceiling.build(room, THREE, { sMat, addBox })); } catch (e) { console.warn('ceiling', e); } }
     return g;
   }
 

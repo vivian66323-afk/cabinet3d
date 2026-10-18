@@ -162,6 +162,18 @@
       y += h;
       pg.line(14, y, 196, y, 0.1, '#d5d9de');
     }
+    for (const l of (q.ceiling || [])) {   // 天花工程
+      idx++;
+      if (y + 9 > 262) { await header(false); }
+      pg.text(17, y + 4.6, String(idx), { size: 8.5, align: 'center' });
+      pg.text(COL_CODE, y + 4.6, '天花工程', { size: 8.5, bold: true });
+      pg.text(COL_SPEC, y + 4.6, `${l.floor ? '[' + l.floor + '] ' : ''}${l.name}　單價 ${P().fmt(l.unit).replace('NT$ ', '')}/${l.unitName}`, { size: 7.8, maxW: COL_SPEC_W });
+      pg.text(136, y + 4.6, '1', { size: 8.5, align: 'right' });
+      pg.text(160, y + 4.6, P().fmt(l.amount).replace('NT$ ', ''), { size: 8.5, align: 'right' });
+      pg.text(194, y + 4.6, P().fmt(l.amount).replace('NT$ ', ''), { size: 8.5, align: 'right', bold: true });
+      y += 9;
+      pg.line(14, y, 196, y, 0.1, '#d5d9de');
+    }
     if (y + 62 > 280) await header(false);
     y += 4;
     const tot = [['小計', q.subtotal], ['未稅金額', q.afterDisc], [`營業稅（${st.pricing.taxRate}%）`, q.tax]];
@@ -569,7 +581,7 @@ ${tris}</mesh></geometry>`);
     const st0 = App.state;
     const pages = [];
     const floors = App.floorList(), multi = floors.length > 1;
-    const total = floors.reduce((a, f) => a + 1 + (f.room ? f.room.points.length : 0), 0);
+    const total = floors.reduce((a, f) => a + 1 + (f.room ? f.room.points.length + (f.room.ceiling && f.room.ceiling.on ? 1 : 0) : 0), 0);
     let pno = 0;
     for (const fl of floors) {
     if (!fl.room && !(fl.cabinets || []).length) continue;
@@ -583,6 +595,14 @@ ${tris}</mesh></geometry>`);
     legendFor(pg, st.cabinets, box.x1 - 50, box.y0 + 4);
     Dr().frame(pg, pre + '平面配置圖', info({ page: pno, pages: total, scale: s ? '1:' + s : '—' }));
     pages.push(pg);
+    // 天花板配置圖
+    if (st.room && st.room.ceiling && st.room.ceiling.on) {
+      pg = Dr().Page('landscape', 200);
+      box = Dr().frame(pg, pre + '天花板配置圖', info({ page: ++pno, pages: total }));
+      const s2 = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { ceiling: true });
+      Dr().frame(pg, pre + '天花板配置圖', info({ page: pno, pages: total, scale: s2 ? '1:' + s2 : '—' }));
+      pages.push(pg);
+    }
     // 立面
     for (const i of walls) {
       App.busy(true, `繪製 ${pre}立面圖 ${i + 1} / ${walls.length}`);

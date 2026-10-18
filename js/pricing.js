@@ -293,8 +293,8 @@
 
   // 全部樓層的櫃體（目前樓層以 state.cabinets 為準）
   function floorsOf(state) {
-    if (!state.floors || !state.floors.length) return [{ name: '', cabinets: state.cabinets }];
-    return state.floors.map((f, i) => ({ name: f.name, cabinets: i === state.floor ? state.cabinets : (f.cabinets || []) }));
+    if (!state.floors || !state.floors.length) return [{ name: '', cabinets: state.cabinets, room: state.room }];
+    return state.floors.map((f, i) => ({ name: f.name, cabinets: i === state.floor ? state.cabinets : (f.cabinets || []), room: i === state.floor ? state.room : f.room }));
   }
   function quote(state) {
     const groups = new Map();
@@ -313,11 +313,14 @@
       const g = groups.get(key); g.qty++; g.ids.push(cab.id);
     }));
     const rows = [...groups.values()];
-    const subtotal = rows.reduce((s, r) => s + r.price.total * r.qty, 0);
+    const ceiling = [];
+    floors.forEach(fl => { if (window.Ceiling && fl.room) window.Ceiling.quoteLines(fl.room, state.pricing).forEach(l => ceiling.push({ ...l, floor: multi ? fl.name : '' })); });
+    const ceilTotal = ceiling.reduce((s, l) => s + l.amount, 0);
+    const subtotal = rows.reduce((s, r) => s + r.price.total * r.qty, 0) + ceilTotal;
     const disc = Math.round(subtotal * (100 - state.pricing.discount) / 100);
     const afterDisc = subtotal - disc;
     const tax = Math.round(afterDisc * state.pricing.taxRate / 100);
-    return { rows, subtotal, disc, afterDisc, tax, total: afterDisc + tax, count, multi };
+    return { rows, ceiling, ceilTotal, subtotal, disc, afterDisc, tax, total: afterDisc + tax, count, multi };
   }
 
   const fmt = n => (Math.round(n) < 0 ? '-' : '') + 'NT$ ' + Math.abs(Math.round(n)).toLocaleString('en-US');

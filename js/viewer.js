@@ -16,6 +16,8 @@
 
   V.tool = 'select';
   V.wallMode = 'auto';
+  V.ceilMode = 'auto';   // 'auto'：相機在天花下方才顯示；'hide'：永遠隱藏
+  V.lineTarget = 'room';   // 畫線工具的對象：room 空間 / zone 降板區 / raise 灑水頭下 / beam 包樑 / strip 鋁槽燈
 
   V.init = function (el, T, OC) {
     THREE = T; OrbitControls = OC;
@@ -257,6 +259,8 @@
       m.children.forEach(c => { if (c.userData.wallEdge) c.visible = !hide; });
     });
     roomGroup.children.forEach(m => { if (m.userData.ofWall != null) m.visible = !hidden.has(m.userData.ofWall); });
+    // 天花板：相機高於天花、上視圖或牆面全隱藏時隱藏
+    roomGroup.children.forEach(m => { if (m.userData.ceilGroup) m.visible = V.ceilMode !== 'hide' && V.wallMode !== 'hide' && !topView && cp.y < m.userData.h + 80; });
   }
 
   /* ---------- 場景同步 ---------- */
@@ -1408,6 +1412,9 @@
     if (r.close) { finishLine(); return; }
     draw.pts.push(r.p);
     redrawLine();
+    if ((V.lineTarget === 'beam' || V.lineTarget === 'strip') && draw.pts.length >= 2) {   // 兩點物件：點第二點即完成
+      const pts = draw.pts.slice(0, 2), tg = V.lineTarget; V.cancelLine(); V.setTool('select'); App.ui.finishCeilDraw(tg, pts);
+    }
   }
   V.lineLength = function (len) {
     if (!draw.pts.length || !draw.cursor) return false;
@@ -1472,10 +1479,10 @@
     draw.pts = draw.pts.filter((p, i, a) => i === 0 || !near(p, a[i - 1]));
     while (draw.pts.length > 1 && near(draw.pts[draw.pts.length - 1], draw.pts[0])) draw.pts.pop();
     if (draw.pts.length < 3) { App.toast('至少需要 3 個點才能封閉空間'); return; }
-    const pts = draw.pts.slice();
+    const pts = draw.pts.slice(), tg = V.lineTarget;
     V.cancelLine();
     V.setTool('select');
-    App.ui.askHeight(pts);
+    if (tg && tg !== 'room') App.ui.finishCeilDraw(tg, pts); else App.ui.askHeight(pts);
   }
   V.cancelLine = function () { draw.pts = []; draw.cursor = null; draw.cursorGuides = null; draw.lock = null; V.snapMark = null; redrawLine(); };
   // Shift：鎖定畫線目前的軸向
@@ -1550,7 +1557,7 @@
   /* ---------- 工具切換 ---------- */
   V.setTool = function (t) {
     if (V.tool === 'place' && t !== 'place') { V.showSnapGuides(null); placeCab = null; if (ghost) { helperGroup.remove(ghost); ghost = null; } V.checkOverlaps(); }
-    if (V.tool === 'line' && t !== 'line') V.cancelLine();
+    if (V.tool === 'line' && t !== 'line') { V.cancelLine(); V.lineTarget = 'room'; }
     if ((V.tool === 'tape' || V.tool === 'uscale') && t !== 'tape' && t !== 'uscale') V.clearTape();
     if (move.active) endMove(false);
     V.tool = t;
@@ -1566,6 +1573,7 @@
       line: '畫線：在地面點擊各轉角，雙擊或點回起點完成（可輸入長度）', tape: '捲尺：點擊兩點量測距離', uscale: '底圖比例尺：在底圖上點擊兩個已知距離的點，再輸入實際距離'
     };
     if (V.touch) Object.assign(hints, { select: '選取：點櫃體或牆面，拖曳可移動；雙指縮放／平移，「環轉」工具單指旋轉視角，快點兩下縮放至空間', line: '畫線：點各轉角，用下方按鈕「完成封閉」或點回起點；可輸入長度', orbit: '環轉：單指拖曳旋轉視角，雙指縮放／平移' });
+    if (t === 'line' && V.lineTarget !== 'room') hints.line = { zone: '畫降板區：在平面上點各轉角，點回起點或按「完成封閉」結束', raise: '畫灑水頭下高區：點各轉角，點回起點結束', beam: '畫包樑：點樑的起點與終點（中心線）', strip: '畫鋁槽燈：點燈的起點與終點' }[V.lineTarget] || hints.line;
     if (t !== 'place') App.status(hints[t] || '');
     App.ui && App.ui.syncToolbar();
   };
