@@ -15,7 +15,14 @@
     wall_lt: { name: '壁燈出線位', group: 'light', unit: '處', price: 350 },
     ac: { name: '吊隱式冷氣（室內機）', group: 'hvac', unit: '台', price: 0 },
     drain: { name: '冷氣排水口', group: 'hvac', unit: '處', price: 0 },
-    access: { name: '檢修孔 45×45', group: 'hvac', unit: '處', price: 600 }
+    access: { name: '檢修孔 45×45', group: 'hvac', unit: '處', price: 600 },
+    smoke: { name: '偵煙探測器', group: 'elec', unit: '個', price: 1200 },
+    sprinkler: { name: '灑水頭（移位）', group: 'elec', unit: '個', price: 1500 },
+    cam: { name: '監視攝影機', group: 'elec', unit: '支', price: 2500 },
+    spk: { name: '吸頂喇叭', group: 'elec', unit: '個', price: 1800 },
+    exhaust: { name: '排風扇', group: 'elec', unit: '台', price: 2800 },
+    heater: { name: '浴室暖風乾燥機（出線）', group: 'elec', unit: '處', price: 2500 },
+    emerg: { name: '緊急照明燈', group: 'elec', unit: '盞', price: 1500 }
   };
   C.LINES = {
     alu: { name: '鋁槽燈', group: 'light', unit: '尺', price: 680 },
@@ -31,8 +38,23 @@
     tv: { name: '電視出線', h: 450, price: 1200 },
     net: { name: '網路（C）', h: 300, price: 1500 },
     sw: { name: '開關（S）', h: 1200, price: 800 },
-    floor: { name: '地板插座', h: 0, price: 2500 }
+    floor: { name: '地板插座', h: 0, price: 2500 },
+    waterproof: { name: '防水插座（附蓋）', h: 1200, price: 1500, grp: '插座' },
+    dedicated: { name: '專用迴路插座', h: 300, price: 2500, grp: '插座' },
+    sw2: { name: '雙切開關', h: 1200, price: 1000, grp: '開關' },
+    sw3: { name: '三切開關', h: 1200, price: 1200, grp: '開關' },
+    sw3way: { name: '三路開關（兩處控制）', h: 1200, price: 1500, grp: '開關' },
+    dimmer: { name: '調光開關', h: 1200, price: 1800, grp: '開關' },
+    tel: { name: '電話出線', h: 300, price: 1200, grp: '弱電' },
+    speaker: { name: '音響喇叭出線', h: 2400, price: 1200, grp: '弱電' },
+    intercom: { name: '對講機', h: 1450, price: 3500, grp: '弱電', size: [140, 220] },
+    doorbell: { name: '門鈴按鈕', h: 1450, price: 800, grp: '弱電', size: [70, 110] },
+    curtain: { name: '電動窗簾電源', h: 2600, price: 1200, grp: '弱電' },
+    panel: { name: '電箱（配電盤）', h: 1800, price: 8000, grp: '電箱', size: [400, 600], depth: 110 },
+    weakbox: { name: '弱電箱（網路／電視集中）', h: 1800, price: 3500, grp: '電箱', size: [300, 400], depth: 100 }
   };
+  // 插座選單分組
+  C.OUTLET_GROUPS = [['插座', ['socket', 'socket220', 'usb', 'dedicated', 'waterproof', 'floor']], ['開關', ['sw', 'sw2', 'sw3', 'sw3way', 'dimmer']], ['弱電', ['tv', 'net', 'tel', 'speaker', 'intercom', 'doorbell', 'curtain']], ['電箱', ['panel', 'weakbox']]];
   // 冷氣：room.acs[{id, name, kw, ix, iz, irot, ox, oz, oy, orot, via:[[x,z]]}]
   C.AC_KW = [2.2, 2.8, 3.6, 4.1, 5.0, 5.6, 6.3, 7.1, 8.0, 9.0, 10.0, 12.5, 14.0];
   C.acSpec = function (kw) {   // 常見 R32 分離式估計，實際以原廠安裝手冊為準
@@ -176,6 +198,12 @@
       } else if (T === 'access') {
         const a = addBox(g, 450, 6, 450, f.x, y - 3, f.z, paintMat, true); a.material = paintMat;
         const e = addBox(g, 470, 4, 470, f.x, y - 1, f.z, sMat('frameSilver'), false); e.scale.set(1, 1, 1);
+      } else if (C.FIX[T] && C.FIX[T].group === 'elec') {
+        const wht = sMat('frame'), dk = new THREE.MeshStandardMaterial({ color: 0x2a2c30, roughness: 0.4 });
+        if (T === 'exhaust' || T === 'heater') { const s2 = T === 'heater' ? 300 : 250; addBox(g, s2, 12, s2, f.x, y - 6, f.z, wht, true); for (let i = -2; i <= 2; i++) addBox(g, s2 - 50, 3, 10, f.x, y - 13, f.z + i * (s2 / 6), dk, false); }
+        else if (T === 'cam') { const b = new THREE.Mesh(new THREE.SphereGeometry(55, 18, 10, 0, Math.PI * 2, 0, Math.PI / 2), dk); b.rotation.x = Math.PI; b.position.set(f.x, y, f.z); g.add(b); const r2 = new THREE.Mesh(new THREE.CylinderGeometry(70, 70, 10, 20), wht); r2.position.set(f.x, y - 5, f.z); g.add(r2); }
+        else if (T === 'emerg') addBox(g, 300, 50, 80, f.x, y - 25, f.z, wht, true);
+        else { const r = T === 'spk' ? 90 : T === 'sprinkler' ? 30 : 55; const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, T === 'smoke' ? 40 : 10, 20), wht); m.position.set(f.x, y - (T === 'smoke' ? 20 : 5), f.z); g.add(m); if (T === 'sprinkler') { const d = new THREE.Mesh(new THREE.CylinderGeometry(12, 6, 40, 10), sMat('aluChampagne')); d.position.set(f.x, y - 25, f.z); g.add(d); } }
       } else if (T === 'ac') {   // 室內機藏在天花內，只在天花下畫出檢修口輪廓
         const a = addBox(g, 1000, 6, 600, f.x, y - 3, f.z, paintMat, true); a.rotation.y = (f.rot || 0) * Math.PI / 180;
       }
@@ -191,9 +219,15 @@
     room.outlets.forEach(o => {
       const p = C.outletPos(room, o); if (!p) return;
       if (o.type === 'floor') { const m = addBox(g, 120, 6, 120, p.x, 3, p.z, sMat('frameSilver'), false); return; }
-      const grp = new THREE.Group(); grp.position.set(p.x + p.nx * 4, o.h, p.z + p.nz * 4); grp.rotation.y = p.rot;
-      addBox(grp, 86, 86, 8, 0, 0, 0, plate, true);
+      const d0 = C.OUTLETS[o.type] || {}, sz = d0.size || [86, 86], dp = d0.depth || 8;
+      const grp = new THREE.Group(); grp.position.set(p.x + p.nx * (dp / 2), o.h, p.z + p.nz * (dp / 2)); grp.rotation.y = p.rot;
+      addBox(grp, sz[0], sz[1], dp, 0, 0, 0, o.type === 'panel' ? new THREE.MeshStandardMaterial({ color: 0xd8d8d4, roughness: 0.6 }) : plate, true);
+      if (o.type === 'panel' || o.type === 'weakbox') { addBox(grp, 30, 8, 6, sz[0] / 2 - 40, 0, dp / 2 + 3, dark, false); g.add(grp); return; }
+      if (o.type === 'intercom') { addBox(grp, 100, 70, 4, 0, 50, 6, new THREE.MeshStandardMaterial({ color: 0x1b1d20, roughness: 0.2 }), false); [-25, 0, 25].forEach(dx => addBox(grp, 16, 16, 4, dx, -60, 6, dark, false)); g.add(grp); return; }
+      if (o.type === 'doorbell') { const c = new THREE.Mesh(new THREE.CylinderGeometry(14, 14, 6, 16), dark); c.rotation.x = Math.PI / 2; c.position.set(0, -15, 6); grp.add(c); g.add(grp); return; }
+      if (/^(sw|sw2|sw3|sw3way|dimmer)$/.test(o.type)) { const n = { sw2: 2, sw3: 3 }[o.type] || 1; for (let i = 0; i < n; i++) addBox(grp, 60 / n - 4, 60, 4, -30 + (60 / n) * (i + 0.5), 0, 6, plate, true); if (o.type === 'dimmer') { const kb = new THREE.Mesh(new THREE.CylinderGeometry(14, 14, 10, 16), dark); kb.rotation.x = Math.PI / 2; kb.position.z = 8; grp.add(kb); } g.add(grp); return; }
       if (o.type === 'sw') addBox(grp, 40, 60, 4, 0, 0, 6, plate, true);
+      else if (o.type === 'waterproof') addBox(grp, 80, 80, 14, 0, 0, 10, new THREE.MeshStandardMaterial({ color: 0xdfe6ea, roughness: 0.3, transparent: true, opacity: 0.7 }), false);
       else if (o.type === 'tv' || o.type === 'net') { const c = new THREE.Mesh(new THREE.CircleGeometry(9, 12), dark); c.position.z = 4.5; grp.add(c); }
       else [-14, 14].forEach(dx => { const c = addBox(grp, 4, 12, 2, dx, 0, 4.5, dark, false); });
       g.add(grp);
@@ -287,6 +321,10 @@
     if (type === 'socket' || type === 'socket220' || type === 'usb') { circ(1.4 * sc); pg.line(x - 0.45 * sc, y - 0.8 * sc, x - 0.45 * sc, y + 0.8 * sc, 0.25, col); pg.line(x + 0.45 * sc, y - 0.8 * sc, x + 0.45 * sc, y + 0.8 * sc, 0.25, col); if (type !== 'socket') pg.text(x, y - 2 * sc, type === 'usb' ? 'USB' : '220', { size: 3.6 * sc, color: col, align: 'center' }); }
     else if (type === 'tv' || type === 'net') { pg.rect(x - 1.6 * sc, y - 1.1 * sc, 3.2 * sc, 2.2 * sc, { w: 0.25, color: col, fill: '#fff' }); pg.text(x, y + 0.15 * sc, type === 'tv' ? 'TV' : 'C', { size: 4 * sc, color: col, align: 'center', base: 'middle' }); }
     else if (type === 'sw') { circ(1.4 * sc); pg.text(x, y + 0.15 * sc, 'S', { size: 4.6 * sc, color: col, align: 'center', base: 'middle' }); }
+    else if (/^(sw2|sw3|sw3way|dimmer|doorbell)$/.test(type)) { circ(1.4 * sc); pg.text(x, y + 0.15 * sc, { sw2: 'S2', sw3: 'S3', sw3way: 'S₃', dimmer: 'D', doorbell: 'B' }[type], { size: 3.8 * sc, color: col, align: 'center', base: 'middle' }); }
+    else if (type === 'waterproof' || type === 'dedicated') { circ(1.4 * sc); pg.line(x - 0.45 * sc, y - 0.8 * sc, x - 0.45 * sc, y + 0.8 * sc, 0.25, col); pg.line(x + 0.45 * sc, y - 0.8 * sc, x + 0.45 * sc, y + 0.8 * sc, 0.25, col); pg.text(x, y - 2 * sc, type === 'waterproof' ? 'WP' : '專', { size: 3.6 * sc, color: col, align: 'center' }); }
+    else if (/^(tel|speaker|intercom|curtain)$/.test(type)) { pg.rect(x - 1.8 * sc, y - 1.1 * sc, 3.6 * sc, 2.2 * sc, { w: 0.25, color: '#6a1b9a', fill: '#fff' }); pg.text(x, y + 0.15 * sc, { tel: 'T', speaker: 'SP', intercom: 'IC', curtain: 'M' }[type], { size: 3.6 * sc, color: '#6a1b9a', align: 'center', base: 'middle' }); }
+    else if (type === 'panel' || type === 'weakbox') { pg.rect(x - 2.6 * sc, y - 1.3 * sc, 5.2 * sc, 2.6 * sc, { w: 0.35, color: '#1f2328', fill: type === 'panel' ? '#3d4550' : '#e3d9ef' }); pg.text(x, y + 0.15 * sc, type === 'panel' ? '電箱' : '弱電', { size: 3.4 * sc, color: type === 'panel' ? '#fff' : '#6a1b9a', align: 'center', base: 'middle' }); }
     else if (type === 'floor') { circ(1.6 * sc, '#fde8e6'); pg.line(x - 1.1 * sc, y, x + 1.1 * sc, y, 0.25, col); pg.line(x, y - 1.1 * sc, x, y + 1.1 * sc, 0.25, col); }
   }
   // 圖例符號（頁面 mm 座標）
@@ -299,6 +337,12 @@
     else if (type === 'wall_lt') { circ(1.1 * sc, '#fff'); L(x, y + 1.1 * sc, x, y + 2.4 * sc); L(x - 1.6 * sc, y + 2.4 * sc, x + 1.6 * sc, y + 2.4 * sc); }
     else if (type === 'ac') { pg.rect(x - 2.6 * sc, y - 2.6 * sc, 5.2 * sc, 5.2 * sc, { w: 0.3, color: '#d0342c' }); L(x - 2.6 * sc, y + 2.6 * sc, x + 2.6 * sc, y - 2.6 * sc, 0.3, '#d0342c'); pg.text(x - 1.6 * sc, y - 0.2 * sc, 'A', { size: 6 * sc, color: '#d0342c', align: 'center', base: 'middle' }); pg.text(x + 1.4 * sc, y + 1.4 * sc, 'C', { size: 6 * sc, color: '#d0342c', align: 'center', base: 'middle' }); }
     else if (type === 'drain') { circ(0.8 * sc, '#fff', '#1f5fd6'); L(x + 0.8 * sc, y, x + 3.2 * sc, y, 0.25, '#1f5fd6'); }
+    else if (C.FIX[type] && C.FIX[type].group === 'elec') {
+      const pc = '#6a1b9a', lab = { smoke: 'SD', sprinkler: '', cam: 'CAM', spk: 'SP', exhaust: 'EF', heater: 'H', emerg: 'EL' }[type];
+      if (type === 'exhaust' || type === 'heater' || type === 'emerg') { pg.rect(x - 1.8 * sc, y - 1.4 * sc, 3.6 * sc, 2.8 * sc, { w: 0.25, color: pc, fill: '#fff' }); pg.text(x, y + 0.15 * sc, lab, { size: 3.4 * sc, color: pc, align: 'center', base: 'middle' }); }
+      else if (type === 'sprinkler') { g.beginPath(); g.arc(x * k, y * k, 0.9 * sc * k, 0, Math.PI * 2); g.fillStyle = '#d0342c'; g.fill(); L(x - 1.5 * sc, y, x + 1.5 * sc, y, 0.2, '#d0342c'); L(x, y - 1.5 * sc, x, y + 1.5 * sc, 0.2, '#d0342c'); }
+      else { circ(1.6 * sc, '#fff', pc); pg.text(x, y + 0.15 * sc, lab, { size: (lab.length > 2 ? 2.8 : 3.4) * sc, color: pc, align: 'center', base: 'middle' }); }
+    }
     else if (type === 'access') { pg.rect(x - 1.8 * sc, y - 1.8 * sc, 3.6 * sc, 3.6 * sc, { w: 0.25 }); L(x - 1.8 * sc, y - 1.8 * sc, x + 1.8 * sc, y + 1.8 * sc, 0.2); L(x - 1.8 * sc, y + 1.8 * sc, x + 1.8 * sc, y - 1.8 * sc, 0.2); }
   }
   function lineSym(pg, kind, A, B) {
@@ -313,6 +357,7 @@
   C.drawPlan = function (pg, room, P, poly, s, layer = 'ceiling') {
     const c = C.ensure(room), g = pg.g, k = pg.k;
     if (layer === 'power') {   // 插座配置圖
+      C.ensure(room).fixtures.forEach(f => { if (C.FIX[f.type] && C.FIX[f.type].group === 'elec') { const q = P(f.x, f.z); sym(pg, f.type, q[0], q[1]); } });
       (room.outlets || []).forEach(o => { const p = C.outletPos(room, o); if (!p) return; const q = P(p.x + p.nx * 180, p.z + p.nz * 180); osym(pg, o.type, q[0], q[1]); pg.text(q[0] + 2.4, q[1] + 3.2, o.type === 'floor' ? '地插' : 'H=' + Math.round(o.h / 10), { size: 4.8, color: '#d0342c' }); });
       return;
     }
@@ -360,7 +405,7 @@
       if (d.unit === '尺') out.push({ t, name: d.name, qty: +(l.reduce((s2, st) => s2 + Math.hypot(st.x2 - st.x1, st.z2 - st.z1), 0) / CHI).toFixed(1), unit: '尺', kind: 'line' });
       else out.push({ t, name: d.name, qty: l.length, unit: d.unit, kind: 'line' });
       if (t === 'track') out.push({ t: 'spot', name: '軌道投射燈', qty: l.reduce((s2, st) => s2 + Math.max(1, st.heads || Math.round(Math.hypot(st.x2 - st.x1, st.z2 - st.z1) / 600)), 0), unit: '顆', kind: 'spot' }); });
-    if (group === 'power') { Object.entries(C.OUTLETS).forEach(([t, d]) => { const n = room.outlets.filter(o => o.type === t).length; if (n) out.push({ t, name: d.name, qty: n, unit: '處', kind: 'outlet' }); }); return out; }
+    if (group === 'power') { Object.entries(C.OUTLETS).forEach(([t, d]) => { const n = room.outlets.filter(o => o.type === t).length; if (n) out.push({ t, name: d.name, qty: n, unit: '處', kind: 'outlet' }); }); Object.entries(C.FIX).forEach(([t, d]) => { if (d.group !== 'elec') return; const n = c.fixtures.filter(f => f.type === t).length; if (n) out.push({ t, name: d.name, qty: n, unit: d.unit, kind: 'fix' }); }); return out; }
     if (group === 'hvac' && room.acs.length) { out.unshift({ t: 'acpipe', name: '冷媒管（含保溫、排水）', qty: +(room.acs.reduce((s2, a) => s2 + C.acLength(room, a), 0) / CHI).toFixed(1), unit: '尺', kind: 'acpipe' }); out.unshift({ t: 'acsys', name: '分離式冷氣（室內＋室外機）', qty: room.acs.length, unit: '組', kind: 'acsys' }); }
     if (group === 'light') { const cove = c.zones.filter(z => z.cove).reduce((s2, z) => s2 + perim(z.pts), 0); if (cove) out.unshift({ t: 'cove', name: '天花板 T5／LED 燈條（間接光）', qty: +(cove / CHI).toFixed(1), unit: '尺', kind: 'cove' }); }
     return out;
