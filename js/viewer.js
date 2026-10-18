@@ -16,7 +16,8 @@
 
   V.tool = 'select';
   V.wallMode = 'auto';
-  V.ceilMode = 'auto';   // 'auto'：相機在天花下方才顯示；'hide'：永遠隱藏
+  V.ceilMode = 'auto';
+  V.ceilEdit = false; V.ceilSel = null;   // 天花／設備編輯模式：拖曳掣點   // 'auto'：相機在天花下方才顯示；'hide'：永遠隱藏
   V.lineTarget = 'room';   // 畫線工具的對象：room 空間 / zone 降板區 / raise 灑水頭下 / beam 包樑 / strip 鋁槽燈
 
   V.init = function (el, T, OC) {
@@ -115,6 +116,7 @@
   }
 
   function animate() {
+    if (cgGroup) ceilGripScale();
     requestAnimationFrame(animate);
     // 容器尺寸改變但未收到 ResizeObserver 通知時（例如分頁在背景載入）自動修正
     const cv = renderer.domElement;
@@ -264,12 +266,76 @@
   }
 
   /* ---------- 場景同步 ---------- */
+  /* ---------- 天花／設備編輯掣點（Sprite，固定螢幕大小） ---------- */
+  let cgGroup = null, cdrag = null; const cgTex = new Map();
+  function cgTexture(color, sel) {
+    const k = color + (sel ? 's' : ''); if (cgTex.has(k)) return cgTex.get(k);
+    const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+    x.beginPath(); x.arc(32, 32, 26, 0, Math.PI * 2); x.fillStyle = sel ? '#ffeb3b' : color; x.fill(); x.lineWidth = 7; x.strokeStyle = '#ffffff'; x.stroke(); x.lineWidth = 2; x.strokeStyle = 'rgba(0,0,0,.45)'; x.beginPath(); x.arc(32, 32, 30, 0, Math.PI * 2); x.stroke();
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; cgTex.set(k, t); return t;
+  }
+  V.updateCeilGrips = function () {
+    if (cgGroup) { helperGroup.remove(cgGroup); cgGroup.children.forEach(s => s.material.dispose()); cgGroup = null; }
+    const room = App.state && App.state.room;
+    if (!V.ceilEdit || !room || !window.Ceiling) return;
+    cgGroup = new THREE.Group();
+    window.Ceiling.grips(room).forEach(gp => {
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: cgTexture(gp.color, gp.key === V.ceilSel), depthTest: false, sizeAttenuation: false }));
+      const sz = (gp.small ? 0.016 : 0.024) * (V.touch ? 1.6 : 1); sp.scale.set(sz, sz, 1); sp.userData.base = sz; sp.position.set(gp.x, gp.y, gp.z); sp.renderOrder = 1001; sp.userData.cgrip = gp; cgGroup.add(sp);
+    });
+    helperGroup.add(cgGroup); ceilGripScale();
+  };
+  V.setCeilEdit = function (on) { V.ceilEdit = !!on; V.ceilSel = null; V.updateCeilGrips(); App.status(on ? '天花／設備編輯：拖曳掣點移動（橘＝燈具、綠＝天花頂點、淺綠＝邊中點拖曳新增頂點、藍＝線型端點、紅＝冷氣、棕＝冷媒管轉折、桃紅＝插座）；點一下選取後按 Delete 刪除' : ''); };
+  function pickCeilGrip() {   // 螢幕座標最近的掣點（14px 內，觸控 24px）
+    if (!cgGroup) return null;
+    const r = renderer.domElement.getBoundingClientRect(), lim = V.touch ? 24 : 14;
+    let best = null, bd = lim;
+    cgGroup.children.forEach(sp => { const q = sp.position.clone().project(camera); if (q.z > 1) return; const d = Math.hypot((q.x - mouse.x) / 2 * r.width, (q.y - mouse.y) / 2 * r.height) - (sp.userData.cgrip.small ? 3 : 0); if (d < bd) { bd = d; best = sp.userData.cgrip; } });
+    return best;
+  }
+  // 正交相機：Sprite 不隨距離縮放的大小要另外換算
+  function ceilGripScale() {
+    if (!cgGroup) return;
+    cgGroup.children.forEach(sp => { const base = sp.userData.base; const s2 = camera.isOrthographicCamera ? base * 2.75 * (camera.top - camera.bottom) / camera.zoom / 2 : base; if (sp.scale.x !== s2) sp.scale.set(s2, s2, 1); });
+  }
+  V.ceilGripAt = function (cx, cy) { const r = renderer.domElement.getBoundingClientRect(); mouse.x = ((cx - r.left) / r.width) * 2 - 1; mouse.y = -((cy - r.top) / r.height) * 2 + 1; camera.updateMatrixWorld(); const g = pickCeilGrip(); return g ? g.key : null; };   // 測試用
+  function startCeilDrag(gp) {
+    const room = App.state.room;
+    cdrag = { gp, before: JSON.stringify({ ceiling: room.ceiling, outlets: room.outlets, acs: room.acs }), st: {}, moved: false, sx: V.lastClient ? V.lastClient.slice() : [0, 0] };
+    V.ceilSel = gp.key; controls.enabled = false;
+  }
+  function ceilDragUpdate() {
+    const g = groundPoint(cdrag.gp.y); if (!g) return;
+    if (V.lastClient && Math.hypot(V.lastClient[0] - cdrag.sx[0], V.lastClient[1] - cdrag.sx[1]) < 4 && !cdrag.moved) return;
+    cdrag.moved = true;
+    let x = Math.round(g.x / 10) * 10, z = Math.round(g.z / 10) * 10;
+    const us = V.underlaySnap ? V.underlaySnap(g, 10) : null; if (us) { x = us.p[0]; z = us.p[1]; }
+    cdrag.gp.apply(App.state.room, x, z, cdrag.st);
+    V.rebuildRoom();
+    App.status(`${cdrag.gp.label || '掣點'}：X ${x}　Z ${z} mm　放開完成，Esc 取消`);
+  }
+  function endCeilDrag(commit) {
+    const d = cdrag; cdrag = null; controls.enabled = true;
+    const room = App.state.room;
+    if (!d.moved) { V.updateCeilGrips(); App.status(`已選取：${d.gp.label || '掣點'}　按 Delete 刪除`); return; }
+    const after = JSON.stringify({ ceiling: room.ceiling, outlets: room.outlets, acs: room.acs });
+    const b = JSON.parse(d.before); room.ceiling = b.ceiling; room.outlets = b.outlets; room.acs = b.acs;
+    if (commit && after !== d.before) { V.ceilSel = null; App.mutate('調整' + (d.gp.label || '天花'), s => { const a = JSON.parse(after); s.room.ceiling = a.ceiling; s.room.outlets = a.outlets; s.room.acs = a.acs; }, 'room'); }
+    else V.rebuildRoom();
+    App.status('');
+  }
+  V.deleteCeilSel = function () {
+    const room = App.state.room; if (!room || !V.ceilSel) return false;
+    const gp = window.Ceiling.grips(room).find(q => q.key === V.ceilSel); if (!gp) return false;
+    V.ceilSel = null; App.mutate('刪除' + (gp.label || ''), s => gp.remove(s.room), 'room'); return true;
+  };
   V.rebuildRoom = function () {
     if (roomGroup) { scene.remove(roomGroup); dispose(roomGroup); roomGroup = null; }
     const st = App.state;
     if (!st.room) return;
     roomGroup = M().buildRoom(st.room, { selectedWall: App.sel && App.sel.type === 'wall' ? App.sel.index : -1 });
     scene.add(roomGroup);
+    V.updateCeilGrips();
     const box = new THREE.Box3().expandByObject(roomGroup);
     const c = box.getCenter(new THREE.Vector3());
     dir.target.position.copy(c); dir.position.set(c.x + 4000, 9000, c.z + 6000);
@@ -756,6 +822,7 @@
       return;
     }
     if (t === 'select') {
+      if (V.ceilEdit) { const cg = pickCeilGrip(); if (cg) { startCeilDrag(cg); return; } }
       const gs = pickGrip();
       if (gs) { startGrip(gs); return; }
       const h = pick();
@@ -773,6 +840,7 @@
   }
   function onMove(e) {
     setMouse(e);
+    if (cdrag) { ceilDragUpdate(); return; }
     if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) > down.th) down.moved = true;
     const t = V.tool;
     if (t === 'place') updateGhost();
@@ -791,6 +859,7 @@
     }
   }
   function onUp() {
+    if (cdrag) { endCeilDrag(true); down = null; return; }
     if (grip.active) { endGrip(true); down = null; return; }
     if (move.active && move.drag) endMove(true);
     down = null;
@@ -1413,10 +1482,11 @@
     if (r.close) { finishLine(); return; }
     draw.pts.push(r.p);
     redrawLine();
+    if (/^ol:/.test(V.lineTarget)) { const p = draw.pts.pop(); redrawLine(); App.ui.placeOutlet(V.lineTarget.slice(3), p); return; }
     if (/^fx:/.test(V.lineTarget)) {   // 點狀設備：每點一下放一個，持續放置直到取消
       const p = draw.pts.pop(); redrawLine(); App.ui.placeFixture(V.lineTarget.slice(3), p); return;
     }
-    if ((V.lineTarget === 'beam' || /^(strip|track|supply|ret|row:.+|grid:.+)$/.test(V.lineTarget)) && draw.pts.length >= 2) {   // 兩點物件：點第二點即完成
+    if ((V.lineTarget === 'beam' || /^(strip|track|supply|ret|acsys|row:.+|grid:.+)$/.test(V.lineTarget)) && draw.pts.length >= 2) {   // 兩點物件：點第二點即完成
       const pts = draw.pts.slice(0, 2), tg = V.lineTarget; V.cancelLine(); V.setTool('select'); App.ui.finishCeilDraw(tg, pts);
     }
   }
@@ -1582,6 +1652,8 @@
     App.ui && App.ui.syncToolbar();
   };
   V.escape = function () {
+    if (cdrag) { cdrag.moved = true; endCeilDrag(false); return; }
+    if (V.ceilEdit && V.ceilSel) { V.ceilSel = null; V.updateCeilGrips(); return; }
     if (grip.active) { endGrip(false); return; }
     if (move.active) { endMove(false); return; }
     if (V.tool === 'line' && draw.pts.length) { V.cancelLine(); return; }

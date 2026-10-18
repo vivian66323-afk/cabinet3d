@@ -1516,7 +1516,7 @@
       // 門窗配件
       wall.openings.forEach(o => buildOpening(g, wi, o, Tk, H, i));
     });
-    if (window.Ceiling) { try { g.add(window.Ceiling.build(room, THREE, { sMat, addBox })); } catch (e) { console.warn('ceiling', e); } }
+    if (window.Ceiling) { try { g.add(window.Ceiling.build(room, THREE, { sMat, addBox })); } catch (e) { console.warn('ceiling', e); } try { const mep = window.Ceiling.buildMEP(room, THREE, { sMat, addBox }); mep.userData.mepGroup = true; g.add(mep); } catch (e) { console.warn('mep', e); } }
     return g;
   }
 

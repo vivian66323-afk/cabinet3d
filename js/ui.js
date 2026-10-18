@@ -724,11 +724,22 @@
       <label>線板</label>${sel('ceil-mold', C.MOLDINGS, c.molding || 'none')}
       <label>3D 顯示</label>${sel('ceil-mode', [['auto', '自動（相機在天花下方顯示）'], ['hide', '永遠隱藏']], v.ceilMode || 'auto')}
     </div>
+    <div class="btn-row"><button class="btn small${v.ceilEdit ? ' primary' : ''}" data-a="ceil-edit">${icon('move')}${v.ceilEdit ? '結束編輯' : '編輯（拖曳調整）'}</button>${v.ceilEdit && v.ceilSel ? `<button class="btn small danger" data-a="ceil-delsel">${icon('delete')}刪除選取</button>` : ''}</div>
+    ${v.ceilEdit ? '<p class="muted" style="font-size:11.5px;margin:4px 0 0">拖曳掣點：橘＝燈具、綠＝天花頂點、淺綠＝邊中點（拖曳新增頂點）、藍＝線型端點、紅＝冷氣室內／室外機、棕＝冷媒管轉折、淺棕＝管線中點（拖曳新增轉折）、桃紅＝插座。點一下選取後按 Delete 刪除。上視圖最好操作。</p>' : ''}
     <div class="sec-title" style="margin-top:10px">燈具與空調 <small>畫在天花上</small></div>
     <div class="kv"><label>設備</label><select data-key="fx-type" data-f="fx-type">${[['燈具', ['dl_big', 'dl_small', 'ar111', 'pendant', 'wall_lt']], ['空調／設備', ['ac', 'drain', 'access']]].map(([gn, l]) => `<optgroup label="${gn}">${l.map(t => `<option value="${t}"${UI.fxType === t ? ' selected' : ''}>${C.FIX[t].name}</option>`).join('')}</optgroup>`).join('')}</select></div>
     <div class="btn-row"><button class="btn small" data-a="fx-place">${icon('plus')}逐顆放置</button><button class="btn small" data-a="fx-row">${icon('line')}排一排</button><button class="btn small" data-a="fx-grid">${icon('rect')}區域內矩陣</button><button class="btn small" data-a="fx-undo" title="刪除最後放的一個">退一個</button></div>
     <div class="btn-row"><button class="btn small" data-a="ceil-track">${icon('line')}軌道燈</button><button class="btn small" data-a="ceil-supply">${icon('line')}線型出風口</button><button class="btn small" data-a="ceil-ret">${icon('line')}回風口</button></div>
     ${(() => { const rows = [...C.counts(r, 'light'), ...C.counts(r, 'hvac')]; return rows.length ? `<div class="list" style="margin-top:6px">${rows.map(x => `<div class="lrow ceil-row"><span>${esc(x.name)}</span><span class="muted">${x.qty} ${x.unit}</span><span></span>${x.kind === 'fix' || (x.kind === 'line' && x.t !== 'alu') ? `<button class="icon-btn del" data-a="fx-clear" data-t="${x.t}" data-k="${x.kind}" title="全部刪除">${icon('x')}</button>` : '<span></span>'}</div>`).join('')}</div>` : ''; })()}
+    <div class="sec-title" style="margin-top:10px">冷氣系統 <small>室內機＋室外機＋冷媒管</small></div>
+    <div class="btn-row"><button class="btn small" data-a="ac-add">${icon('plus')}新增冷氣（點室內機→室外機）</button></div>
+    ${(r.acs || []).length ? `<div class="list" style="margin-top:6px">${r.acs.map((ac, i) => { const sp = C.acSpec(ac.kw), L = C.acLength(r, ac); return `<div class="lrow ac-row"><input data-key="acn${i}" data-f="acn${i}" value="${esc(ac.name || '冷氣')}" style="width:70px"><select data-key="ack${i}" data-f="ack${i}">${C.AC_KW.map(k2 => `<option value="${k2}"${+ac.kw === k2 ? ' selected' : ''}>${k2}kW</option>`).join('')}</select><span class="inline" title="室外機離地高度（0＝落地）">外機H ${num('aco' + i, ac.oy || 0, 'step="50" min="0" max="6000"')}</span><span class="inline" title="冷媒管走管高度（離地 mm）">管高 ${num('acp' + i, C.pipeH(r, ac), 'step="10" min="300" max="6000"')}</span><button class="icon-btn del" data-a="ac-del" data-i="${i}" title="刪除">${icon('x')}</button>
+      <span class="muted ac-spec">冷媒管 ${sp.liq}＋${sp.gas}　L≈${(L / 1000).toFixed(1)}m（${(L / 303).toFixed(1)} 尺）　電源 ${sp.v} ${sp.wire}　無熔絲 ${sp.brk}</span></div>`; }).join('')}</div><p class="muted" style="font-size:11.5px;margin:4px 0 0">按「編輯」可拖曳室內機、室外機與冷媒管轉折點，拖管線中點可新增轉折，「管高」可改走管高度（例如走樑下或貼樓板）。管徑、線徑依常見 R32 分離式估計，以原廠安裝手冊為準。</p>` : ''}
+    <div class="sec-title" style="margin-top:10px">插座／開關 <small>點牆邊放置</small></div>
+    <div class="kv"><label>類型</label><select data-key="ol-type" data-f="ol-type">${Object.entries(C.OUTLETS).map(([k2, d]) => `<option value="${k2}"${UI.olType === k2 ? ' selected' : ''}>${d.name}</option>`).join('')}</select>
+      <label>高度</label><div class="inline">${num('ol-h', UI.olH != null ? UI.olH : C.OUTLETS[UI.olType].h, 'step="10" min="0" max="2400"')}<span class="unit">mm（H=${Math.round((UI.olH != null ? UI.olH : C.OUTLETS[UI.olType].h) / 10)}）</span></div></div>
+    <div class="btn-row"><button class="btn small" data-a="ol-place">${icon('plus')}點牆邊放置</button><button class="btn small" data-a="ol-undo">退一個</button></div>
+    ${(() => { const rows = C.counts(r, 'power'); return rows.length ? `<div class="list" style="margin-top:6px">${rows.map(x => `<div class="lrow ceil-row"><span>${esc(x.name)}</span><span class="muted">${x.qty} ${x.unit}</span><span></span><button class="icon-btn del" data-a="ol-clear" data-t="${x.t}" title="全部刪除">${icon('x')}</button></div>`).join('')}</div>` : ''; })()}
     <div class="btn-row" style="margin-top:10px"><button class="btn small" data-a="ceil-zone">${icon('line')}畫降板區</button><button class="btn small" data-a="ceil-raise">${icon('line')}畫灑水頭下高區</button><button class="btn small" data-a="ceil-beam">${icon('line')}畫包樑</button><button class="btn small" data-a="ceil-box">${icon('window')}自動窗簾盒</button><button class="btn small" data-a="ceil-strip">${icon('open')}畫鋁槽燈</button></div>
     ${zones || strips ? `<div class="list" style="margin-top:8px">${zones}${strips}</div>` : '<p class="muted" style="font-size:11.5px;margin:6px 0 0">目前整間平釘。用上方按鈕在平面上畫降板區（可勾間接光）、包樑、窗簾盒或鋁槽燈；高度單位 mm，圖面標註以 cm 顯示。</p>'}
     <p class="muted" style="font-size:11.5px;margin:6px 0 0">報價：平釘與造型依坪數、包樑／窗簾盒／燈槽／線板／鋁槽燈依尺數計價，單價可在「板材售價」修改。</p></div>`;
@@ -737,7 +748,7 @@
     if (!App.state.room) { App.toast('請先建立空間'); return; }
     V().lineTarget = kind; UI.action('line');
     const nm = k2 => (window.Ceiling.FIX[k2] || {}).name || '';
-    App.toast(/^fx:/.test(kind) ? `點天花位置放置「${nm(kind.slice(3))}」，可連續點；按「取消」或 Esc 結束` : /^row:/.test(kind) ? `點「${nm(kind.slice(4))}」一排的起點與終點` : /^grid:/.test(kind) ? `點矩形區域的兩個對角，排「${nm(kind.slice(5))}」矩陣` : ({ zone: '在平面上點降板區各轉角，點回起點完成', raise: '點灑水頭下高區各轉角，點回起點完成', beam: '點樑的起點與終點', strip: '點鋁槽燈的起點與終點', track: '點軌道的起點與終點', supply: '點線型出風口的起點與終點', ret: '點回風口的起點與終點' }[kind]));
+    App.toast(kind === 'acsys' ? '先點室內機位置（天花內），再點室外機位置（陽台／外牆）' : /^ol:/.test(kind) ? `在牆邊點擊放置「${window.Ceiling.OUTLETS[kind.slice(3)].name}」，可連續點；按「取消」或 Esc 結束` : /^fx:/.test(kind) ? `點天花位置放置「${nm(kind.slice(3))}」，可連續點；按「取消」或 Esc 結束` : /^row:/.test(kind) ? `點「${nm(kind.slice(4))}」一排的起點與終點` : /^grid:/.test(kind) ? `點矩形區域的兩個對角，排「${nm(kind.slice(5))}」矩陣` : ({ zone: '在平面上點降板區各轉角，點回起點完成', raise: '點灑水頭下高區各轉角，點回起點完成', beam: '點樑的起點與終點', strip: '點鋁槽燈的起點與終點', track: '點軌道的起點與終點', supply: '點線型出風口的起點與終點', ret: '點回風口的起點與終點' }[kind]));
   };
   UI.finishCeilDraw = async function (kind, pts) {
     const r = App.state.room, C = window.Ceiling; if (!r || !C) return;
@@ -754,6 +765,11 @@
       App.mutate('新增包樑', x => { C.addBeam(x.room, pts[0], pts[1], +res.data.w, +res.data.h); }, 'room');
     } else if (kind === 'strip') {
       App.mutate('新增鋁槽燈', x => { C.addStrip(x.room, pts[0], pts[1], 30, 3000); }, 'room');
+    } else if (kind === 'acsys') {
+      const zn = (c.zones.find(z => z.pts && z.pts.length >= 3 && M().pointInPoly(pts[0][0], pts[0][1], z.pts)) || {}).pts || r.points, sug = C.suggestKw(zn);
+      const res = await UI.modal({ title: '新增冷氣', body: `<div class="kv"><label>名稱</label><input name="n" value="冷氣${(r.acs || []).length + 1}"><label>能力</label><select name="kw">${C.AC_KW.map(k2 => `<option value="${k2}"${k2 === sug ? ' selected' : ''}>${k2} kW${k2 === sug ? '（建議）' : ''}</option>`).join('')}</select><label>室外機</label><div class="inline"><input name="oy" type="number" value="0" step="50" style="width:90px"><span class="unit">mm 離地（0＝落地，壁掛約 1800）</span></div></div><p class="muted" style="font-size:11.5px">建議能力依所在區域面積約每坪 0.6kW 估算。冷媒管會先拉成 L 形，之後可在「編輯」模式拖曳調整路徑。</p>`, buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }] });
+      if (!res) return;
+      App.mutate('新增冷氣', x => { C.addAC(x.room, pts[0], pts[1], +res.data.kw, String(res.data.n || '冷氣'), +res.data.oy || 0); }, 'room');
     } else if (kind === 'track' || kind === 'supply' || kind === 'ret') {
       App.mutate('新增' + C.LINES[kind].name, x => { C.addStrip(x.room, pts[0], pts[1], 30, 3000, kind); }, 'room');
     } else if (/^row:/.test(kind)) {
@@ -768,7 +784,13 @@
       let n = 0; App.mutate('矩陣 ' + C.FIX[t].name, x => { n = C.addGrid(x.room, t, rect, Math.max(300, +res.data.g), Math.max(0, +res.data.m)).length; }, 'room'); App.toast(`已放置 ${n} 個${C.FIX[t].name}`);
     }
   };
-  UI.fxType = 'dl_small';
+  UI.fxType = 'dl_small'; UI.olType = 'socket'; UI.olH = null;
+  UI.placeOutlet = function (type, p) {
+    const C = window.Ceiling; if (!App.state.room || !C) return;
+    const h = UI.olH != null ? UI.olH : C.OUTLETS[type].h;
+    App.mutate('放置 ' + C.OUTLETS[type].name, x => { C.addOutlet(x.room, type, p[0], p[1], h); }, 'room');
+    App.status(`已放置 ${C.OUTLETS[type].name}（H=${Math.round(h / 10)}）；繼續點牆邊放置，按「取消」或 Esc 結束`);
+  };
   UI.placeFixture = function (type, p) {
     const C = window.Ceiling; if (!App.state.room || !C) return;
     App.mutate('放置 ' + C.FIX[type].name, x => { C.addFixture(x.room, type, p); }, 'room');
@@ -1122,6 +1144,9 @@
     // 專案層級
     if (t.dataset.f === 'room-height') { const v = Math.max(1800, Math.min(6000, +val || 2800)); App.mutate('牆高', x => { x.room.height = v; x.room.walls.forEach(w => w.openings.forEach(o => { o.height = Math.min(o.height, v - o.sill - 10); })); }, 'room'); return; }
     if (t.dataset.f === 'fx-type') { UI.fxType = String(val); return; }
+    if (t.dataset.f === 'ol-type') { UI.olType = String(val); UI.olH = null; UI.refresh(); return; }
+    if (t.dataset.f === 'ol-h') { UI.olH = Math.max(0, Math.min(2400, Math.round(+val || 0))); UI.refresh(); return; }
+    { const m1 = /^ac([nkop])(\d+)$/.exec(t.dataset.f || ''); if (m1) { const i0 = +m1[2]; App.mutate('冷氣設定', x => { const ac = x.room.acs[i0]; if (!ac) return; if (m1[1] === 'n') ac.name = String(t.value).trim() || '冷氣'; else if (m1[1] === 'k') ac.kw = +val; else if (m1[1] === 'p') ac.ph = Math.max(300, Math.min(6000, Math.round(+val || 0))); else ac.oy = Math.max(0, Math.round(+val || 0)); }, 'room'); return; } }
     if (t.dataset.f === 'ceil-on') { App.mutate('天花板顯示', x => { window.Ceiling.ensure(x.room).on = !!val; }, 'room'); return; }
     if (t.dataset.f === 'ceil-h') { const v = Math.max(2000, Math.min(6000, Math.round(+val || 2600))); App.mutate('天花基本高', x => { window.Ceiling.ensure(x.room).h = v; }, 'room'); return; }
     if (t.dataset.f === 'ceil-mold') { App.mutate('線板', x => { window.Ceiling.ensure(x.room).molding = String(val); }, 'room'); return; }
@@ -1256,6 +1281,13 @@
     if (a === 'ceil-strip') { UI.startCeilDraw('strip'); return; }
     if (a === 'ceil-track' || a === 'ceil-supply' || a === 'ceil-ret') { UI.startCeilDraw(a.slice(5)); return; }
     if (a === 'fx-place') { UI.startCeilDraw('fx:' + UI.fxType); return; }
+    if (a === 'ceil-edit') { V().setCeilEdit(!V().ceilEdit); UI.refresh(); return; }
+    if (a === 'ceil-delsel') { V().deleteCeilSel(); return; }
+    if (a === 'ac-add') { UI.startCeilDraw('acsys'); return; }
+    if (a === 'ac-del') { const i0 = +b.dataset.i; App.mutate('刪除冷氣', x => { x.room.acs.splice(i0, 1); }, 'room'); return; }
+    if (a === 'ol-place') { UI.startCeilDraw('ol:' + UI.olType); return; }
+    if (a === 'ol-undo') { if (!(App.state.room.outlets || []).length) { App.toast('沒有可刪除的插座'); return; } App.mutate('刪除最後一個插座', x => { x.room.outlets.pop(); }, 'room'); return; }
+    if (a === 'ol-clear') { const t0 = b.dataset.t; if (!(await UI.confirm('全部刪除', '刪除這個空間所有此類插座？（可 Ctrl+Z 復原）'))) return; App.mutate('刪除插座', x => { x.room.outlets = x.room.outlets.filter(o => o.type !== t0); }, 'room'); return; }
     if (a === 'fx-row') { UI.startCeilDraw('row:' + UI.fxType); return; }
     if (a === 'fx-grid') { UI.startCeilDraw('grid:' + UI.fxType); return; }
     if (a === 'fx-undo') { if (!App.state.room.ceiling || !App.state.room.ceiling.fixtures.length) { App.toast('沒有可刪除的設備'); return; } App.mutate('刪除最後一個設備', x => { x.room.ceiling.fixtures.pop(); }, 'room'); return; }
@@ -1768,7 +1800,7 @@
       case 'r': case 'R': UI.roomDialog(); break;
       case 'l': case 'L': UI.action('line'); break;
       case 't': case 'T': v.setTool('tape'); break;
-      case 'Delete': case 'Backspace': App.deleteSelected(); e.preventDefault(); break;
+      case 'Delete': case 'Backspace': if (!(v.ceilEdit && v.ceilSel && v.deleteCeilSel())) App.deleteSelected(); e.preventDefault(); break;
       case 'Escape': v.escape(); break;
       case 'Enter': if (v.tool === 'line') { /* 雙擊或回到起點完成 */ } break;
       case 'ArrowLeft': App.nudge(e.shiftKey ? -100 : -10, 0); e.preventDefault(); break;

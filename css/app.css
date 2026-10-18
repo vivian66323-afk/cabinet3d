@@ -585,3 +585,7 @@ body { overscroll-behavior: none; }
 
 .ceil-row { grid-template-columns: 1fr auto auto 22px; }
 .ceil-row .numf { width: 64px; }
+
+.ac-row { grid-template-columns: 74px 78px 1fr 1fr 22px; }
+.ac-row .ac-spec { grid-column: 1 / -1; font-size: 11px; color: #1f5fd6; }
+.ac-row .numf { width: 58px; }
