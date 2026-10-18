@@ -721,7 +721,8 @@
         <label>周長</label><span>${Math.round(per).toLocaleString()} mm · ${r.points.length} 面牆</span>
         <label>牆高</label><div class="inline">${num('room-height', r.height, 'min="1800" max="6000" step="10"')}<span class="unit">mm</span></div>
         <label>牆厚</label><div class="inline">${num('room-thick', r.thickness, 'min="50" max="400" step="5"')}<span class="unit">mm</span></div>
-        <label>地板</label><div class="inline"><span class="floor-chip" style="background:${M().floorDef(r).color}"></span><select data-key="room-floor" data-f="room-floor">${['木地板', '磁磚', '素面'].map(gp => `<optgroup label="${gp}">${D.FLOORS.filter(f => f.group === gp).map(f => `<option value="${f.id}"${f.id === (r.floor || 'wood-light') ? ' selected' : ''}>${f.name}${f.id === 'wood-light' ? '（預設）' : ''}</option>`).join('')}</optgroup>`).join('')}</select></div>
+        <label>地板</label><div class="inline"><span class="floor-chip" style="background:${M().floorDef(r).color}${M().floorDef(r).thumb ? `;background-image:url(${M().floorDef(r).thumb});background-size:cover` : ''}"></span><span class="pick-name">${esc(M().floorDef(r).name)}</span><button class="btn small" data-a="pick-floor">${icon('image')}選擇地板</button></div>
+        <label>牆面</label><div class="inline"><span class="floor-chip" style="background:${r.wallColor || '#f1efea'}"></span><span class="pick-name">${r.wallPaint ? esc(r.wallPaint.code + ' ' + r.wallPaint.name) : '白色（預設）'}</span><button class="btn small" data-a="pick-paint">${icon('image')}選擇塗料</button>${r.wallColor ? `<button class="btn small" data-a="paint-clear" title="恢復預設白">清除</button>` : ''}</div>
       </div>
       <div class="list wall-list" style="margin-top:10px">${r.points.map((_, i) => {
         const w = r.walls[i], wi = M().wallInfo(r, i);
@@ -986,6 +987,9 @@
       return `<rect x="${x}" y="${y}" width="${ww}" height="${hh}" fill="${o.type === 'door' ? '#c9a57a' : '#cfe6ec'}" stroke="#3b4450" stroke-width=".7"/>`;
     }).join('')}</svg><div><h3>${M().wallName(i)}</h3><p>長 ${Math.round(wi.len)} mm × 高 ${r.height} mm</p><p>${w.locked ? '已鎖定（灰色）' : '未鎖定'}</p></div></div>`;
     if (w.locked) html += `<p class="note lock">${icon('lock')} 此牆面已確認並鎖定，門窗無法修改。需要調整請先解鎖。</p>`;
+    html += `<div class="sec"><div class="sec-title">牆面塗料 <small>此面牆單獨上色（跳色牆）</small></div><div class="kv">
+      <label>顏色</label><div class="inline"><span class="floor-chip" style="background:${w.color || r.wallColor || '#f1efea'}"></span><span class="pick-name">${w.paint ? esc(w.paint.code + ' ' + w.paint.name) : (w.color ? w.color : '同整體牆面')}</span><button class="btn small" data-a="pick-paint-wall" data-i="${i}"${dis}>${icon('image')}選擇塗料</button>${w.color ? `<button class="btn small" data-a="paint-wall-clear" data-i="${i}"${dis}>同整體</button>` : ''}</div>
+    </div></div>`;
     html += `<div class="sec"><div class="sec-title">門 / 窗 <small>從室內面向此牆，尺寸 mm</small></div>`;
     html += w.openings.length ? w.openings.map((o, j) => `<div class="opening"><div class="opening-head"><span>${icon(o.type === 'door' ? 'door' : 'window')} ${o.type === 'door' ? '門' : '窗'} ${j + 1}</span>${w.locked ? '' : `<button class="icon-btn del" data-oa="del" data-j="${j}" title="刪除">${icon('x')}</button>`}</div>
       <div class="kv"><label>寬</label><input type="number" data-key="ow${j}" data-of="width" data-j="${j}" value="${o.width}" step="10"${dis}>
@@ -1139,6 +1143,11 @@
       if (await UI.confirm('刪除樓層', `刪除「${f.name}」與該層所有空間、櫃體？（可用 Ctrl+Z 復原）`)) App.deleteFloor(i);
       return;
     }
+    if (a === 'pick-floor') { UI.pickFloor(); return; }
+    if (a === 'pick-paint') { UI.pickPaint(null); return; }
+    if (a === 'paint-clear') { App.mutate('牆面恢復預設', x => { delete x.room.wallColor; delete x.room.wallPaint; }, 'room'); return; }
+    if (a === 'pick-paint-wall') { UI.pickPaint(+b.dataset.i); return; }
+    if (a === 'paint-wall-clear') { const wi0 = +b.dataset.i; App.mutate('牆面同整體', x => { delete x.room.walls[wi0].color; delete x.room.walls[wi0].paint; }, 'room'); return; }
     if (a === 'room-rect') { UI.roomDialog(); return; }
     if (a.startsWith('ul-')) { window.Underlay.click(a); return; }
     if (a === 'room-line') { UI.action('line'); return; }
@@ -1474,6 +1483,68 @@
       const first = back.querySelector('input,select');
       if (first) setTimeout(() => { first.focus(); if (first.select) first.select(); }, 30);
       if (onOpen) onOpen(back);
+    });
+  };
+  /* ---------- 地板／塗料選擇視窗 ---------- */
+  UI.pickFloor = async function () {
+    const r = App.state.room; if (!r) return;
+    const cur = r.floor || 'wood-light';
+    const groups = [...new Set(D.FLOORS.map(f => f.group))];
+    let g = (D.FLOORS.find(f => f.id === cur) || {}).group || groups[0], q = '';
+    const render = back => {
+      const list = D.FLOORS.filter(f => f.group === g && (!q || (f.name + ' ' + f.id + ' ' + (f.series || '')).toLowerCase().includes(q)));
+      back.querySelector('.pick-grid').innerHTML = list.map(f => `<button class="pick-tile${f.id === cur ? ' on' : ''}" data-id="${f.id}" title="${esc((f.series ? f.series + '　' : '') + f.name + (f.note ? '\n' + f.note : ''))}"><span class="pick-img" style="background:${f.color}${f.thumb ? `;background-image:url(${f.thumb});background-size:cover` : ''}"></span><span class="pick-lbl">${esc(f.name)}</span>${f.series ? `<span class="pick-sub">${esc(f.series)}</span>` : ''}</button>`).join('') || '<p class="muted">沒有符合的花色</p>';
+      back.querySelectorAll('.pick-chips .chip').forEach(c => c.classList.toggle('active', c.dataset.g === g));
+    };
+    await UI.modal({
+      title: '選擇地板', wide: true, cls: 'pick-modal',
+      body: `<div class="pick-chips">${groups.map(x => `<button class="chip small" data-g="${esc(x)}">${esc(x)} ${D.FLOORS.filter(f => f.group === x).length}</button>`).join('')}</div><input class="pick-search" placeholder="搜尋花色名稱／型號" name="q"><div class="pick-grid"></div><p class="muted" style="font-size:11.5px;margin:6px 0 0">品牌地板為原廠實拍花色，依板材尺寸重複貼圖；售價請向經銷商詢價。</p>`,
+      buttons: [{ label: '關閉', value: null }],
+      onOpen: back => {
+        render(back);
+        back.querySelector('.pick-chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (c) { g = c.dataset.g; render(back); } });
+        back.querySelector('.pick-search').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); render(back); });
+        back.querySelector('.pick-grid').addEventListener('click', e => {
+          const t = e.target.closest('.pick-tile'); if (!t) return;
+          const f = D.FLOORS.find(x => x.id === t.dataset.id);
+          App.mutate('地板 ' + f.name, x => { x.room.floor = f.id; }, 'room'); App.toast('地板已改為「' + f.name + '」');
+          back.querySelector('.mfoot button').click();
+        });
+      }
+    });
+  };
+  // target：null＝整體牆面；數字＝第 i 面牆
+  UI.pickPaint = async function (target) {
+    const r = App.state.room; if (!r) return;
+    const curHex = target == null ? r.wallColor : (r.walls[target].color || r.wallColor);
+    let g = '白／米白', q = '';
+    if (curHex) { const p = D.PAINTS.find(x => x.hex.toLowerCase() === String(curHex).toLowerCase()); if (p) g = p.group; }
+    const render = back => {
+      const list = D.PAINTS.filter(p => (q ? (p.code + ' ' + p.name).toLowerCase().includes(q) : p.group === g)).sort((a2, b2) => b2.light - a2.light);
+      back.querySelector('.pick-grid').innerHTML = list.map(p => `<button class="paint-tile${curHex && p.hex.toLowerCase() === String(curHex).toLowerCase() ? ' on' : ''}" data-code="${esc(p.code)}" title="${esc(p.code + ' ' + p.name)}"><span class="pick-img" style="background:${p.hex}"></span><span class="pick-lbl">${esc(p.name)}</span><span class="pick-sub">${esc(p.code)}</span></button>`).join('') || '<p class="muted">沒有符合的顏色</p>';
+      back.querySelectorAll('.pick-chips .chip').forEach(c => c.classList.toggle('active', c.dataset.g === g && !q));
+    };
+    await UI.modal({
+      title: target == null ? '選擇牆面塗料（整體）' : `選擇塗料：${M().wallName(target)}`, wide: true, cls: 'pick-modal',
+      body: `<div class="pick-chips">${D.PAINT_GROUPS.map(x => `<button class="chip small" data-g="${x}"><span class="chip-dot" style="background:${(D.PAINTS.find(p => p.group === x) || { hex: '#ccc' }).hex}"></span>${x} ${D.PAINTS.filter(p => p.group === x).length}</button>`).join('')}</div><div class="inline" style="gap:8px"><input class="pick-search" placeholder="搜尋色號／名稱，如 10YY 或 奶茶" name="q"><label class="inline" style="white-space:nowrap">自訂 <input type="color" class="pick-custom" value="${curHex || '#f1efea'}" style="width:44px;height:30px;padding:0"></label></div><div class="pick-grid paint"></div><p class="muted" style="font-size:11.5px;margin:6px 0 0">得利 Dulux 台灣 2079 電腦調色色卡（官網色彩總覽 384 色）；螢幕顯色僅供參考，施工前請以實體色卡確認。</p>`,
+      buttons: [{ label: '關閉', value: null }],
+      onOpen: back => {
+        render(back);
+        const apply = (hex, paint) => {
+          const label = paint ? paint.code + ' ' + paint.name : hex;
+          if (target == null) App.mutate('牆面塗料 ' + label, x => { x.room.wallColor = hex; if (paint) x.room.wallPaint = { brand: paint.brand, code: paint.code, name: paint.name }; else delete x.room.wallPaint; }, 'room');
+          else App.mutate(M().wallName(target) + ' 塗料 ' + label, x => { const w = x.room.walls[target]; w.color = hex; if (paint) w.paint = { brand: paint.brand, code: paint.code, name: paint.name }; else delete w.paint; }, 'room');
+          App.toast((target == null ? '牆面' : M().wallName(target)) + '已改為 ' + label);
+        };
+        back.querySelector('.pick-chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (c) { g = c.dataset.g; q = ''; back.querySelector('.pick-search').value = ''; render(back); } });
+        back.querySelector('.pick-search').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); render(back); });
+        back.querySelector('.pick-custom').addEventListener('change', e => { apply(e.target.value, null); back.querySelector('.mfoot button').click(); });
+        back.querySelector('.pick-grid').addEventListener('click', e => {
+          const t = e.target.closest('.paint-tile'); if (!t) return;
+          const p = D.PAINTS.find(x => x.code === t.dataset.code); if (!p) return;
+          apply(p.hex, p); back.querySelector('.mfoot button').click();
+        });
+      }
     });
   };
   UI.alert = (title, msg) => UI.modal({ title, body: `<p>${esc(msg).replace(/\n/g, '<br>')}</p>`, buttons: [{ label: '確定', primary: true, value: 'ok' }] });

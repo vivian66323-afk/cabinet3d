@@ -1379,7 +1379,8 @@
       const m = new THREE.Matrix4().makeBasis(X, Y, Z);
       m.setPosition(wi.p[0], 0, wi.p[1]);
       geo.applyMatrix4(m);
-      const color = wall.locked ? 0x9c9c9c : (opts.selectedWall === i ? 0xbcd6f7 : 0xf1efea);
+      const paint = wall.color || room.wallColor;
+      const color = wall.locked ? 0x9c9c9c : (opts.selectedWall === i ? 0xbcd6f7 : (paint && !(window.App && App.renderMode === 'white') ? new THREE.Color(paint) : 0xf1efea));
       const wm = new THREE.MeshStandardMaterial({ color, roughness: 0.95, transparent: true, opacity: 1, side: THREE.DoubleSide });
       const mesh = new THREE.Mesh(geo, wm);
       mesh.castShadow = true; mesh.receiveShadow = true;
@@ -1576,9 +1577,23 @@
     floorTex.set(f.id, t);
     return t;
   }
+  // 品牌地板：實拍貼圖（非同步載入，載入前先用平均色）
+  const imgTexCache = new Map();
+  function imgFloorTexture(f) {
+    if (imgTexCache.has(f.id)) return imgTexCache.get(f.id);
+    const t = new THREE.TextureLoader().load(f.img, () => { t.needsUpdate = true; });
+    t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; t.userData.tile = f.tile || 1100;
+    imgTexCache.set(f.id, t); return t;
+  }
   function floorMaterial(room) {
     const f = floorDef(room);
     if (window.App && App.renderMode === 'white') return new THREE.MeshStandardMaterial({ color: 0xf2f2f0, roughness: 0.95 });
+    if (f.type === 'img') {
+      const t = imgFloorTexture(f).clone(); t.needsUpdate = true;
+      const k = 1 / (f.tile || 1100); t.repeat.set(k, k);
+      if (room.floorRot) t.rotation = room.floorRot * Math.PI / 180;
+      return new THREE.MeshStandardMaterial({ map: t, color: 0xffffff, roughness: 0.7 });
+    }
     if (f.type === 'plain') return new THREE.MeshStandardMaterial({ color: f.color, roughness: f.id === 'plain-grey' ? 0.8 : 0.9 });
     const t = makeFloorTexture(f).clone();
     t.needsUpdate = true;

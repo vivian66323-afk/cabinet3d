@@ -1961,9 +1961,21 @@
     { id: 'plain-white', type: 'plain', group: '素面', name: '素面 白色', color: '#f2f2ef', plan: '#ffffff' },
     { id: 'plain-grey', type: 'plain', group: '素面', name: '素面 灰色', color: '#a3a8ad', plan: '#e3e5e8' }
   ];
+  // 品牌木地板（catalog-floors.js）：實拍花色貼圖，plan 色為平面圖用的淡色
+  const lighten = (hex, k) => { const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255; const f = v => Math.round(v + (255 - v) * k); return '#' + [f(r), f(g), f(b)].map(v => v.toString(16).padStart(2, '0')).join(''); };
+  (window.FLOOR_LIB || []).forEach(f => FLOORS.push({ id: f.id, type: 'img', group: f.brand, series: f.series, name: f.name, img: f.img, thumb: f.thumb, plank: f.plank, tile: 1100, color: f.color, plan: lighten(f.color, 0.55), note: f.note, url: f.url }));
+  // 塗料色卡（catalog-paint.js）：code|name|hex；依色相字母分組，低彩度歸白／灰
+  const HUE_NAME = { RR: '紅', YR: '橙紅', YY: '黃', GY: '黃綠', GG: '綠', BG: '藍綠', BB: '藍', RB: '紫' };
+  const PAINTS = (window.PAINT_RAW || []).map(([brand, code, name, hex]) => {
+    const m = /^(\d{2})([A-Z]{2})\s?(\d{2})\/(\d{3})$/.exec(code) || [];
+    const light = +m[3] || 50, chroma = +m[4] || 0;
+    const group = chroma < 60 ? (light >= 62 ? '白／米白' : light >= 25 ? '灰' : '深色') : (HUE_NAME[m[2]] || '其他');
+    return { brand, code, name, hex, group, light, chroma };
+  });
+  const PAINT_GROUPS = ['白／米白', '灰', '深色', '紅', '橙紅', '黃', '黃綠', '綠', '藍綠', '藍', '紫'];
 
   window.DATA = {
-    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, IKEA, MUJI, BEAR, LAMPS, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
+    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, IKEA, MUJI, BEAR, LAMPS, PAINTS, PAINT_GROUPS, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
     HEIGHTS, HEIGHT_LABEL, HEIGHT_USE, DEPTHS, DEPTH_NAME, CORNER_W, KICK, BOARD, BACK,
     FRONT_NAME, FRONT_HEIGHTS, TRI_TYPE_NAME,
     items, byCode,
