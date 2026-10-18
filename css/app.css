@@ -572,3 +572,13 @@ body { overscroll-behavior: none; }
 .pick-lbl { font-size: 11.5px; line-height: 1.25; }
 .pick-sub { font-size: 10px; color: var(--muted); }
 .pick-name { font-size: 12px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- 我的最愛 ---------- */
+.cat-item { position: relative; }
+.fav-btn { position: absolute; top: 2px; right: 2px; width: 22px; height: 22px; border: 0; background: rgba(255,255,255,.85); border-radius: 50%; color: #b9b9b6; font-size: 14px; line-height: 22px; cursor: pointer; padding: 0; opacity: 0; transition: opacity .15s; }
+.cat-item:hover .fav-btn, .cat-item.is-fav .fav-btn { opacity: 1; }
+.cat-item.is-fav .fav-btn, .fav-btn:hover { color: #e0a800; }
+.chip.fav-chip.active, .chip.fav-chip:hover { color: #e0a800; }
+.icon-btn.fav-hero { width: 24px; height: 24px; font-size: 16px; color: #b9b9b6; vertical-align: middle; }
+.icon-btn.fav-hero.on { color: #e0a800; }
+@media (pointer: coarse) { .fav-btn { opacity: 1; width: 28px; height: 28px; line-height: 28px; font-size: 17px; } }

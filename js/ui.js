@@ -275,11 +275,16 @@
       D.HANDLES.map(h => `<option value="${h.id}"${h.id === cur ? ' selected' : ''}>${h.name}${h.pair ? '（雙門片適用）' : ''}</option>`).join('');
   }
   /* ================= 型錄 ================= */
-  const FILTERS = [['all', '全部'], ['A', 'D580mm'], ['B', 'D408mm'], ['C', 'D360mm'], ['T', '電視空櫃 D500'], ['K', '電器櫃'], ['corner', '轉角櫃'], ['hang', '吊櫃'], ['double', '雙開隔間'], ['tri', '三角邊櫃'], ['filler', '補板'], ['desk', '桌面'], ['appl', '廚房／浴室設備'], ['furn', '家具'], ['lamp', '燈具']];
+  // 我的最愛（型錄收藏，存在瀏覽器）
+  let favs = new Set(); try { favs = new Set(JSON.parse(localStorage.getItem('cab3d.favs') || '[]')); } catch (e) { favs = new Set(); }
+  const saveFavs = () => { try { localStorage.setItem('cab3d.favs', JSON.stringify([...favs])); } catch (e) { /* 忽略 */ } };
+  UI.isFav = code => favs.has(code);
+  UI.toggleFav = code => { if (favs.has(code)) favs.delete(code); else favs.add(code); saveFavs(); };
+  const FILTERS = [['all', '全部'], ['fav', '★ 我的最愛'], ['A', 'D580mm'], ['B', 'D408mm'], ['C', 'D360mm'], ['T', '電視空櫃 D500'], ['K', '電器櫃'], ['corner', '轉角櫃'], ['hang', '吊櫃'], ['double', '雙開隔間'], ['tri', '三角邊櫃'], ['filler', '補板'], ['desk', '桌面'], ['appl', '廚房／浴室設備'], ['furn', '家具'], ['lamp', '燈具']];
   const APPL_GROUPS = ['appl', 'dayday', 'daydayb', 'daydayf', 'toto', 'hcg'];
   const applBrands = () => { const seen = [...D.APPL_BRANDS]; D.items.forEach(it => { if (APPL_GROUPS.includes(it.group) && !seen.includes(it.brand)) seen.push(it.brand); }); return seen; };
   const FURN_GROUPS = ['furn', 'ikea', 'muji'];
-  const inGroup = (it, f) => f === 'furn' ? FURN_GROUPS.includes(it.group) : f === 'appl' ? APPL_GROUPS.includes(it.group) : it.group === f;
+  const inGroup = (it, f) => f === 'fav' ? favs.has(it.code) : f === 'furn' ? FURN_GROUPS.includes(it.group) : f === 'appl' ? APPL_GROUPS.includes(it.group) : it.group === f;
   const furnBrands = () => [...new Set(D.items.filter(it => FURN_GROUPS.includes(it.group)).map(it => it.brand))];
   const lampBrands = () => [...new Set(D.items.filter(it => it.group === 'lamp').map(it => it.brand))];
   let curFilter = 'all', curBrand = 'all', curType = 'all', curColor = 'all';
@@ -287,7 +292,7 @@
   const COLOR_NAME = { steel: '不鏽鋼／絲光', gold: '金色', gray: '暮灰色', black: '黑色', white: '白色陶瓷' };
   let pickedCode = null;
   function buildFilters() {
-    $('#catFilters').innerHTML = FILTERS.map(([k, n]) => `<button class="chip${k === curFilter ? ' active' : ''}" data-f="${k}">${n}</button>`).join('') +
+    $('#catFilters').innerHTML = FILTERS.map(([k, n]) => `<button class="chip${k === curFilter ? ' active' : ''}${k === 'fav' ? ' fav-chip' : ''}" data-f="${k}" title="${k === 'fav' ? '按型錄卡片右上角的 ☆ 加入收藏' : ''}">${k === 'fav' ? n + (favs.size ? ' ' + favs.size : '') : n}</button>`).join('') +
       (curFilter === 'appl' ? `<div class="brand-chips">${[['all', '全部品牌'], ...applBrands().map(b => [b, b.split(' ')[0]])].map(([k, n]) => `<button class="chip small${k === curBrand ? ' active' : ''}" data-b="${k}">${n}</button>`).join('')}</div>` : '') +
       (curFilter === 'furn' ? `<div class="brand-chips">${[['all', '全部品牌'], ...furnBrands().map(b => [b, b])].map(([k, n]) => `<button class="chip small${k === curBrand ? ' active' : ''}" data-b="${k}">${n}</button>`).join('')}</div>` : '') +
       (curFilter === 'lamp' ? `<div class="brand-chips">${[['all', '全部品牌'], ...lampBrands().map(b => [b, b])].map(([k, n]) => `<button class="chip small${k === curBrand ? ' active' : ''}" data-b="${k}">${n}</button>`).join('')}</div>` : '') +
@@ -408,10 +413,12 @@
       const title = /^(dayday|toto|hcg|furn|ikea|muji|lamp)/.test(g) ? D.APPL_TYPES[hc] : g === 'appl' ? '廚房設備｜' + D.APPL_TYPES[hc] : g === 'desk' ? '桌面' : g === 'filler' ? '補板' : groupTitle(g, hc);
       const sub = /^(dayday|toto|hcg|furn|ikea|muji)/.test(g) ? '' : g === 'appl' ? `${[...new Set(its.map(x => x.brand.split(' ')[0]))].join('、')} · ${its.length} 款` : g === 'desk' ? `${its.length} 款 · 依材質每才計價，尺寸可自訂` : g === 'filler' ? `${its.length} 款 · 補滿櫃體與牆之間的空隙，寬高深可自訂` : `${its.length} 款 · ${esc(g === 'K' ? '廚房電器櫃（電器抽可拉出）' : D.HEIGHT_USE[hc] || '')}`;
       return `<details class="cat-group"${openAll || i < 2 ? ' open' : ''}><summary><b>${esc(title)}</b><span>${sub}</span></summary>
-        <div class="cat-grid">${its.map(it => `<div class="cat-item${it.code === pickedCode ? ' picked' : ''}" draggable="true" data-code="${it.code}" title="${esc(tipOf(it))}">
+        <div class="cat-grid">${its.map(it => `<div class="cat-item${it.code === pickedCode ? ' picked' : ''}${favs.has(it.code) ? ' is-fav' : ''}" draggable="true" data-code="${it.code}" title="${esc(tipOf(it))}"><button class="fav-btn" data-fav="${it.code}" title="${favs.has(it.code) ? '移出我的最愛' : '加入我的最愛'}">${favs.has(it.code) ? '★' : '☆'}</button>
           ${UI.thumb(it)}<span class="code">${wbrName(catName(it))}</span>${it.kind === 'desk' ? `<span class="dims">${catDims(it)}</span>` : `<span class="oldcode">${catSubline(it)}</span>`}<span class="price">${catPrice(it)}</span></div>`).join('')}</div></details>`;
     }).join('') : '<p class="muted" style="padding:12px">找不到符合的型號</p>';
     $('#catList').onclick = e => {
+      const fb = e.target.closest('[data-fav]');
+      if (fb) { e.stopPropagation(); UI.toggleFav(fb.dataset.fav); const on = favs.has(fb.dataset.fav); fb.textContent = on ? '★' : '☆'; fb.title = on ? '移出我的最愛' : '加入我的最愛'; fb.closest('.cat-item').classList.toggle('is-fav', on); const chip = document.querySelector('.chip[data-f="fav"]'); if (chip) chip.textContent = '★ 我的最愛' + (favs.size ? ' ' + favs.size : ''); App.toast(on ? '已加入我的最愛' : '已移出我的最愛'); if (curFilter === 'fav' && !on) renderCatalog(); return; }
       const it = e.target.closest('.cat-item'); if (!it) return;
       pickedCode = it.dataset.code;
       document.querySelectorAll('.cat-item.picked').forEach(x => x.classList.remove('picked'));
@@ -758,13 +765,14 @@
   }
 
   // 鎖定按鈕（型號旁）：鎖定後不能移動、旋轉、改尺寸、換型號或刪除；色號與備註仍可改
+  const favBtn = code => `<button class="icon-btn fav-hero${UI.isFav(code) ? ' on' : ''}" data-a="fav" data-code="${esc(code)}" title="${UI.isFav(code) ? '移出我的最愛' : '加入我的最愛'}">${UI.isFav(code) ? '★' : '☆'}</button>`;
   const lockBtn = cab => `<button class="btn small lock-btn${cab.locked ? ' on' : ''}" data-a="lock-toggle" title="${cab.locked ? '已鎖定：無法移動、旋轉、改尺寸或刪除，點一下解鎖' : '鎖定位置與尺寸，避免誤動'}">${icon(cab.locked ? 'lock' : 'unlock')}${cab.locked ? '已鎖定' : '鎖定'}</button>`;
   function deskPanel(cab) {
     const it = D.byCode[cab.code];
     const pr = P().cabinetPrice(cab, App.state.pricing);
     const g = M().deskGeom(cab), dz = M().footDepth(cab);
     const ov = window.Viewer.overlaps && window.Viewer.overlaps.get(cab.id);
-    let html = `<div class="hero">${UI.thumb(it)}<div><h3>${esc(D.DESK_SHAPES[cab.shape])}桌面 ${lockBtn(cab)}</h3>
+    let html = `<div class="hero">${UI.thumb(it)}<div><h3>${esc(D.DESK_SHAPES[cab.shape])}桌面 ${lockBtn(cab)} ${favBtn(cab.code)}</h3>
       <p>${cab.w} × ${dz} mm${cab.shape !== 'R' ? `，深 ${cab.d}` : ''}，厚 ${cab.thick}mm</p>
       <p>${P().deskCai(cab)} 才（面積 ${(g.area / D.CAI).toFixed(2)} 才，無條件進位）　外露邊 ${(g.exposed / D.CHI).toFixed(1)} 尺</p></div></div>
       ${ov ? `<p class="note danger">⚠ 此桌面與 ${esc([...ov.why].join('、'))} 重疊，請調整位置（紅色線框）。</p>` : ''}
@@ -799,7 +807,7 @@
     const ov = window.Viewer.overlaps && window.Viewer.overlaps.get(cab.id);
     const same = D.items.filter(a => a.kind === 'appl' && a.at === cab.at);
     const mountTxt = { ceiling: cab.at === 'lamp_pendant' ? '吊燈：天花懸吊，「離地高度」＝燈罩底部離地（預設天花高－700）' : '吸頂安裝（離地高度＝燈具底部）', counter: '嵌入檯面（放在櫃體上方自動對齊、桌面自動開孔）', floor: '落地嵌入（置於櫃體之間）', builtin: '嵌入櫃內', wall: '壁掛／掛桿掛式（可調離地高度）', top: cab.y === 0 ? '落地放置' : '放置於檯面或地面（不開孔，可調離地高度）' }[cab.mount];
-    let html = `<div class="hero">${UI.thumb(it)}<div><h3>${esc(cab.code)} ${lockBtn(cab)}</h3>
+    let html = `<div class="hero">${UI.thumb(it)}<div><h3>${esc(cab.code)} ${lockBtn(cab)} ${favBtn(cab.code)}</h3>
       <p>${esc(D.APPL_TYPES[cab.at])}｜${esc(it.brand)}</p><p>${esc(it.name)}</p></div></div>
       ${ov ? `<p class="note danger">⚠ 與 ${esc([...ov.why].join('、'))} 重疊，請調整位置（紅色線框）。</p>` : ''}
       <div class="sec"><div class="sec-title">報價 <small>設備單價</small></div>
@@ -877,7 +885,7 @@
   function fillerPanel(cab) {
     const pr = P().cabinetPrice(cab, App.state.pricing);
     let html = `<div class="hero"><div class="filler-ico" style="width:56px;height:56px;border:1px solid var(--line);border-radius:6px;background:var(--panel-2)"></div><div>
-      <h3>${esc(M().cabName(cab))} ${lockBtn(cab)}</h3><p>補板 W${cab.w} × H${cab.h} mm，前緣到牆 ${cab.d} mm</p><p class="muted">前方補板＋後方 50mm 固定條</p></div></div>
+      <h3>${esc(M().cabName(cab))} ${lockBtn(cab)} ${favBtn(cab.code)}</h3><p>補板 W${cab.w} × H${cab.h} mm，前緣到牆 ${cab.d} mm</p><p class="muted">前方補板＋後方 50mm 固定條</p></div></div>
       <div class="sec"><div class="sec-title">報價 <small>色板才數計價</small></div><div class="price-big">${P().fmt(pr.total)}</div>
       <table class="qt">${pr.lines.map(l => `<tr><td>${esc(l.name)}</td><td class="num">${P().fmt(l.amount)}</td></tr>`).join('')}</table></div>
       <div class="sec"><div class="sec-title">位置 <small>mm</small></div><div class="kv">
@@ -907,7 +915,7 @@
     const isTri = cab.kind === 'tri';
     const frontsEditable = !isTri;
     let html = `<div class="hero">${UI.thumb({ ...it, fronts: cab.fronts, hanging: cab.hanging })}<div>
-      <h3>${esc(M().cabName(cab))} ${lockBtn(cab)}</h3>
+      <h3>${esc(M().cabName(cab))} ${lockBtn(cab)} ${favBtn(cab.code)}</h3>
       <p>W${cab.w} × D${cab.d} × H${cab.h} mm${cab.hanging ? '　吊櫃' : ''}</p>
       <p>${esc(isTri ? '三角邊櫃 · ' + D.TRI_TYPE_NAME[cab.triType] : P().describe(cab))}</p></div></div>
       ${window.Viewer.overlaps && window.Viewer.overlaps.get(cab.id) ? `<p class="note danger">⚠ 此櫃體與 ${esc([...window.Viewer.overlaps.get(cab.id).why].join('、'))} 重疊，請調整位置（紅色線框）。</p>` : ''}
@@ -1239,6 +1247,7 @@
       App.updateCab(cab.id, '還原型錄尺寸', c => { c.w = it0.w; c.h = it0.h; c.d = it0.d; c.fronts = c.base.fronts.map(r => ({ ...r })); c.shelves = M().genShelves(c); });
       return;
     }
+    if (a === 'fav') { UI.toggleFav(b.dataset.code); App.toast(UI.isFav(b.dataset.code) ? '已加入我的最愛' : '已移出我的最愛'); UI.showProps(); buildFilters(); renderCatalog(); return; }
     if (a === 'add-slide') {   // 外掛推拉門：寬高同櫃體，貼在櫃體前方
       const sd = M().createCabinet('SLIDE-DOOR', App.state.defaults); if (!sd) return;
       const r = (cab.rot || 0) * Math.PI / 180, fx = Math.sin(r), fz = Math.cos(r), fd = M().footDepth(cab);
