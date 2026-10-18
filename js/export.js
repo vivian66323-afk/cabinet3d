@@ -581,7 +581,7 @@ ${tris}</mesh></geometry>`);
     const st0 = App.state;
     const pages = [];
     const floors = App.floorList(), multi = floors.length > 1;
-    const extraOf = r => { if (!r || !r.ceiling || !r.ceiling.on || !window.Ceiling) return 0; const C = window.Ceiling; return 1 + (C.counts(r, 'light').length ? 1 : 0) + (C.counts(r, 'hvac').length ? 1 : 0) + (C.counts(r, 'power').length ? 1 : 0); };
+    const extraOf = r => { if (!r || !r.ceiling || !r.ceiling.on || !window.Ceiling) return 0; const C = window.Ceiling; return 1 + (C.counts(r, 'light').length ? 1 : 0) + (C.counts(r, 'hvac').length ? 1 : 0) + (C.counts(r, 'power').length ? 1 : 0) + ((r.circuits || []).length ? 1 : 0); };
     const total = floors.reduce((a, f) => a + 1 + (f.room ? f.room.points.length + extraOf(f.room) : 0), 0);
     let pno = 0;
     for (const fl of floors) {
@@ -609,6 +609,14 @@ ${tris}</mesh></geometry>`);
         box = Dr().frame(pg, pre + title, info({ page: ++pno, pages: total }));
         const s3 = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { ceiling: true, layer });
         Dr().frame(pg, pre + title, info({ page: pno, pages: total, scale: s3 ? '1:' + s3 : '—' }));
+        pages.push(pg);
+      }
+      if ((st.room.circuits || []).length) {   // 配電盤迴路表
+        pg = Dr().Page('landscape', 200);
+        box = Dr().frame(pg, pre + '配電盤迴路表', info({ page: ++pno, pages: total }));
+        pg.text(box.x0 + 6, box.y0 + 8, pre + '配電盤迴路表', { size: 11, bold: true });
+        window.Ceiling.drawCircuitTable(pg, st.room, box.x0 + 6, box.y0 + 13, Math.min(220, box.x1 - box.x0 - 12));
+        Dr().frame(pg, pre + '配電盤迴路表', info({ page: pno, pages: total, scale: '—' }));
         pages.push(pg);
       }
     }

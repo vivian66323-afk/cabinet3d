@@ -17,7 +17,7 @@
   V.tool = 'select';
   V.wallMode = 'auto';
   V.ceilMode = 'auto';
-  V.ceilEdit = false; V.ceilSel = null;   // 天花／設備編輯模式：拖曳掣點   // 'auto'：相機在天花下方才顯示；'hide'：永遠隱藏
+  V.ceilEdit = false; V.ceilSel = null; V.cktAssign = null;   // cktAssign：目前指派的迴路 id   // 天花／設備編輯模式：拖曳掣點   // 'auto'：相機在天花下方才顯示；'hide'：永遠隱藏
   V.lineTarget = 'room';   // 畫線工具的對象：room 空間 / zone 降板區 / raise 灑水頭下 / beam 包樑 / strip 鋁槽燈
 
   V.init = function (el, T, OC) {
@@ -279,7 +279,7 @@
     const room = App.state && App.state.room;
     if (!V.ceilEdit || !room || !window.Ceiling) return;
     cgGroup = new THREE.Group();
-    window.Ceiling.grips(room).forEach(gp => {
+    window.Ceiling.grips(room, { ckt: !!V.cktAssign }).forEach(gp => {
       const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: cgTexture(gp.color, gp.key === V.ceilSel), depthTest: false, sizeAttenuation: false }));
       const sz = (gp.small ? 0.016 : 0.024) * (V.touch ? 1.6 : 1); sp.scale.set(sz, sz, 1); sp.userData.base = sz; sp.position.set(gp.x, gp.y, gp.z); sp.renderOrder = 1001; sp.userData.cgrip = gp; cgGroup.add(sp);
     });
@@ -822,7 +822,14 @@
       return;
     }
     if (t === 'select') {
-      if (V.ceilEdit) { const cg = pickCeilGrip(); if (cg) { startCeilDrag(cg); return; } }
+      if (V.ceilEdit) { const cg = pickCeilGrip(); if (cg) {
+        if (V.cktAssign) {   // 迴路指派：點設備 → 指派到目前迴路（再點一次同迴路則取消）
+          const C2 = window.Ceiling, it = C2.cktItemByKey(App.state.room, cg.key); if (!it) return;
+          const cid = V.cktAssign, ck = C2.cktOf(App.state.room, cid), off = it.obj.ckt === cid;
+          App.mutate(off ? '取消迴路' : '指派迴路 ' + (ck ? ck.code : ''), s2 => { const it2 = C2.cktItemByKey(s2.room, cg.key); if (it2) { if (off) delete it2.obj.ckt; else it2.obj.ckt = cid; } }, 'room');
+          App.status(`${it.label} ${off ? '已取消迴路' : '→ ' + (ck ? ck.code + ' ' + ck.name : '')}`); return;
+        }
+        startCeilDrag(cg); return; } }
       const gs = pickGrip();
       if (gs) { startGrip(gs); return; }
       const h = pick();

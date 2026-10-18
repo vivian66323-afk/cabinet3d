@@ -74,7 +74,7 @@
   C.ensure = function (room) {
     if (!room.ceiling) room.ceiling = { on: true, h: Math.max(2200, room.height - 200), color: '#f4f3ef', paint: null, molding: 'none', zones: [], strips: [], fixtures: [] };
     const c = room.ceiling; c.zones = c.zones || []; c.strips = c.strips || []; c.fixtures = c.fixtures || [];
-    room.outlets = room.outlets || []; room.acs = room.acs || [];
+    room.outlets = room.outlets || []; room.acs = room.acs || []; room.circuits = room.circuits || [];
     c.strips.forEach(st => { if (!st.kind) st.kind = 'alu'; });
     return c;
   };
@@ -255,7 +255,12 @@
   };
 
   /* ---------- 拖曳掣點（編輯模式）：回傳 [{key, x, y, z, color, small, apply(room,x,z,st), remove(room)}] ---------- */
-  C.grips = function (room) {
+  C.grips = function (room, opts = {}) {
+    if (opts.ckt) {   // 迴路指派模式：只列可通電設備，顏色＝所屬迴路
+      return C.cktItems(room).map(it => { const ck = C.cktOf(room, it.obj.ckt); const y = /^ol:/.test(it.key) ? (it.obj.h || 10) : /^ac:/.test(it.key) ? C.ensure(room).h : /^zv:/.test(it.key) ? it.obj.h : C.heightAt(room, it.x, it.z);
+        const x = /^ol:/.test(it.key) ? it.x - (it.x - (C.outletPos(room, it.obj) || { x: it.x }).x) * 0.83 : it.x, z = /^ol:/.test(it.key) ? it.z - (it.z - (C.outletPos(room, it.obj) || { z: it.z }).z) * 0.83 : it.z;
+        return { key: it.key, x, y, z, color: ck ? ck.color : '#9e9e9e', label: it.label + (ck ? '（' + ck.code + '）' : '（未指派）'), apply: () => {}, remove: () => {} }; });
+    }
     const c = C.ensure(room), out = [], H = c.h;
     c.fixtures.forEach(f => out.push({ key: 'fx:' + f.id, x: f.x, y: C.heightAt(room, f.x, f.z), z: f.z, color: '#ff8f00', label: (C.FIX[f.type] || {}).name,
       apply: (rm, x, z) => { const o = rm.ceiling.fixtures.find(q => q.id === f.id); if (o) { o.x = x; o.z = z; } }, remove: rm => { rm.ceiling.fixtures = rm.ceiling.fixtures.filter(q => q.id !== f.id); } }));
@@ -445,7 +450,7 @@
   };
 
   /* ---------- 報價 ---------- */
-  C.UNITS = { CEIL: ['平釘天花', 3800, '坪'], CEILZONE: ['造型降板／高低差', 4800, '坪'], BEAM: ['包樑', 450, '尺'], CBOX: ['窗簾盒', 350, '尺'], COVE: ['間接光燈槽（木作）', 450, '尺'], LEDSTRIP: ['LED 燈條（含驅動）', 260, '尺'], MOLD: ['線板', 130, '尺'], ALUCH: ['鋁槽燈（含 LED）', 680, '尺'] };
+  C.UNITS = { CEIL: ['平釘天花', 3800, '坪'], CEILZONE: ['造型降板／高低差', 4800, '坪'], BEAM: ['包樑', 450, '尺'], CBOX: ['窗簾盒', 350, '尺'], COVE: ['間接光燈槽（木作）', 450, '尺'], LEDSTRIP: ['LED 燈條（含驅動）', 260, '尺'], MOLD: ['線板', 130, '尺'], ALUCH: ['鋁槽燈（含 LED）', 680, '尺'], CKT: ['新增迴路', 3500, '迴'] };
   C.quoteLines = function (room, pricing) {
     if (!room || !room.ceiling || !room.ceiling.on) return [];
     const c = room.ceiling, parts = (pricing && pricing.parts) || {}, u = k => parts[k] != null ? +parts[k] : C.UNITS[k][1];
@@ -463,6 +468,7 @@
     if (c.molding && c.molding !== 'none') add(C.UNITS.MOLD[0], +(perim(room.points) / CHI).toFixed(1), u('MOLD'), '尺', `${(perim(room.points) / CHI).toFixed(1)} 尺`);
     const alu = c.strips.filter(st => (st.kind || 'alu') === 'alu').reduce((s, st) => s + Math.hypot(st.x2 - st.x1, st.z2 - st.z1), 0);
     add(C.UNITS.ALUCH[0], +(alu / CHI).toFixed(1), u('ALUCH'), '尺', `${(alu / CHI).toFixed(1)} 尺`);
+    if ((room.circuits || []).length) add('新增迴路（無熔絲＋配線）', room.circuits.length, u('CKT'), '迴', `${room.circuits.length} 迴`);
     ['light', 'hvac', 'power'].forEach(grp => C.counts(room, grp).forEach(r => {
       if (r.t === 'cove' || r.t === 'alu' || r.t === 'acsys') return;
       const key = 'CF_' + r.t, def = r.t === 'spot' ? 900 : r.t === 'acpipe' ? 350 : (C.FIX[r.t] || C.LINES[r.t] || C.OUTLETS[r.t] || {}).price || 0, up = parts[key] != null ? +parts[key] : def;
@@ -500,6 +506,112 @@
     const nx = Math.max(1, Math.round((x1 - x0) / gap) + 1), nz = Math.max(1, Math.round((z1 - z0) / gap) + 1), out = [];
     for (let i = 0; i < nx; i++) for (let j = 0; j < nz; j++) { const x = nx === 1 ? (x0 + x1) / 2 : x0 + (x1 - x0) * i / (nx - 1), z = nz === 1 ? (z0 + z1) / 2 : z0 + (z1 - z0) * j / (nz - 1); if (M().pointInPoly(x, z, pts)) out.push(C.addFixture(room, type, [x, z])); }
     return out;
+  };
+  /* ================= 迴路 ================= */
+  // room.circuits[{id, code, name, type:L|C|E|A, v, brk, wire, color}]；設備以 .ckt 指向迴路 id
+  C.CKT_TYPES = { L: { name: '照明', v: 110, brk: '15A', wire: '1.6mm' }, C: { name: '插座', v: 110, brk: '20A', wire: '2.0mm' }, E: { name: '專用迴路', v: 220, brk: '20A', wire: '3.5mm²' }, A: { name: '冷氣', v: 220, brk: '20A', wire: '3.5mm²' } };
+  C.CKT_COLORS = ['#e53935', '#1e88e5', '#43a047', '#fb8c00', '#8e24aa', '#00897b', '#f4511e', '#3949ab', '#c0ca33', '#6d4c41', '#d81b60', '#00acc1', '#7cb342', '#5e35b1', '#fdd835', '#546e7a'];
+  const NOPOWER = new Set(['tv', 'net', 'tel', 'speaker', 'weakbox', 'panel', 'sw', 'sw2', 'sw3', 'sw3way', 'dimmer']);
+  // 可指派迴路的設備：{ key(對應掣點), obj, x, z, layer, label }
+  C.cktItems = function (room) {
+    const c = C.ensure(room); room.circuits = room.circuits || []; const out = [];
+    c.fixtures.forEach(f => { const d = C.FIX[f.type]; if (!d || f.type === 'sprinkler' || f.type === 'drain' || f.type === 'access' || f.type === 'ac' || f.type === 'smoke') return; out.push({ key: 'fx:' + f.id, obj: f, x: f.x, z: f.z, layer: d.group === 'light' ? 'lights' : d.group === 'elec' ? 'power' : 'hvac', label: d.name }); });
+    c.strips.forEach(st => { const kd = st.kind || 'alu'; if (kd !== 'alu' && kd !== 'track') return; out.push({ key: 'st:' + st.id, obj: st, x: (st.x1 + st.x2) / 2, z: (st.z1 + st.z2) / 2, layer: 'lights', label: C.LINES[kd].name }); });
+    c.zones.forEach(z => { if (!z.cove || !z.pts) return; out.push({ key: 'zv:' + z.id, obj: z, x: z.pts[0][0], z: z.pts[0][1], layer: 'lights', label: '間接光燈槽' }); });
+    room.outlets.forEach(o => { if (NOPOWER.has(o.type)) return; const p = C.outletPos(room, o); if (!p) return; out.push({ key: 'ol:' + o.id, obj: o, x: p.x + p.nx * 180, z: p.z + p.nz * 180, layer: 'power', label: C.OUTLETS[o.type].name }); });
+    room.acs.forEach(ac => out.push({ key: 'ac:' + ac.id, obj: ac, x: ac.ix, z: ac.iz, layer: 'hvac', label: (ac.name || '冷氣') + ' 室內機' }));
+    return out;
+  };
+  // 掣點 key（fx:id / st:id:1 / zv:zid:0 / ol:id / ac:id:in）→ 設備
+  C.cktItemByKey = function (room, key) { const p = key.split(':'), k2 = p[0] + ':' + p[1]; return C.cktItems(room).find(it => it.key === k2); };
+  C.cktOf = (room, id) => (room.circuits || []).find(q => q.id === id);
+  C.addCircuit = function (room, type) {
+    room.circuits = room.circuits || []; const T = C.CKT_TYPES[type] || C.CKT_TYPES.C;
+    const n = room.circuits.filter(q => q.type === type).length + 1;
+    const used = new Set(room.circuits.map(q => q.color)), color = C.CKT_COLORS.find(cl => !used.has(cl)) || C.CKT_COLORS[room.circuits.length % C.CKT_COLORS.length];
+    const ck = { id: uid('ck'), code: type + n, name: T.name + n, type, v: T.v, brk: T.brk, wire: T.wire, color }; room.circuits.push(ck); return ck;
+  };
+  C.removeCircuit = function (room, id) { room.circuits = (room.circuits || []).filter(q => q.id !== id); C.cktItems(room).forEach(it => { if (it.obj.ckt === id) delete it.obj.ckt; }); };
+  // 自動分迴路：照明約 10 個一迴、插座依牆每 6 個一迴、220V／專用／暖風機各自一迴、冷氣依能力各一迴
+  C.autoCircuits = function (room) {
+    room.circuits = []; const items = C.cktItems(room); items.forEach(it => { delete it.obj.ckt; });
+    const chunk = (list, size, type) => { for (let i = 0; i < list.length; i += size) { const ck = C.addCircuit(room, type); list.slice(i, i + size).forEach(it => { it.obj.ckt = ck.id; }); } };
+    const sortXZ = l => l.sort((a, b) => Math.round(a.z / 1500) - Math.round(b.z / 1500) || a.x - b.x);
+    const lights = sortXZ(items.filter(it => it.layer === 'lights' || (it.layer === 'power' && /^fx:/.test(it.key) && /^(exhaust|emerg)$/.test(it.obj.type))));
+    // 同一個降板區的燈盡量同一迴
+    const zones = C.ensure(room).zones.filter(z => z.pts && z.pts.length >= 3 && z.kind !== 'box');
+    const zoneOf = it => { const i = zones.findIndex(z => M().pointInPoly(it.x, it.z, z.pts)); return i; };
+    const byZone = new Map(); lights.forEach(it => { const k2 = zoneOf(it); if (!byZone.has(k2)) byZone.set(k2, []); byZone.get(k2).push(it); });
+    byZone.forEach(l => chunk(l, 10, 'L'));
+    const ded = items.filter(it => /^ol:/.test(it.key) && /^(socket220|dedicated)$/.test(it.obj.type) || (/^fx:/.test(it.key) && it.obj.type === 'heater'));
+    ded.forEach(it => { const ck = C.addCircuit(room, 'E'); if (it.obj.type === 'dedicated') { ck.v = 110; ck.brk = '20A'; ck.wire = '2.0mm'; } it.obj.ckt = ck.id; ck.name = it.label; });
+    const outs = items.filter(it => /^ol:/.test(it.key) && !it.obj.ckt);
+    const byWall = new Map(); outs.forEach(it => { const k2 = it.obj.wall != null ? it.obj.wall : 'f'; if (!byWall.has(k2)) byWall.set(k2, []); byWall.get(k2).push(it); });
+    const outsSorted = [].concat(...[...byWall.values()].map(l => l.sort((a, b) => (a.obj.offset || 0) - (b.obj.offset || 0))));
+    chunk(outsSorted, 6, 'C');
+    const misc = items.filter(it => it.layer === 'power' && /^fx:/.test(it.key) && !it.obj.ckt); if (misc.length) chunk(misc, 10, 'C');
+    items.filter(it => /^ac:/.test(it.key)).forEach(it => { const ck = C.addCircuit(room, 'A'), sp = C.acSpec(it.obj.kw || 3.6); ck.brk = sp.brk; ck.wire = sp.wire; ck.name = (it.obj.name || '冷氣') + ' ' + it.obj.kw + 'kW'; it.obj.ckt = ck.id; });
+    return room.circuits.length;
+  };
+  // 配線順序：最近鄰（從最靠近電箱的設備開始）
+  function cktOrder(room, list) {
+    if (list.length < 2) return list.slice();
+    const pnl = room.outlets.find(o => o.type === 'panel'), pp = pnl && C.outletPos(room, pnl);
+    const start = pp ? [pp.x, pp.z] : [list[0].x, list[0].z];
+    const rest = list.slice(), out = [];
+    let cur = start;
+    while (rest.length) { let bi = 0, bd = Infinity; rest.forEach((it, i) => { const d = Math.hypot(it.x - cur[0], it.z - cur[1]); if (d < bd) { bd = d; bi = i; } }); const it = rest.splice(bi, 1)[0]; out.push(it); cur = [it.x, it.z]; }
+    return out;
+  }
+  C.drawCircuits = function (pg, room, P, layer, phase) {
+    const cs = room.circuits || []; if (!cs.length) return;
+    const items = C.cktItems(room).filter(it => it.layer === layer && it.obj.ckt);
+    const g = pg.g, k = pg.k;
+    cs.forEach(ck => {
+      const l = cktOrder(room, items.filter(it => it.obj.ckt === ck.id)); if (!l.length) return;
+      if (phase === 'lines') {
+        g.save(); g.strokeStyle = ck.color; g.globalAlpha = 0.85; g.lineWidth = 0.45 * k; g.setLineDash([1.6 * k, 0.8 * k]);
+        g.beginPath(); l.forEach((it, i) => { const q = P(it.x, it.z); if (i) { const pq = P(l[i - 1].x, l[i - 1].z), mx = (pq[0] + q[0]) / 2, my = (pq[1] + q[1]) / 2, ox = -(q[1] - pq[1]) * 0.12, oy = (q[0] - pq[0]) * 0.12; g.quadraticCurveTo((mx + ox) * k, (my + oy) * k, q[0] * k, q[1] * k); } else g.moveTo(q[0] * k, q[1] * k); });
+        g.stroke(); g.restore();
+      } else {
+        l.forEach((it, i) => { const q = P(it.x, it.z); g.save(); g.strokeStyle = ck.color; g.lineWidth = 0.5 * k; g.beginPath(); g.arc(q[0] * k, q[1] * k, 2.4 * k, 0, Math.PI * 2); g.stroke(); g.restore(); });
+        const f = P(l[0].x, l[0].z);
+        g.save(); g.fillStyle = ck.color; g.fillRect((f[0] + 2.2) * k, (f[1] - 5.6) * k, (ck.code.length * 1.9 + 1.6) * k, 3.2 * k); g.restore();
+        pg.text(f[0] + 3, f[1] - 3.2, ck.code, { size: 5.2, bold: true, color: '#ffffff' });
+      }
+    });
+  };
+  C.circuitLoads = function (room, ck) { return C.cktItems(room).filter(it => it.obj.ckt === ck.id); };
+  C.drawCircuitLegend = function (pg, room, x, y, layer) {
+    const cs = (room.circuits || []).filter(ck => C.cktItems(room).some(it => it.layer === layer && it.obj.ckt === ck.id)); if (!cs.length) return y;
+    y += 3; pg.rect(x - 2, y - 4, 52, 8 + cs.length * 5, { fill: '#ffffff', stroke: false });
+    pg.text(x, y, '迴路', { size: 7, bold: true }); y += 2.5;
+    cs.forEach(ck => { const n = C.cktItems(room).filter(it => it.layer === layer && it.obj.ckt === ck.id).length; pg.line(x + 1, y + 2, x + 9, y + 2, 0.6, ck.color, [1.6, 0.8]); pg.text(x + 11, y + 3, `${ck.code} ${ck.name}`, { size: 5.8, maxW: 26, color: ck.color, bold: true }); pg.text(x + 44, y + 3, `${n} 個`, { size: 5.8, align: 'right' }); y += 5; });
+    return y;
+  };
+  // 配電盤迴路表
+  C.drawCircuitTable = function (pg, room, x, y, w) {
+    const cs = room.circuits || []; const cols = [['迴路', 16], ['名稱', 44], ['電壓', 16], ['無熔絲', 18], ['線徑', 20], ['負載', 0]];
+    const fixed = cols.reduce((s2, c2) => s2 + c2[1], 0); cols[cols.length - 1][1] = w - fixed;
+    const row = (vals, opt = {}) => { let cx = x; if (opt.fill) pg.rect(x, y, w, 7, { fill: opt.fill, stroke: false }); vals.forEach((v, i) => { pg.text(cx + 1.5, y + 4.8, String(v), { size: opt.size || 7, bold: !!opt.bold, color: opt.colors ? opt.colors[i] : '#1f2328', maxW: cols[i][1] - 2 }); cx += cols[i][1]; }); pg.line(x, y + 7, x + w, y + 7, 0.1, '#c9ced4'); y += 7; };
+    row(cols.map(c2 => c2[0]), { bold: true, fill: '#eef0f3' });
+    cs.forEach(ck => { const loads = C.circuitLoads(room, ck); const sum = {}; loads.forEach(it => { sum[it.label] = (sum[it.label] || 0) + 1; }); const txt = Object.entries(sum).map(([n2, q]) => `${n2}×${q}`).join('、') || '—';
+      pg.rect(x + 0.8, y + 1.5, 3, 4, { fill: ck.color, stroke: false }); row([`   ${ck.code}`, ck.name, ck.v + 'V', ck.brk, ck.wire, txt], { colors: [ck.color, '#1f2328', '#1f2328', '#1f2328', '#1f2328', '#475467'] }); });
+    pg.text(x, y + 6, `共 ${cs.length} 迴路　顏色＝各配置圖的迴路標示；線徑、無熔絲為一般住宅常用規格估計，實際依電機技師設計為準`, { size: 6, color: '#69727d' });
+    return y;
+  };
+  // 包裝平面與圖例：加上迴路配線與標示
+  const _drawPlan = C.drawPlan, _drawLegend = C.drawLegend;
+  C.drawPlan = function (pg, room, P, poly, s, layer = 'ceiling') {
+    const hasC = (room.circuits || []).length && (layer === 'lights' || layer === 'power' || layer === 'hvac');
+    if (hasC) C.drawCircuits(pg, room, P, layer, 'lines');
+    _drawPlan(pg, room, P, poly, s, layer);
+    if (hasC) C.drawCircuits(pg, room, P, layer, 'marks');
+  };
+  C.drawLegend = function (pg, room, x, y, layer = 'ceiling') {
+    let y2 = _drawLegend(pg, room, x, y, layer);
+    if ((layer === 'lights' || layer === 'power' || layer === 'hvac') && (room.circuits || []).length) y2 = C.drawCircuitLegend(pg, room, x, y2, layer);
+    return y2;
   };
   window.Ceiling = C;
 })();

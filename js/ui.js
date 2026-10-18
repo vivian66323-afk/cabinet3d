@@ -740,6 +740,12 @@
       <label>高度</label><div class="inline">${num('ol-h', UI.olH != null ? UI.olH : C.OUTLETS[UI.olType].h, 'step="10" min="0" max="2400"')}<span class="unit">mm（H=${Math.round((UI.olH != null ? UI.olH : C.OUTLETS[UI.olType].h) / 10)}）</span></div></div>
     <div class="btn-row"><button class="btn small" data-a="ol-place">${icon('plus')}點牆邊放置</button><button class="btn small" data-a="ol-undo">退一個</button></div>
     ${(() => { const rows = C.counts(r, 'power'); return rows.length ? `<div class="list" style="margin-top:6px">${rows.map(x => `<div class="lrow ceil-row"><span>${esc(x.name)}</span><span class="muted">${x.qty} ${x.unit}</span><span></span><button class="icon-btn del" data-a="ol-clear" data-t="${x.t}" title="全部刪除">${icon('x')}</button></div>`).join('')}</div>` : ''; })()}
+    <div class="sec-title" style="margin-top:10px">迴路 <small>出圖時依迴路顏色區分</small></div>
+    <div class="btn-row"><button class="btn small" data-a="ckt-auto">${icon('snap')}自動分迴路</button><select data-key="ckt-newtype" data-f="ckt-newtype" style="width:auto">${Object.entries(C.CKT_TYPES).map(([k2, d]) => `<option value="${k2}"${UI.cktNewType === k2 ? ' selected' : ''}>${k2} ${d.name}</option>`).join('')}</select><button class="btn small" data-a="ckt-add">${icon('plus')}新增迴路</button></div>
+    ${(r.circuits || []).length ? `<div class="btn-row"><select data-key="ckt-cur" data-f="ckt-cur" style="width:auto">${r.circuits.map(ck => `<option value="${ck.id}"${v.cktAssign === ck.id ? ' selected' : ''}>${esc(ck.code + ' ' + ck.name)}</option>`).join('')}</select><button class="btn small${v.cktAssign ? ' primary' : ''}" data-a="ckt-assign">${icon('select')}${v.cktAssign ? '結束指派' : '指派模式（點設備）'}</button></div>
+    ${v.cktAssign ? '<p class="muted" style="font-size:11.5px;margin:4px 0 0">點畫面上的設備圓點即指派到選定迴路（灰色＝未指派，再點一次同迴路可取消）。上視圖最好操作。</p>' : ''}
+    <div class="list" style="margin-top:6px">${r.circuits.map((ck, i) => { const n = C.circuitLoads(r, ck).length; return `<div class="lrow ckt-row"><input type="color" data-key="ckc${i}" data-f="ckc${i}" value="${ck.color}" title="迴路顏色"><input data-key="cko${i}" data-f="cko${i}" value="${esc(ck.code)}" title="迴路編號"><input data-key="ckn${i}" data-f="ckn${i}" value="${esc(ck.name)}" title="名稱"><button class="icon-btn del" data-a="ckt-del" data-i="${i}" title="刪除迴路">${icon('x')}</button>
+      <span class="ckt-sub"><select data-key="ckv${i}" data-f="ckv${i}">${[110, 220].map(v2 => `<option value="${v2}"${+ck.v === v2 ? ' selected' : ''}>${v2}V</option>`).join('')}</select><select data-key="ckb${i}" data-f="ckb${i}">${['15A', '20A', '30A', '40A', '50A'].map(v2 => `<option${ck.brk === v2 ? ' selected' : ''}>${v2}</option>`).join('')}</select><select data-key="ckw${i}" data-f="ckw${i}">${['1.6mm', '2.0mm', '3.5mm²', '5.5mm²', '8.0mm²'].map(v2 => `<option${ck.wire === v2 ? ' selected' : ''}>${v2}</option>`).join('')}</select><span class="muted">${n} 個設備</span></span></div>`; }).join('')}</div>` : '<p class="muted" style="font-size:11.5px;margin:6px 0 0">按「自動分迴路」依設備自動分配：照明約 10 個一迴（同降板區優先同迴）、插座依牆每 6 個一迴、220V／專用插座與暖風機各一迴、冷氣依能力各一迴。也可自行新增迴路後用指派模式調整。</p>'}
     <div class="btn-row" style="margin-top:10px"><button class="btn small" data-a="ceil-zone">${icon('line')}畫降板區</button><button class="btn small" data-a="ceil-raise">${icon('line')}畫灑水頭下高區</button><button class="btn small" data-a="ceil-beam">${icon('line')}畫包樑</button><button class="btn small" data-a="ceil-box">${icon('window')}自動窗簾盒</button><button class="btn small" data-a="ceil-strip">${icon('open')}畫鋁槽燈</button></div>
     ${zones || strips ? `<div class="list" style="margin-top:8px">${zones}${strips}</div>` : '<p class="muted" style="font-size:11.5px;margin:6px 0 0">目前整間平釘。用上方按鈕在平面上畫降板區（可勾間接光）、包樑、窗簾盒或鋁槽燈；高度單位 mm，圖面標註以 cm 顯示。</p>'}
     <p class="muted" style="font-size:11.5px;margin:6px 0 0">報價：平釘與造型依坪數、包樑／窗簾盒／燈槽／線板／鋁槽燈依尺數計價，單價可在「板材售價」修改。</p></div>`;
@@ -784,7 +790,7 @@
       let n = 0; App.mutate('矩陣 ' + C.FIX[t].name, x => { n = C.addGrid(x.room, t, rect, Math.max(300, +res.data.g), Math.max(0, +res.data.m)).length; }, 'room'); App.toast(`已放置 ${n} 個${C.FIX[t].name}`);
     }
   };
-  UI.fxType = 'dl_small'; UI.olType = 'socket'; UI.olH = null;
+  UI.fxType = 'dl_small'; UI.cktNewType = 'L'; UI.olType = 'socket'; UI.olH = null;
   UI.placeOutlet = function (type, p) {
     const C = window.Ceiling; if (!App.state.room || !C) return;
     const h = UI.olH != null ? UI.olH : C.OUTLETS[type].h;
@@ -1144,6 +1150,9 @@
     // 專案層級
     if (t.dataset.f === 'room-height') { const v = Math.max(1800, Math.min(6000, +val || 2800)); App.mutate('牆高', x => { x.room.height = v; x.room.walls.forEach(w => w.openings.forEach(o => { o.height = Math.min(o.height, v - o.sill - 10); })); }, 'room'); return; }
     if (t.dataset.f === 'fx-type') { UI.fxType = String(val); return; }
+    if (t.dataset.f === 'ckt-newtype') { UI.cktNewType = String(val); return; }
+    if (t.dataset.f === 'ckt-cur') { if (V().cktAssign) { V().cktAssign = String(val); V().updateCeilGrips(); } return; }
+    { const mk = /^ck([convbw])(\d+)$/.exec(t.dataset.f || ''); if (mk) { const i0 = +mk[2], raw = t.value; App.mutate('迴路設定', x => { const ck = x.room.circuits[i0]; if (!ck) return; ({ c: () => { ck.color = raw; }, o: () => { ck.code = String(raw).trim() || ck.code; }, n: () => { ck.name = String(raw).trim() || ck.name; }, v: () => { ck.v = +raw; }, b: () => { ck.brk = raw; }, w: () => { ck.wire = raw; } })[mk[1]](); }, 'room'); if (V().cktAssign) V().updateCeilGrips(); return; } }
     if (t.dataset.f === 'ol-type') { UI.olType = String(val); UI.olH = null; UI.refresh(); return; }
     if (t.dataset.f === 'ol-h') { UI.olH = Math.max(0, Math.min(2400, Math.round(+val || 0))); UI.refresh(); return; }
     { const m1 = /^ac([nkop])(\d+)$/.exec(t.dataset.f || ''); if (m1) { const i0 = +m1[2]; App.mutate('冷氣設定', x => { const ac = x.room.acs[i0]; if (!ac) return; if (m1[1] === 'n') ac.name = String(t.value).trim() || '冷氣'; else if (m1[1] === 'k') ac.kw = +val; else if (m1[1] === 'p') ac.ph = Math.max(300, Math.min(6000, Math.round(+val || 0))); else ac.oy = Math.max(0, Math.round(+val || 0)); }, 'room'); return; } }
@@ -1281,7 +1290,11 @@
     if (a === 'ceil-strip') { UI.startCeilDraw('strip'); return; }
     if (a === 'ceil-track' || a === 'ceil-supply' || a === 'ceil-ret') { UI.startCeilDraw(a.slice(5)); return; }
     if (a === 'fx-place') { UI.startCeilDraw('fx:' + UI.fxType); return; }
-    if (a === 'ceil-edit') { V().setCeilEdit(!V().ceilEdit); UI.refresh(); return; }
+    if (a === 'ceil-edit') { V().cktAssign = null; V().setCeilEdit(!V().ceilEdit); UI.refresh(); return; }
+    if (a === 'ckt-auto') { const has = (App.state.room.circuits || []).length; if (has && !(await UI.confirm('自動分迴路', '會清除目前的迴路設定重新分配，確定？（可 Ctrl+Z 復原）'))) return; let n = 0; App.mutate('自動分迴路', x => { n = window.Ceiling.autoCircuits(x.room); }, 'room'); App.toast(n ? `已分成 ${n} 個迴路` : '目前沒有需要配電的設備'); return; }
+    if (a === 'ckt-add') { let ck = null; App.mutate('新增迴路', x => { ck = window.Ceiling.addCircuit(x.room, UI.cktNewType || 'C'); }, 'room'); if (ck) { V().cktAssign = ck.id; V().ceilEdit = true; V().ceilSel = null; V().updateCeilGrips(); UI.refresh(); App.toast(`已新增 ${ck.code}，點畫面上的設備指派`); } return; }
+    if (a === 'ckt-assign') { const v2 = V(); if (v2.cktAssign) { v2.cktAssign = null; v2.setCeilEdit(false); } else { const sel = document.querySelector('[data-f="ckt-cur"]'); v2.cktAssign = sel ? sel.value : null; v2.ceilEdit = true; v2.ceilSel = null; v2.updateCeilGrips(); App.status('迴路指派：點設備圓點指派到選定迴路'); } UI.refresh(); return; }
+    if (a === 'ckt-del') { const i0 = +b.dataset.i; const ck = App.state.room.circuits[i0]; if (V().cktAssign === ck.id) V().cktAssign = null; App.mutate('刪除迴路', x => { window.Ceiling.removeCircuit(x.room, ck.id); }, 'room'); return; }
     if (a === 'ceil-delsel') { V().deleteCeilSel(); return; }
     if (a === 'ac-add') { UI.startCeilDraw('acsys'); return; }
     if (a === 'ac-del') { const i0 = +b.dataset.i; App.mutate('刪除冷氣', x => { x.room.acs.splice(i0, 1); }, 'room'); return; }

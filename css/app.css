@@ -589,3 +589,8 @@ body { overscroll-behavior: none; }
 .ac-row { grid-template-columns: 74px 78px 1fr 1fr 22px; }
 .ac-row .ac-spec { grid-column: 1 / -1; font-size: 11px; color: #1f5fd6; }
 .ac-row .numf { width: 58px; }
+
+.ckt-row { grid-template-columns: 30px 46px 1fr 22px; }
+.ckt-row input[type=color] { width: 28px; height: 24px; padding: 0; border: 1px solid var(--line-2); border-radius: 4px; }
+.ckt-row .ckt-sub { grid-column: 1 / -1; display: flex; gap: 4px; align-items: center; }
+.ckt-row .ckt-sub select { width: auto; }
