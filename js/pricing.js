@@ -152,12 +152,12 @@
   function applPrice(cab, pricing) {
     const it = D.byCode[cab.code] || {};
     if (it.at === 'slidedoor') {   // 外掛推拉門：每片依寬高以門板／鋁框玻璃門價表計算 + 上下軌五金
-      const n = Math.max(2, Math.min(4, +cab.panels || 2)), pw = (cab.w + 40 * (n - 1)) / n, hcm = cab.h / 10;
-      const per = cab.sstyle === 'alu' ? glassDoor(pw, hcm) : stdDoor(pw, hcm) * styleFactor(pricing, cab.doorStyle || 'STD');
-      const track = Math.round(cab.w / 1000 * 1800) + n * 600;   // 軌道每米約 1,800 + 每片滑輪組 600（估）
+      const n = Math.max(2, Math.min(4, +cab.panels || 2)), swing = cab.smode === 'swing', pw = swing ? cab.w / n : (cab.w + 40 * (n - 1)) / n, hcm = cab.h / 10;
+      const per = cab.sstyle === 'alu' ? glassDoor(pw, hcm) : stdDoor(pw, hcm) * styleFactor(pricing, cab.doorStyle || 'STD') * (cab.sstyle === 'wood' ? 1.6 : 1);   // 木門片以門板價 1.6 倍估
+      const track = swing ? n * 2 * 180 + n * 300 : Math.round(cab.w / 1000 * 1800) + n * 600;   // 推拉：軌道每米約 1,800 + 每片滑輪組 600；平開：每片 2 支鉸鍊 + 把手（估）
       const ov = pricing.codeOverrides[cab.code];
       const total = ov != null ? +ov : Math.round(per * n + track);
-      return { base: total, catalogPrice: Math.round(per * n + track), total: Math.round(total), lines: [{ name: `${cab.sstyle === 'alu' ? '鋁框玻璃' : '板材'}推拉門 ×${n}（${Math.round(pw)}×${cab.h}）`, amount: Math.round(per * n) }, { name: '上下鋁軌＋滑輪五金（估）', amount: track }] };
+      return { base: total, catalogPrice: Math.round(per * n + track), total: Math.round(total), lines: [{ name: `${cab.sstyle === 'alu' ? '鋁框玻璃' : cab.sstyle === 'wood' ? '木門片' : '板材'}${swing ? '平開門' : '推拉門'} ×${n}（${Math.round(pw)}×${cab.h}）`, amount: Math.round(per * n) }, { name: swing ? '鉸鍊＋把手五金（估）' : '上下鋁軌＋滑輪五金（估）', amount: track }] };
     }
     const base = pricing.codeOverrides[cab.code] != null ? +pricing.codeOverrides[cab.code] : (it.price || 0);
     return { base, catalogPrice: it.price || 0, total: Math.round(base), lines: [{ name: `${it.brand || ''} ${cab.code} ${it.name || ''}`, amount: Math.round(base) }] };

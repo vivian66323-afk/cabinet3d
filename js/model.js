@@ -979,13 +979,22 @@
       const n = Math.max(2, Math.min(4, +cab.panels || 2)), ov = 40, pw = (w + ov * (n - 1)) / n, pt = 28, top = y0 + h;
       const trackMat = cab.aluColor ? aluMat(cab.aluColor) : sMat('alu');
       addBox(g, w, 30, d, 0, top - 15, 0, trackMat); addBox(g, w, 12, d, 0, y0 + 6, 0, trackMat);
-      const alu = cab.sstyle === 'alu';
-      const boardMat = getMat(cab.doorColor || '110', gOpt(cab, 'doorColor'));
+      const alu = cab.sstyle === 'alu', swing = cab.smode === 'swing';
+      const boardMat = cab.sstyle === 'wood' ? doorMat(cab.dcolor || 'wood') : getMat(cab.doorColor || '110', gOpt(cab, 'doorColor'));
       for (let i = 0; i < n; i++) {
-        const lane = i % 2 ? -1 : 1, z = lane * (d / 2 - pt / 2 - 6);
-        let cx = -w / 2 + pw / 2 + (pw - ov) * i;
-        if (open && i === 0) cx += (pw - ov) * 0.92;   // 開門預覽：第一片推到第二片後方
+        const lane = swing ? 1 : (i % 2 ? -1 : 1), z = swing ? d / 2 - pt / 2 : lane * (d / 2 - pt / 2 - 6);
+        let cx = swing ? -w / 2 + (w / n) * (i + 0.5) : -w / 2 + pw / 2 + (pw - ov) * i;
+        if (!swing && open && i === 0) cx += (pw - ov) * 0.92;   // 推拉開門預覽：第一片推到第二片後方
         const ph = h - 42, cy = y0 + 21 + ph / 2;
+        if (swing) {   // 平開：每片以外側為鉸鏈，開門預覽旋開 95°
+          const lw = w / n - 4, hingeL = i < n / 2, sgn = hingeL ? -1 : 1, pivot = new THREE.Group();
+          pivot.position.set(cx + sgn * lw / 2, 0, z);
+          const grp = new THREE.Group(); pivot.add(grp);
+          if (alu) { const fw = cab.aluSlim ? 20 : 32, am = aluMat(cab.aluColor || 'silver'); addBox(grp, lw, fw, pt, -sgn * lw / 2, cy + ph / 2 - fw / 2, 0, am); addBox(grp, lw, fw, pt, -sgn * lw / 2, cy - ph / 2 + fw / 2, 0, am); addBox(grp, fw, ph - 2 * fw, pt, -sgn * lw / 2 - lw / 2 + fw / 2, cy, 0, am); addBox(grp, fw, ph - 2 * fw, pt, -sgn * lw / 2 + lw / 2 - fw / 2, cy, 0, am); addBox(grp, lw - 2 * fw, ph - 2 * fw, 6, -sgn * lw / 2, cy, 0, glassMat(cab.glassType || 'glass'), false).castShadow = false; }
+          else { addBox(grp, lw, ph, pt, -sgn * lw / 2, cy, 0, boardMat); addBox(grp, 14, 160, 10, -sgn * lw / 2 - sgn * (lw / 2 - 50), cy, pt / 2 + 5, sMat('handle'), false); }
+          if (open) pivot.rotation.y = -sgn * (95 * Math.PI / 180);
+          g.add(pivot); continue;
+        }
         if (alu) {
           const fw = cab.aluSlim ? 20 : 32, am = aluMat(cab.aluColor || 'silver');
           addBox(g, pw, fw, pt, cx, cy + ph / 2 - fw / 2, z, am); addBox(g, pw, fw, pt, cx, cy - ph / 2 + fw / 2, z, am);

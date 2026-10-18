@@ -823,11 +823,13 @@
     if (it.finish === 'panel') html += swatchPicker(cab, 'cab', [['doorColor', '嵌門板']]);
     if (cab.at === 'slidedoor') {
       const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${String(cur) === String(k) ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
-      html += `<div class="sec"><div class="sec-title">推拉門</div><div class="kv">
+      html += `<div class="sec"><div class="sec-title">外掛門組</div><div class="kv">
+        <label>開門方式</label>${sel('smode', [['slide', '推拉（上下軌）'], ['swing', '平開（鉸鍊）']], cab.smode || 'slide')}
         <label>片數</label>${sel('panels', [[2, '2 片'], [3, '3 片'], [4, '4 片']], cab.panels || 2)}
-        <label>款式</label>${sel('sstyle', [['board', '板材門片（色板）'], ['alu', '鋁框玻璃門']], cab.sstyle || 'board')}
+        <label>款式</label>${sel('sstyle', [['board', '板材門片（系統色板）'], ['wood', '木門片（原木／胡桃／烤漆）'], ['alu', '鋁框玻璃門']], cab.sstyle || 'board')}
+        ${cab.sstyle === 'wood' ? `<label>木門色</label>${sel('dcolor', M().DOOR_COLORS.slice(0, 5), cab.dcolor || 'wood')}` : ''}
         ${cab.sstyle === 'alu' ? `<label>鋁框色</label>${sel('aluColor', M().ALU_COLORS, cab.aluColor || 'silver')}<label>玻璃</label>${sel('glassType', M().GLASS_TYPES, cab.glassType || 'glass')}<label>框寬</label><select data-key="aluSlim" data-f="aluSlim"><option value=""${!cab.aluSlim ? ' selected' : ''}>標準 32mm</option><option value="1"${cab.aluSlim ? ' selected' : ''}>細框 20mm</option></select>` : `<label>軌道色</label>${sel('aluColor', M().ALU_COLORS, cab.aluColor || 'silver')}`}
-      </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">放在開放櫃／衣櫃前方，寬＝整組寬度、高＝門高、深＝軌道深（雙軌約 80）。每片依寬高以門板價表計價，軌道五金另計，可在上方售價欄覆寫總價。「開門預覽」會把第一片推開。</p></div>`;
+      </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">放在開放櫃／衣櫃前方，寬＝整組寬度、高＝門高、深＝軌道深（推拉雙軌約 80，平開可改 25）。每片依寬高以門板價表計價（木門片 1.6 倍估），軌道或鉸鍊五金另計，可在上方售價欄覆寫總價。「開門預覽」推拉會推開第一片、平開會全部旋開。</p></div>`;
       if ((cab.sstyle || 'board') === 'board') html += swatchPicker(cab, 'cab', [['doorColor', '門片色板']]);
     }
     if (/^lamp_/.test(cab.at)) {
@@ -920,7 +922,7 @@
       <label>旋轉</label><div class="inline"><select data-key="rot" data-f="rot">${[0, 90, 180, 270].map(a => `<option value="${a}"${a === Math.round(cab.rot) ? ' selected' : ''}>${a}°</option>`).join('')}${[0, 90, 180, 270].includes(Math.round(cab.rot)) ? '' : `<option selected>${Math.round(cab.rot)}°</option>`}</select><button class="btn small" data-a="rot90">${icon('rotate')}90°</button></div>
       <label></label><div class="inline"><button class="btn small" data-a="snapwall">${icon('magnet')}靠最近牆面</button></div>
       <label>門片</label><div class="inline"><button class="btn small" data-a="add-leaf-l" title="在櫃體左側加一片獨立門片（更衣室／房間入口）">${icon('door')}左側加門片</button><button class="btn small" data-a="add-leaf-r" title="在櫃體右側加一片獨立門片">${icon('door')}右側加門片</button></div>
-      <label>推拉門</label><div class="inline"><button class="btn small" data-a="add-slide" title="在此櫃體（或整排開放櫃）前方外掛一組推拉門，寬高同櫃體">${icon('door')}外掛推拉門</button></div>
+      <label>推拉門</label><div class="inline"><button class="btn small" data-a="add-slide" title="在此櫃體（或整排開放櫃）前方外掛一組門（推拉或平開、板材／木門／鋁框玻璃），寬高同櫃體">${icon('door')}外掛門組</button></div>
       <label>固定牆板</label><div class="inline"><button class="btn small" data-a="add-part-l" title="在櫃體左側加一塊固定牆板（到天花）">${icon('rect')}左側加牆板</button><button class="btn small" data-a="add-part-r" title="在櫃體右側加一塊固定牆板">${icon('rect')}右側加牆板</button></div>
       ${isTri ? `<label>方向</label><label class="inline"><input type="checkbox" data-f="mirror" data-key="mirror"${cab.mirror ? ' checked' : ''} style="width:auto"> 左右鏡射</label>` : ''}
     </div></div>`;
@@ -1243,7 +1245,7 @@
       sd.w = cab.w; sd.h = cab.y + cab.h; sd.y = 0; sd.rot = cab.rot || 0; sd.doorColor = cab.doorColor || sd.doorColor;
       sd.x = Math.round(cab.x + fx * (fd / 2 + sd.d / 2)); sd.z = Math.round(cab.z + fz * (fd / 2 + sd.d / 2));
       App.addCabinet(sd); App.select({ type: 'cab', id: sd.id });
-      App.toast('已在櫃體前方加入推拉門組；若要罩住整排櫃體，請把寬度改成整排總寬');
+      App.toast('已在櫃體前方加入外掛門組；可改推拉／平開、板材／木門／鋁框玻璃，罩整排請把寬度改成總寬');
       return;
     }
     if (a === 'add-part-l' || a === 'add-part-r') {   // 在櫃體／門片側邊放固定牆板，前緣對齊、高到天花
