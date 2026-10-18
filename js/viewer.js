@@ -810,6 +810,7 @@
   function rotVec(rotDeg) { const r = rotDeg * deg; return { fx: Math.sin(r), fz: Math.cos(r), rx: Math.cos(r), rz: -Math.sin(r) }; }
   // 自動靠牆設定：吸附距離（櫃背離牆 mm）；Alt 暫時停用
   V.autoWall = localStorage.getItem('cab3d.autowall') !== 'off';
+  V.lampsOn = localStorage.getItem('cab3d.lamps') !== 'off';   // 燈具點光源總開關
   V.wallSnapDist = 50;   // 櫃背離牆 5cm 內自動靠牆
   V.altDown = false;
   window.addEventListener('keydown', e => { if (e.key === 'Alt') { V.altDown = true; e.preventDefault(); } });

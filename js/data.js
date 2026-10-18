@@ -57,7 +57,7 @@
     bath: '置物架', towel: '毛巾架／掛桿', paper: '衛生紙／面紙架', mirror: '鏡子', mshelf: '鏡子平台架', toothcup: '牙刷杯架', soap: '香皂架', brush: '馬桶刷架', hairdryer: '吹風機架', grab: '安全扶手', hook: '掛衣勾', bathacc: '衛浴配件',
     faucet: '廚房檯面龍頭', wallfaucet: '壁式龍頭', basin: '臉盆龍頭', shower: '沐浴龍頭組', showercol: '淋浴柱', slidebar: '滑桿', bidet: '沖洗器',
     toilet: '馬桶', seat: '便座', washbasin: '臉盆', urinal: '小便斗', bathtub: '浴缸', flushvalve: '沖水閥', dryerfan: '浴室換氣暖房乾燥機', handdryer: '烘手機', vanity: '浴櫃', mirrorcab: '鏡櫃', showerdoor: '淋浴拉門',
-    doorleaf: '門片', partition: '固定牆板', curtain: '窗簾', bed: '床組', nightstand: '床頭櫃', sofa: '沙發', coffeetable: '茶几', sidetable: '邊几', diningtable: '餐桌', chair: '餐椅', barstool: '吧台椅', armchair: '單椅', studydesk: '書桌', tvstand: '電視櫃', wardrobe: '衣櫃',
+    doorleaf: '門片', partition: '固定牆板', curtain: '窗簾', lamp_pendant: '吊燈', lamp_table: '桌燈', lamp_floor: '立燈', lamp_wall: '壁燈', lamp_ceiling: '吸頂燈', lamp_portable: '無線燈', bed: '床組', nightstand: '床頭櫃', sofa: '沙發', coffeetable: '茶几', sidetable: '邊几', diningtable: '餐桌', chair: '餐椅', barstool: '吧台椅', armchair: '單椅', studydesk: '書桌', tvstand: '電視櫃', wardrobe: '衣櫃',
     sofabed: '沙發床', footstool: '椅凳／腳凳', daybed: '坐臥兩用床', dresser: '化妝台', drawers: '抽屜櫃', bartable: '吧台桌', bench: '長凳', stool: '板凳', officechair: '辦公椅／工作椅', bookcase: '書櫃', shelf: '層架組', shoecab: '鞋櫃／玄關家具',
     kidsbed: '兒童床', bunkbed: '上下舖／高腳床', cot: '嬰兒床', changingtable: '尿布更換桌', highchair: '嬰幼兒餐椅', kidsdesk: '兒童書桌', kidstable: '兒童桌', kidschair: '兒童椅', kidsstorage: '兒童收納' };
   const APPLIANCES = [
@@ -1797,6 +1797,14 @@
     spec: `${w}×${d}×${h}　${note}　顏色、片數、拉開／拉起可改　參考價，尺寸可改`, hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'furn', hanging: false, img: ''
   }));
   FURN.forEach(a => items.push(a));
+  // 北歐設計燈具（catalog-lamps.js）：[品牌, 型號, 名稱, 類別, 外型, 直徑, 寬, 深, 高, 售價, 圖片, 網址, 設計師, 顏色]
+  const LAMP_AGENT = { 'Louis Poulsen': '居雅堂 JYT Design', 'Muuto': '居雅堂 JYT Design', '&Tradition': '瑪黑家居 MARAIS', 'Audo Copenhagen': '瑪黑家居 MARAIS', 'Ferm Living': '瑪黑家居 MARAIS', 'Design House Stockholm': '瑪黑家居 MARAIS' };
+  const LAMPS = (window.LAMP_RAW || []).map(([brand, code, name, at, shape, dia, w, d, h, price, img, url, designer, colors]) => ({
+    at, code, name, shape, dia, w, d, h, price, mount: at === 'lamp_pendant' || at === 'lamp_ceiling' ? 'ceiling' : at === 'lamp_wall' ? 'wall' : 'top', y: 0, finish: 'white', est: false,
+    brand, series: '燈具', url, designer, colors, hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'lamp', hanging: false, img,
+    spec: `${APPL_TYPES[at]}　${dia === w ? 'Ø' + dia : 'W' + w + '×D' + d}×H${h} mm${designer ? '　設計 ' + designer : ''}${colors && colors.length ? '　顏色：' + colors.join('／') : ''}　台灣代理 ${LAMP_AGENT[brand] || ''} 公開售價`
+  }));
+  LAMPS.forEach(a => items.push(a));
 
   /* IKEA 台灣官網家具（js/catalog-ikea.js → window.IKEA_RAW）：尺寸取自官網產品頁，可在屬性面板改寬深高；售價為官網 2026/10 一般售價 */
   const IKEA = (window.IKEA_RAW || []).map(([at, id, name, facts, w, d, h, price, img, href]) => ({
@@ -1955,7 +1963,7 @@
   ];
 
   window.DATA = {
-    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, IKEA, MUJI, BEAR, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
+    FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, IKEA, MUJI, BEAR, LAMPS, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
     HEIGHTS, HEIGHT_LABEL, HEIGHT_USE, DEPTHS, DEPTH_NAME, CORNER_W, KICK, BOARD, BACK,
     FRONT_NAME, FRONT_HEIGHTS, TRI_TYPE_NAME,
     items, byCode,

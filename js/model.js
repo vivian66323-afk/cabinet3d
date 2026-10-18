@@ -81,6 +81,11 @@
     if (it.kind === 'appl') {
       Object.assign(cab, { at: it.at, mount: it.mount, y: it.y != null ? it.y : 850 - it.h, kick: false, bodyColor: '', doorColor: defaults.doorColor || '110', kickColor: '', topColor: '' });
       if (it.cstyle) cab.cstyle = it.cstyle;
+      if (it.group === 'lamp') {   // 燈具：依類別決定預設離地高度（吊燈底部離地約 天花－700），預設開燈 2700K
+        const RH = (window.App && App.state && App.state.room) ? App.state.room.height : 2800;
+        cab.y = it.at === 'lamp_pendant' ? Math.max(1200, RH - 700 - it.h) : it.at === 'lamp_ceiling' ? RH - it.h : it.at === 'lamp_wall' ? 1700 : 0;
+        cab.lit = true; cab.kelvin = 2700; cab.lum = it.at === 'lamp_portable' ? 300 : it.at === 'lamp_wall' ? 500 : 800; cab.lcolor = 'white';
+      }
     }
     if (it.kind === 'desk') {
       Object.assign(cab, { shape: it.shape, l2: it.l2, thick: 18, h: 18, deskMat: 'SYS', edge: 'none', y: 750 - 18, kick: false, topColor: defaults.topColor || '407' });
@@ -840,10 +845,71 @@
       }
     }
   }
+  /* ---------- 燈具（北歐設計燈：依外型分類近似建模 + 點光源） ---------- */
+  const LAMP_COLORS = [['white', '白'], ['black', '黑'], ['brass', '黃銅'], ['gray', '灰'], ['beige', '米'], ['green', '墨綠'], ['blue', '藍'], ['red', '紅'], ['orange', '橘'], ['pink', '粉']];
+  const LAMP_HEX = { white: 0xf2f1ed, black: 0x2a2a2c, brass: 0xc9a24a, gray: 0x9a9a98, beige: 0xd8cbb4, green: 0x4f6a5b, blue: 0x3f5a78, red: 0xb34a3a, orange: 0xd97b2f, pink: 0xe3b4b8 };
+  const KELVIN_HEX = { 2200: 0xffa757, 2700: 0xffb86c, 3000: 0xffc78f, 3500: 0xffd6ad, 4000: 0xffe3c7, 5000: 0xfff3e5, 6500: 0xffffff };
+  function buildLamp(g, cab) {
+    const it = D.byCode[cab.code] || cab, { w, d, h } = cab, y0 = cab.y, at = cab.at, shape = it.shape || 'dome';
+    const dia = Math.min(w, d), lit = cab.lit !== false && !(window.Viewer && window.Viewer.lampsOn === false);
+    const hex = LAMP_HEX[cab.lcolor] || LAMP_HEX.white, kel = KELVIN_HEX[cab.kelvin] || KELVIN_HEX[2700];
+    const shadeMat = new THREE.MeshStandardMaterial({ color: hex, roughness: 0.55, metalness: cab.lcolor === 'brass' ? 0.7 : 0.1, side: THREE.DoubleSide, ...(lit ? { emissive: kel, emissiveIntensity: cab.lcolor === 'black' ? 0.08 : 0.35 } : {}) });
+    const metal = sMat('frameBlack'), chrome = sMat('rod'), glow = new THREE.MeshBasicMaterial({ color: kel });
+    const RH = (window.App && App.state && App.state.room) ? App.state.room.height : 2800;
+    const mesh = (geo, mat, x, y, z, rx = 0) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.rotation.x = rx; m.castShadow = true; g.add(m); return m; };
+    const cone = (rTop, rBot, hh, mat, y, open = true) => mesh(new THREE.CylinderGeometry(rTop, rBot, hh, 40, 1, open), mat, 0, y, 0);
+    const dome = (r, y, mat = shadeMat, s = 1) => { const m = mesh(new THREE.SphereGeometry(r, 36, 18, 0, Math.PI * 2, 0, Math.PI / 2), mat, 0, y, 0); m.scale.y = s; return m; };
+    const sphere = (r, y, mat = shadeMat) => mesh(new THREE.SphereGeometry(r, 32, 20), mat, 0, y, 0);
+    const bulb = (y) => mesh(new THREE.SphereGeometry(Math.max(18, dia * 0.07), 14, 10), glow, 0, y, 0);
+    // 燈罩：以頂部 y=top、直徑 dia、高 sh 畫出；回傳光源中心高度
+    const shade = (top, sh) => {
+      const r = dia / 2;
+      switch (shape) {
+        case 'ph': { const t1 = sh * 0.45, t2 = sh * 0.3, t3 = sh * 0.25; cone(r * 0.12, r, t1, shadeMat, top - t1 / 2); cone(r * 0.1, r * 0.62, t2, shadeMat, top - t1 - t2 / 2 + 10); cone(r * 0.08, r * 0.38, t3, shadeMat, top - t1 - t2 - t3 / 2 + 18); bulb(top - t1 * 0.7); return top - t1 * 0.7; }
+        case 'artichoke': { sphere(r * 0.55, top - sh / 2, metal); for (let ring = 0; ring < 6; ring++) { const n = 12, rr = r * (0.55 + 0.45 * Math.sin((ring + 1) / 7 * Math.PI)), yy = top - sh * (ring + 0.7) / 7; for (let k = 0; k < n; k++) { const a = (k + ring * 0.5) / n * Math.PI * 2, m = mesh(new THREE.BoxGeometry(r * 0.3, sh / 6, 2), shadeMat, Math.sin(a) * rr, yy, Math.cos(a) * rr); m.rotation.y = a; m.rotation.x = -0.6; } } bulb(top - sh / 2); return top - sh / 2; }
+        case 'mushroom': { dome(r, top - r * 0.55, shadeMat, 0.55); bulb(top - r * 0.5); return top - r * 0.5; }
+        case 'dome': { const rr = Math.min(r, sh); dome(r, top - rr, shadeMat, rr / r); if (/vp1|vp3|vp9|flowerpot/i.test(it.name)) { dome(r * 0.52, top - rr - r * 0.42, shadeMat, 0.9); } bulb(top - rr * 0.6); return top - rr * 0.6; }
+        case 'lantern': { const m = sphere(r, top - sh / 2, shadeMat); m.scale.y = sh / dia; return top - sh / 2; }
+        case 'sphere': sphere(Math.min(r, sh / 2), top - Math.min(r, sh / 2)); return top - Math.min(r, sh / 2);
+        case 'bell': cone(r * 0.35, r, sh * 0.7, shadeMat, top - sh * 0.35); cone(r * 0.98, r, sh * 0.3, shadeMat, top - sh * 0.85); bulb(top - sh * 0.5); return top - sh * 0.5;
+        case 'bulb': mesh(new THREE.CylinderGeometry(r * 0.3, r * 0.3, sh * 0.3, 16), metal, 0, top - sh * 0.15, 0); sphere(r, top - sh * 0.3 - r, glow); return top - sh * 0.3 - r;
+        case 'disc': cone(r, r * 0.92, sh, shadeMat, top - sh / 2, false); return top - sh;
+        case 'cylinder': cone(r, r, sh, shadeMat, top - sh / 2); bulb(top - sh / 2); return top - sh / 2;
+        case 'tube': { const m = mesh(new THREE.CylinderGeometry(sh / 2, sh / 2, w, 24), shadeMat, 0, top - sh / 2, 0); m.rotation.z = Math.PI / 2; return top - sh / 2; }
+        case 'aj': { const m = cone(r * 0.2, r, sh, shadeMat, top - sh / 2); m.rotation.x = -0.5; bulb(top - sh * 0.6); return top - sh * 0.6; }
+        default: cone(r * 0.3, r, sh, shadeMat, top - sh / 2); bulb(top - sh * 0.6); return top - sh * 0.6;
+      }
+    };
+    let ly = y0 + h / 2;
+    if (at === 'lamp_pendant') {
+      const sh = Math.min(h, shape === 'sphere' || shape === 'lantern' ? h : Math.max(80, h * 0.9));
+      const cordLen = Math.max(0, RH - (y0 + h));
+      mesh(new THREE.CylinderGeometry(2, 2, cordLen || 1, 8), metal, 0, y0 + h + cordLen / 2, 0);
+      mesh(new THREE.CylinderGeometry(50, 50, 20, 24), metal, 0, RH - 10, 0);   // 天花座
+      ly = shade(y0 + h, sh);
+    } else if (at === 'lamp_ceiling') {
+      ly = shade(y0 + h, h); ly = y0 + h * 0.3;
+    } else if (at === 'lamp_wall') {
+      const sh = Math.min(h, dia * 0.8);
+      mesh(new THREE.BoxGeometry(60, 90, 20), metal, 0, y0 + h / 2, -d / 2 + 10);   // 壁座
+      const arm = mesh(new THREE.CylinderGeometry(6, 6, d - 40, 10), metal, 0, y0 + h - sh * 0.5, -d / 2 + (d - 40) / 2); arm.rotation.x = Math.PI / 2;
+      ly = shade(y0 + h, sh);
+    } else {   // 桌燈／立燈／無線燈：底座 + 燈桿 + 燈罩
+      const sh = Math.min(h * 0.45, Math.max(60, dia * 0.6)), stemH = h - sh;
+      mesh(new THREE.CylinderGeometry(Math.max(40, dia * 0.35), Math.max(40, dia * 0.38), 14, 32), shape === 'mushroom' ? shadeMat : metal, 0, y0 + 7, 0);
+      mesh(new THREE.CylinderGeometry(Math.max(8, dia * 0.03), Math.max(10, dia * 0.04), stemH - 14, 12), shape === 'mushroom' ? shadeMat : chrome, 0, y0 + 14 + (stemH - 14) / 2, 0);
+      ly = shade(y0 + h, sh);
+    }
+    if (lit) {
+      const pl = new THREE.PointLight(kel, (cab.lum || 800) * 1500, 0, 2);
+      pl.position.set(0, ly - 20, 0); pl.castShadow = false; g.add(pl);
+    }
+  }
   function buildAppl(g, cab, open = false) {
     const it = D.byCode[cab.code] || cab, { w, d, h } = cab, y0 = cab.y;
     const steel = applMat('steel'), black = applMat('glassBlack');
     const face = it.finish === 'glass' ? black : it.finish === 'white' ? applMat('white') : steel;
+    if (/^lamp_/.test(cab.at)) { buildLamp(g, cab); return; }
     if (cab.at === 'partition') {   // 固定牆板：一塊實心板，面材可選
       const pc = cab.pcolor || 'wall';
       const mat = pc === 'glass' ? sMat('glass') : pc === 'frost' ? sMat('glassFrost') : pc === 'wood' ? sMat('doorLeaf') : pc === 'walnut' ? sMat('doorWalnut') : pc === 'gray' ? sMat('doorGray') : pc === 'dark' ? sMat('doorBlack') : sMat('wall');
@@ -1530,7 +1596,7 @@
 
   window.Model = {
     init(T) { THREE = T; },
-    uid, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS,
+    uid, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS,
     createRoom, rectRoom, wallInfo, wallName, polyArea, pointInPoly, isModified, cabName,
     rowLip, OPEN_ROW, E_FRONT, buildCabinet, buildRoom, triShape, getMat, clearMatCache, clearSwatchTex, grainOf, imgGrainOf, floorDef, deskGeom, resizeCabinet, handleOf, handleEdge, insetPos, counterOver, deskHoles, isCounterAppl, toLocal, toWorld
   };
