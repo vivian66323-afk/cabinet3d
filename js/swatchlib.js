@@ -38,6 +38,13 @@
   };
 
   Lib.isBuiltin = code => BUILTIN_BY.has(code);
+  // 延遲載入的廠商色板（js/lazy.js 抓到 swatches-*.js 後呼叫）：加入內建清單並套用到平台（材質清單、貼圖、縮圖樣式）
+  Lib.addBuiltin = function (list) {
+    const add = (list || []).filter(s => s && s.code && !BUILTIN_BY.has(s.code)).map(s => ({ brand: '伸保', ...s }));
+    add.forEach(s => { BUILTIN.push(s); BUILTIN_BY.set(s.code, s); });
+    if (add.length) Lib.apply();
+    return add.length;
+  };
   // 合併後的色板清單（不含已刪除）
   Lib.list = function () {
     const out = [];
@@ -128,7 +135,7 @@
     if (window.App && App.state && window.Viewer && window.Viewer.rebuildAll) { window.Model.clearMatCache(); window.Viewer.rebuildAll(); }
     if (window.App && App.ui && App.ui.refresh) App.ui.refresh();
     // 色板單價可能一併改了，型錄卡片的才數售價要重算
-    if (window.UI && window.UI.refreshCatalog) window.UI.refreshCatalog();
+    if (window.UI && window.UI.refreshCatalog && window.App && App.state) window.UI.refreshCatalog();   // 啟動前（F5 還原暫存專案先載色板時）還沒有專案狀態，略過
   };
   // 目前專案的材質清單與色板庫同步：新增/更新；已刪除且未使用者移除
   Lib.syncProject = function (state) {

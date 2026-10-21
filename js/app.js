@@ -80,12 +80,16 @@
     return out;
   }
 
-  App.boot = function (THREE, OrbitControls) {
+  App.boot = async function (THREE, OrbitControls) {
     window.THREE = THREE;
     window.Model.init(THREE);
     // 教學版：不需登入，直接開啟空白專案；重新整理（F5）時還原本分頁的暫存專案
     App.user = null;
-    const saved = loadSaved(null);
+    // 暫存專案若用到延遲載入的型錄／色板（IKEA 家具、各廠商色板、品牌地板…），先抓回來再還原，normalize 才不會把它們當成「型錄已無此型號」略過
+    const raw = readSaved(null);
+    if (raw && window.Lazy) { try { await window.Lazy.load(window.Lazy.needsFor(raw)); } catch (e) { console.warn('暫存專案用到的資料載入失敗：', e); } }
+    let saved = null;
+    try { saved = raw ? normalize(raw) : null; } catch (e) { console.warn('暫存專案無法還原：', e); }
     App.state = saved || App.defaultState();
     window.Viewer.init(document.getElementById('viewport'), THREE, OrbitControls);
     App.ui = window.UI;
@@ -111,11 +115,12 @@
   };
   function snapshot() { App.syncFloor(); return JSON.stringify(App.state); }
   const userKey = u => LS_STATE + '.' + (u && u.name ? u.name : '_guest');
-  function loadSaved(u) {
+  // 讀出本分頁暫存的專案（未 normalize）；沒有或壞掉回傳 null
+  function readSaved(u) {
     try {
       let s = JSON.parse(STORE.getItem(userKey(u)) || 'null');
       if (!s && STORE.getItem(LS_STATE)) { s = JSON.parse(STORE.getItem(LS_STATE)); STORE.removeItem(LS_STATE); }
-      return s && s.app === 'cab3d' ? normalize(s) : null;
+      return s && s.app === 'cab3d' ? s : null;
     } catch (e) { return null; }
   }
   App.dirty = false;
@@ -245,8 +250,21 @@
   // 載入專案檔資料（匯入 .json 與雲端開啟共用）
   App.loadProject = function (data) {
     const sws = data.swatches; delete data.swatches;
-    App.loadState(data);
-    if (sws && sws.length && window.SwatchLib) window.SwatchLib.importProject(sws).then(n => { if (n) App.toast(`已載入專案「${App.state.name}」，並將 ${n} 個專案色板加入色板庫`); });
+    const apply = () => {
+      App.loadState(data);
+      if (sws && sws.length && window.SwatchLib) window.SwatchLib.importProject(sws).then(n => { if (n) App.toast(`已載入專案「${App.state.name}」，並將 ${n} 個專案色板加入色板庫`); });
+    };
+    const need = window.Lazy ? window.Lazy.needsFor(data) : [];
+    if (!need.length) { apply(); return Promise.resolve(); }
+    // 專案用到還沒載入的型錄／色板：先抓檔再載入。呼叫端（匯入、雲端開啟）會緊接著用 App.state.name 顯示訊息，先把名稱換上
+    const prevName = App.state.name;
+    App.state.name = data.name || prevName;
+    App.busy(true, '載入專案用到的型錄資料…');
+    return window.Lazy.load(need).then(apply, e => {
+      App.state.name = prevName;
+      console.error(e);
+      App.ui.alert('載入失敗', `專案用到的${need.map(window.Lazy.label).join('、')}無法載入：${e.message}`);
+    }).finally(() => App.busy(false));
   };
   App.importJSON = function (file) {
     const r = new FileReader();

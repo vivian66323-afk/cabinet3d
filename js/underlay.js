@@ -113,7 +113,11 @@
   U.import = function () { $('#fileUnderlay').click(); };
   U.load = async function (file) {
     if (!file) return;
-    if (/\.dxf$/i.test(file.name)) { if (window.DxfIn) window.DxfIn.open(file); else App.toast('DXF 模組未載入'); return; }
+    if (/\.dxf$/i.test(file.name)) {
+      if (!window.DxfIn && window.Lazy && !(await window.Lazy.ensure('dxfin', '載入 DXF 底圖模組…'))) return;   // DXF 讀取模組延遲載入
+      if (window.DxfIn) window.DxfIn.open(file); else App.toast('DXF 模組未載入');
+      return;
+    }
     App.busy(true, '讀取底圖…');
     let img = null;
     try { img = /\.pdf$/i.test(file.name) || file.type === 'application/pdf' ? await fromPdf(file) : await fromImage(file); }

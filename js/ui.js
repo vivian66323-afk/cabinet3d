@@ -106,7 +106,7 @@
     });
     // Gemini 一鍵生成:輸出目前視角 + 白模 + 線稿,連同提示詞交給 Gemini 網頁
     const bg = $('#btnGemini');
-    if (bg) bg.addEventListener('click', () => { $('#exportMenu').hidden = true; window.AIRender.open(); });
+    if (bg) bg.addEventListener('click', async () => { $('#exportMenu').hidden = true; if (window.Lazy && !(await window.Lazy.ensure('airender', '載入 3D 渲染模組…'))) return; window.AIRender.open(); });
     // 裝了就直接標版本,沒裝才是「安裝…」的引導
     const extVer = document.documentElement.getAttribute('data-aw-gemini-ext');
     const miExt = $('#miExt');
@@ -136,6 +136,14 @@
     $('#tab-props').addEventListener('change', onPropsChange);
     $('#tab-props').addEventListener('click', onPropsClick);
     $('#tab-props').addEventListener('input', onSwatchInput);
+    // 開始挑色板（點部位、搜尋、切廠商、點格子）就把其他廠商色板抓回來
+    $('#tab-props').addEventListener('pointerdown', e => { if (e.target.closest('.sw-targets,.sw-tools,.sw-grid')) UI.loadSwatches(true); });
+    // 色板維護（js/swatchadmin.js）延遲載入：第一次按時先抓模組與各廠商色板；之後由模組自己的事件處理
+    document.addEventListener('click', async e => {
+      const b = e.target.closest('[data-swadmin]'); if (!b || !window.Lazy || UI.swatchAdmin) return;
+      e.preventDefault();
+      if (await window.Lazy.ensure(['swatches', 'swatchadmin'], '載入色板維護…')) UI.swatchAdmin();
+    });
     UI.injectSwatchCSS();
     $('#tab-quote').addEventListener('change', onQuoteChange);
     $('#tab-quote').addEventListener('click', onQuoteClick);
@@ -305,7 +313,7 @@
       const bb = e.target.closest('[data-b]'); if (bb) { curBrand = bb.dataset.b; curType = 'all'; buildFilters(); renderCatalog(); return; }
       const bt = e.target.closest('[data-t]'); if (bt) { curType = bt.dataset.t; buildFilters(); renderCatalog(); return; }
       const bc = e.target.closest('[data-c]'); if (bc) { curColor = bc.dataset.c; buildFilters(); renderCatalog(); return; }
-      const b = e.target.closest('[data-f]'); if (!b) return; curFilter = b.dataset.f; curBrand = 'all'; curType = 'all'; curColor = 'all'; buildFilters(); renderCatalog();
+      const b = e.target.closest('[data-f]'); if (!b) return; curFilter = b.dataset.f; curBrand = 'all'; curType = 'all'; curColor = 'all'; catError = ''; buildFilters(); renderCatalog();
     };
   }
   // 第二、三列可收合；收起時標題顯示目前選的分類與色系
@@ -388,8 +396,39 @@
   }
   // 色板單價或預設單價改了之後，型錄卡片的才數售價要跟著重算
   UI.refreshCatalog = function () { window.Pricing.clearCatalogCai(); renderCatalog(); };
+  /* 延遲載入的型錄（IKEA／無印良品／大吉熊／燈具，js/lazy.js）：
+     點「家具」「燈具」「廚房／浴室設備」或搜尋時自動抓；「全部」不自動抓，清單上方放「載入完整型錄」按鈕 */
+  function catalogMissing(q) {
+    const L = window.Lazy; if (!L) return [];
+    let need = [];
+    if (q) need = L.CATALOG;
+    else if (curFilter === 'furn') need = ['ikea', 'muji'];
+    else if (curFilter === 'lamp') need = ['lamps'];
+    else if (curFilter === 'appl') need = ['bear'];
+    else if (curFilter === 'fav' && [...favs].some(c => !D.byCode[c])) need = L.CATALOG;
+    return need.filter(n => !L.has(n));
+  }
+  let catError = '';
+  // force＝使用者按「重試」；載入失敗後不自動重抓（避免 renderCatalog 失敗→重繪→再抓的迴圈），換分頁時會再試一次
+  function loadCatalog(names, force) {
+    const L = window.Lazy, list = (names || []).filter(n => !L.has(n) && !L.loading(n));
+    if (!list.length || (catError && !force)) return;
+    catError = '';
+    L.load(list).then(() => { catError = ''; buildFilters(); UI.refreshCatalog(); if (UI.curTab === 'pricing') renderPricing(); },
+      e => { console.error(e); catError = e.message; renderCatalog(); });
+  }
+  UI.loadCatalog = () => loadCatalog(window.Lazy ? window.Lazy.CATALOG : []);
+  function catalogNotice(q) {
+    const L = window.Lazy; if (!L) return '';
+    const loading = L.CATALOG.filter(n => L.loading(n)), notLoaded = L.CATALOG.filter(n => !L.has(n));
+    if (catError) return `<div class="cat-lazy error">型錄載入失敗：${esc(catError)} <button class="btn small" data-lazy="1">重試</button></div>`;
+    if (loading.length) return `<div class="cat-lazy">載入${loading.map(L.label).join('、')}中…</div>`;
+    if (curFilter === 'all' && !q && notLoaded.length) return `<div class="cat-lazy">尚未載入：${notLoaded.map(L.label).join('、')} <button class="btn small" data-lazy="1">載入完整型錄</button></div>`;
+    return '';
+  }
   function renderCatalog() {
     const q = $('#catSearch').value.trim().toUpperCase();
+    loadCatalog(catalogMissing(q));
     // 搜尋比對完整名稱（含櫃型，如「水槽」「吊」）與尺寸；設備可用型號、品牌搜尋
     // 尺寸搜尋不分順序：H320W300、W300H320、W600 D580 都可以（W 寬、D 深、H 高，單位 mm）
     const dimQ = /^(\s*[WDH]\s*\d+\s*)+$/.test(q) ? [...q.matchAll(/([WDH])\s*(\d+)/g)].map(m => [m[1], +m[2]]) : null;
@@ -410,7 +449,7 @@
       return GORDER.indexOf(ga) - GORDER.indexOf(gb) || (ga === 'appl' || ga === 'lamp' ? AORDER.indexOf(ha) - AORDER.indexOf(hb) : HORDER.indexOf(ha) - HORDER.indexOf(hb));
     });
     const openAll = !!q || keys.length <= 3;
-    $('#catList').innerHTML = keys.length ? keys.map((k, i) => {
+    $('#catList').innerHTML = catalogNotice(q) + (keys.length ? keys.map((k, i) => {
       const [g, hc] = k.split('|');
       const its = groups.get(k);
       const title = /^(dayday|toto|hcg|furn|ikea|muji|lamp)/.test(g) ? D.APPL_TYPES[hc] : g === 'appl' ? '廚房設備｜' + D.APPL_TYPES[hc] : g === 'desk' ? '桌面' : g === 'filler' ? '補板' : groupTitle(g, hc);
@@ -418,8 +457,9 @@
       return `<details class="cat-group"${openAll || i < 2 ? ' open' : ''}><summary><b>${esc(title)}</b><span>${sub}</span></summary>
         <div class="cat-grid">${its.map(it => `<div class="cat-item${it.code === pickedCode ? ' picked' : ''}${favs.has(it.code) ? ' is-fav' : ''}" draggable="true" data-code="${it.code}" title="${esc(tipOf(it))}"><button class="fav-btn" data-fav="${it.code}" title="${favs.has(it.code) ? '移出我的最愛' : '加入我的最愛'}">${favs.has(it.code) ? '★' : '☆'}</button>
           ${UI.thumb(it)}<span class="code">${wbrName(catName(it))}</span>${it.kind === 'desk' ? `<span class="dims">${catDims(it)}</span>` : `<span class="oldcode">${catSubline(it)}</span>`}<span class="price">${catPrice(it)}</span></div>`).join('')}</div></details>`;
-    }).join('') : '<p class="muted" style="padding:12px">找不到符合的型號</p>';
+    }).join('') : (catalogMissing(q).length ? '' : '<p class="muted" style="padding:12px">找不到符合的型號</p>'));
     $('#catList').onclick = e => {
+      const lz = e.target.closest('[data-lazy]'); if (lz) { loadCatalog(window.Lazy.CATALOG, true); renderCatalog(); return; }
       const fb = e.target.closest('[data-fav]');
       if (fb) { e.stopPropagation(); UI.toggleFav(fb.dataset.fav); const on = favs.has(fb.dataset.fav); fb.textContent = on ? '★' : '☆'; fb.title = on ? '移出我的最愛' : '加入我的最愛'; fb.closest('.cat-item').classList.toggle('is-fav', on); const chip = document.querySelector('.chip[data-f="fav"]'); if (chip) chip.textContent = '★ 我的最愛' + (favs.size ? ' ' + favs.size : ''); App.toast(on ? '已加入我的最愛' : '已移出我的最愛'); if (curFilter === 'fav' && !on) renderCatalog(); return; }
       const it = e.target.closest('.cat-item'); if (!it) return;
@@ -650,11 +690,25 @@
       <div class="sw-targets">${targets.map(([k, n]) => { const m = matOf(obj[k]); return `<button class="sw-target${k === UI.swTarget ? ' on' : ''}" data-swt="${k}">${UI.chip(obj[k], 'lg')}<span><em>${n}</em><b>${esc(obj[k] || '')}</b><small>${esc(m.name || '')}</small></span></button>`; }).join('')}</div>
       ${grainRow(obj)}
       <div class="sw-tools"><input class="field" data-key="swq-${ctx}" data-swq="1" placeholder="搜尋色號 / 名稱" value="${esc(UI.swQuery)}">
-        <select class="field" data-key="swb-${ctx}" data-swb="1" title="廠商"><option value="all">全部廠商</option>${brands.map(x => `<option${x === UI.swBrand ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select>
+        <select class="field" data-key="swb-${ctx}" data-swb="1" title="廠商"><option value="all">全部廠商</option>${brands.map(x => `<option${x === UI.swBrand ? ' selected' : ''}>${esc(x)}</option>`).join('')}${window.Lazy && !window.Lazy.has('swatches') ? '<option value="__more">更多廠商色板…</option>' : ''}</select>
         <select class="field" data-key="sws-${ctx}" data-sws="1"><option value="all">全部系列</option>${series.map(x => `<option${x === UI.swSeries ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select></div>
-      <div class="sw-grid">${swGridHTML(cur)}</div>
+      <div class="sw-grid">${swGridHTML(cur)}</div>${swMoreHTML()}
       <div class="btn-row"><button class="btn small" data-a="sw-all">${ctx === 'cab' ? '此部位色號套用至全部櫃體' : '此部位預設色號套用至全部櫃體'}</button></div></div>`;
   }
+  // 其他廠商色板（禾邁、富美家、EGGER…，js/swatches-*.js）延遲載入：還沒載時格子下方放按鈕；開始挑色時也會自動抓
+  let swError = '';
+  function swMoreHTML() {
+    const L = window.Lazy; if (!L || L.has('swatches')) return '';
+    if (L.loading('swatches')) return '<p class="muted sw-more">載入各廠商色板中…</p>';
+    return `<p class="muted sw-more">${swError ? `各廠商色板載入失敗：${esc(swError)} ` : '目前只列出伸保色板與規格色。'}<button class="btn small link" data-a="sw-more">${swError ? '重試' : '載入其他廠商色板（禾邁、富美家、EGGER、威盛亞…）'}</button></p>`;
+  }
+  // quiet＝只改提示文字、不重繪面板（pointerdown 時重繪會打斷正在點的按鈕／輸入框）
+  UI.loadSwatches = function (quiet) {
+    const L = window.Lazy; if (!L || L.has('swatches') || L.loading('swatches')) return;
+    swError = '';
+    L.load('swatches').then(() => { swError = ''; UI.showProps(); }, e => { console.error(e); swError = e.message; UI.showProps(); App.toast('各廠商色板載入失敗：' + e.message); });
+    if (quiet) document.querySelectorAll('.sw-more').forEach(p => { p.textContent = '載入各廠商色板中…'; }); else UI.showProps();
+  };
   UI.injectSwatchCSS = function () {
     let st = document.getElementById('swatchCSS');
     if (!st) { st = document.createElement('style'); st.id = 'swatchCSS'; document.head.appendChild(st); }
@@ -665,6 +719,7 @@
     const t = e.target;
     if (!t.dataset.swq) return;
     UI.swQuery = t.value;
+    UI.loadSwatches(true);
     const g = t.closest('.sec').querySelector('.sw-grid'), obj = swObj();
     if (g && obj) g.innerHTML = swGridHTML(obj[UI.swTarget]);
   }
@@ -1146,7 +1201,7 @@
     if (t.dataset.fn != null) { App.renameFloor(+t.dataset.fn, val); return; }
     if (t.dataset.f && t.dataset.f.startsWith('ul-')) { window.Underlay.change(t.dataset.f, val); return; }
     if (t.dataset.sws) { UI.swSeries = val; UI.showProps(); return; }
-    if (t.dataset.swb) { UI.swBrand = val; UI.swSeries = 'all'; UI.showProps(); return; }
+    if (t.dataset.swb) { if (val === '__more') { UI.loadSwatches(); return; } UI.swBrand = val; UI.swSeries = 'all'; UI.showProps(); return; }
     // 專案層級
     if (t.dataset.f === 'room-height') { const v = Math.max(1800, Math.min(6000, +val || 2800)); App.mutate('牆高', x => { x.room.height = v; x.room.walls.forEach(w => w.openings.forEach(o => { o.height = Math.min(o.height, v - o.sill - 10); })); }, 'room'); return; }
     if (t.dataset.f === 'fx-type') { UI.fxType = String(val); return; }
@@ -1272,6 +1327,7 @@
   async function onPropsClick(e) {
     const sb = e.target.closest('[data-swt],[data-swc],[data-swg],[data-a="sw-all"]');
     if (sb && onSwatchClick(sb)) return;
+    if (e.target.closest('[data-a="sw-more"]')) { UI.loadSwatches(); return; }
     const b = e.target.closest('[data-a],[data-ra],[data-sa],[data-oa]'); if (!b) return;
     const st = App.state, s = App.sel;
     const a = b.dataset.a;
@@ -1574,6 +1630,7 @@
         <table class="pt"><tbody>${D.APPLIANCES.map(a => `<tr><td>${esc(a.brand.split(' ')[0])}｜${D.APPL_TYPES[a.at]}｜${a.code}${a.est ? ' <small style="color:#b45309">估</small>' : ''}<br><small class="muted">${esc(a.name)}</small></td><td style="width:100px"><input type="number" data-key="ap${a.code}" data-apc="${a.code}" value="${pr.codeOverrides[a.code] != null ? pr.codeOverrides[a.code] : ''}" placeholder="${a.price}"></td></tr>`).join('')}</tbody></table></div>
 
         <div class="sec"><div class="sec-title">DAY&DAY／TOTO／和成／大吉熊／家具／IKEA／無印良品 售價 <small>元 / 個（空白＝官網訂價）</small></div>
+        ${window.Lazy && window.Lazy.CATALOG.some(n => !window.Lazy.has(n)) ? `<p class="muted" style="font-size:11.5px;margin:0 0 6px">${window.Lazy.CATALOG.filter(n => !window.Lazy.has(n)).map(window.Lazy.label).join('、')}尚未載入，表格只列出已載入的型錄 <button class="btn small" data-pa="loadcat">載入</button></p>` : ''}
         <table class="pt"><tbody>${[...D.DAYDAY, ...D.TOTO, ...D.HCG, ...D.BEAR, ...D.FURN, ...D.IKEA, ...D.MUJI, ...D.LAMPS].map(a => `<tr><td>${a.brand === 'TOTO' ? 'TOTO｜' : a.brand === '和成 HCG' ? 'HCG｜' : a.brand === '大吉熊 LUCKY BEAR' ? '大吉熊｜' : a.group === 'furn' ? '家具｜' : a.group === 'ikea' ? 'IKEA｜' : a.group === 'muji' ? 'MUJI｜' : ''}${D.APPL_TYPES[a.at]}｜${a.code}${a.est ? ' <small style="color:#b45309">估</small>' : ''}<br><small class="muted">${esc(a.name)}　${a.w}×${a.d}×${a.h}</small></td><td style="width:100px"><input type="number" data-key="ap${a.code}" data-apc="${a.code}" value="${pr.codeOverrides[a.code] != null ? pr.codeOverrides[a.code] : ''}" placeholder="${a.price}"></td></tr>`).join('')}</tbody></table></div>
 
         <div class="sec"><div class="sec-title">其他配件</div><div class="kv">
@@ -1603,6 +1660,7 @@
   async function onPricingClick(e) {
     const b = e.target.closest('[data-pa]'); if (!b) return;
     const a = b.dataset.pa;
+    if (a === 'loadcat') { if (await window.Lazy.ensure(window.Lazy.CATALOG, '載入型錄…')) { buildFilters(); UI.refreshCatalog(); renderPricing(); } return; }
     if (a === 'madd') {
       App.mutate('新增材質', s => s.pricing.materials.push({ code: 'NEW' + (s.pricing.materials.length + 1), name: '自訂材質', hex: '#c8b89a', use: 'both', cat: '訂製色', factor: 110, grain: false }));
     } else if (a === 'mdel') {
@@ -1663,6 +1721,7 @@
   /* ---------- 地板／塗料選擇視窗 ---------- */
   UI.pickFloor = async function () {
     const r = App.state.room; if (!r) return;
+    if (window.Lazy && !(await window.Lazy.ensure('floors', '載入品牌木地板型錄…'))) return;
     const cur = r.floor || 'wood-light';
     const groups = [...new Set(D.FLOORS.map(f => f.group))];
     let g = (D.FLOORS.find(f => f.id === cur) || {}).group || groups[0], q = '';
@@ -1691,6 +1750,7 @@
   // target：null＝整體牆面；數字＝第 i 面牆
   UI.pickPaint = async function (target) {
     const r = App.state.room; if (!r) return;
+    if (window.Lazy && !(await window.Lazy.ensure('paint', '載入塗料色卡…'))) return;
     const curHex = target === 'ceil' ? (r.ceiling && r.ceiling.color) : target == null ? r.wallColor : (r.walls[target].color || r.wallColor);
     let g = '白／米白', q = '';
     if (curHex) { const p = D.PAINTS.find(x => x.hex.toLowerCase() === String(curHex).toLowerCase()); if (p) g = p.group; }
