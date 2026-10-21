@@ -1,29 +1,520 @@
-/* DXF 匯入：讀 CAD 平面圖（DXF ASCII），由牆線自動找出封閉空間建立房間；或把圖線轉成已知比例的底圖描圖
-   使用 dxf.js 的 DXFOut.parseFrame() 解析圖元（LINE／LWPOLYLINE／ARC／CIRCLE／INSERT 圖塊展開） */
+/* DXF 匯入：讀 CAD 平面圖（ASCII 或二進位 DXF），由牆線自動找出封閉空間建立房間；或把圖線轉成已知比例的底圖描圖
+   內建解析器（X.parse）：LINE／LWPOLYLINE／POLYLINE／ARC／CIRCLE／ELLIPSE／SPLINE／HATCH 邊界／MLINE／3DFACE／TEXT／MTEXT／
+   INSERT 圖塊展開（縮放、旋轉、鏡射、陣列、巢狀）；自動判斷編碼（UTF-8／Big5／GBK…）與單位（$INSUNITS） */
 (function () {
   const X = {};
   const UI = () => window.UI, M = () => window.Model, V = () => window.Viewer;
-  const UNIT = { 1: 25.4, 2: 304.8, 4: 1, 5: 10, 6: 1000 };   // $INSUNITS → mm
+  const UNIT = { 1: 25.4, 2: 304.8, 4: 1, 5: 10, 6: 1000, 7: 1e6, 10: 914.4, 14: 100 };   // $INSUNITS → mm
   const Q = 2;   // 端點吸附格（mm）
 
-  /* ---------- 讀檔 ---------- */
-  async function readText(file) {
-    const buf = await file.arrayBuffer();
-    const u8 = new Uint8Array(buf);
-    let s = new TextDecoder('utf-8', { fatal: false }).decode(u8);
-    // 非 UTF-8（AutoCAD 舊版 Big5／ANSI）：有大量替換字元就改用 big5
-    if ((s.match(/�/g) || []).length > 20) { try { s = new TextDecoder('big5').decode(u8); } catch (e) { } }
-    return s;
+  /* ---------- 讀檔：編碼、二進位 DXF、群組碼 ----------
+     自含的 DXF 解析器（不依賴 dxf.js），輸出與 DXFOut.parseFrame() 相同的結構：
+     { ents:[{k:'L'|'A'|'C'|'T'|'S', l:圖層, …}], texts, layers, bbox, w, h, warnings, error }
+     另外多帶 header（$ACADVER／$INSUNITS／$DWGCODEPAGE）、unit（推測的 $INSUNITS）、encoding、counts（各圖元數量）。
+     ELLIPSE／SPLINE／HATCH 邊界／MLINE／3DFACE 會攤平成線段（k:'L'），e.e 記原本的圖元名稱。 */
+  const BIN_SENTINEL = 'AutoCAD Binary DXF\r\n\x1a\0';
+  X.isBinary = function (u8) {
+    if (!u8 || u8.length < 22) return false;
+    for (let i = 0; i < 22; i++) if (u8[i] !== BIN_SENTINEL.charCodeAt(i)) return false;
+    return true;
+  };
+  // $DWGCODEPAGE → TextDecoder 編碼名
+  const CODEPAGES = { 950: 'big5', 936: 'gbk', 932: 'shift_jis', 949: 'euc-kr', 1252: 'windows-1252', 1250: 'windows-1250', 1251: 'windows-1251', 874: 'windows-874', 1253: 'windows-1253', 1254: 'windows-1254', 1257: 'windows-1257', 1258: 'windows-1258' };
+  const CODEPAGE_NAMES = { big5: 'Big5（繁體中文）', gbk: 'GBK（簡體中文）', shift_jis: 'Shift-JIS（日文）', 'euc-kr': 'EUC-KR（韓文）' };
+  function codepageOf(s) {
+    const m = String(s || '').trim().match(/(\d{3,4})/);
+    if (!m) return /utf-?8/i.test(s) ? 'utf-8' : null;
+    return CODEPAGES[+m[1]] || null;
   }
-  function headerUnits(text) {
-    const m = text.match(/\$INSUNITS\s*\r?\n\s*70\s*\r?\n\s*(\d+)/);
-    return m ? +m[1] : 0;
+  function decoderOf(enc) { try { return new TextDecoder(enc); } catch (e) { return null; } }
+  // 位元組 → 文字。回傳 { text, encoding, warnings }
+  X.decode = function (u8) {
+    const warnings = [];
+    if (u8[0] === 0xEF && u8[1] === 0xBB && u8[2] === 0xBF) u8 = u8.subarray(3);
+    try { return { text: new TextDecoder('utf-8', { fatal: true }).decode(u8), encoding: 'utf-8', warnings }; } catch (e) { /* 不是 UTF-8 */ }
+    // 不是 UTF-8（AutoCAD 2004 以前的檔都是以系統字碼頁存的）：看 $DWGCODEPAGE
+    const head = new TextDecoder('windows-1252').decode(u8.subarray(0, Math.min(u8.length, 65536)));
+    const m = head.match(/\$DWGCODEPAGE\s*\r?\n\s*3\s*\r?\n([^\r\n]*)/i);
+    let enc = m ? codepageOf(m[1]) : null;
+    if (!enc) {
+      enc = 'big5';
+      warnings.push(m ? `不認得的字碼頁 ${m[1].trim()}，已改以 Big5 解碼` : '檔案不是 UTF-8 也沒有標示字碼頁（$DWGCODEPAGE），已以 Big5 解碼；若中文圖層名或文字是亂碼，請在 CAD 另存為 AutoCAD 2007 以後版本的 DXF');
+    } else if (/^windows-125/.test(enc)) {
+      // 標成單位元組西歐字碼頁，但內容有成對的高位元組（Big5／GBK 的雙位元組字）：多半是字碼頁標錯，試著用 Big5
+      let pairs = 0; for (let i = 0; i + 1 < u8.length; i++) if (u8[i] >= 0x81 && u8[i + 1] >= 0x40) { pairs++; i++; }
+      if (pairs) { const t = new TextDecoder('big5').decode(u8); if (!/\uFFFD/.test(t)) { enc = 'big5'; warnings.push(`字碼頁標示為 ${m[1].trim()} 但內容像是 Big5，已以 Big5 解碼`); } }
+    } else if (enc !== 'utf-8') warnings.push(`檔案以 ${CODEPAGE_NAMES[enc] || enc} 編碼，已轉換`);
+    const dec = decoderOf(enc);
+    if (!dec) { warnings.push(`這個瀏覽器不支援 ${enc} 解碼，中文可能顯示為亂碼`); return { text: new TextDecoder('utf-8').decode(u8), encoding: 'utf-8', warnings }; }
+    return { text: dec.decode(u8), encoding: enc, warnings };
+  };
+  // AutoCAD 的 \U+XXXX（Unicode）與 \M+NXXXX（多位元組字碼頁：1=Big5 2=GBK 3=Shift-JIS 4=EUC-KR 5=Big5）轉義還原
+  const MIF = { 1: 'big5', 2: 'gbk', 3: 'shift_jis', 4: 'euc-kr', 5: 'big5' };
+  function unesc(s) {
+    return String(s)
+      .replace(/\\U\+([0-9A-Fa-f]{4})/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
+      .replace(/\\M\+([1-5])([0-9A-Fa-f]{4})/g, (all, n, h) => { const d = decoderOf(MIF[n]); return d ? d.decode(new Uint8Array([parseInt(h.slice(0, 2), 16), parseInt(h.slice(2), 16)])) : all; });
   }
-  function guessUnit(bbox, ins) {
-    if (UNIT[ins]) return ins;
-    const ext = Math.max(bbox.x1 - bbox.x0, bbox.y1 - bbox.y0);
-    return ext < 150 ? 6 : ext < 3000 ? 5 : 4;
+
+  // DXF 是「代碼一行、值一行」；遇到對不齊時只前進一行自動重新同步
+  function asciiPairs(text) {
+    const L = String(text).split(/\r\n|\r|\n/), P = [];
+    for (let i = 0; i + 1 < L.length; i++) {
+      const t = L[i].trim();
+      if (!/^-?\d+$/.test(t)) continue;
+      P.push([parseInt(t, 10), L[i + 1]]);
+      i++;
+    }
+    return P;
   }
+  // 二進位 DXF：22 位元組識別字串後接「群組碼＋值」；R12 用 1 位元組群組碼（255 表示後面接 2 位元組），R13 起一律 2 位元組
+  const inR = (c, a, b) => c >= a && c <= b;
+  const binType = c => {
+    if (inR(c, 310, 319) || c === 1004) return 'bin';
+    if (inR(c, 60, 79) || inR(c, 170, 179) || inR(c, 270, 289) || inR(c, 370, 389) || inR(c, 400, 409) || inR(c, 1060, 1070)) return 'i16';
+    if (inR(c, 10, 59) || inR(c, 110, 149) || inR(c, 210, 239) || inR(c, 460, 469) || inR(c, 1010, 1059)) return 'f64';
+    if (inR(c, 90, 99) || inR(c, 420, 429) || inR(c, 440, 459) || c === 1071) return 'i32';
+    if (inR(c, 160, 169)) return 'i64';
+    if (inR(c, 290, 299)) return 'bool';
+    return 'str';
+  };
+  function binaryPairs(u8) {
+    const P = [], dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength), n = u8.length;
+    const two = !(u8[22] === 0 && u8[23] !== 0);   // 第一組一定是 0／SECTION：1 位元組碼時 23 是 'S'
+    let cp = null, i = 22, lastName = '';
+    const utf8 = new TextDecoder('utf-8', { fatal: true });
+    const str = b => { try { return utf8.decode(b); } catch (e) { const d = decoderOf(cp || 'big5'); return d ? d.decode(b) : new TextDecoder('utf-8').decode(b); } };
+    while (i < n) {
+      let c;
+      if (two) { if (i + 2 > n) break; c = dv.getUint16(i, true); i += 2; }
+      else { c = u8[i++]; if (c === 255) { if (i + 2 > n) break; c = dv.getUint16(i, true); i += 2; } }
+      const t = binType(c); let v;
+      try {
+        if (t === 'str') { let j = i; while (j < n && u8[j] !== 0) j++; v = str(u8.subarray(i, j)); i = j + 1; }
+        else if (t === 'f64') { v = String(dv.getFloat64(i, true)); i += 8; }
+        else if (t === 'i16') { v = String(dv.getInt16(i, true)); i += 2; }
+        else if (t === 'i32') { v = String(dv.getInt32(i, true)); i += 4; }
+        else if (t === 'i64') { v = String(dv.getBigInt64(i, true)); i += 8; }
+        else if (t === 'bool') { v = String(u8[i]); i += 1; }
+        else { const len = u8[i]; i += 1 + len; v = ''; }
+      } catch (e) { break; }
+      if (c === 9) lastName = v;
+      else if (c === 3 && lastName === '$DWGCODEPAGE') cp = codepageOf(v);
+      P.push([c, v]);
+    }
+    return P;
+  }
+  function sectionsOf(P) {
+    const sec = {};
+    for (let i = 0; i < P.length; i++) {
+      if (P[i][0] !== 0 || P[i][1].trim() !== 'SECTION' || !P[i + 1] || P[i + 1][0] !== 2) continue;
+      const name = P[i + 1][1].trim().toUpperCase();
+      let j = i + 2;
+      while (j < P.length && !(P[j][0] === 0 && P[j][1].trim() === 'ENDSEC')) j++;
+      sec[name] = (sec[name] || []).concat(P.slice(i + 2, j));
+      i = j;
+    }
+    return sec;
+  }
+  function recsOf(body) {
+    const out = []; let cur = null, skip = false;
+    for (const [c, v] of body || []) {
+      if (c === 0) { cur = { t: String(v).trim().toUpperCase(), g: [] }; out.push(cur); skip = false; }
+      // 內嵌物件（MTEXT 分欄資料）、應用程式群組與 XDATA 會重複用到 10/11/40/50… 這些群組碼
+      else if (c === 102) skip = String(v).trim() !== '}';
+      else if (c === 101 || c >= 1000) skip = true;
+      else if (cur && !skip) cur.g.push([c, v]);
+    }
+    return out;
+  }
+  const gv = (r, c) => { for (const [a, b] of r.g) if (a === c) return b; return undefined; };
+  const gs = (r, c, d) => { const v = gv(r, c); return v === undefined ? d : String(v).trim(); };
+  const gn = (r, c, d) => { const v = gv(r, c); if (v === undefined) return d; const f = parseFloat(v); return isNaN(f) ? d : f; };
+  const gcat = (r, c) => r.g.filter(x => x[0] === c).map(x => String(x[1])).join('');
+  const gall = (r, c) => r.g.filter(x => x[0] === c).map(x => parseFloat(x[1]) || 0);
+  // HEADER：$NAME 後面接它的值
+  function headerOf(body) {
+    const h = {}; let name = null;
+    for (const [c, v] of body || []) {
+      if (c === 9) { name = String(v).trim(); h[name] = {}; }
+      else if (name) h[name][c] = String(v).trim();
+    }
+    return h;
+  }
+  // MTEXT 的格式碼拿掉，只留純文字
+  function mtextPlain(s) {
+    return String(s === undefined ? '' : s)
+      .replace(/\\P/g, '\n').replace(/\\~/g, ' ')
+      .replace(/\\[fF][^;]*;/g, '')
+      .replace(/\\[HWQACTSpaKkLlOo][^;]*;/g, '')
+      .replace(/[{}]/g, '')
+      .replace(/\\(.)/g, '$1')
+      .replace(/[ \t]+$/gm, '');
+  }
+  // 圓弧：由 bulge（= tan(夾角/4)）求出圓心、半徑與起訖角（逆時針）
+  function bulgeArc(x1, y1, x2, y2, b) {
+    const dx = x2 - x1, dy = y2 - y1, c = Math.hypot(dx, dy);
+    if (!c || !b) return null;
+    const th = 4 * Math.atan(b);
+    const R = c / (2 * Math.sin(th / 2));
+    const hh = R * Math.cos(th / 2);
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    const cx = mx - hh * dy / c, cy = my + hh * dx / c;
+    let a1 = Math.atan2(y1 - cy, x1 - cx), a2 = Math.atan2(y2 - cy, x2 - cx);
+    if (b < 0) { const t = a1; a1 = a2; a2 = t; }
+    return { cx, cy, r: Math.abs(R), a1: a1 * 180 / Math.PI, a2: a2 * 180 / Math.PI };
+  }
+  // NURBS 取點（de Boor）：Pw = [[x·w, y·w, w]]，U = 節點向量，p = 次數
+  function deBoor(p, u, U, Pw) {
+    const n = Pw.length - 1;
+    let k;
+    if (u >= U[n + 1]) k = n; else { k = p; while (k < n && !(u < U[k + 1])) k++; }
+    const d = []; for (let j = 0; j <= p; j++) d[j] = Pw[k - p + j].slice();
+    for (let r = 1; r <= p; r++) for (let j = p; j >= r; j--) {
+      const i = k - p + j, den = U[i + p - r + 1] - U[i], a = den ? (u - U[i]) / den : 0;
+      for (let c = 0; c < 3; c++) d[j][c] = (1 - a) * d[j - 1][c] + a * d[j][c];
+    }
+    return d[p][2] ? [d[p][0] / d[p][2], d[p][1] / d[p][2]] : [d[p][0], d[p][1]];
+  }
+  // 雲形線 → 折線點：有控制點＋節點就用 NURBS；只有擬合點就用 Catmull-Rom 穿過各點
+  function splinePoints(deg, knots, ctrl, weights, fit, closed) {
+    let pts = [];
+    const p = Math.max(1, Math.min(deg || 3, Math.max(1, ctrl.length - 1)));
+    if (ctrl.length >= 2 && knots.length >= ctrl.length + p + 1) {
+      const Pw = ctrl.map((c, i) => { const w = weights[i] || 1; return [c[0] * w, c[1] * w, w]; });
+      const u0 = knots[p], u1 = knots[ctrl.length], N = Math.min(2000, Math.max(16, ctrl.length * 8));
+      for (let i = 0; i <= N; i++) pts.push(deBoor(p, u0 + (u1 - u0) * i / N, knots, Pw));
+    } else if (fit.length >= 2) {
+      const F = fit.slice(); if (closed) F.push(F[0]);
+      const P = i => F[Math.max(0, Math.min(F.length - 1, i))];
+      for (let i = 0; i + 1 < F.length; i++) {
+        const p0 = P(i - 1), p1 = P(i), p2 = P(i + 1), p3 = P(i + 2);
+        for (let s = 0; s < 8; s++) {
+          const t = s / 8, t2 = t * t, t3 = t2 * t;
+          pts.push([0.5 * (2 * p1[0] + (-p0[0] + p2[0]) * t + (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * t2 + (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * t3),
+            0.5 * (2 * p1[1] + (-p0[1] + p2[1]) * t + (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * t2 + (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * t3)]);
+        }
+      }
+      pts.push(F[F.length - 1]);
+    } else if (ctrl.length >= 2) pts = ctrl.slice();
+    if (closed && pts.length > 2) pts.push(pts[0]);
+    return pts;
+  }
+  // 橢圓（弧）→ 折線點：中心 c、長軸向量 M、短軸比 ratio、參數 a0～a1（弧度）、minor 方向正負（擠出方向 Z）
+  function ellipsePoints(cx, cy, mx, my, ratio, a0, a1, sgn) {
+    while (a1 <= a0 + 1e-9) a1 += Math.PI * 2;
+    const sw = Math.min(a1 - a0, Math.PI * 2), N = Math.max(8, Math.ceil(sw / (Math.PI * 2) * 64));
+    const nx = -my * ratio * sgn, ny = mx * ratio * sgn, pts = [];
+    for (let i = 0; i <= N; i++) { const t = a0 + sw * i / N; pts.push([cx + mx * Math.cos(t) + nx * Math.sin(t), cy + my * Math.cos(t) + ny * Math.sin(t)]); }
+    return pts;
+  }
+
+  const UNIT_NAME = { 1: 'inch（英吋）', 2: 'ft（英呎）', 4: 'mm', 5: 'cm', 6: 'm', 14: 'dm' };
+  const MT_ALIGN = { 1: ['l', 't'], 2: ['c', 't'], 3: ['r', 't'], 4: ['l', 'mid'], 5: ['c', 'mid'], 6: ['r', 'mid'], 7: ['l', 'b'], 8: ['c', 'b'], 9: ['r', 'b'] };
+  const TX_ALIGN = { 0: 'l', 1: 'c', 2: 'r', 3: 'l', 4: 'c', 5: 'l' };
+  const TX_VALIGN = { 0: 'base', 1: 'b', 2: 'mid', 3: 't' };
+  // 擠出方向 Z 為負（AutoCAD MIRROR 過的圓／弧／多段線／圖塊）：OCS 的 x 要反向
+  const mirrored = r => gn(r, 230, 1) < 0;
+
+  /* 主解析：input 可以是 Uint8Array／ArrayBuffer（自動判斷二進位與編碼）或已解碼的字串 */
+  X.parse = function (input) {
+    const warn = [], skipped = {}, counts = {};
+    const addWarn = s => { if (!warn.includes(s)) warn.push(s); };
+    let P, encoding = 'utf-8', binary = false;
+    if (typeof input === 'string') P = asciiPairs(input);
+    else {
+      const u8 = input instanceof Uint8Array ? input : new Uint8Array(input);
+      if (X.isBinary(u8)) { binary = true; encoding = 'binary'; P = binaryPairs(u8); }
+      else { const d = X.decode(u8); encoding = d.encoding; warn.push(...d.warnings); P = asciiPairs(d.text); }
+    }
+    const sec = sectionsOf(P);
+    const hdr = headerOf(sec.HEADER);
+    const header = { ver: (hdr.$ACADVER && hdr.$ACADVER[1]) || '', units: hdr.$INSUNITS ? parseInt(hdr.$INSUNITS[70], 10) || 0 : null, codepage: (hdr.$DWGCODEPAGE && hdr.$DWGCODEPAGE[3]) || '', measurement: hdr.$MEASUREMENT ? parseInt(hdr.$MEASUREMENT[70], 10) : null };
+    if (!sec.ENTITIES) {
+      const err = P.length < 4 || !Object.keys(sec).length
+        ? '這不是 DXF 檔（找不到 SECTION／ENTITIES 結構）。若是 .dwg 檔，請先在 AutoCAD 或免費的 DWG TrueView 另存為 DXF 再匯入。'
+        : '這個 DXF 沒有 ENTITIES 區段，裡面沒有任何圖形。';
+      return { error: err, ents: [], texts: [], layers: [], warnings: warn, header, encoding };
+    }
+    const tbl = { layers: [], styles: [] };
+    recsOf(sec.TABLES).forEach(r => {
+      if (r.t === 'LAYER' && gs(r, 2)) tbl.layers.push({ name: unesc(gs(r, 2)), color: Math.abs(gn(r, 62, 7)) || 7, lt: gs(r, 6, 'CONTINUOUS') });
+      if (r.t === 'STYLE' && gs(r, 2)) tbl.styles.push({ name: gs(r, 2), font: gs(r, 3, ''), big: gs(r, 4, ''), wf: gn(r, 41, 1) || 1 });
+    });
+    // 圖塊定義
+    const blocks = {}; let cb = null;
+    recsOf(sec.BLOCKS).forEach(r => {
+      if (r.t === 'BLOCK') { cb = { base: [gn(r, 10, 0), gn(r, 20, 0)], recs: [] }; blocks[gs(r, 2, '')] = cb; }
+      else if (r.t === 'ENDBLK') cb = null;
+      else if (cb) cb.recs.push(r);
+    });
+
+    const ents = [], texts = [];
+    const bb = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
+    const grow = (x, y) => {
+      if (!isFinite(x) || !isFinite(y)) return;
+      if (x < bb.x0) bb.x0 = x; if (y < bb.y0) bb.y0 = y;
+      if (x > bb.x1) bb.x1 = x; if (y > bb.y1) bb.y1 = y;
+    };
+    const tp = (T, x, y) => { const X2 = x * T.sx, Y2 = y * T.sy; return [T.tx + X2 * T.c - Y2 * T.s, T.ty + X2 * T.s + Y2 * T.c]; };
+    const uniform = T => Math.abs(Math.abs(T.sx) - Math.abs(T.sy)) < 1e-6 * Math.max(1, Math.abs(T.sx));
+    let paperOnly = 0;
+
+    function walk(recs, T0, depth) {
+      if (depth > 8) { addWarn('圖塊巢狀超過 8 層，更深的沒有展開'); return; }
+      for (let i = 0; i < recs.length; i++) {
+        const r = recs[i];
+        if (depth === 0 && gn(r, 67, 0) === 1) { paperOnly++; continue; }   // 配置（圖紙空間）的圖元
+        counts[r.t] = (counts[r.t] || 0) + 1;
+        const lay = unesc(gs(r, 8, '0') || '0');
+        const lt = gs(r, 6, '');
+        // 鏡射過的圖元（擠出方向 Z < 0）：OCS x 反向
+        const T = mirrored(r) && /^(CIRCLE|ARC|LWPOLYLINE|POLYLINE|INSERT|TEXT|MTEXT|HATCH|SOLID|TRACE)$/.test(r.t) ? Object.assign({}, T0, { sx: -T0.sx }) : T0;
+        const put = e => { ents.push(Object.assign({ l: lay }, lt && lt !== 'BYLAYER' ? { lt } : null, e)); };
+        const line = (x1, y1, x2, y2, src) => { if (!isFinite(x1 + y1 + x2 + y2)) return; const a = tp(T, x1, y1), b2 = tp(T, x2, y2); grow(a[0], a[1]); grow(b2[0], b2[1]); put(src ? { k: 'L', p: [a[0], a[1], b2[0], b2[1]], e: src } : { k: 'L', p: [a[0], a[1], b2[0], b2[1]] }); };
+        const polyPts = (pts, src) => { for (let k = 0; k + 1 < pts.length; k++) if (Math.abs(pts[k][0] - pts[k + 1][0]) > 1e-9 || Math.abs(pts[k][1] - pts[k + 1][1]) > 1e-9) line(pts[k][0], pts[k][1], pts[k + 1][0], pts[k + 1][1], src); };
+        // 圓弧（逆時針 a1→a2，度）。等比例縮放：轉成 A；不等比例：攤平成線段
+        const arcOf = (cx, cy, rr, a1, a2, src) => {
+          if (!uniform(T)) {
+            let sw = ((a2 - a1) % 360 + 360) % 360 || 360; const N = Math.max(8, Math.ceil(sw / 360 * 64)), pts = [];
+            for (let k = 0; k <= N; k++) { const a = (a1 + sw * k / N) * Math.PI / 180; pts.push([cx + rr * Math.cos(a), cy + rr * Math.sin(a)]); }
+            polyPts(pts, src || 'ARC'); return;
+          }
+          const c0 = tp(T, cx, cy), R = rr * Math.abs(T.sx);
+          const ang = a => Math.atan2(T.sy * Math.sin(a * Math.PI / 180), T.sx * Math.cos(a * Math.PI / 180)) * 180 / Math.PI + T.rot * 180 / Math.PI;
+          const flip = T.sx * T.sy < 0;
+          grow(c0[0] - R, c0[1] - R); grow(c0[0] + R, c0[1] + R);
+          put(Object.assign({ k: 'A', c: [c0[0], c0[1]], r: R, a1: flip ? ang(a2) : ang(a1), a2: flip ? ang(a1) : ang(a2) }, src ? { e: src } : null));
+        };
+        const circleOf = (cx, cy, rr, src) => {
+          if (!uniform(T)) { arcOf(cx, cy, rr, 0, 360, src || 'CIRCLE'); return; }
+          const c0 = tp(T, cx, cy), R = rr * Math.abs(T.sx);
+          grow(c0[0] - R, c0[1] - R); grow(c0[0] + R, c0[1] + R);
+          put(Object.assign({ k: 'C', c: [c0[0], c0[1]], r: R }, src ? { e: src } : null));
+        };
+        const polyline = (pts, closed, src) => {
+          const n = pts.length;
+          for (let k = 0; k < (closed ? n : n - 1); k++) {
+            const a = pts[k], b2 = pts[(k + 1) % n];
+            if (a.b) { const ar = bulgeArc(a.x, a.y, b2.x, b2.y, a.b); if (ar) { arcOf(ar.cx, ar.cy, ar.r, ar.a1, ar.a2, src); continue; } }
+            if (a.x === b2.x && a.y === b2.y) continue;
+            line(a.x, a.y, b2.x, b2.y, src);
+          }
+        };
+        const putText = (raw, x, y, h, rot, align, valign, style, wf, refW) => {
+          const s = unesc(raw).replace(/\s+$/, '');
+          if (!s) return;
+          const q = tp(T, x, y), H = Math.abs(h * T.sy) || 2.5;
+          grow(q[0], q[1]);   // 只用插入點撐範圍：文字寬度是估的
+          const ti = texts.length;
+          texts.push({ ti, s, x: q[0], y: q[1], h: H });
+          put({ k: 'T', ti, x: q[0], y: q[1], h: H, s, rot: (rot || 0) + T.rot * 180 / Math.PI, align, valign, style, wf, w: refW || 0 });
+        };
+        // 直書中文（@ 開頭字型）：拆成一個字一個 TEXT 沿方向排下去
+        const putVertical = (lines, x, y, h, dirDeg, style) => {
+          const rad = dirDeg * Math.PI / 180, dir = [Math.cos(rad), Math.sin(rad)], perp = [-dir[1], dir[0]], step = h * 1.6;
+          lines.forEach((ln, k) => {
+            [...ln].forEach((ch, j) => {
+              if (ch === ' ') return;
+              const px = x - perp[0] * k * step + dir[0] * (j + 0.5) * h, py = y - perp[1] * k * step + dir[1] * (j + 0.5) * h;
+              const q = tp(T, px, py), H = Math.abs(h * T.sy) || 2.5;
+              grow(q[0], q[1]);
+              put({ k: 'T', x: q[0], y: q[1], h: H, s: ch, rot: T.rot * 180 / Math.PI, align: 'c', valign: 'mid', style });
+            });
+          });
+        };
+        const insert = (nm, blk, x, y, sx, sy, rotDeg) => {
+          // 外層若是鏡射（sx·sy < 0），內層的旋轉方向要反過來：diag(-1,1)·R(θ) = R(-θ)·diag(-1,1)
+          if (!uniform(T)) addWarn('圖塊「' + nm + '」放在 X/Y 比例不同的圖塊裡，巢狀旋轉只能近似');
+          const rot = (T.sx * T.sy < 0 ? -rotDeg : rotDeg) * Math.PI / 180;
+          const q = tp(T, x, y);
+          const c = Math.cos(T.rot + rot), s = Math.sin(T.rot + rot);
+          // 圖塊自己的縮放要先做，再套外層的旋轉：T2 = T ∘ (平移到 q、旋轉 rot、縮放 sx sy、減去基準點)
+          const T2 = { sx: T.sx * sx, sy: T.sy * sy, rot: T.rot + rot, c, s, tx: 0, ty: 0 };
+          const b0 = tp(T2, blk.base[0], blk.base[1]);
+          T2.tx = q[0] - b0[0]; T2.ty = q[1] - b0[1];
+          const hasAttrib = recs[i + 1] && recs[i + 1].t === 'ATTRIB';
+          walk(blk.recs.filter(x2 => !(hasAttrib && x2.t === 'ATTDEF')), T2, depth + 1);
+        };
+
+        switch (r.t) {
+          case 'LINE': line(gn(r, 10, 0), gn(r, 20, 0), gn(r, 11, 0), gn(r, 21, 0)); break;
+          case 'XLINE': case 'RAY': skipped[r.t] = (skipped[r.t] || 0) + 1; break;
+          case 'LWPOLYLINE': {
+            const pts = []; let cur = null;
+            for (const [c, v] of r.g) {
+              if (c === 10) { cur = { x: parseFloat(v) || 0, y: 0, b: 0 }; pts.push(cur); }
+              else if (c === 20 && cur) cur.y = parseFloat(v) || 0;
+              else if (c === 42 && cur) cur.b = parseFloat(v) || 0;
+            }
+            polyline(pts, (gn(r, 70, 0) & 1) === 1, 'LWPOLYLINE');
+            break;
+          }
+          case 'POLYLINE': {
+            const flags = gn(r, 70, 0);
+            const pts = []; let j = i + 1;
+            for (; j < recs.length && recs[j].t === 'VERTEX'; j++) {
+              const vf = gn(recs[j], 70, 0);
+              if (vf & 128 && !(vf & 64)) continue;   // 多面網格的面記錄（沒有座標）
+              if (vf & 16 && !(flags & 8)) continue;   // 曲線擬合產生的控制點（原始頂點）只留擬合後的
+              pts.push({ x: gn(recs[j], 10, 0), y: gn(recs[j], 20, 0), b: gn(recs[j], 42, 0) });
+            }
+            if (recs[j] && recs[j].t === 'SEQEND') j++;
+            i = j - 1;
+            if (flags & 16 || flags & 64) { skipped['POLYLINE（3D 網格）'] = (skipped['POLYLINE（3D 網格）'] || 0) + 1; break; }
+            polyline(pts, (flags & 1) === 1, 'POLYLINE');
+            break;
+          }
+          case 'CIRCLE': circleOf(gn(r, 10, 0), gn(r, 20, 0), gn(r, 40, 0)); break;
+          case 'ARC': arcOf(gn(r, 10, 0), gn(r, 20, 0), gn(r, 40, 0), gn(r, 50, 0), gn(r, 51, 0)); break;
+          case 'ELLIPSE': {
+            const cx = gn(r, 10, 0), cy = gn(r, 20, 0), mx = gn(r, 11, 1), my = gn(r, 21, 0), ratio = gn(r, 40, 1);
+            polyPts(ellipsePoints(cx, cy, mx, my, ratio, gn(r, 41, 0), gn(r, 42, Math.PI * 2), gn(r, 230, 1) < 0 ? -1 : 1), 'ELLIPSE');
+            break;
+          }
+          case 'SPLINE': {
+            const ctrl = [], fit = []; let cur = null, cf = null;
+            for (const [c, v] of r.g) {
+              if (c === 10) { cur = [parseFloat(v) || 0, 0]; ctrl.push(cur); } else if (c === 20 && cur) cur[1] = parseFloat(v) || 0;
+              else if (c === 11) { cf = [parseFloat(v) || 0, 0]; fit.push(cf); } else if (c === 21 && cf) cf[1] = parseFloat(v) || 0;
+            }
+            polyPts(splinePoints(gn(r, 71, 3), gall(r, 40), ctrl, gall(r, 42), fit, (gn(r, 70, 0) & 1) === 1), 'SPLINE');
+            break;
+          }
+          case 'SOLID': case 'TRACE': {
+            const q = [[10, 20], [11, 21], [12, 22], [13, 23]].map(([a, b2]) => tp(T, gn(r, a, 0), gn(r, b2, 0)));
+            q.forEach(([x, y]) => grow(x, y));
+            put({ k: 'S', pts: q });
+            break;
+          }
+          case '3DFACE': {
+            const q = [[10, 20], [11, 21], [12, 22], [13, 23]].map(([a, b2]) => [gn(r, a, 0), gn(r, b2, 0)]);
+            const inv = gn(r, 70, 0);
+            for (let k = 0; k < 4; k++) { if (inv & (1 << k)) continue; const a = q[k], b2 = q[(k + 1) % 4]; if (Math.hypot(b2[0] - a[0], b2[1] - a[1]) > 1e-9) line(a[0], a[1], b2[0], b2[1], '3DFACE'); }
+            break;
+          }
+          case 'HATCH': {
+            // 只畫邊界（填充線條對描牆沒有用）；群組碼要照順序讀
+            const g = r.g; let p = g.findIndex(x => x[0] === 91); if (p < 0) break;
+            const num = (c) => { if (p < g.length && g[p][0] === c) return parseFloat(g[p++][1]) || 0; return undefined; };
+            const nPaths = parseInt(g[p++][1], 10) || 0;
+            for (let pi = 0; pi < nPaths && p < g.length; pi++) {
+              if (g[p][0] !== 92) break;
+              const flags = parseInt(g[p++][1], 10) || 0;
+              if (flags & 2) {   // 多段線邊界
+                const hasB = num(72), closed = num(73), n = num(93) || 0, pts = [];
+                for (let k = 0; k < n && p < g.length && g[p][0] === 10; k++) { const pt = { x: parseFloat(g[p++][1]) || 0, y: 0, b: 0 }; if (g[p] && g[p][0] === 20) pt.y = parseFloat(g[p++][1]) || 0; if (hasB && g[p] && g[p][0] === 42) pt.b = parseFloat(g[p++][1]) || 0; pts.push(pt); }
+                polyline(pts, !!closed, 'HATCH');
+              } else {
+                const nEdges = num(93) || 0;
+                for (let k = 0; k < nEdges && p < g.length; k++) {
+                  if (g[p][0] !== 72) break;
+                  const et = parseInt(g[p++][1], 10);
+                  if (et === 1) { const x1 = num(10), y1 = num(20), x2 = num(11), y2 = num(21); line(x1, y1, x2, y2, 'HATCH'); }
+                  else if (et === 2) { const cx = num(10), cy = num(20), rr = num(40); let a1 = num(50), a2 = num(51); const ccw = num(73); if (!ccw) { const t = a1; a1 = -a2; a2 = -t; } arcOf(cx, cy, rr, a1, a2, 'HATCH'); }
+                  else if (et === 3) { const cx = num(10), cy = num(20), mx = num(11), my = num(21), ratio = num(40); let a1 = num(50), a2 = num(51); const ccw = num(73); if (!ccw) { const t = a1; a1 = -a2; a2 = -t; } polyPts(ellipsePoints(cx, cy, mx, my, ratio, a1 * Math.PI / 180, a2 * Math.PI / 180, 1), 'HATCH'); }
+                  else if (et === 4) {
+                    const deg = num(94), rational = num(73), periodic = num(74), nK = num(95) || 0, nC = num(96) || 0, knots = [], ctrl = [], w = [];
+                    for (let q = 0; q < nK && g[p] && g[p][0] === 40; q++) knots.push(parseFloat(g[p++][1]) || 0);
+                    for (let q = 0; q < nC && g[p] && g[p][0] === 10; q++) { const c2 = [parseFloat(g[p++][1]) || 0, 0]; if (g[p] && g[p][0] === 20) c2[1] = parseFloat(g[p++][1]) || 0; if (g[p] && g[p][0] === 42) w.push(parseFloat(g[p++][1]) || 1); ctrl.push(c2); }
+                    const nF = num(97) || 0, fit = [];
+                    for (let q = 0; q < nF && g[p] && g[p][0] === 11; q++) { const f = [parseFloat(g[p++][1]) || 0, 0]; if (g[p] && g[p][0] === 21) f[1] = parseFloat(g[p++][1]) || 0; fit.push(f); }
+                    while (g[p] && (g[p][0] === 12 || g[p][0] === 22 || g[p][0] === 13 || g[p][0] === 23)) p++;
+                    polyPts(splinePoints(deg, knots, ctrl, w, fit, !!periodic), 'HATCH');
+                    void rational;
+                  } else break;
+                }
+              }
+              const nSrc = num(97) || 0; for (let q = 0; q < nSrc && g[p] && g[p][0] === 330; q++) p++;
+            }
+            break;
+          }
+          case 'MLINE': {
+            // 每個頂點：10/20 位置、11/21 方向、12/22 斜接方向；每個元素：74 參數數、41×n（第一個＝沿斜接方向到元素線的距離）
+            const g = r.g, closed = (gn(r, 70, 0) & 2) === 2, verts = []; let v = null, el = null, nParam = 0;
+            for (const [c, val] of g) {
+              const f = parseFloat(val) || 0;
+              if (c === 10) { v = { x: f, y: 0, mx: 1, my: 0, els: [] }; verts.push(v); el = null; }
+              else if (!v) continue;
+              else if (c === 20) v.y = f;
+              else if (c === 12) v.mx = f; else if (c === 22) v.my = f;
+              else if (c === 74) { el = { d: null }; v.els.push(el); nParam = f; }
+              else if (c === 41 && el && nParam > 0) { if (el.d == null) el.d = f; nParam--; }
+            }
+            const nEl = Math.max(0, ...verts.map(x => x.els.length));
+            const ptOf = (vt, j) => { const d = vt.els[j] && vt.els[j].d != null ? vt.els[j].d : 0; return [vt.x + vt.mx * d, vt.y + vt.my * d]; };
+            for (let j = 0; j < nEl; j++) for (let k = 0; k < (closed ? verts.length : verts.length - 1); k++) { const a = ptOf(verts[k], j), b2 = ptOf(verts[(k + 1) % verts.length], j); if (Math.hypot(b2[0] - a[0], b2[1] - a[1]) > 1e-9) line(a[0], a[1], b2[0], b2[1], 'MLINE'); }
+            break;
+          }
+          case 'TEXT': case 'ATTDEF': case 'ATTRIB': {
+            const hj = gn(r, 72, 0), vj = gn(r, 73, 0);
+            const useAlt = hj !== 0 || vj !== 0;
+            putText(gs(r, 1, ''), useAlt ? gn(r, 11, gn(r, 10, 0)) : gn(r, 10, 0), useAlt ? gn(r, 21, gn(r, 20, 0)) : gn(r, 20, 0),
+              gn(r, 40, 2.5), gn(r, 50, 0), TX_ALIGN[hj] || 'l', TX_VALIGN[vj] || 'base', gs(r, 7, ''), gn(r, 41, 0) || 0);
+            break;
+          }
+          case 'MTEXT': {
+            const [al, va] = MT_ALIGN[gn(r, 71, 1)] || ['l', 't'];
+            const rawTxt = gcat(r, 3) + gs(r, 1, '');   // 長字串先用一堆 code 3 分段，最後才是 code 1
+            const raw = mtextPlain(unesc(rawTxt));   // 先還原 \U+XXXX／\M+1XXXX，再拿格式碼（否則反斜線會先被吃掉）
+            const x = gn(r, 10, 0), y = gn(r, 20, 0), h = gn(r, 40, 2.5);
+            let rot = gn(r, 50, 0);
+            if (gv(r, 11) !== undefined) rot = Math.atan2(gn(r, 21, 0), gn(r, 11, 1)) * 180 / Math.PI;
+            const lines = raw.split('\n').filter(s => s !== '');
+            if (/\\[fF]@/.test(rawTxt)) { putVertical(lines, x, y, h, rot, gs(r, 7, '')); break; }
+            const step = h * 1.6;
+            const top = va === 't' ? 0 : va === 'mid' ? (lines.length - 1) * step / 2 : (lines.length - 1) * step;
+            const refW = gn(r, 41, 0);
+            lines.forEach((s, k) => putText(s, x, y + top - k * step, h, rot, al, va === 'mid' && lines.length > 1 ? 'mid' : va, gs(r, 7, ''), 0, refW));
+            break;
+          }
+          case 'INSERT': {
+            const nm = gs(r, 2, ''), blk = blocks[nm];
+            if (!blk) { if (nm) addWarn('找不到圖塊「' + nm + '」，已略過'); break; }
+            const sx = gn(r, 41, 1) || 1, sy = gn(r, 42, 1) || 1, rot = gn(r, 50, 0);
+            const x = gn(r, 10, 0), y = gn(r, 20, 0);
+            const cols = Math.max(1, gn(r, 70, 1) || 1), rows = Math.max(1, gn(r, 71, 1) || 1), dx = gn(r, 44, 0), dy = gn(r, 45, 0);
+            const cr = Math.cos(rot * Math.PI / 180), sr = Math.sin(rot * Math.PI / 180);
+            for (let ci = 0; ci < cols; ci++) for (let ri = 0; ri < rows; ri++) {
+              const ox = ci * dx, oy = ri * dy;   // 陣列位移在圖塊自己的旋轉座標系裡（不受比例影響）
+              insert(nm, blk, x + ox * cr - oy * sr, y + ox * sr + oy * cr, sx, sy, rot);
+            }
+            break;
+          }
+          case 'DIMENSION': {   // 標註的幾何存在匿名圖塊（*D…）裡，位置已是絕對座標
+            const nm = gs(r, 2, ''), blk = blocks[nm];
+            if (blk) walk(blk.recs, T, depth + 1);
+            break;
+          }
+          case 'VERTEX': case 'SEQEND': case 'VIEWPORT': case 'ENDBLK': case 'BLOCK': case 'POINT': break;
+          default: if (r.t) skipped[r.t] = (skipped[r.t] || 0) + 1;
+        }
+      }
+    }
+    walk(recsOf(sec.ENTITIES), { sx: 1, sy: 1, rot: 0, c: 1, s: 0, tx: 0, ty: 0 }, 0);
+
+    const skippedList = Object.entries(skipped).map(([t, n]) => `${t} ×${n}`);
+    if (skippedList.length) warn.push('略過不支援的圖元：' + skippedList.join('、'));
+    const base = { ents, texts, layers: tbl.layers, styles: tbl.styles, warnings: warn, header, encoding, binary, counts, skipped };
+    if (!isFinite(bb.x0)) {
+      let err;
+      if (paperOnly && !Object.keys(counts).length) err = '模型空間裡沒有圖形，圖形都在配置（圖紙空間）裡。請在 CAD 切到「模型」頁籤確認平面圖在模型空間，或把圖複製到模型空間後再另存 DXF。';
+      else if (skippedList.length) err = '這個 DXF 裡的圖元都是目前不支援的類型（' + skippedList.join('、') + '）。請在 CAD 用 EXPLODE 把它們分解成線條、圓弧或多段線後再另存 DXF。';
+      else err = '這個 DXF 裡沒有讀到任何線條、圓弧或多段線。請確認圖面在「模型空間」裡，而不是只有配置（圖紙空間）。';
+      return Object.assign(base, { error: err, bbox: null });
+    }
+    // 單位：$INSUNITS 有就用；沒有（R12／$INSUNITS=0）就依圖幅推測並提醒
+    let unit = header.units, unitGuessed = false;
+    if (!UNIT[unit]) {
+      const ext = Math.max(bb.x1 - bb.x0, bb.y1 - bb.y0);
+      unit = ext < 150 ? 6 : ext < 3000 ? 5 : 4; unitGuessed = true;
+      warn.push(`找不到單位設定（$INSUNITS），已依圖幅大小假設為 ${UNIT_NAME[unit]}；若不對請在右側「單位」改選，或用「點選線段輸入長度」定比例`);
+    } else if (!UNIT_NAME[unit]) warn.push(`圖檔單位代號 ${unit} 不常見，已直接換算`);
+    return Object.assign(base, {
+      bbox: bb, w: +(bb.x1 - bb.x0).toFixed(2), h: +(bb.y1 - bb.y0).toFixed(2),
+      unit, unitGuessed, area: null, rects: [], areaNamed: false
+    });
+  };
 
   /* ---------- 幾何：由線段找封閉面 ---------- */
   const key = (x, y) => Math.round(x / Q) + ',' + Math.round(y / Q);
@@ -372,14 +863,13 @@
 
   /* ---------- 主流程 ---------- */
   X.open = async function (file) {
-    if (!window.DXFOut || !window.DXFOut.parseFrame) { App.toast('DXF 模組未載入'); return; }
     App.busy(true, '解析 DXF…');
-    let text, fr;
-    try { text = await readText(file); fr = window.DXFOut.parseFrame(text); } catch (e) { App.busy(false); App.toast('讀取失敗：' + (e.message || e)); return; }
+    let fr;
+    try { fr = X.parse(new Uint8Array(await file.arrayBuffer())); }
+    catch (e) { App.busy(false); App.toast('讀取失敗：' + (e.message || e)); return; }
     App.busy(false);
-    if (!fr || fr.error) { await UI().alert('無法讀取', (fr && fr.error) || '這個 DXF 沒有可用圖形'); return; }
-    const ins = headerUnits(text);
-    await X.openFrame(fr, file.name, { mode: 'dxf', unit: guessUnit(fr.bbox, ins) });
+    if (!fr || fr.error) { await UI().alert('無法讀取 DXF', (fr && fr.error) || '這個 DXF 沒有可用圖形'); return; }
+    await X.openFrame(fr, file.name, { mode: 'dxf', unit: fr.unit });
   };
 
   // PDF 向量平面圖：fr.ents 為紙面 mm；比例分母 S 由牆厚（平行雙線間距）推測
@@ -484,7 +974,7 @@
         <canvas id="dxfCv" width="860" height="600"></canvas>
         <div class="dxfin-stat muted" id="dxfStat"></div></div>
       <div class="dxfin-right">
-        <div class="kv"><label>${isPdf ? '圖面比例' : '單位'}</label>${isPdf ? `<div class="inline">1 :&nbsp;<input name="unit" type="number" value="${st.scaleDen}" min="0.01" max="5000" step="any" style="width:80px"><span class="unit">（自動推測，可改）</span></div>` : `<select name="unit" data-k="unit">${[[4, 'mm（公釐）'], [5, 'cm（公分）'], [6, 'm（公尺）'], [1, 'inch（英吋）']].map(([v, n]) => `<option value="${v}"${v === st.unit ? ' selected' : ''}>${n}</option>`).join('')}</select>`}
+        <div class="kv"><label>${isPdf ? '圖面比例' : '單位'}</label>${isPdf ? `<div class="inline">1 :&nbsp;<input name="unit" type="number" value="${st.scaleDen}" min="0.01" max="5000" step="any" style="width:80px"><span class="unit">（自動推測，可改）</span></div>` : `<select name="unit" data-k="unit">${[[4, 'mm（公釐）'], [5, 'cm（公分）'], [6, 'm（公尺）'], [1, 'inch（英吋）'], [2, 'ft（英呎）']].map(([v, n]) => `<option value="${v}"${v === st.unit ? ' selected' : ''}>${n}</option>`).join('')}</select>`}
         <label></label><div class="inline"><button type="button" class="btn small" id="dxfPick">${UI().icon('tape')}點選線段輸入長度定比例</button></div>
         <div id="dxfPickRow" class="inline" style="grid-column:1/-1;display:none;gap:6px;align-items:center"><span id="dxfPickInfo" class="muted" style="font-size:12px"></span><input id="dxfPickLen" type="number" step="1" min="10" style="width:90px" placeholder="實際 mm"><span class="unit">mm</span><button type="button" class="btn small primary" id="dxfPickApply">套用</button></div>
         <label>圖幅</label><span id="dxfSize"></span>
@@ -492,6 +982,7 @@
         <label>牆高</label><div class="inline"><input name="h" type="number" value="${App.state.room ? App.state.room.height : 2800}" step="10" min="1800" max="6000"><span class="unit">mm</span></div>
         <label>門窗</label><label class="inline" style="gap:6px"><input type="checkbox" name="op" checked> 自動帶入 <span id="dxfOp" class="muted"></span></label></div>
         <div class="sec-title" style="margin-top:8px">圖層 <small>勾選含牆線的圖層</small></div>
+        ${st.warn.length ? `<div class="dxfin-warn muted" style="font-size:11.5px;margin:6px 0 0;padding:6px 8px;border:1px solid #e3c984;border-radius:6px;background:#fff8e5">${st.warn.map(w => '⚠ ' + UI().esc(w)).join('<br>')}</div>` : ''}
         <div class="dxfin-layers">${layerNames.map(l => `<label><input type="checkbox" data-layer="${UI().esc(l)}"${st.layers[l] ? ' checked' : ''}> ${UI().esc(l)} <span class="muted">${counts[l]}</span></label>`).join('')}</div>
         <p class="muted" style="font-size:11.5px;margin:8px 0 0">自動找到的封閉區域會以淡色標出，點選即成為「空間」（藍色）。自動找不到或不準時按「圈選空間」自己沿牆內緣點轉角（會吸附線段端點與直角），門口直接跨過去即可，門窗會再依符號辨識帶入。</p>
       </div></div>`;
