@@ -8,8 +8,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#ab9b8e",
-"img": "swatches/hemai/hm_K2878.jpg",
-"thumb": "swatches/hemai/thumb/hm_K2878.jpg",
+"img": "swatches/hemai/hm_K2878.webp",
+"thumb": "swatches/hemai/thumb/hm_K2878.webp",
 "price": 130
 },
 {
@@ -19,8 +19,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "Mauro Saviola",
 "hex": "#b8b3a7",
-"img": "swatches/hemai/hm_799.jpg",
-"thumb": "swatches/hemai/thumb/hm_799.jpg",
+"img": "swatches/hemai/hm_799.webp",
+"thumb": "swatches/hemai/thumb/hm_799.webp",
 "price": 130
 },
 {
@@ -30,8 +30,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#dabfa1",
-"img": "swatches/hemai/hm_K2828.jpg",
-"thumb": "swatches/hemai/thumb/hm_K2828.jpg",
+"img": "swatches/hemai/hm_K2828.webp",
+"thumb": "swatches/hemai/thumb/hm_K2828.webp",
 "price": 130
 },
 {
@@ -41,8 +41,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#b0b7bf",
-"img": "swatches/hemai/hm_K2811.jpg",
-"thumb": "swatches/hemai/thumb/hm_K2811.jpg",
+"img": "swatches/hemai/hm_K2811.webp",
+"thumb": "swatches/hemai/thumb/hm_K2811.webp",
 "price": 130
 },
 {
@@ -52,8 +52,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "Mauro Saviola",
 "hex": "#5d544b",
-"img": "swatches/hemai/hm_798.jpg",
-"thumb": "swatches/hemai/thumb/hm_798.jpg",
+"img": "swatches/hemai/hm_798.webp",
+"thumb": "swatches/hemai/thumb/hm_798.webp",
 "price": 130
 },
 {
@@ -63,8 +63,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#d3d8d0",
-"img": "swatches/hemai/hm_424.jpg",
-"thumb": "swatches/hemai/thumb/hm_424.jpg",
+"img": "swatches/hemai/hm_424.webp",
+"thumb": "swatches/hemai/thumb/hm_424.webp",
 "price": 130
 },
 {
@@ -74,8 +74,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#ad8a68",
-"img": "swatches/hemai/hm_K2752.jpg",
-"thumb": "swatches/hemai/thumb/hm_K2752.jpg",
+"img": "swatches/hemai/hm_K2752.webp",
+"thumb": "swatches/hemai/thumb/hm_K2752.webp",
 "price": 130
 },
 {
@@ -85,8 +85,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#725a43",
-"img": "swatches/hemai/hm_K2753.jpg",
-"thumb": "swatches/hemai/thumb/hm_K2753.jpg",
+"img": "swatches/hemai/hm_K2753.webp",
+"thumb": "swatches/hemai/thumb/hm_K2753.webp",
 "price": 130
 },
 {
@@ -96,8 +96,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "實木皮門板",
 "hex": "#c3a283",
-"img": "swatches/hemai/hm_8801.jpg",
-"thumb": "swatches/hemai/thumb/hm_8801.jpg",
+"img": "swatches/hemai/hm_8801.webp",
+"thumb": "swatches/hemai/thumb/hm_8801.webp",
 "price": 130
 },
 {
@@ -107,8 +107,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "實木皮門板",
 "hex": "#604837",
-"img": "swatches/hemai/hm_8802.jpg",
-"thumb": "swatches/hemai/thumb/hm_8802.jpg",
+"img": "swatches/hemai/hm_8802.webp",
+"thumb": "swatches/hemai/thumb/hm_8802.webp",
 "price": 130
 },
 {
@@ -118,8 +118,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "實木皮門板",
 "hex": "#2a2722",
-"img": "swatches/hemai/hm_8803.jpg",
-"thumb": "swatches/hemai/thumb/hm_8803.jpg",
+"img": "swatches/hemai/hm_8803.webp",
+"thumb": "swatches/hemai/thumb/hm_8803.webp",
 "price": 130
 },
 {
@@ -129,8 +129,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "實木皮門板",
 "hex": "#554234",
-"img": "swatches/hemai/hm_8805.jpg",
-"thumb": "swatches/hemai/thumb/hm_8805.jpg",
+"img": "swatches/hemai/hm_8805.webp",
+"thumb": "swatches/hemai/thumb/hm_8805.webp",
 "price": 130
 },
 {
@@ -140,8 +140,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "實木皮門板",
 "hex": "#7b624e",
-"img": "swatches/hemai/hm_8806.jpg",
-"thumb": "swatches/hemai/thumb/hm_8806.jpg",
+"img": "swatches/hemai/hm_8806.webp",
+"thumb": "swatches/hemai/thumb/hm_8806.webp",
 "price": 130
 },
 {
@@ -151,8 +151,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#c7c3c0",
-"img": "swatches/hemai/hm_B073.jpg",
-"thumb": "swatches/hemai/thumb/hm_B073.jpg",
+"img": "swatches/hemai/hm_B073.webp",
+"thumb": "swatches/hemai/thumb/hm_B073.webp",
 "price": 130
 },
 {
@@ -162,8 +162,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#9f948f",
-"img": "swatches/hemai/hm_D026.jpg",
-"thumb": "swatches/hemai/thumb/hm_D026.jpg",
+"img": "swatches/hemai/hm_D026.webp",
+"thumb": "swatches/hemai/thumb/hm_D026.webp",
 "price": 130
 },
 {
@@ -173,8 +173,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#7b726a",
-"img": "swatches/hemai/hm_FA90.jpg",
-"thumb": "swatches/hemai/thumb/hm_FA90.jpg",
+"img": "swatches/hemai/hm_FA90.webp",
+"thumb": "swatches/hemai/thumb/hm_FA90.webp",
 "price": 130
 },
 {
@@ -184,8 +184,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#5d5a55",
-"img": "swatches/hemai/hm_FA91.jpg",
-"thumb": "swatches/hemai/thumb/hm_FA91.jpg",
+"img": "swatches/hemai/hm_FA91.webp",
+"thumb": "swatches/hemai/thumb/hm_FA91.webp",
 "price": 130
 },
 {
@@ -195,8 +195,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#54534f",
-"img": "swatches/hemai/hm_FB35.jpg",
-"thumb": "swatches/hemai/thumb/hm_FB35.jpg",
+"img": "swatches/hemai/hm_FB35.webp",
+"thumb": "swatches/hemai/thumb/hm_FB35.webp",
 "price": 130
 },
 {
@@ -206,8 +206,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#3e3932",
-"img": "swatches/hemai/hm_FB48.jpg",
-"thumb": "swatches/hemai/thumb/hm_FB48.jpg",
+"img": "swatches/hemai/hm_FB48.webp",
+"thumb": "swatches/hemai/thumb/hm_FB48.webp",
 "price": 130
 },
 {
@@ -217,8 +217,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#d7d5d3",
-"img": "swatches/hemai/hm_FB79.jpg",
-"thumb": "swatches/hemai/thumb/hm_FB79.jpg",
+"img": "swatches/hemai/hm_FB79.webp",
+"thumb": "swatches/hemai/thumb/hm_FB79.webp",
 "price": 130
 },
 {
@@ -228,8 +228,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#968a80",
-"img": "swatches/hemai/hm_FB80.jpg",
-"thumb": "swatches/hemai/thumb/hm_FB80.jpg",
+"img": "swatches/hemai/hm_FB80.webp",
+"thumb": "swatches/hemai/thumb/hm_FB80.webp",
 "price": 130
 },
 {
@@ -239,8 +239,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#938f83",
-"img": "swatches/hemai/hm_FB81.jpg",
-"thumb": "swatches/hemai/thumb/hm_FB81.jpg",
+"img": "swatches/hemai/hm_FB81.webp",
+"thumb": "swatches/hemai/thumb/hm_FB81.webp",
 "price": 130
 },
 {
@@ -250,8 +250,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#5b5551",
-"img": "swatches/hemai/hm_FB82.jpg",
-"thumb": "swatches/hemai/thumb/hm_FB82.jpg",
+"img": "swatches/hemai/hm_FB82.webp",
+"thumb": "swatches/hemai/thumb/hm_FB82.webp",
 "price": 130
 },
 {
@@ -261,8 +261,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#372e24",
-"img": "swatches/hemai/hm_FB86.jpg",
-"thumb": "swatches/hemai/thumb/hm_FB86.jpg",
+"img": "swatches/hemai/hm_FB86.webp",
+"thumb": "swatches/hemai/thumb/hm_FB86.webp",
 "price": 130
 },
 {
@@ -272,8 +272,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#474642",
-"img": "swatches/hemai/hm_FC14.jpg",
-"thumb": "swatches/hemai/thumb/hm_FC14.jpg",
+"img": "swatches/hemai/hm_FC14.webp",
+"thumb": "swatches/hemai/thumb/hm_FC14.webp",
 "price": 130
 },
 {
@@ -283,8 +283,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#c5b9b0",
-"img": "swatches/hemai/hm_FC36.jpg",
-"thumb": "swatches/hemai/thumb/hm_FC36.jpg",
+"img": "swatches/hemai/hm_FC36.webp",
+"thumb": "swatches/hemai/thumb/hm_FC36.webp",
 "price": 130
 },
 {
@@ -294,8 +294,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#959396",
-"img": "swatches/hemai/hm_FC69.jpg",
-"thumb": "swatches/hemai/thumb/hm_FC69.jpg",
+"img": "swatches/hemai/hm_FC69.webp",
+"thumb": "swatches/hemai/thumb/hm_FC69.webp",
 "price": 130
 },
 {
@@ -305,8 +305,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#201e1c",
-"img": "swatches/hemai/hm_FC92.jpg",
-"thumb": "swatches/hemai/thumb/hm_FC92.jpg",
+"img": "swatches/hemai/hm_FC92.webp",
+"thumb": "swatches/hemai/thumb/hm_FC92.webp",
 "price": 130
 },
 {
@@ -316,8 +316,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#19191a",
-"img": "swatches/hemai/hm_FC99.jpg",
-"thumb": "swatches/hemai/thumb/hm_FC99.jpg",
+"img": "swatches/hemai/hm_FC99.webp",
+"thumb": "swatches/hemai/thumb/hm_FC99.webp",
 "price": 130
 },
 {
@@ -327,8 +327,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#989594",
-"img": "swatches/hemai/hm_FD05.jpg",
-"thumb": "swatches/hemai/thumb/hm_FD05.jpg",
+"img": "swatches/hemai/hm_FD05.webp",
+"thumb": "swatches/hemai/thumb/hm_FD05.webp",
 "price": 130
 },
 {
@@ -338,8 +338,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#c7c1a8",
-"img": "swatches/hemai/hm_FD10.jpg",
-"thumb": "swatches/hemai/thumb/hm_FD10.jpg",
+"img": "swatches/hemai/hm_FD10.webp",
+"thumb": "swatches/hemai/thumb/hm_FD10.webp",
 "price": 130
 },
 {
@@ -349,8 +349,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#8d8a7a",
-"img": "swatches/hemai/hm_FD16.jpg",
-"thumb": "swatches/hemai/thumb/hm_FD16.jpg",
+"img": "swatches/hemai/hm_FD16.webp",
+"thumb": "swatches/hemai/thumb/hm_FD16.webp",
 "price": 130
 },
 {
@@ -360,8 +360,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#a59f89",
-"img": "swatches/hemai/hm_FD31.jpg",
-"thumb": "swatches/hemai/thumb/hm_FD31.jpg",
+"img": "swatches/hemai/hm_FD31.webp",
+"thumb": "swatches/hemai/thumb/hm_FD31.webp",
 "price": 130
 },
 {
@@ -371,8 +371,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#80756d",
-"img": "swatches/hemai/hm_LN01.jpg",
-"thumb": "swatches/hemai/thumb/hm_LN01.jpg",
+"img": "swatches/hemai/hm_LN01.webp",
+"thumb": "swatches/hemai/thumb/hm_LN01.webp",
 "price": 130
 },
 {
@@ -382,8 +382,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#af9d91",
-"img": "swatches/hemai/hm_LN02.jpg",
-"thumb": "swatches/hemai/thumb/hm_LN02.jpg",
+"img": "swatches/hemai/hm_LN02.webp",
+"thumb": "swatches/hemai/thumb/hm_LN02.webp",
 "price": 130
 },
 {
@@ -393,8 +393,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#91857b",
-"img": "swatches/hemai/hm_LR18.jpg",
-"thumb": "swatches/hemai/thumb/hm_LR18.jpg",
+"img": "swatches/hemai/hm_LR18.webp",
+"thumb": "swatches/hemai/thumb/hm_LR18.webp",
 "price": 130
 },
 {
@@ -404,8 +404,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#6c4d32",
-"img": "swatches/hemai/hm_LS47.jpg",
-"thumb": "swatches/hemai/thumb/hm_LS47.jpg",
+"img": "swatches/hemai/hm_LS47.webp",
+"thumb": "swatches/hemai/thumb/hm_LS47.webp",
 "price": 130
 },
 {
@@ -415,8 +415,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#423323",
-"img": "swatches/hemai/hm_LS53.jpg",
-"thumb": "swatches/hemai/thumb/hm_LS53.jpg",
+"img": "swatches/hemai/hm_LS53.webp",
+"thumb": "swatches/hemai/thumb/hm_LS53.webp",
 "price": 130
 },
 {
@@ -426,8 +426,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#63503e",
-"img": "swatches/hemai/hm_LS54.jpg",
-"thumb": "swatches/hemai/thumb/hm_LS54.jpg",
+"img": "swatches/hemai/hm_LS54.webp",
+"thumb": "swatches/hemai/thumb/hm_LS54.webp",
 "price": 130
 },
 {
@@ -437,8 +437,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#d5c0a3",
-"img": "swatches/hemai/hm_S083.jpg",
-"thumb": "swatches/hemai/thumb/hm_S083.jpg",
+"img": "swatches/hemai/hm_S083.webp",
+"thumb": "swatches/hemai/thumb/hm_S083.webp",
 "price": 130
 },
 {
@@ -448,8 +448,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#413931",
-"img": "swatches/hemai/hm_S158.jpg",
-"thumb": "swatches/hemai/thumb/hm_S158.jpg",
+"img": "swatches/hemai/hm_S158.webp",
+"thumb": "swatches/hemai/thumb/hm_S158.webp",
 "price": 130
 },
 {
@@ -459,8 +459,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#b59a7a",
-"img": "swatches/hemai/hm_S191.jpg",
-"thumb": "swatches/hemai/thumb/hm_S191.jpg",
+"img": "swatches/hemai/hm_S191.webp",
+"thumb": "swatches/hemai/thumb/hm_S191.webp",
 "price": 130
 },
 {
@@ -470,8 +470,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#523f30",
-"img": "swatches/hemai/hm_S192.jpg",
-"thumb": "swatches/hemai/thumb/hm_S192.jpg",
+"img": "swatches/hemai/hm_S192.webp",
+"thumb": "swatches/hemai/thumb/hm_S192.webp",
 "price": 130
 },
 {
@@ -481,8 +481,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SYNCRON 門板",
 "hex": "#a6afaa",
-"img": "swatches/hemai/hm_SYM101.jpg",
-"thumb": "swatches/hemai/thumb/hm_SYM101.jpg",
+"img": "swatches/hemai/hm_SYM101.webp",
+"thumb": "swatches/hemai/thumb/hm_SYM101.webp",
 "price": 130
 },
 {
@@ -492,8 +492,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SYNCRON 門板",
 "hex": "#acbabc",
-"img": "swatches/hemai/hm_SYM103.jpg",
-"thumb": "swatches/hemai/thumb/hm_SYM103.jpg",
+"img": "swatches/hemai/hm_SYM103.webp",
+"thumb": "swatches/hemai/thumb/hm_SYM103.webp",
 "price": 130
 },
 {
@@ -503,8 +503,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SYNCRON 門板",
 "hex": "#aaa6a1",
-"img": "swatches/hemai/hm_SYM105.jpg",
-"thumb": "swatches/hemai/thumb/hm_SYM105.jpg",
+"img": "swatches/hemai/hm_SYM105.webp",
+"thumb": "swatches/hemai/thumb/hm_SYM105.webp",
 "price": 130
 },
 {
@@ -514,8 +514,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SYNCRON 門板",
 "hex": "#c7c3b5",
-"img": "swatches/hemai/hm_SYM107.jpg",
-"thumb": "swatches/hemai/thumb/hm_SYM107.jpg",
+"img": "swatches/hemai/hm_SYM107.webp",
+"thumb": "swatches/hemai/thumb/hm_SYM107.webp",
 "price": 130
 },
 {
@@ -525,8 +525,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SYNCRON 門板",
 "hex": "#d5cdca",
-"img": "swatches/hemai/hm_SYM109.jpg",
-"thumb": "swatches/hemai/thumb/hm_SYM109.jpg",
+"img": "swatches/hemai/hm_SYM109.webp",
+"thumb": "swatches/hemai/thumb/hm_SYM109.webp",
 "price": 130
 },
 {
@@ -536,8 +536,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#232325",
-"img": "swatches/hemai/hm_U129.jpg",
-"thumb": "swatches/hemai/thumb/hm_U129.jpg",
+"img": "swatches/hemai/hm_U129.webp",
+"thumb": "swatches/hemai/thumb/hm_U129.webp",
 "price": 130
 },
 {
@@ -547,8 +547,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#6e6e6e",
-"img": "swatches/hemai/hm_UA32.jpg",
-"thumb": "swatches/hemai/thumb/hm_UA32.jpg",
+"img": "swatches/hemai/hm_UA32.webp",
+"thumb": "swatches/hemai/thumb/hm_UA32.webp",
 "price": 130
 },
 {
@@ -558,8 +558,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#a29585",
-"img": "swatches/hemai/hm_UA94.jpg",
-"thumb": "swatches/hemai/thumb/hm_UA94.jpg",
+"img": "swatches/hemai/hm_UA94.webp",
+"thumb": "swatches/hemai/thumb/hm_UA94.webp",
 "price": 130
 },
 {
@@ -569,8 +569,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#2f3a43",
-"img": "swatches/hemai/hm_UB02.jpg",
-"thumb": "swatches/hemai/thumb/hm_UB02.jpg",
+"img": "swatches/hemai/hm_UB02.webp",
+"thumb": "swatches/hemai/thumb/hm_UB02.webp",
 "price": 130
 },
 {
@@ -580,8 +580,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#b0a89b",
-"img": "swatches/hemai/hm_UB07.jpg",
-"thumb": "swatches/hemai/thumb/hm_UB07.jpg",
+"img": "swatches/hemai/hm_UB07.webp",
+"thumb": "swatches/hemai/thumb/hm_UB07.webp",
 "price": 130
 },
 {
@@ -591,8 +591,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#d18244",
-"img": "swatches/hemai/hm_UB18.jpg",
-"thumb": "swatches/hemai/thumb/hm_UB18.jpg",
+"img": "swatches/hemai/hm_UB18.webp",
+"thumb": "swatches/hemai/thumb/hm_UB18.webp",
 "price": 130
 },
 {
@@ -602,8 +602,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#8d8f81",
-"img": "swatches/hemai/hm_UB40.jpg",
-"thumb": "swatches/hemai/thumb/hm_UB40.jpg",
+"img": "swatches/hemai/hm_UB40.webp",
+"thumb": "swatches/hemai/thumb/hm_UB40.webp",
 "price": 130
 },
 {
@@ -613,8 +613,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#d59422",
-"img": "swatches/hemai/hm_UB53.jpg",
-"thumb": "swatches/hemai/thumb/hm_UB53.jpg",
+"img": "swatches/hemai/hm_UB53.webp",
+"thumb": "swatches/hemai/thumb/hm_UB53.webp",
 "price": 130
 },
 {
@@ -624,8 +624,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "CLEAF",
 "hex": "#4d503a",
-"img": "swatches/hemai/hm_UB54.jpg",
-"thumb": "swatches/hemai/thumb/hm_UB54.jpg",
+"img": "swatches/hemai/hm_UB54.webp",
+"thumb": "swatches/hemai/thumb/hm_UB54.webp",
 "price": 130
 },
 {
@@ -635,8 +635,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "Mauro Saviola",
 "hex": "#8e7749",
-"img": "swatches/hemai/hm_024.jpg",
-"thumb": "swatches/hemai/thumb/hm_024.jpg",
+"img": "swatches/hemai/hm_024.webp",
+"thumb": "swatches/hemai/thumb/hm_024.webp",
 "price": 130
 },
 {
@@ -646,8 +646,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#ebdcd2",
-"img": "swatches/hemai/hm_045.jpg",
-"thumb": "swatches/hemai/thumb/hm_045.jpg",
+"img": "swatches/hemai/hm_045.webp",
+"thumb": "swatches/hemai/thumb/hm_045.webp",
 "price": 130
 },
 {
@@ -657,8 +657,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "ArtDecor",
 "hex": "#2b2a2c",
-"img": "swatches/hemai/hm_053.jpg",
-"thumb": "swatches/hemai/thumb/hm_053.jpg",
+"img": "swatches/hemai/hm_053.webp",
+"thumb": "swatches/hemai/thumb/hm_053.webp",
 "price": 130
 },
 {
@@ -668,8 +668,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#423c3c",
-"img": "swatches/hemai/hm_055.jpg",
-"thumb": "swatches/hemai/thumb/hm_055.jpg",
+"img": "swatches/hemai/hm_055.webp",
+"thumb": "swatches/hemai/thumb/hm_055.webp",
 "price": 130
 },
 {
@@ -679,8 +679,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#e2dbdb",
-"img": "swatches/hemai/hm_060.jpg",
-"thumb": "swatches/hemai/thumb/hm_060.jpg",
+"img": "swatches/hemai/hm_060.webp",
+"thumb": "swatches/hemai/thumb/hm_060.webp",
 "price": 130
 },
 {
@@ -690,8 +690,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#d7b9a0",
-"img": "swatches/hemai/hm_139.jpg",
-"thumb": "swatches/hemai/thumb/hm_139.jpg",
+"img": "swatches/hemai/hm_139.webp",
+"thumb": "swatches/hemai/thumb/hm_139.webp",
 "price": 130
 },
 {
@@ -701,8 +701,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#a88662",
-"img": "swatches/hemai/hm_140.jpg",
-"thumb": "swatches/hemai/thumb/hm_140.jpg",
+"img": "swatches/hemai/hm_140.webp",
+"thumb": "swatches/hemai/thumb/hm_140.webp",
 "price": 130
 },
 {
@@ -712,8 +712,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#e8e6e7",
-"img": "swatches/hemai/hm_143.jpg",
-"thumb": "swatches/hemai/thumb/hm_143.jpg",
+"img": "swatches/hemai/hm_143.webp",
+"thumb": "swatches/hemai/thumb/hm_143.webp",
 "price": 130
 },
 {
@@ -723,8 +723,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#8a7c78",
-"img": "swatches/hemai/hm_166.jpg",
-"thumb": "swatches/hemai/thumb/hm_166.jpg",
+"img": "swatches/hemai/hm_166.webp",
+"thumb": "swatches/hemai/thumb/hm_166.webp",
 "price": 130
 },
 {
@@ -734,8 +734,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#8e766b",
-"img": "swatches/hemai/hm_181.jpg",
-"thumb": "swatches/hemai/thumb/hm_181.jpg",
+"img": "swatches/hemai/hm_181.webp",
+"thumb": "swatches/hemai/thumb/hm_181.webp",
 "price": 130
 },
 {
@@ -745,8 +745,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "Mauro Saviola",
 "hex": "#d5d9db",
-"img": "swatches/hemai/hm_210.jpg",
-"thumb": "swatches/hemai/thumb/hm_210.jpg",
+"img": "swatches/hemai/hm_210.webp",
+"thumb": "swatches/hemai/thumb/hm_210.webp",
 "price": 130
 },
 {
@@ -756,8 +756,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#aa998c",
-"img": "swatches/hemai/hm_267.jpg",
-"thumb": "swatches/hemai/thumb/hm_267.jpg",
+"img": "swatches/hemai/hm_267.webp",
+"thumb": "swatches/hemai/thumb/hm_267.webp",
 "price": 130
 },
 {
@@ -767,8 +767,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "Mauro Saviola",
 "hex": "#c9cac6",
-"img": "swatches/hemai/hm_296.jpg",
-"thumb": "swatches/hemai/thumb/hm_296.jpg",
+"img": "swatches/hemai/hm_296.webp",
+"thumb": "swatches/hemai/thumb/hm_296.webp",
 "price": 130
 },
 {
@@ -778,8 +778,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "Mauro Saviola",
 "hex": "#9e9c97",
-"img": "swatches/hemai/hm_297.jpg",
-"thumb": "swatches/hemai/thumb/hm_297.jpg",
+"img": "swatches/hemai/hm_297.webp",
+"thumb": "swatches/hemai/thumb/hm_297.webp",
 "price": 130
 },
 {
@@ -789,8 +789,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#b8a292",
-"img": "swatches/hemai/hm_309.jpg",
-"thumb": "swatches/hemai/thumb/hm_309.jpg",
+"img": "swatches/hemai/hm_309.webp",
+"thumb": "swatches/hemai/thumb/hm_309.webp",
 "price": 130
 },
 {
@@ -800,8 +800,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#c5afa0",
-"img": "swatches/hemai/hm_335.jpg",
-"thumb": "swatches/hemai/thumb/hm_335.jpg",
+"img": "swatches/hemai/hm_335.webp",
+"thumb": "swatches/hemai/thumb/hm_335.webp",
 "price": 130
 },
 {
@@ -811,8 +811,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#979798",
-"img": "swatches/hemai/hm_375.jpg",
-"thumb": "swatches/hemai/thumb/hm_375.jpg",
+"img": "swatches/hemai/hm_375.webp",
+"thumb": "swatches/hemai/thumb/hm_375.webp",
 "price": 130
 },
 {
@@ -822,8 +822,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#cec5bf",
-"img": "swatches/hemai/hm_425.jpg",
-"thumb": "swatches/hemai/thumb/hm_425.jpg",
+"img": "swatches/hemai/hm_425.webp",
+"thumb": "swatches/hemai/thumb/hm_425.webp",
 "price": 130
 },
 {
@@ -833,8 +833,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "Mauro Saviola",
 "hex": "#d3c8c6",
-"img": "swatches/hemai/hm_433.jpg",
-"thumb": "swatches/hemai/thumb/hm_433.jpg",
+"img": "swatches/hemai/hm_433.webp",
+"thumb": "swatches/hemai/thumb/hm_433.webp",
 "price": 130
 },
 {
@@ -844,8 +844,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#eae3d1",
-"img": "swatches/hemai/hm_44406.jpg",
-"thumb": "swatches/hemai/thumb/hm_44406.jpg",
+"img": "swatches/hemai/hm_44406.webp",
+"thumb": "swatches/hemai/thumb/hm_44406.webp",
 "price": 130
 },
 {
@@ -855,8 +855,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "Mauro Saviola",
 "hex": "#b4a9a5",
-"img": "swatches/hemai/hm_493.jpg",
-"thumb": "swatches/hemai/thumb/hm_493.jpg",
+"img": "swatches/hemai/hm_493.webp",
+"thumb": "swatches/hemai/thumb/hm_493.webp",
 "price": 130
 },
 {
@@ -866,8 +866,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#f3f1ee",
-"img": "swatches/hemai/hm_570.jpg",
-"thumb": "swatches/hemai/thumb/hm_570.jpg",
+"img": "swatches/hemai/hm_570.webp",
+"thumb": "swatches/hemai/thumb/hm_570.webp",
 "price": 130
 },
 {
@@ -877,8 +877,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#eaeaef",
-"img": "swatches/hemai/hm_575.jpg",
-"thumb": "swatches/hemai/thumb/hm_575.jpg",
+"img": "swatches/hemai/hm_575.webp",
+"thumb": "swatches/hemai/thumb/hm_575.webp",
 "price": 130
 },
 {
@@ -888,8 +888,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#b7afa2",
-"img": "swatches/hemai/hm_577.jpg",
-"thumb": "swatches/hemai/thumb/hm_577.jpg",
+"img": "swatches/hemai/hm_577.webp",
+"thumb": "swatches/hemai/thumb/hm_577.webp",
 "price": 130
 },
 {
@@ -899,8 +899,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#cdc3b7",
-"img": "swatches/hemai/hm_702.jpg",
-"thumb": "swatches/hemai/thumb/hm_702.jpg",
+"img": "swatches/hemai/hm_702.webp",
+"thumb": "swatches/hemai/thumb/hm_702.webp",
 "price": 130
 },
 {
@@ -910,8 +910,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#a19386",
-"img": "swatches/hemai/hm_727.jpg",
-"thumb": "swatches/hemai/thumb/hm_727.jpg",
+"img": "swatches/hemai/hm_727.webp",
+"thumb": "swatches/hemai/thumb/hm_727.webp",
 "price": 130
 },
 {
@@ -921,8 +921,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d8cfca",
-"img": "swatches/hemai/hm_760.jpg",
-"thumb": "swatches/hemai/thumb/hm_760.jpg",
+"img": "swatches/hemai/hm_760.webp",
+"thumb": "swatches/hemai/thumb/hm_760.webp",
 "price": 130
 },
 {
@@ -932,8 +932,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#dbcdbd",
-"img": "swatches/hemai/hm_769.jpg",
-"thumb": "swatches/hemai/thumb/hm_769.jpg",
+"img": "swatches/hemai/hm_769.webp",
+"thumb": "swatches/hemai/thumb/hm_769.webp",
 "price": 130
 },
 {
@@ -943,8 +943,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#d9baa1",
-"img": "swatches/hemai/hm_777.jpg",
-"thumb": "swatches/hemai/thumb/hm_777.jpg",
+"img": "swatches/hemai/hm_777.webp",
+"thumb": "swatches/hemai/thumb/hm_777.webp",
 "price": 130
 },
 {
@@ -954,8 +954,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "Mauro Saviola",
 "hex": "#4b5052",
-"img": "swatches/hemai/hm_797.jpg",
-"thumb": "swatches/hemai/thumb/hm_797.jpg",
+"img": "swatches/hemai/hm_797.webp",
+"thumb": "swatches/hemai/thumb/hm_797.webp",
 "price": 130
 },
 {
@@ -965,8 +965,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "Mauro Saviola",
 "hex": "#4e4744",
-"img": "swatches/hemai/hm_925.jpg",
-"thumb": "swatches/hemai/thumb/hm_925.jpg",
+"img": "swatches/hemai/hm_925.webp",
+"thumb": "swatches/hemai/thumb/hm_925.webp",
 "price": 130
 },
 {
@@ -976,8 +976,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#bc9c89",
-"img": "swatches/hemai/hm_965.jpg",
-"thumb": "swatches/hemai/thumb/hm_965.jpg",
+"img": "swatches/hemai/hm_965.webp",
+"thumb": "swatches/hemai/thumb/hm_965.webp",
 "price": 130
 },
 {
@@ -987,8 +987,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#865d4f",
-"img": "swatches/hemai/hm_967.jpg",
-"thumb": "swatches/hemai/thumb/hm_967.jpg",
+"img": "swatches/hemai/hm_967.webp",
+"thumb": "swatches/hemai/thumb/hm_967.webp",
 "price": 130
 },
 {
@@ -998,8 +998,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#35343b",
-"img": "swatches/hemai/hm_999.jpg",
-"thumb": "swatches/hemai/thumb/hm_999.jpg",
+"img": "swatches/hemai/hm_999.webp",
+"thumb": "swatches/hemai/thumb/hm_999.webp",
 "price": 130
 },
 {
@@ -1009,8 +1009,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#cac9c4",
-"img": "swatches/hemai/hm_D0112.jpg",
-"thumb": "swatches/hemai/thumb/hm_D0112.jpg",
+"img": "swatches/hemai/hm_D0112.webp",
+"thumb": "swatches/hemai/thumb/hm_D0112.webp",
 "price": 130
 },
 {
@@ -1020,8 +1020,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#ccc7c3",
-"img": "swatches/hemai/hm_D2124.jpg",
-"thumb": "swatches/hemai/thumb/hm_D2124.jpg",
+"img": "swatches/hemai/hm_D2124.webp",
+"thumb": "swatches/hemai/thumb/hm_D2124.webp",
 "price": 130
 },
 {
@@ -1031,8 +1031,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#beb7ad",
-"img": "swatches/hemai/hm_D2450.jpg",
-"thumb": "swatches/hemai/thumb/hm_D2450.jpg",
+"img": "swatches/hemai/hm_D2450.webp",
+"thumb": "swatches/hemai/thumb/hm_D2450.webp",
 "price": 130
 },
 {
@@ -1042,8 +1042,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#2c2c2e",
-"img": "swatches/hemai/hm_D2451.jpg",
-"thumb": "swatches/hemai/thumb/hm_D2451.jpg",
+"img": "swatches/hemai/hm_D2451.webp",
+"thumb": "swatches/hemai/thumb/hm_D2451.webp",
 "price": 130
 },
 {
@@ -1053,8 +1053,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#cecece",
-"img": "swatches/hemai/hm_D2452.jpg",
-"thumb": "swatches/hemai/thumb/hm_D2452.jpg",
+"img": "swatches/hemai/hm_D2452.webp",
+"thumb": "swatches/hemai/thumb/hm_D2452.webp",
 "price": 130
 },
 {
@@ -1064,8 +1064,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#615947",
-"img": "swatches/hemai/hm_D2479.jpg",
-"thumb": "swatches/hemai/thumb/hm_D2479.jpg",
+"img": "swatches/hemai/hm_D2479.webp",
+"thumb": "swatches/hemai/thumb/hm_D2479.webp",
 "price": 130
 },
 {
@@ -1075,8 +1075,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#717670",
-"img": "swatches/hemai/hm_D2480.jpg",
-"thumb": "swatches/hemai/thumb/hm_D2480.jpg",
+"img": "swatches/hemai/hm_D2480.webp",
+"thumb": "swatches/hemai/thumb/hm_D2480.webp",
 "price": 130
 },
 {
@@ -1086,8 +1086,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#948f83",
-"img": "swatches/hemai/hm_D2481.jpg",
-"thumb": "swatches/hemai/thumb/hm_D2481.jpg",
+"img": "swatches/hemai/hm_D2481.webp",
+"thumb": "swatches/hemai/thumb/hm_D2481.webp",
 "price": 130
 },
 {
@@ -1097,8 +1097,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#979695",
-"img": "swatches/hemai/hm_D2528.jpg",
-"thumb": "swatches/hemai/thumb/hm_D2528.jpg",
+"img": "swatches/hemai/hm_D2528.webp",
+"thumb": "swatches/hemai/thumb/hm_D2528.webp",
 "price": 130
 },
 {
@@ -1108,8 +1108,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#f7f4ef",
-"img": "swatches/hemai/hm_D4755.jpg",
-"thumb": "swatches/hemai/thumb/hm_D4755.jpg",
+"img": "swatches/hemai/hm_D4755.webp",
+"thumb": "swatches/hemai/thumb/hm_D4755.webp",
 "price": 130
 },
 {
@@ -1119,8 +1119,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#a29c90",
-"img": "swatches/hemai/hm_D4757.jpg",
-"thumb": "swatches/hemai/thumb/hm_D4757.jpg",
+"img": "swatches/hemai/hm_D4757.webp",
+"thumb": "swatches/hemai/thumb/hm_D4757.webp",
 "price": 130
 },
 {
@@ -1130,8 +1130,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#a3927a",
-"img": "swatches/hemai/hm_D4758.jpg",
-"thumb": "swatches/hemai/thumb/hm_D4758.jpg",
+"img": "swatches/hemai/hm_D4758.webp",
+"thumb": "swatches/hemai/thumb/hm_D4758.webp",
 "price": 130
 },
 {
@@ -1141,8 +1141,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#bab0aa",
-"img": "swatches/hemai/hm_D4979.jpg",
-"thumb": "swatches/hemai/thumb/hm_D4979.jpg",
+"img": "swatches/hemai/hm_D4979.webp",
+"thumb": "swatches/hemai/thumb/hm_D4979.webp",
 "price": 130
 },
 {
@@ -1152,8 +1152,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#a59a8f",
-"img": "swatches/hemai/hm_D4980.jpg",
-"thumb": "swatches/hemai/thumb/hm_D4980.jpg",
+"img": "swatches/hemai/hm_D4980.webp",
+"thumb": "swatches/hemai/thumb/hm_D4980.webp",
 "price": 130
 },
 {
@@ -1163,8 +1163,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#574c43",
-"img": "swatches/hemai/hm_D4992.jpg",
-"thumb": "swatches/hemai/thumb/hm_D4992.jpg",
+"img": "swatches/hemai/hm_D4992.webp",
+"thumb": "swatches/hemai/thumb/hm_D4992.webp",
 "price": 130
 },
 {
@@ -1174,8 +1174,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#504b44",
-"img": "swatches/hemai/hm_D4994.jpg",
-"thumb": "swatches/hemai/thumb/hm_D4994.jpg",
+"img": "swatches/hemai/hm_D4994.webp",
+"thumb": "swatches/hemai/thumb/hm_D4994.webp",
 "price": 130
 },
 {
@@ -1185,8 +1185,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#423b33",
-"img": "swatches/hemai/hm_D5450.jpg",
-"thumb": "swatches/hemai/thumb/hm_D5450.jpg",
+"img": "swatches/hemai/hm_D5450.webp",
+"thumb": "swatches/hemai/thumb/hm_D5450.webp",
 "price": 130
 },
 {
@@ -1196,8 +1196,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#c9c0b2",
-"img": "swatches/hemai/hm_D5451.jpg",
-"thumb": "swatches/hemai/thumb/hm_D5451.jpg",
+"img": "swatches/hemai/hm_D5451.webp",
+"thumb": "swatches/hemai/thumb/hm_D5451.webp",
 "price": 130
 },
 {
@@ -1207,8 +1207,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#695b51",
-"img": "swatches/hemai/hm_D5456.jpg",
-"thumb": "swatches/hemai/thumb/hm_D5456.jpg",
+"img": "swatches/hemai/hm_D5456.webp",
+"thumb": "swatches/hemai/thumb/hm_D5456.webp",
 "price": 130
 },
 {
@@ -1218,8 +1218,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#c8bcaf",
-"img": "swatches/hemai/hm_D6572.jpg",
-"thumb": "swatches/hemai/thumb/hm_D6572.jpg",
+"img": "swatches/hemai/hm_D6572.webp",
+"thumb": "swatches/hemai/thumb/hm_D6572.webp",
 "price": 130
 },
 {
@@ -1229,8 +1229,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#c1bab0",
-"img": "swatches/hemai/hm_D6577.jpg",
-"thumb": "swatches/hemai/thumb/hm_D6577.jpg",
+"img": "swatches/hemai/hm_D6577.webp",
+"thumb": "swatches/hemai/thumb/hm_D6577.webp",
 "price": 130
 },
 {
@@ -1240,8 +1240,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#bfac9f",
-"img": "swatches/hemai/hm_D6606.jpg",
-"thumb": "swatches/hemai/thumb/hm_D6606.jpg",
+"img": "swatches/hemai/hm_D6606.webp",
+"thumb": "swatches/hemai/thumb/hm_D6606.webp",
 "price": 130
 },
 {
@@ -1251,8 +1251,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#e3e0d5",
-"img": "swatches/hemai/hm_D6679.jpg",
-"thumb": "swatches/hemai/thumb/hm_D6679.jpg",
+"img": "swatches/hemai/hm_D6679.webp",
+"thumb": "swatches/hemai/thumb/hm_D6679.webp",
 "price": 130
 },
 {
@@ -1262,8 +1262,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#604f42",
-"img": "swatches/hemai/hm_D6680.jpg",
-"thumb": "swatches/hemai/thumb/hm_D6680.jpg",
+"img": "swatches/hemai/hm_D6680.webp",
+"thumb": "swatches/hemai/thumb/hm_D6680.webp",
 "price": 130
 },
 {
@@ -1273,8 +1273,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#aca69f",
-"img": "swatches/hemai/hm_D6699.jpg",
-"thumb": "swatches/hemai/thumb/hm_D6699.jpg",
+"img": "swatches/hemai/hm_D6699.webp",
+"thumb": "swatches/hemai/thumb/hm_D6699.webp",
 "price": 130
 },
 {
@@ -1284,8 +1284,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#deded2",
-"img": "swatches/hemai/hm_D6739.jpg",
-"thumb": "swatches/hemai/thumb/hm_D6739.jpg",
+"img": "swatches/hemai/hm_D6739.webp",
+"thumb": "swatches/hemai/thumb/hm_D6739.webp",
 "price": 130
 },
 {
@@ -1295,8 +1295,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#c2c1bf",
-"img": "swatches/hemai/hm_DK570.jpg",
-"thumb": "swatches/hemai/thumb/hm_DK570.jpg",
+"img": "swatches/hemai/hm_DK570.webp",
+"thumb": "swatches/hemai/thumb/hm_DK570.webp",
 "price": 130
 },
 {
@@ -1306,8 +1306,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#91908c",
-"img": "swatches/hemai/hm_DK571.jpg",
-"thumb": "swatches/hemai/thumb/hm_DK571.jpg",
+"img": "swatches/hemai/hm_DK571.webp",
+"thumb": "swatches/hemai/thumb/hm_DK571.webp",
 "price": 130
 },
 {
@@ -1317,8 +1317,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "SKIN",
 "hex": "#c5a883",
-"img": "swatches/hemai/hm_DK590.jpg",
-"thumb": "swatches/hemai/thumb/hm_DK590.jpg",
+"img": "swatches/hemai/hm_DK590.webp",
+"thumb": "swatches/hemai/thumb/hm_DK590.webp",
 "price": 130
 },
 {
@@ -1328,8 +1328,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#5a5858",
-"img": "swatches/hemai/hm_F244.jpg",
-"thumb": "swatches/hemai/thumb/hm_F244.jpg",
+"img": "swatches/hemai/hm_F244.webp",
+"thumb": "swatches/hemai/thumb/hm_F244.webp",
 "price": 130
 },
 {
@@ -1339,8 +1339,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#a9a4a0",
-"img": "swatches/hemai/hm_F243.jpg",
-"thumb": "swatches/hemai/thumb/hm_F243.jpg",
+"img": "swatches/hemai/hm_F243.webp",
+"thumb": "swatches/hemai/thumb/hm_F243.webp",
 "price": 130
 },
 {
@@ -1350,8 +1350,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#7b756f",
-"img": "swatches/hemai/hm_F334.jpg",
-"thumb": "swatches/hemai/thumb/hm_F334.jpg",
+"img": "swatches/hemai/hm_F334.webp",
+"thumb": "swatches/hemai/thumb/hm_F334.webp",
 "price": 130
 },
 {
@@ -1361,8 +1361,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#c5bbaf",
-"img": "swatches/hemai/hm_F417.jpg",
-"thumb": "swatches/hemai/thumb/hm_F417.jpg",
+"img": "swatches/hemai/hm_F417.webp",
+"thumb": "swatches/hemai/thumb/hm_F417.webp",
 "price": 130
 },
 {
@@ -1372,8 +1372,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d8d2c3",
-"img": "swatches/hemai/hm_F637.jpg",
-"thumb": "swatches/hemai/thumb/hm_F637.jpg",
+"img": "swatches/hemai/hm_F637.webp",
+"thumb": "swatches/hemai/thumb/hm_F637.webp",
 "price": 130
 },
 {
@@ -1383,8 +1383,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#a19890",
-"img": "swatches/hemai/hm_F638.jpg",
-"thumb": "swatches/hemai/thumb/hm_F638.jpg",
+"img": "swatches/hemai/hm_F638.webp",
+"thumb": "swatches/hemai/thumb/hm_F638.webp",
 "price": 130
 },
 {
@@ -1394,8 +1394,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#57504b",
-"img": "swatches/hemai/hm_F642.jpg",
-"thumb": "swatches/hemai/thumb/hm_F642.jpg",
+"img": "swatches/hemai/hm_F642.webp",
+"thumb": "swatches/hemai/thumb/hm_F642.webp",
 "price": 130
 },
 {
@@ -1405,8 +1405,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#525253",
-"img": "swatches/hemai/hm_F7025.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7025.jpg",
+"img": "swatches/hemai/hm_F7025.webp",
+"thumb": "swatches/hemai/thumb/hm_F7025.webp",
 "price": 130
 },
 {
@@ -1416,8 +1416,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#b1b2ae",
-"img": "swatches/hemai/hm_F7024.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7024.jpg",
+"img": "swatches/hemai/hm_F7024.webp",
+"thumb": "swatches/hemai/thumb/hm_F7024.webp",
 "price": 130
 },
 {
@@ -1427,8 +1427,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#9b998d",
-"img": "swatches/hemai/hm_F7021.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7021.jpg",
+"img": "swatches/hemai/hm_F7021.webp",
+"thumb": "swatches/hemai/thumb/hm_F7021.webp",
 "price": 130
 },
 {
@@ -1438,8 +1438,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#c5b7ad",
-"img": "swatches/hemai/hm_F7020.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7020.jpg",
+"img": "swatches/hemai/hm_F7020.webp",
+"thumb": "swatches/hemai/thumb/hm_F7020.webp",
 "price": 130
 },
 {
@@ -1449,8 +1449,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d5d4cf",
-"img": "swatches/hemai/hm_F7019.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7019.jpg",
+"img": "swatches/hemai/hm_F7019.webp",
+"thumb": "swatches/hemai/thumb/hm_F7019.webp",
 "price": 130
 },
 {
@@ -1460,8 +1460,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d3d0c9",
-"img": "swatches/hemai/hm_F7016.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7016.jpg",
+"img": "swatches/hemai/hm_F7016.webp",
+"thumb": "swatches/hemai/thumb/hm_F7016.webp",
 "price": 130
 },
 {
@@ -1471,8 +1471,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#70716b",
-"img": "swatches/hemai/hm_F7013.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7013.jpg",
+"img": "swatches/hemai/hm_F7013.webp",
+"thumb": "swatches/hemai/thumb/hm_F7013.webp",
 "price": 130
 },
 {
@@ -1482,8 +1482,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#aea18e",
-"img": "swatches/hemai/hm_F7014.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7014.jpg",
+"img": "swatches/hemai/hm_F7014.webp",
+"thumb": "swatches/hemai/thumb/hm_F7014.webp",
 "price": 130
 },
 {
@@ -1493,8 +1493,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#252221",
-"img": "swatches/hemai/hm_F7023.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7023.jpg",
+"img": "swatches/hemai/hm_F7023.webp",
+"thumb": "swatches/hemai/thumb/hm_F7023.webp",
 "price": 130
 },
 {
@@ -1504,8 +1504,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d6cbc5",
-"img": "swatches/hemai/hm_F7029.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7029.jpg",
+"img": "swatches/hemai/hm_F7029.webp",
+"thumb": "swatches/hemai/thumb/hm_F7029.webp",
 "price": 130
 },
 {
@@ -1515,8 +1515,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#565251",
-"img": "swatches/hemai/hm_F7031.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7031.jpg",
+"img": "swatches/hemai/hm_F7031.webp",
+"thumb": "swatches/hemai/thumb/hm_F7031.webp",
 "price": 130
 },
 {
@@ -1526,8 +1526,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#817871",
-"img": "swatches/hemai/hm_F7033.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7033.jpg",
+"img": "swatches/hemai/hm_F7033.webp",
+"thumb": "swatches/hemai/thumb/hm_F7033.webp",
 "price": 130
 },
 {
@@ -1537,8 +1537,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#7a6e5f",
-"img": "swatches/hemai/hm_F7034.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7034.jpg",
+"img": "swatches/hemai/hm_F7034.webp",
+"thumb": "swatches/hemai/thumb/hm_F7034.webp",
 "price": 130
 },
 {
@@ -1548,8 +1548,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#b7a598",
-"img": "swatches/hemai/hm_F7035.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7035.jpg",
+"img": "swatches/hemai/hm_F7035.webp",
+"thumb": "swatches/hemai/thumb/hm_F7035.webp",
 "price": 130
 },
 {
@@ -1559,8 +1559,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#bab2a5",
-"img": "swatches/hemai/hm_F7036.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7036.jpg",
+"img": "swatches/hemai/hm_F7036.webp",
+"thumb": "swatches/hemai/thumb/hm_F7036.webp",
 "price": 130
 },
 {
@@ -1570,8 +1570,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#666056",
-"img": "swatches/hemai/hm_F7037.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7037.jpg",
+"img": "swatches/hemai/hm_F7037.webp",
+"thumb": "swatches/hemai/thumb/hm_F7037.webp",
 "price": 130
 },
 {
@@ -1581,8 +1581,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#aaaaaa",
-"img": "swatches/hemai/hm_F7038.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7038.jpg",
+"img": "swatches/hemai/hm_F7038.webp",
+"thumb": "swatches/hemai/thumb/hm_F7038.webp",
 "price": 130
 },
 {
@@ -1592,8 +1592,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#4a4e52",
-"img": "swatches/hemai/hm_F7039.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7039.jpg",
+"img": "swatches/hemai/hm_F7039.webp",
+"thumb": "swatches/hemai/thumb/hm_F7039.webp",
 "price": 130
 },
 {
@@ -1603,8 +1603,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d7d7d7",
-"img": "swatches/hemai/hm_F7052.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7052.jpg",
+"img": "swatches/hemai/hm_F7052.webp",
+"thumb": "swatches/hemai/thumb/hm_F7052.webp",
 "price": 130
 },
 {
@@ -1614,8 +1614,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#acacac",
-"img": "swatches/hemai/hm_F7053.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7053.jpg",
+"img": "swatches/hemai/hm_F7053.webp",
+"thumb": "swatches/hemai/thumb/hm_F7053.webp",
 "price": 130
 },
 {
@@ -1625,8 +1625,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d9d3c5",
-"img": "swatches/hemai/hm_F7137.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7137.jpg",
+"img": "swatches/hemai/hm_F7137.webp",
+"thumb": "swatches/hemai/thumb/hm_F7137.webp",
 "price": 130
 },
 {
@@ -1636,8 +1636,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#b7b0a6",
-"img": "swatches/hemai/hm_F7138.jpg",
-"thumb": "swatches/hemai/thumb/hm_F7138.jpg",
+"img": "swatches/hemai/hm_F7138.webp",
+"thumb": "swatches/hemai/thumb/hm_F7138.webp",
 "price": 130
 },
 {
@@ -1647,8 +1647,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#f0eae5",
-"img": "swatches/hemai/hm_F800.jpg",
-"thumb": "swatches/hemai/thumb/hm_F800.jpg",
+"img": "swatches/hemai/hm_F800.webp",
+"thumb": "swatches/hemai/thumb/hm_F800.webp",
 "price": 130
 },
 {
@@ -1658,8 +1658,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "ArtDecor",
 "hex": "#4b4746",
-"img": "swatches/hemai/hm_H007.jpg",
-"thumb": "swatches/hemai/thumb/hm_H007.jpg",
+"img": "swatches/hemai/hm_H007.webp",
+"thumb": "swatches/hemai/thumb/hm_H007.webp",
 "price": 130
 },
 {
@@ -1669,8 +1669,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d5c0a4",
-"img": "swatches/hemai/hm_H1277.jpg",
-"thumb": "swatches/hemai/thumb/hm_H1277.jpg",
+"img": "swatches/hemai/hm_H1277.webp",
+"thumb": "swatches/hemai/thumb/hm_H1277.webp",
 "price": 130
 },
 {
@@ -1680,8 +1680,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#ede9e6",
-"img": "swatches/hemai/hm_H1225.jpg",
-"thumb": "swatches/hemai/thumb/hm_H1225.jpg",
+"img": "swatches/hemai/hm_H1225.webp",
+"thumb": "swatches/hemai/thumb/hm_H1225.webp",
 "price": 130
 },
 {
@@ -1691,8 +1691,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#b39b81",
-"img": "swatches/hemai/hm_H1377.jpg",
-"thumb": "swatches/hemai/thumb/hm_H1377.jpg",
+"img": "swatches/hemai/hm_H1377.webp",
+"thumb": "swatches/hemai/thumb/hm_H1377.webp",
 "price": 130
 },
 {
@@ -1702,8 +1702,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#79655a",
-"img": "swatches/hemai/hm_H1379.jpg",
-"thumb": "swatches/hemai/thumb/hm_H1379.jpg",
+"img": "swatches/hemai/hm_H1379.webp",
+"thumb": "swatches/hemai/thumb/hm_H1379.webp",
 "price": 130
 },
 {
@@ -1713,8 +1713,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#b28c65",
-"img": "swatches/hemai/hm_H1385.jpg",
-"thumb": "swatches/hemai/thumb/hm_H1385.jpg",
+"img": "swatches/hemai/hm_H1385.webp",
+"thumb": "swatches/hemai/thumb/hm_H1385.webp",
 "price": 130
 },
 {
@@ -1724,8 +1724,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#8c6a4b",
-"img": "swatches/hemai/hm_H1386.jpg",
-"thumb": "swatches/hemai/thumb/hm_H1386.jpg",
+"img": "swatches/hemai/hm_H1386.webp",
+"thumb": "swatches/hemai/thumb/hm_H1386.webp",
 "price": 130
 },
 {
@@ -1735,8 +1735,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#734f34",
-"img": "swatches/hemai/hm_H1714.jpg",
-"thumb": "swatches/hemai/thumb/hm_H1714.jpg",
+"img": "swatches/hemai/hm_H1714.webp",
+"thumb": "swatches/hemai/thumb/hm_H1714.webp",
 "price": 130
 },
 {
@@ -1746,8 +1746,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#c9ae89",
-"img": "swatches/hemai/hm_H3157.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3157.jpg",
+"img": "swatches/hemai/hm_H3157.webp",
+"thumb": "swatches/hemai/thumb/hm_H3157.webp",
 "price": 130
 },
 {
@@ -1757,8 +1757,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d9c0a6",
-"img": "swatches/hemai/hm_H3165.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3165.jpg",
+"img": "swatches/hemai/hm_H3165.webp",
+"thumb": "swatches/hemai/thumb/hm_H3165.webp",
 "price": 130
 },
 {
@@ -1768,8 +1768,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#988977",
-"img": "swatches/hemai/hm_H3158.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3158.jpg",
+"img": "swatches/hemai/hm_H3158.webp",
+"thumb": "swatches/hemai/thumb/hm_H3158.webp",
 "price": 130
 },
 {
@@ -1779,8 +1779,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d1c1b2",
-"img": "swatches/hemai/hm_H3430.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3430.jpg",
+"img": "swatches/hemai/hm_H3430.webp",
+"thumb": "swatches/hemai/thumb/hm_H3430.webp",
 "price": 130
 },
 {
@@ -1790,8 +1790,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#e5daca",
-"img": "swatches/hemai/hm_H3433.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3433.jpg",
+"img": "swatches/hemai/hm_H3433.webp",
+"thumb": "swatches/hemai/thumb/hm_H3433.webp",
 "price": 130
 },
 {
@@ -1801,8 +1801,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d0b090",
-"img": "swatches/hemai/hm_H3311.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3311.jpg",
+"img": "swatches/hemai/hm_H3311.webp",
+"thumb": "swatches/hemai/thumb/hm_H3311.webp",
 "price": 130
 },
 {
@@ -1812,8 +1812,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#eae9e2",
-"img": "swatches/hemai/hm_H3195.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3195.jpg",
+"img": "swatches/hemai/hm_H3195.webp",
+"thumb": "swatches/hemai/thumb/hm_H3195.webp",
 "price": 130
 },
 {
@@ -1823,8 +1823,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#635851",
-"img": "swatches/hemai/hm_H3198.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3198.jpg",
+"img": "swatches/hemai/hm_H3198.webp",
+"thumb": "swatches/hemai/thumb/hm_H3198.webp",
 "price": 130
 },
 {
@@ -1834,8 +1834,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#af8b68",
-"img": "swatches/hemai/hm_H3700.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3700.jpg",
+"img": "swatches/hemai/hm_H3700.webp",
+"thumb": "swatches/hemai/thumb/hm_H3700.webp",
 "price": 130
 },
 {
@@ -1845,8 +1845,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#ae8f67",
-"img": "swatches/hemai/hm_H3730.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3730.jpg",
+"img": "swatches/hemai/hm_H3730.webp",
+"thumb": "swatches/hemai/thumb/hm_H3730.webp",
 "price": 130
 },
 {
@@ -1856,8 +1856,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#dcd2c6",
-"img": "swatches/hemai/hm_H3785.jpg",
-"thumb": "swatches/hemai/thumb/hm_H3785.jpg",
+"img": "swatches/hemai/hm_H3785.webp",
+"thumb": "swatches/hemai/thumb/hm_H3785.webp",
 "price": 130
 },
 {
@@ -1867,8 +1867,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#604b42",
-"img": "swatches/hemai/hm_H7582.jpg",
-"thumb": "swatches/hemai/thumb/hm_H7582.jpg",
+"img": "swatches/hemai/hm_H7582.webp",
+"thumb": "swatches/hemai/thumb/hm_H7582.webp",
 "price": 130
 },
 {
@@ -1878,8 +1878,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#aa8c72",
-"img": "swatches/hemai/hm_H7585.jpg",
-"thumb": "swatches/hemai/thumb/hm_H7585.jpg",
+"img": "swatches/hemai/hm_H7585.webp",
+"thumb": "swatches/hemai/thumb/hm_H7585.webp",
 "price": 130
 },
 {
@@ -1889,8 +1889,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "ArtDecor",
 "hex": "#bda88c",
-"img": "swatches/hemai/hm_K1164.jpg",
-"thumb": "swatches/hemai/thumb/hm_K1164.jpg",
+"img": "swatches/hemai/hm_K1164.webp",
+"thumb": "swatches/hemai/thumb/hm_K1164.webp",
 "price": 130
 },
 {
@@ -1900,8 +1900,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#f5f4ef",
-"img": "swatches/hemai/hm_K1570.jpg",
-"thumb": "swatches/hemai/thumb/hm_K1570.jpg",
+"img": "swatches/hemai/hm_K1570.webp",
+"thumb": "swatches/hemai/thumb/hm_K1570.webp",
 "price": 130
 },
 {
@@ -1911,8 +1911,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#a29990",
-"img": "swatches/hemai/hm_K2824.jpg",
-"thumb": "swatches/hemai/thumb/hm_K2824.jpg",
+"img": "swatches/hemai/hm_K2824.webp",
+"thumb": "swatches/hemai/thumb/hm_K2824.webp",
 "price": 130
 },
 {
@@ -1922,8 +1922,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#e7e1d3",
-"img": "swatches/hemai/hm_K2825.jpg",
-"thumb": "swatches/hemai/thumb/hm_K2825.jpg",
+"img": "swatches/hemai/hm_K2825.webp",
+"thumb": "swatches/hemai/thumb/hm_K2825.webp",
 "price": 130
 },
 {
@@ -1933,8 +1933,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#959b8d",
-"img": "swatches/hemai/hm_K2861.jpg",
-"thumb": "swatches/hemai/thumb/hm_K2861.jpg",
+"img": "swatches/hemai/hm_K2861.webp",
+"thumb": "swatches/hemai/thumb/hm_K2861.webp",
 "price": 130
 },
 {
@@ -1944,8 +1944,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#af9c8d",
-"img": "swatches/hemai/hm_K2860.jpg",
-"thumb": "swatches/hemai/thumb/hm_K2860.jpg",
+"img": "swatches/hemai/hm_K2860.webp",
+"thumb": "swatches/hemai/thumb/hm_K2860.webp",
 "price": 130
 },
 {
@@ -1955,8 +1955,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#e1cdc6",
-"img": "swatches/hemai/hm_K2872.jpg",
-"thumb": "swatches/hemai/thumb/hm_K2872.jpg",
+"img": "swatches/hemai/hm_K2872.webp",
+"thumb": "swatches/hemai/thumb/hm_K2872.webp",
 "price": 130
 },
 {
@@ -1966,8 +1966,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "ArtDecor",
 "hex": "#6c6359",
-"img": "swatches/hemai/hm_K3089.jpg",
-"thumb": "swatches/hemai/thumb/hm_K3089.jpg",
+"img": "swatches/hemai/hm_K3089.webp",
+"thumb": "swatches/hemai/thumb/hm_K3089.webp",
 "price": 130
 },
 {
@@ -1977,8 +1977,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "ArtDecor",
 "hex": "#cfccc4",
-"img": "swatches/hemai/hm_K3140.jpg",
-"thumb": "swatches/hemai/thumb/hm_K3140.jpg",
+"img": "swatches/hemai/hm_K3140.webp",
+"thumb": "swatches/hemai/thumb/hm_K3140.webp",
 "price": 130
 },
 {
@@ -1988,8 +1988,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#30261f",
-"img": "swatches/hemai/hm_K4138.jpg",
-"thumb": "swatches/hemai/thumb/hm_K4138.jpg",
+"img": "swatches/hemai/hm_K4138.webp",
+"thumb": "swatches/hemai/thumb/hm_K4138.webp",
 "price": 130
 },
 {
@@ -1999,8 +1999,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#e8dfd2",
-"img": "swatches/hemai/hm_K4217.jpg",
-"thumb": "swatches/hemai/thumb/hm_K4217.jpg",
+"img": "swatches/hemai/hm_K4217.webp",
+"thumb": "swatches/hemai/thumb/hm_K4217.webp",
 "price": 130
 },
 {
@@ -2010,8 +2010,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#ac9681",
-"img": "swatches/hemai/hm_K4056.jpg",
-"thumb": "swatches/hemai/thumb/hm_K4056.jpg",
+"img": "swatches/hemai/hm_K4056.webp",
+"thumb": "swatches/hemai/thumb/hm_K4056.webp",
 "price": 130
 },
 {
@@ -2021,8 +2021,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#666261",
-"img": "swatches/hemai/hm_K4405.jpg",
-"thumb": "swatches/hemai/thumb/hm_K4405.jpg",
+"img": "swatches/hemai/hm_K4405.webp",
+"thumb": "swatches/hemai/thumb/hm_K4405.webp",
 "price": 130
 },
 {
@@ -2032,8 +2032,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#a9a09b",
-"img": "swatches/hemai/hm_K4407.jpg",
-"thumb": "swatches/hemai/thumb/hm_K4407.jpg",
+"img": "swatches/hemai/hm_K4407.webp",
+"thumb": "swatches/hemai/thumb/hm_K4407.webp",
 "price": 130
 },
 {
@@ -2043,8 +2043,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#6e6a66",
-"img": "swatches/hemai/hm_K4892.jpg",
-"thumb": "swatches/hemai/thumb/hm_K4892.jpg",
+"img": "swatches/hemai/hm_K4892.webp",
+"thumb": "swatches/hemai/thumb/hm_K4892.webp",
 "price": 130
 },
 {
@@ -2054,8 +2054,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#767372",
-"img": "swatches/hemai/hm_K4895.jpg",
-"thumb": "swatches/hemai/thumb/hm_K4895.jpg",
+"img": "swatches/hemai/hm_K4895.webp",
+"thumb": "swatches/hemai/thumb/hm_K4895.webp",
 "price": 130
 },
 {
@@ -2065,8 +2065,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#3e3834",
-"img": "swatches/hemai/hm_K4946.jpg",
-"thumb": "swatches/hemai/thumb/hm_K4946.jpg",
+"img": "swatches/hemai/hm_K4946.webp",
+"thumb": "swatches/hemai/thumb/hm_K4946.webp",
 "price": 130
 },
 {
@@ -2076,8 +2076,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#c2b8ad",
-"img": "swatches/hemai/hm_K5276.jpg",
-"thumb": "swatches/hemai/thumb/hm_K5276.jpg",
+"img": "swatches/hemai/hm_K5276.webp",
+"thumb": "swatches/hemai/thumb/hm_K5276.webp",
 "price": 130
 },
 {
@@ -2087,8 +2087,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#948370",
-"img": "swatches/hemai/hm_K5278.jpg",
-"thumb": "swatches/hemai/thumb/hm_K5278.jpg",
+"img": "swatches/hemai/hm_K5278.webp",
+"thumb": "swatches/hemai/thumb/hm_K5278.webp",
 "price": 130
 },
 {
@@ -2098,8 +2098,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#95724b",
-"img": "swatches/hemai/hm_K5574.jpg",
-"thumb": "swatches/hemai/thumb/hm_K5574.jpg",
+"img": "swatches/hemai/hm_K5574.webp",
+"thumb": "swatches/hemai/thumb/hm_K5574.webp",
 "price": 130
 },
 {
@@ -2109,8 +2109,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "KAINDL",
 "hex": "#909090",
-"img": "swatches/hemai/hm_K5577.jpg",
-"thumb": "swatches/hemai/thumb/hm_K5577.jpg",
+"img": "swatches/hemai/hm_K5577.webp",
+"thumb": "swatches/hemai/thumb/hm_K5577.webp",
 "price": 130
 },
 {
@@ -2120,8 +2120,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "ArtDecor",
 "hex": "#8f8e90",
-"img": "swatches/hemai/hm_K6358.jpg",
-"thumb": "swatches/hemai/thumb/hm_K6358.jpg",
+"img": "swatches/hemai/hm_K6358.webp",
+"thumb": "swatches/hemai/thumb/hm_K6358.webp",
 "price": 130
 },
 {
@@ -2131,8 +2131,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "ArtDecor",
 "hex": "#2c2c2b",
-"img": "swatches/hemai/hm_K9013.jpg",
-"thumb": "swatches/hemai/thumb/hm_K9013.jpg",
+"img": "swatches/hemai/hm_K9013.webp",
+"thumb": "swatches/hemai/thumb/hm_K9013.webp",
 "price": 130
 },
 {
@@ -2142,8 +2142,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#eddec8",
-"img": "swatches/hemai/hm_U115.jpg",
-"thumb": "swatches/hemai/thumb/hm_U115.jpg",
+"img": "swatches/hemai/hm_U115.webp",
+"thumb": "swatches/hemai/thumb/hm_U115.webp",
 "price": 130
 },
 {
@@ -2153,8 +2153,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#c39d94",
-"img": "swatches/hemai/hm_U325.jpg",
-"thumb": "swatches/hemai/thumb/hm_U325.jpg",
+"img": "swatches/hemai/hm_U325.webp",
+"thumb": "swatches/hemai/thumb/hm_U325.webp",
 "price": 130
 },
 {
@@ -2164,8 +2164,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#d6d6be",
-"img": "swatches/hemai/hm_U603.jpg",
-"thumb": "swatches/hemai/thumb/hm_U603.jpg",
+"img": "swatches/hemai/hm_U603.webp",
+"thumb": "swatches/hemai/thumb/hm_U603.webp",
 "price": 130
 },
 {
@@ -2175,8 +2175,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#454e5d",
-"img": "swatches/hemai/hm_U504.jpg",
-"thumb": "swatches/hemai/thumb/hm_U504.jpg",
+"img": "swatches/hemai/hm_U504.webp",
+"thumb": "swatches/hemai/thumb/hm_U504.webp",
 "price": 130
 },
 {
@@ -2186,8 +2186,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#737e70",
-"img": "swatches/hemai/hm_U604.jpg",
-"thumb": "swatches/hemai/thumb/hm_U604.jpg",
+"img": "swatches/hemai/hm_U604.webp",
+"thumb": "swatches/hemai/thumb/hm_U604.webp",
 "price": 130
 },
 {
@@ -2197,8 +2197,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#8d8f8c",
-"img": "swatches/hemai/hm_U636.jpg",
-"thumb": "swatches/hemai/thumb/hm_U636.jpg",
+"img": "swatches/hemai/hm_U636.webp",
+"thumb": "swatches/hemai/thumb/hm_U636.webp",
 "price": 130
 },
 {
@@ -2208,8 +2208,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#838582",
-"img": "swatches/hemai/hm_U732.jpg",
-"thumb": "swatches/hemai/thumb/hm_U732.jpg",
+"img": "swatches/hemai/hm_U732.webp",
+"thumb": "swatches/hemai/thumb/hm_U732.webp",
 "price": 130
 },
 {
@@ -2219,8 +2219,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#e4dcd1",
-"img": "swatches/hemai/hm_U705.jpg",
-"thumb": "swatches/hemai/thumb/hm_U705.jpg",
+"img": "swatches/hemai/hm_U705.webp",
+"thumb": "swatches/hemai/thumb/hm_U705.webp",
 "price": 130
 },
 {
@@ -2230,8 +2230,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#cfccc7",
-"img": "swatches/hemai/hm_U708.jpg",
-"thumb": "swatches/hemai/thumb/hm_U708.jpg",
+"img": "swatches/hemai/hm_U708.webp",
+"thumb": "swatches/hemai/thumb/hm_U708.webp",
 "price": 130
 },
 {
@@ -2241,8 +2241,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#70777d",
-"img": "swatches/hemai/hm_U780.jpg",
-"thumb": "swatches/hemai/thumb/hm_U780.jpg",
+"img": "swatches/hemai/hm_U780.webp",
+"thumb": "swatches/hemai/thumb/hm_U780.webp",
 "price": 130
 },
 {
@@ -2252,8 +2252,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#3c3837",
-"img": "swatches/hemai/hm_U968.jpg",
-"thumb": "swatches/hemai/thumb/hm_U968.jpg",
+"img": "swatches/hemai/hm_U968.webp",
+"thumb": "swatches/hemai/thumb/hm_U968.webp",
 "price": 130
 },
 {
@@ -2263,8 +2263,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#0f0f11",
-"img": "swatches/hemai/hm_U999.jpg",
-"thumb": "swatches/hemai/thumb/hm_U999.jpg",
+"img": "swatches/hemai/hm_U999.webp",
+"thumb": "swatches/hemai/thumb/hm_U999.webp",
 "price": 130
 },
 {
@@ -2274,8 +2274,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#f1ede5",
-"img": "swatches/hemai/hm_W1000.jpg",
-"thumb": "swatches/hemai/thumb/hm_W1000.jpg",
+"img": "swatches/hemai/hm_W1000.webp",
+"thumb": "swatches/hemai/thumb/hm_W1000.webp",
 "price": 130
 },
 {
@@ -2285,8 +2285,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "禾邁",
 "series": "EGGER",
 "hex": "#f7f6f1",
-"img": "swatches/hemai/hm_W952.jpg",
-"thumb": "swatches/hemai/thumb/hm_W952.jpg",
+"img": "swatches/hemai/hm_W952.webp",
+"thumb": "swatches/hemai/thumb/hm_W952.webp",
 "price": 130
 }
 ]);

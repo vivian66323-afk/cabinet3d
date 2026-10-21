@@ -8,8 +8,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#f9f9f9",
-"img": "swatches/gindiing/gd_1005.jpg",
-"thumb": "swatches/gindiing/thumb/gd_1005.jpg",
+"img": "swatches/gindiing/gd_1005.webp",
+"thumb": "swatches/gindiing/thumb/gd_1005.webp",
 "price": 152
 },
 {
@@ -19,8 +19,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#f7f7f7",
-"img": "swatches/gindiing/gd_1006.jpg",
-"thumb": "swatches/gindiing/thumb/gd_1006.jpg",
+"img": "swatches/gindiing/gd_1006.webp",
+"thumb": "swatches/gindiing/thumb/gd_1006.webp",
 "price": 152
 },
 {
@@ -30,8 +30,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#484848",
-"img": "swatches/gindiing/gd_8131.jpg",
-"thumb": "swatches/gindiing/thumb/gd_8131.jpg",
+"img": "swatches/gindiing/gd_8131.webp",
+"thumb": "swatches/gindiing/thumb/gd_8131.webp",
 "price": 121
 },
 {
@@ -41,8 +41,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#edeae7",
-"img": "swatches/gindiing/gd_8135.jpg",
-"thumb": "swatches/gindiing/thumb/gd_8135.jpg",
+"img": "swatches/gindiing/gd_8135.webp",
+"thumb": "swatches/gindiing/thumb/gd_8135.webp",
 "price": 121
 },
 {
@@ -52,8 +52,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#949eb5",
-"img": "swatches/gindiing/gd_8136.jpg",
-"thumb": "swatches/gindiing/thumb/gd_8136.jpg",
+"img": "swatches/gindiing/gd_8136.webp",
+"thumb": "swatches/gindiing/thumb/gd_8136.webp",
 "price": 121
 },
 {
@@ -63,8 +63,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#49494a",
-"img": "swatches/gindiing/gd_8146.jpg",
-"thumb": "swatches/gindiing/thumb/gd_8146.jpg",
+"img": "swatches/gindiing/gd_8146.webp",
+"thumb": "swatches/gindiing/thumb/gd_8146.webp",
 "price": 121
 },
 {
@@ -74,8 +74,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#c9cacc",
-"img": "swatches/gindiing/gd_8147.jpg",
-"thumb": "swatches/gindiing/thumb/gd_8147.jpg",
+"img": "swatches/gindiing/gd_8147.webp",
+"thumb": "swatches/gindiing/thumb/gd_8147.webp",
 "price": 121
 },
 {
@@ -85,8 +85,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#f0efee",
-"img": "swatches/gindiing/gd_8155.jpg",
-"thumb": "swatches/gindiing/thumb/gd_8155.jpg",
+"img": "swatches/gindiing/gd_8155.webp",
+"thumb": "swatches/gindiing/thumb/gd_8155.webp",
 "price": 121
 },
 {
@@ -96,8 +96,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#9f9c9a",
-"img": "swatches/gindiing/gd_8158.jpg",
-"thumb": "swatches/gindiing/thumb/gd_8158.jpg",
+"img": "swatches/gindiing/gd_8158.webp",
+"thumb": "swatches/gindiing/thumb/gd_8158.webp",
 "price": 121
 },
 {
@@ -107,8 +107,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#d9d7d6",
-"img": "swatches/gindiing/gd_8159.jpg",
-"thumb": "swatches/gindiing/thumb/gd_8159.jpg",
+"img": "swatches/gindiing/gd_8159.webp",
+"thumb": "swatches/gindiing/thumb/gd_8159.webp",
 "price": 121
 },
 {
@@ -118,8 +118,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#bebdbe",
-"img": "swatches/gindiing/gd_8162.jpg",
-"thumb": "swatches/gindiing/thumb/gd_8162.jpg",
+"img": "swatches/gindiing/gd_8162.webp",
+"thumb": "swatches/gindiing/thumb/gd_8162.webp",
 "price": 121
 },
 {
@@ -129,8 +129,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板 奢石",
 "hex": "#f1f0ed",
-"img": "swatches/gindiing/gd_8895.jpg",
-"thumb": "swatches/gindiing/thumb/gd_8895.jpg",
+"img": "swatches/gindiing/gd_8895.webp",
+"thumb": "swatches/gindiing/thumb/gd_8895.webp",
 "price": 121
 },
 {
@@ -140,8 +140,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板",
 "hex": "#efd8b6",
-"img": "swatches/gindiing/gd_486491.jpg",
-"thumb": "swatches/gindiing/thumb/gd_486491.jpg",
+"img": "swatches/gindiing/gd_486491.webp",
+"thumb": "swatches/gindiing/thumb/gd_486491.webp",
 "price": 6
 },
 {
@@ -151,8 +151,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "竹炭飾板",
 "hex": "#ece2e1",
-"img": "swatches/gindiing/gd_SM565.jpg",
-"thumb": "swatches/gindiing/thumb/gd_SM565.jpg",
+"img": "swatches/gindiing/gd_SM565.webp",
+"thumb": "swatches/gindiing/thumb/gd_SM565.webp",
 "price": 11
 },
 {
@@ -162,8 +162,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#dfdcda",
-"img": "swatches/gindiing/gd_GS1002.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS1002.jpg",
+"img": "swatches/gindiing/gd_GS1002.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS1002.webp",
 "price": 141
 },
 {
@@ -173,8 +173,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#d3cfcb",
-"img": "swatches/gindiing/gd_GS1003.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS1003.jpg",
+"img": "swatches/gindiing/gd_GS1003.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS1003.webp",
 "price": 141
 },
 {
@@ -184,8 +184,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#f0efee",
-"img": "swatches/gindiing/gd_GS1004.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS1004.jpg",
+"img": "swatches/gindiing/gd_GS1004.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS1004.webp",
 "price": 141
 },
 {
@@ -195,8 +195,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#7d7d79",
-"img": "swatches/gindiing/gd_GS1017.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS1017.jpg",
+"img": "swatches/gindiing/gd_GS1017.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS1017.webp",
 "price": 116
 },
 {
@@ -206,8 +206,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#5e5f62",
-"img": "swatches/gindiing/gd_GS2004.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS2004.jpg",
+"img": "swatches/gindiing/gd_GS2004.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS2004.webp",
 "price": 116
 },
 {
@@ -217,8 +217,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#9a9c99",
-"img": "swatches/gindiing/gd_GS2008.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS2008.jpg",
+"img": "swatches/gindiing/gd_GS2008.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS2008.webp",
 "price": 116
 },
 {
@@ -228,8 +228,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#595a58",
-"img": "swatches/gindiing/gd_GS238803.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS238803.jpg",
+"img": "swatches/gindiing/gd_GS238803.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS238803.webp",
 "price": 116
 },
 {
@@ -239,8 +239,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#66635b",
-"img": "swatches/gindiing/gd_GS5016.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS5016.jpg",
+"img": "swatches/gindiing/gd_GS5016.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS5016.webp",
 "price": 116
 },
 {
@@ -250,8 +250,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#582c1d",
-"img": "swatches/gindiing/gd_GS5018.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS5018.jpg",
+"img": "swatches/gindiing/gd_GS5018.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS5018.webp",
 "price": 116
 },
 {
@@ -261,8 +261,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#494b49",
-"img": "swatches/gindiing/gd_GS7002.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS7002.jpg",
+"img": "swatches/gindiing/gd_GS7002.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS7002.webp",
 "price": 141
 },
 {
@@ -272,8 +272,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#696e72",
-"img": "swatches/gindiing/gd_GS7007.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS7007.jpg",
+"img": "swatches/gindiing/gd_GS7007.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS7007.webp",
 "price": 141
 },
 {
@@ -283,8 +283,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "GS 耐燃面飾板",
 "hex": "#816d49",
-"img": "swatches/gindiing/gd_GS9002.jpg",
-"thumb": "swatches/gindiing/thumb/gd_GS9002.jpg",
+"img": "swatches/gindiing/gd_GS9002.webp",
+"thumb": "swatches/gindiing/thumb/gd_GS9002.webp",
 "price": 150
 },
 {
@@ -294,8 +294,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#a47953",
-"img": "swatches/gindiing/gd_CFN10199ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10199ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10199ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10199ZD.webp",
 "price": 250
 },
 {
@@ -305,8 +305,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#78573f",
-"img": "swatches/gindiing/gd_CFN10200ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10200ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10200ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10200ZD.webp",
 "price": 250
 },
 {
@@ -316,8 +316,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#3b322d",
-"img": "swatches/gindiing/gd_CFN10201ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10201ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10201ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10201ZD.webp",
 "price": 250
 },
 {
@@ -327,8 +327,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#686663",
-"img": "swatches/gindiing/gd_CFN10241ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10241ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10241ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10241ZD.webp",
 "price": 216
 },
 {
@@ -338,8 +338,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#cbbcab",
-"img": "swatches/gindiing/gd_CFN10242ZN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10242ZN.jpg",
+"img": "swatches/gindiing/gd_CFN10242ZN.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10242ZN.webp",
 "price": 250
 },
 {
@@ -349,8 +349,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#694631",
-"img": "swatches/gindiing/gd_CFN10243ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10243ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10243ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10243ZD.webp",
 "price": 250
 },
 {
@@ -360,8 +360,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#4b352d",
-"img": "swatches/gindiing/gd_CFN10244ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10244ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10244ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10244ZD.webp",
 "price": 250
 },
 {
@@ -371,8 +371,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#ecdcc7",
-"img": "swatches/gindiing/gd_CFN10296ZN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10296ZN.jpg",
+"img": "swatches/gindiing/gd_CFN10296ZN.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10296ZN.webp",
 "price": 250
 },
 {
@@ -382,8 +382,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#97826f",
-"img": "swatches/gindiing/gd_CFN10297ZN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10297ZN.jpg",
+"img": "swatches/gindiing/gd_CFN10297ZN.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10297ZN.webp",
 "price": 250
 },
 {
@@ -393,8 +393,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#443f3d",
-"img": "swatches/gindiing/gd_CFN10298ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10298ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10298ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10298ZD.webp",
 "price": 250
 },
 {
@@ -404,8 +404,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#484543",
-"img": "swatches/gindiing/gd_CFN10299ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10299ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10299ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10299ZD.webp",
 "price": 250
 },
 {
@@ -415,8 +415,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#46413e",
-"img": "swatches/gindiing/gd_CFN10300ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10300ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10300ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10300ZD.webp",
 "price": 250
 },
 {
@@ -426,8 +426,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#e0e0db",
-"img": "swatches/gindiing/gd_CFN10301ZN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10301ZN.jpg",
+"img": "swatches/gindiing/gd_CFN10301ZN.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10301ZN.webp",
 "price": 250
 },
 {
@@ -437,8 +437,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#ddc9aa",
-"img": "swatches/gindiing/gd_CFN10302ZN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10302ZN.jpg",
+"img": "swatches/gindiing/gd_CFN10302ZN.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10302ZN.webp",
 "price": 250
 },
 {
@@ -448,8 +448,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#b6ab99",
-"img": "swatches/gindiing/gd_CFN10303ZN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10303ZN.jpg",
+"img": "swatches/gindiing/gd_CFN10303ZN.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10303ZN.webp",
 "price": 250
 },
 {
@@ -459,8 +459,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#847a71",
-"img": "swatches/gindiing/gd_CFN10304ZN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10304ZN.jpg",
+"img": "swatches/gindiing/gd_CFN10304ZN.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10304ZN.webp",
 "price": 250
 },
 {
@@ -470,8 +470,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#595857",
-"img": "swatches/gindiing/gd_CFN10305ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10305ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10305ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10305ZD.webp",
 "price": 250
 },
 {
@@ -481,8 +481,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#5a5a57",
-"img": "swatches/gindiing/gd_CFN10306ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_CFN10306ZD.jpg",
+"img": "swatches/gindiing/gd_CFN10306ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_CFN10306ZD.webp",
 "price": 250
 },
 {
@@ -492,8 +492,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#bbb8b1",
-"img": "swatches/gindiing/gd_FASE852ZMN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FASE852ZMN.jpg",
+"img": "swatches/gindiing/gd_FASE852ZMN.webp",
+"thumb": "swatches/gindiing/thumb/gd_FASE852ZMN.webp",
 "price": 278
 },
 {
@@ -503,8 +503,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#a2a19f",
-"img": "swatches/gindiing/gd_FJKE10125ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FJKE10125ZD.jpg",
+"img": "swatches/gindiing/gd_FJKE10125ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_FJKE10125ZD.webp",
 "price": 138
 },
 {
@@ -514,8 +514,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#383936",
-"img": "swatches/gindiing/gd_FJKE5532ZND74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FJKE5532ZND74.jpg",
+"img": "swatches/gindiing/gd_FJKE5532ZND74.webp",
+"thumb": "swatches/gindiing/thumb/gd_FJKE5532ZND74.webp",
 "price": 278
 },
 {
@@ -525,8 +525,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#c1c1bf",
-"img": "swatches/gindiing/gd_FJKE805ZN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FJKE805ZN.jpg",
+"img": "swatches/gindiing/gd_FJKE805ZN.webp",
+"thumb": "swatches/gindiing/thumb/gd_FJKE805ZN.webp",
 "price": 278
 },
 {
@@ -536,8 +536,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#353338",
-"img": "swatches/gindiing/gd_FJKE897ZND74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FJKE897ZND74.jpg",
+"img": "swatches/gindiing/gd_FJKE897ZND74.webp",
+"thumb": "swatches/gindiing/thumb/gd_FJKE897ZND74.webp",
 "price": 278
 },
 {
@@ -547,8 +547,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#808187",
-"img": "swatches/gindiing/gd_FJKE900ZD.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FJKE900ZD.jpg",
+"img": "swatches/gindiing/gd_FJKE900ZD.webp",
+"thumb": "swatches/gindiing/thumb/gd_FJKE900ZD.webp",
 "price": 278
 },
 {
@@ -558,8 +558,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#f9fafc",
-"img": "swatches/gindiing/gd_FKJE6000ZYN11.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FKJE6000ZYN11.jpg",
+"img": "swatches/gindiing/gd_FKJE6000ZYN11.webp",
+"thumb": "swatches/gindiing/thumb/gd_FKJE6000ZYN11.webp",
 "price": 278
 },
 {
@@ -569,8 +569,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#f9f8f3",
-"img": "swatches/gindiing/gd_FKJE6000ZYN19.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FKJE6000ZYN19.jpg",
+"img": "swatches/gindiing/gd_FKJE6000ZYN19.webp",
+"thumb": "swatches/gindiing/thumb/gd_FKJE6000ZYN19.webp",
 "price": 278
 },
 {
@@ -580,8 +580,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#31383b",
-"img": "swatches/gindiing/gd_FKJE6607ZYD95.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FKJE6607ZYD95.jpg",
+"img": "swatches/gindiing/gd_FKJE6607ZYD95.webp",
+"thumb": "swatches/gindiing/thumb/gd_FKJE6607ZYD95.webp",
 "price": 278
 },
 {
@@ -591,8 +591,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#f3f3ee",
-"img": "swatches/gindiing/gd_FQNE1700ZMN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FQNE1700ZMN.jpg",
+"img": "swatches/gindiing/gd_FQNE1700ZMN.webp",
+"thumb": "swatches/gindiing/thumb/gd_FQNE1700ZMN.webp",
 "price": 278
 },
 {
@@ -602,8 +602,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#d7d8d3",
-"img": "swatches/gindiing/gd_FQNE1701ZMN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FQNE1701ZMN.jpg",
+"img": "swatches/gindiing/gd_FQNE1701ZMN.webp",
+"thumb": "swatches/gindiing/thumb/gd_FQNE1701ZMN.webp",
 "price": 278
 },
 {
@@ -613,8 +613,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#f4f5f1",
-"img": "swatches/gindiing/gd_FQNE1716ZMN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FQNE1716ZMN.jpg",
+"img": "swatches/gindiing/gd_FQNE1716ZMN.webp",
+"thumb": "swatches/gindiing/thumb/gd_FQNE1716ZMN.webp",
 "price": 278
 },
 {
@@ -624,8 +624,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#f3f3f0",
-"img": "swatches/gindiing/gd_FQNE1850ZMN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FQNE1850ZMN.jpg",
+"img": "swatches/gindiing/gd_FQNE1850ZMN.webp",
+"thumb": "swatches/gindiing/thumb/gd_FQNE1850ZMN.webp",
 "price": 278
 },
 {
@@ -635,8 +635,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#d0c5bb",
-"img": "swatches/gindiing/gd_FWKE80025ZYN24.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FWKE80025ZYN24.jpg",
+"img": "swatches/gindiing/gd_FWKE80025ZYN24.webp",
+"thumb": "swatches/gindiing/thumb/gd_FWKE80025ZYN24.webp",
 "price": 278
 },
 {
@@ -646,8 +646,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#978a82",
-"img": "swatches/gindiing/gd_FWKE80026ZYN24.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FWKE80026ZYN24.jpg",
+"img": "swatches/gindiing/gd_FWKE80026ZYN24.webp",
+"thumb": "swatches/gindiing/thumb/gd_FWKE80026ZYN24.webp",
 "price": 278
 },
 {
@@ -657,8 +657,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#e9e1cf",
-"img": "swatches/gindiing/gd_FYAE1776ZGN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FYAE1776ZGN.jpg",
+"img": "swatches/gindiing/gd_FYAE1776ZGN.webp",
+"thumb": "swatches/gindiing/thumb/gd_FYAE1776ZGN.webp",
 "price": 278
 },
 {
@@ -668,8 +668,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#edd7c5",
-"img": "swatches/gindiing/gd_FYAE1776ZGN-958.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FYAE1776ZGN-958.jpg",
+"img": "swatches/gindiing/gd_FYAE1776ZGN-958.webp",
+"thumb": "swatches/gindiing/thumb/gd_FYAE1776ZGN-958.webp",
 "price": 278
 },
 {
@@ -679,8 +679,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#eae6e4",
-"img": "swatches/gindiing/gd_FYAE1983ZMN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FYAE1983ZMN.jpg",
+"img": "swatches/gindiing/gd_FYAE1983ZMN.webp",
+"thumb": "swatches/gindiing/thumb/gd_FYAE1983ZMN.webp",
 "price": 147
 },
 {
@@ -690,8 +690,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#f1ebdd",
-"img": "swatches/gindiing/gd_FYAE1983ZMN-224.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FYAE1983ZMN-224.jpg",
+"img": "swatches/gindiing/gd_FYAE1983ZMN-224.webp",
+"thumb": "swatches/gindiing/thumb/gd_FYAE1983ZMN-224.webp",
 "price": 278
 },
 {
@@ -701,8 +701,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#e7e6e2",
-"img": "swatches/gindiing/gd_FYAE802ZGN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_FYAE802ZGN.jpg",
+"img": "swatches/gindiing/gd_FYAE802ZGN.webp",
+"thumb": "swatches/gindiing/thumb/gd_FYAE802ZGN.webp",
 "price": 278
 },
 {
@@ -712,8 +712,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#d3d5d9",
-"img": "swatches/gindiing/gd_TA-101G.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-101G.jpg",
+"img": "swatches/gindiing/gd_TA-101G.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-101G.webp",
 "price": 278
 },
 {
@@ -723,8 +723,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#d3d5d9",
-"img": "swatches/gindiing/gd_TA-101M.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-101M.jpg",
+"img": "swatches/gindiing/gd_TA-101M.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-101M.webp",
 "price": 278
 },
 {
@@ -734,8 +734,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#d9dbde",
-"img": "swatches/gindiing/gd_TA-102Y24.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-102Y24.jpg",
+"img": "swatches/gindiing/gd_TA-102Y24.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-102Y24.webp",
 "price": 278
 },
 {
@@ -745,8 +745,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#e5dcd5",
-"img": "swatches/gindiing/gd_TA-104M.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-104M.jpg",
+"img": "swatches/gindiing/gd_TA-104M.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-104M.webp",
 "price": 278
 },
 {
@@ -756,8 +756,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#c9baad",
-"img": "swatches/gindiing/gd_TA-203M.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-203M.jpg",
+"img": "swatches/gindiing/gd_TA-203M.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-203M.webp",
 "price": 278
 },
 {
@@ -767,8 +767,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#d2c4af",
-"img": "swatches/gindiing/gd_TA-206M.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-206M.jpg",
+"img": "swatches/gindiing/gd_TA-206M.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-206M.webp",
 "price": 278
 },
 {
@@ -778,8 +778,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#c3c3c3",
-"img": "swatches/gindiing/gd_TA-209MN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-209MN.jpg",
+"img": "swatches/gindiing/gd_TA-209MN.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-209MN.webp",
 "price": 278
 },
 {
@@ -789,8 +789,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#c8c6c6",
-"img": "swatches/gindiing/gd_TA-211G.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-211G.jpg",
+"img": "swatches/gindiing/gd_TA-211G.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-211G.webp",
 "price": 278
 },
 {
@@ -800,8 +800,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#d0ccc9",
-"img": "swatches/gindiing/gd_TA-212M.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-212M.jpg",
+"img": "swatches/gindiing/gd_TA-212M.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-212M.webp",
 "price": 278
 },
 {
@@ -811,8 +811,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#402f25",
-"img": "swatches/gindiing/gd_TA-301M.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-301M.jpg",
+"img": "swatches/gindiing/gd_TA-301M.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-301M.webp",
 "price": 278
 },
 {
@@ -822,8 +822,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#c4bfbb",
-"img": "swatches/gindiing/gd_TA-303G.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-303G.jpg",
+"img": "swatches/gindiing/gd_TA-303G.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-303G.webp",
 "price": 278
 },
 {
@@ -833,8 +833,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#232227",
-"img": "swatches/gindiing/gd_TA-305M.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-305M.jpg",
+"img": "swatches/gindiing/gd_TA-305M.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-305M.webp",
 "price": 278
 },
 {
@@ -844,8 +844,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#d8decb",
-"img": "swatches/gindiing/gd_TA-306M.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-306M.jpg",
+"img": "swatches/gindiing/gd_TA-306M.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-306M.webp",
 "price": 278
 },
 {
@@ -855,8 +855,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#d8cbbd",
-"img": "swatches/gindiing/gd_TA-401J67.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-401J67.jpg",
+"img": "swatches/gindiing/gd_TA-401J67.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-401J67.webp",
 "price": 278
 },
 {
@@ -866,8 +866,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#b28e5e",
-"img": "swatches/gindiing/gd_TA-403J67.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-403J67.jpg",
+"img": "swatches/gindiing/gd_TA-403J67.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-403J67.webp",
 "price": 278
 },
 {
@@ -877,8 +877,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#3a241e",
-"img": "swatches/gindiing/gd_TA-404J67.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-404J67.jpg",
+"img": "swatches/gindiing/gd_TA-404J67.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-404J67.webp",
 "price": 278
 },
 {
@@ -888,8 +888,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#614d40",
-"img": "swatches/gindiing/gd_TA-405J67.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-405J67.jpg",
+"img": "swatches/gindiing/gd_TA-405J67.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-405J67.webp",
 "price": 278
 },
 {
@@ -899,8 +899,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#ac9e91",
-"img": "swatches/gindiing/gd_TA-406J67.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-406J67.jpg",
+"img": "swatches/gindiing/gd_TA-406J67.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-406J67.webp",
 "price": 278
 },
 {
@@ -910,8 +910,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#8b6144",
-"img": "swatches/gindiing/gd_TA-407J67.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-407J67.jpg",
+"img": "swatches/gindiing/gd_TA-407J67.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-407J67.webp",
 "price": 278
 },
 {
@@ -921,8 +921,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#6f6259",
-"img": "swatches/gindiing/gd_TA-409J67.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-409J67.jpg",
+"img": "swatches/gindiing/gd_TA-409J67.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-409J67.webp",
 "price": 278
 },
 {
@@ -932,8 +932,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#a3825a",
-"img": "swatches/gindiing/gd_TA-410J67.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TA-410J67.jpg",
+"img": "swatches/gindiing/gd_TA-410J67.webp",
+"thumb": "swatches/gindiing/thumb/gd_TA-410J67.webp",
 "price": 278
 },
 {
@@ -943,8 +943,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#1f2322",
-"img": "swatches/gindiing/gd_WFE3112Z.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WFE3112Z.jpg",
+"img": "swatches/gindiing/gd_WFE3112Z.webp",
+"thumb": "swatches/gindiing/thumb/gd_WFE3112Z.webp",
 "price": 278
 },
 {
@@ -954,8 +954,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#f1f0eb",
-"img": "swatches/gindiing/gd_WFE3190Z.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WFE3190Z.jpg",
+"img": "swatches/gindiing/gd_WFE3190Z.webp",
+"thumb": "swatches/gindiing/thumb/gd_WFE3190Z.webp",
 "price": 219
 },
 {
@@ -965,8 +965,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#c3c3c5",
-"img": "swatches/gindiing/gd_WFE3200Z.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WFE3200Z.jpg",
+"img": "swatches/gindiing/gd_WFE3200Z.webp",
+"thumb": "swatches/gindiing/thumb/gd_WFE3200Z.webp",
 "price": 278
 },
 {
@@ -976,8 +976,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#302d2c",
-"img": "swatches/gindiing/gd_WFE3202Z.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WFE3202Z.jpg",
+"img": "swatches/gindiing/gd_WFE3202Z.webp",
+"thumb": "swatches/gindiing/thumb/gd_WFE3202Z.webp",
 "price": 278
 },
 {
@@ -987,8 +987,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#e9e9e7",
-"img": "swatches/gindiing/gd_WFE3217Z.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WFE3217Z.jpg",
+"img": "swatches/gindiing/gd_WFE3217Z.webp",
+"thumb": "swatches/gindiing/thumb/gd_WFE3217Z.webp",
 "price": 278
 },
 {
@@ -998,8 +998,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 愛克板",
 "hex": "#efefea",
-"img": "swatches/gindiing/gd_WFTE3191ZGN.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WFTE3191ZGN.jpg",
+"img": "swatches/gindiing/gd_WFTE3191ZGN.webp",
+"thumb": "swatches/gindiing/thumb/gd_WFTE3191ZGN.webp",
 "price": 278
 },
 {
@@ -1009,8 +1009,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA CELSUS 抗指紋",
 "hex": "#c6cacf",
-"img": "swatches/gindiing/gd_TAS13008CT74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TAS13008CT74.jpg",
+"img": "swatches/gindiing/gd_TAS13008CT74.webp",
+"thumb": "swatches/gindiing/thumb/gd_TAS13008CT74.webp",
 "price": 278
 },
 {
@@ -1020,8 +1020,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA CELSUS 抗指紋",
 "hex": "#101116",
-"img": "swatches/gindiing/gd_TAS13009CT74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TAS13009CT74.jpg",
+"img": "swatches/gindiing/gd_TAS13009CT74.webp",
+"thumb": "swatches/gindiing/thumb/gd_TAS13009CT74.webp",
 "price": 278
 },
 {
@@ -1031,8 +1031,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA CELSUS 抗指紋",
 "hex": "#00448d",
-"img": "swatches/gindiing/gd_TAS13018CT74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TAS13018CT74.jpg",
+"img": "swatches/gindiing/gd_TAS13018CT74.webp",
+"thumb": "swatches/gindiing/thumb/gd_TAS13018CT74.webp",
 "price": 278
 },
 {
@@ -1042,8 +1042,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA CELSUS 抗指紋",
 "hex": "#888075",
-"img": "swatches/gindiing/gd_TAS13019CT74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TAS13019CT74.jpg",
+"img": "swatches/gindiing/gd_TAS13019CT74.webp",
+"thumb": "swatches/gindiing/thumb/gd_TAS13019CT74.webp",
 "price": 278
 },
 {
@@ -1053,8 +1053,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA CELSUS 抗指紋",
 "hex": "#7a1e2b",
-"img": "swatches/gindiing/gd_TAS13022CT74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TAS13022CT74.jpg",
+"img": "swatches/gindiing/gd_TAS13022CT74.webp",
+"thumb": "swatches/gindiing/thumb/gd_TAS13022CT74.webp",
 "price": 278
 },
 {
@@ -1064,8 +1064,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA CELSUS 抗指紋",
 "hex": "#535a60",
-"img": "swatches/gindiing/gd_TAS13023CT74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TAS13023CT74.jpg",
+"img": "swatches/gindiing/gd_TAS13023CT74.webp",
+"thumb": "swatches/gindiing/thumb/gd_TAS13023CT74.webp",
 "price": 278
 },
 {
@@ -1075,8 +1075,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA CELSUS 抗指紋",
 "hex": "#88898d",
-"img": "swatches/gindiing/gd_TAS13029CT74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TAS13029CT74.jpg",
+"img": "swatches/gindiing/gd_TAS13029CT74.webp",
+"thumb": "swatches/gindiing/thumb/gd_TAS13029CT74.webp",
 "price": 278
 },
 {
@@ -1086,8 +1086,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA CELSUS 抗指紋",
 "hex": "#434448",
-"img": "swatches/gindiing/gd_TAS13030CT74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TAS13030CT74.jpg",
+"img": "swatches/gindiing/gd_TAS13030CT74.webp",
+"thumb": "swatches/gindiing/thumb/gd_TAS13030CT74.webp",
 "price": 278
 },
 {
@@ -1097,8 +1097,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA CELSUS 抗指紋",
 "hex": "#8fa99c",
-"img": "swatches/gindiing/gd_TAS13031CT74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TAS13031CT74.jpg",
+"img": "swatches/gindiing/gd_TAS13031CT74.webp",
+"thumb": "swatches/gindiing/thumb/gd_TAS13031CT74.webp",
 "price": 278
 },
 {
@@ -1108,8 +1108,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA CELSUS 抗指紋",
 "hex": "#ab573d",
-"img": "swatches/gindiing/gd_TAS13032CT74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_TAS13032CT74.jpg",
+"img": "swatches/gindiing/gd_TAS13032CT74.webp",
+"thumb": "swatches/gindiing/thumb/gd_TAS13032CT74.webp",
 "price": 278
 },
 {
@@ -1119,8 +1119,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fdfcfd",
-"img": "swatches/gindiing/gd_AKW13000KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13000KM.jpg",
+"img": "swatches/gindiing/gd_AKW13000KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13000KM.webp",
 "price": 278
 },
 {
@@ -1130,8 +1130,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fdfcfd",
-"img": "swatches/gindiing/gd_AKW13000KN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13000KN74.jpg",
+"img": "swatches/gindiing/gd_AKW13000KN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13000KN74.webp",
 "price": 278
 },
 {
@@ -1141,8 +1141,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#faf9fc",
-"img": "swatches/gindiing/gd_AKW13001KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13001KM.jpg",
+"img": "swatches/gindiing/gd_AKW13001KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13001KM.webp",
 "price": 278
 },
 {
@@ -1152,8 +1152,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#faf9fc",
-"img": "swatches/gindiing/gd_AKW13001KN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13001KN74.jpg",
+"img": "swatches/gindiing/gd_AKW13001KN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13001KN74.webp",
 "price": 278
 },
 {
@@ -1163,8 +1163,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fafbfd",
-"img": "swatches/gindiing/gd_AKW13002KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13002KM.jpg",
+"img": "swatches/gindiing/gd_AKW13002KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13002KM.webp",
 "price": 278
 },
 {
@@ -1174,8 +1174,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fafbfd",
-"img": "swatches/gindiing/gd_AKW13002KN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13002KN74.jpg",
+"img": "swatches/gindiing/gd_AKW13002KN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13002KN74.webp",
 "price": 278
 },
 {
@@ -1185,8 +1185,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fef9f3",
-"img": "swatches/gindiing/gd_AKW13003KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13003KM.jpg",
+"img": "swatches/gindiing/gd_AKW13003KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13003KM.webp",
 "price": 278
 },
 {
@@ -1196,8 +1196,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fef9f3",
-"img": "swatches/gindiing/gd_AKW13003KN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13003KN74.jpg",
+"img": "swatches/gindiing/gd_AKW13003KN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13003KN74.webp",
 "price": 278
 },
 {
@@ -1207,8 +1207,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fff8f2",
-"img": "swatches/gindiing/gd_AKW13004KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13004KM.jpg",
+"img": "swatches/gindiing/gd_AKW13004KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13004KM.webp",
 "price": 278
 },
 {
@@ -1218,8 +1218,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fff8f2",
-"img": "swatches/gindiing/gd_AKW13004KN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13004KN74.jpg",
+"img": "swatches/gindiing/gd_AKW13004KN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13004KN74.webp",
 "price": 278
 },
 {
@@ -1229,8 +1229,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fef1e1",
-"img": "swatches/gindiing/gd_AKW13005KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13005KM.jpg",
+"img": "swatches/gindiing/gd_AKW13005KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13005KM.webp",
 "price": 278
 },
 {
@@ -1240,8 +1240,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fef1e1",
-"img": "swatches/gindiing/gd_AKW13005KN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13005KN74.jpg",
+"img": "swatches/gindiing/gd_AKW13005KN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13005KN74.webp",
 "price": 278
 },
 {
@@ -1251,8 +1251,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#d3d2d0",
-"img": "swatches/gindiing/gd_AKW13007KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13007KM.jpg",
+"img": "swatches/gindiing/gd_AKW13007KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13007KM.webp",
 "price": 278
 },
 {
@@ -1262,8 +1262,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#dbd4ce",
-"img": "swatches/gindiing/gd_AKW13026KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13026KM.jpg",
+"img": "swatches/gindiing/gd_AKW13026KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13026KM.webp",
 "price": 278
 },
 {
@@ -1273,8 +1273,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#ddded9",
-"img": "swatches/gindiing/gd_AKW13027KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13027KM.jpg",
+"img": "swatches/gindiing/gd_AKW13027KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13027KM.webp",
 "price": 278
 },
 {
@@ -1284,8 +1284,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#f2e6d8",
-"img": "swatches/gindiing/gd_AKW13028KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13028KM.jpg",
+"img": "swatches/gindiing/gd_AKW13028KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13028KM.webp",
 "price": 278
 },
 {
@@ -1295,8 +1295,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#d6ccc0",
-"img": "swatches/gindiing/gd_AKW13033KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW13033KM.jpg",
+"img": "swatches/gindiing/gd_AKW13033KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW13033KM.webp",
 "price": 278
 },
 {
@@ -1306,8 +1306,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#eeeade",
-"img": "swatches/gindiing/gd_AKW14038KG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14038KG.jpg",
+"img": "swatches/gindiing/gd_AKW14038KG.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14038KG.webp",
 "price": 278
 },
 {
@@ -1317,8 +1317,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#eae7e0",
-"img": "swatches/gindiing/gd_AKW14076KS22.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14076KS22.jpg",
+"img": "swatches/gindiing/gd_AKW14076KS22.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14076KS22.webp",
 "price": 278
 },
 {
@@ -1328,8 +1328,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#f3eae1",
-"img": "swatches/gindiing/gd_AKW14103KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14103KM.jpg",
+"img": "swatches/gindiing/gd_AKW14103KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14103KM.webp",
 "price": 278
 },
 {
@@ -1339,8 +1339,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#ebebe8",
-"img": "swatches/gindiing/gd_AKW14144KG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14144KG.jpg",
+"img": "swatches/gindiing/gd_AKW14144KG.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14144KG.webp",
 "price": 278
 },
 {
@@ -1350,8 +1350,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#d0c3b2",
-"img": "swatches/gindiing/gd_AKW14149KY32.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14149KY32.jpg",
+"img": "swatches/gindiing/gd_AKW14149KY32.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14149KY32.webp",
 "price": 278
 },
 {
@@ -1361,8 +1361,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#bdb09c",
-"img": "swatches/gindiing/gd_AKW14159KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14159KM.jpg",
+"img": "swatches/gindiing/gd_AKW14159KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14159KM.webp",
 "price": 278
 },
 {
@@ -1372,8 +1372,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#d6c7b3",
-"img": "swatches/gindiing/gd_AKW14159KY32.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14159KY32.jpg",
+"img": "swatches/gindiing/gd_AKW14159KY32.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14159KY32.webp",
 "price": 278
 },
 {
@@ -1383,8 +1383,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#f2e7d2",
-"img": "swatches/gindiing/gd_AKW14160KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14160KM.jpg",
+"img": "swatches/gindiing/gd_AKW14160KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14160KM.webp",
 "price": 278
 },
 {
@@ -1394,8 +1394,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#d3d1cb",
-"img": "swatches/gindiing/gd_AKW14161KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14161KM.jpg",
+"img": "swatches/gindiing/gd_AKW14161KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14161KM.webp",
 "price": 278
 },
 {
@@ -1405,8 +1405,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#d7d1c7",
-"img": "swatches/gindiing/gd_AKW14163KS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14163KS83.jpg",
+"img": "swatches/gindiing/gd_AKW14163KS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14163KS83.webp",
 "price": 278
 },
 {
@@ -1416,8 +1416,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#af9c84",
-"img": "swatches/gindiing/gd_AKW14164KS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14164KS83.jpg",
+"img": "swatches/gindiing/gd_AKW14164KS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14164KS83.webp",
 "price": 278
 },
 {
@@ -1427,8 +1427,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#dcdbd6",
-"img": "swatches/gindiing/gd_AKW14165KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AKW14165KM.jpg",
+"img": "swatches/gindiing/gd_AKW14165KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AKW14165KM.webp",
 "price": 278
 },
 {
@@ -1438,8 +1438,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fdf7ef",
-"img": "swatches/gindiing/gd_ASW14066KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_ASW14066KM.jpg",
+"img": "swatches/gindiing/gd_ASW14066KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_ASW14066KM.webp",
 "price": 278
 },
 {
@@ -1449,8 +1449,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#f7eee3",
-"img": "swatches/gindiing/gd_ASW14104KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_ASW14104KM.jpg",
+"img": "swatches/gindiing/gd_ASW14104KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_ASW14104KM.webp",
 "price": 278
 },
 {
@@ -1460,8 +1460,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#fdf8f0",
-"img": "swatches/gindiing/gd_ASW14147KS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_ASW14147KS83.jpg",
+"img": "swatches/gindiing/gd_ASW14147KS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_ASW14147KS83.webp",
 "price": 278
 },
 {
@@ -1471,8 +1471,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#f7efe2",
-"img": "swatches/gindiing/gd_ASW14151KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_ASW14151KM.jpg",
+"img": "swatches/gindiing/gd_ASW14151KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_ASW14151KM.webp",
 "price": 278
 },
 {
@@ -1482,8 +1482,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#dfd8c5",
-"img": "swatches/gindiing/gd_ASW14168KS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_ASW14168KS83.jpg",
+"img": "swatches/gindiing/gd_ASW14168KS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_ASW14168KS83.webp",
 "price": 278
 },
 {
@@ -1493,8 +1493,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA PURECORE 同芯",
 "hex": "#cdbe9d",
-"img": "swatches/gindiing/gd_ASW14169KS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_ASW14169KS83.jpg",
+"img": "swatches/gindiing/gd_ASW14169KS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_ASW14169KS83.webp",
 "price": 278
 },
 {
@@ -1504,8 +1504,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#eeeade",
-"img": "swatches/gindiing/gd_AK-14038CG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14038CG.jpg",
+"img": "swatches/gindiing/gd_AK-14038CG.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14038CG.webp",
 "price": 278
 },
 {
@@ -1515,8 +1515,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#eeeade",
-"img": "swatches/gindiing/gd_AK-14038CS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14038CS83.jpg",
+"img": "swatches/gindiing/gd_AK-14038CS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14038CS83.webp",
 "price": 278
 },
 {
@@ -1526,8 +1526,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#eeeade",
-"img": "swatches/gindiing/gd_AK-14038KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14038KM.jpg",
+"img": "swatches/gindiing/gd_AK-14038KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14038KM.webp",
 "price": 278
 },
 {
@@ -1537,8 +1537,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#848682",
-"img": "swatches/gindiing/gd_AK-14039CG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14039CG.jpg",
+"img": "swatches/gindiing/gd_AK-14039CG.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14039CG.webp",
 "price": 278
 },
 {
@@ -1548,8 +1548,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#4a3e31",
-"img": "swatches/gindiing/gd_AK-14040CG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14040CG.jpg",
+"img": "swatches/gindiing/gd_AK-14040CG.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14040CG.webp",
 "price": 278
 },
 {
@@ -1559,8 +1559,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#4a3e31",
-"img": "swatches/gindiing/gd_AK-14040KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14040KM.jpg",
+"img": "swatches/gindiing/gd_AK-14040KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14040KM.webp",
 "price": 278
 },
 {
@@ -1570,8 +1570,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#47474c",
-"img": "swatches/gindiing/gd_AK-14041CG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14041CG.jpg",
+"img": "swatches/gindiing/gd_AK-14041CG.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14041CG.webp",
 "price": 278
 },
 {
@@ -1581,8 +1581,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#47474c",
-"img": "swatches/gindiing/gd_AK-14041CS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14041CS83.jpg",
+"img": "swatches/gindiing/gd_AK-14041CS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14041CS83.webp",
 "price": 278
 },
 {
@@ -1592,8 +1592,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#47474c",
-"img": "swatches/gindiing/gd_AK-14041KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14041KM.jpg",
+"img": "swatches/gindiing/gd_AK-14041KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14041KM.webp",
 "price": 278
 },
 {
@@ -1603,8 +1603,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#c7c6c2",
-"img": "swatches/gindiing/gd_AK-14062CS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14062CS83.jpg",
+"img": "swatches/gindiing/gd_AK-14062CS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14062CS83.webp",
 "price": 278
 },
 {
@@ -1614,8 +1614,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#979490",
-"img": "swatches/gindiing/gd_AK-14063CS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14063CS83.jpg",
+"img": "swatches/gindiing/gd_AK-14063CS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14063CS83.webp",
 "price": 278
 },
 {
@@ -1625,8 +1625,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#ebebe8",
-"img": "swatches/gindiing/gd_AK-14144CG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14144CG.jpg",
+"img": "swatches/gindiing/gd_AK-14144CG.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14144CG.webp",
 "price": 278
 },
 {
@@ -1636,8 +1636,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#ebebe8",
-"img": "swatches/gindiing/gd_AK-14144CS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14144CS83.jpg",
+"img": "swatches/gindiing/gd_AK-14144CS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14144CS83.webp",
 "price": 278
 },
 {
@@ -1647,8 +1647,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#ebebe8",
-"img": "swatches/gindiing/gd_AK-14144KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14144KM.jpg",
+"img": "swatches/gindiing/gd_AK-14144KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14144KM.webp",
 "price": 278
 },
 {
@@ -1658,8 +1658,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#b1a7a2",
-"img": "swatches/gindiing/gd_AK-14145CG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14145CG.jpg",
+"img": "swatches/gindiing/gd_AK-14145CG.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14145CG.webp",
 "price": 278
 },
 {
@@ -1669,8 +1669,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#151a27",
-"img": "swatches/gindiing/gd_AK-14146CG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14146CG.jpg",
+"img": "swatches/gindiing/gd_AK-14146CG.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14146CG.webp",
 "price": 278
 },
 {
@@ -1680,8 +1680,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#151a27",
-"img": "swatches/gindiing/gd_AK-14146CS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14146CS83.jpg",
+"img": "swatches/gindiing/gd_AK-14146CS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14146CS83.webp",
 "price": 278
 },
 {
@@ -1691,8 +1691,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#151a27",
-"img": "swatches/gindiing/gd_AK-14146KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14146KM.jpg",
+"img": "swatches/gindiing/gd_AK-14146KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14146KM.webp",
 "price": 278
 },
 {
@@ -1702,8 +1702,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#726f6d",
-"img": "swatches/gindiing/gd_AK-14150CY32.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14150CY32.jpg",
+"img": "swatches/gindiing/gd_AK-14150CY32.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14150CY32.webp",
 "price": 278
 },
 {
@@ -1713,8 +1713,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#6f6961",
-"img": "swatches/gindiing/gd_AK-14157KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14157KM.jpg",
+"img": "swatches/gindiing/gd_AK-14157KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14157KM.webp",
 "price": 278
 },
 {
@@ -1724,8 +1724,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#615e5f",
-"img": "swatches/gindiing/gd_AK-14158CY32.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14158CY32.jpg",
+"img": "swatches/gindiing/gd_AK-14158CY32.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14158CY32.webp",
 "price": 278
 },
 {
@@ -1735,8 +1735,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#66635a",
-"img": "swatches/gindiing/gd_AK-14162CY32.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14162CY32.jpg",
+"img": "swatches/gindiing/gd_AK-14162CY32.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14162CY32.webp",
 "price": 278
 },
 {
@@ -1746,8 +1746,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA STONE 大理石紋",
 "hex": "#4c4c47",
-"img": "swatches/gindiing/gd_AK-14166KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14166KM.jpg",
+"img": "swatches/gindiing/gd_AK-14166KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14166KM.webp",
 "price": 278
 },
 {
@@ -1757,8 +1757,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#fcfcfe",
-"img": "swatches/gindiing/gd_AK-13000CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13000CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13000CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13000CN74.webp",
 "price": 278
 },
 {
@@ -1768,8 +1768,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#f9fafe",
-"img": "swatches/gindiing/gd_AK-13001CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13001CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13001CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13001CN74.webp",
 "price": 278
 },
 {
@@ -1779,8 +1779,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#f9fafc",
-"img": "swatches/gindiing/gd_AK-13002CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13002CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13002CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13002CN74.webp",
 "price": 278
 },
 {
@@ -1790,8 +1790,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#f9f9f7",
-"img": "swatches/gindiing/gd_AK-13003CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13003CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13003CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13003CN74.webp",
 "price": 278
 },
 {
@@ -1801,8 +1801,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#fdfcf8",
-"img": "swatches/gindiing/gd_AK-13004CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13004CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13004CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13004CN74.webp",
 "price": 278
 },
 {
@@ -1812,8 +1812,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#fef4ea",
-"img": "swatches/gindiing/gd_AK-13005CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13005CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13005CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13005CN74.webp",
 "price": 278
 },
 {
@@ -1823,8 +1823,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#f9fafe",
-"img": "swatches/gindiing/gd_AK-13006CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13006CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13006CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13006CN74.webp",
 "price": 278
 },
 {
@@ -1834,8 +1834,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#d7d8da",
-"img": "swatches/gindiing/gd_AK-13007CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13007CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13007CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13007CN74.webp",
 "price": 278
 },
 {
@@ -1845,8 +1845,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#c6cacf",
-"img": "swatches/gindiing/gd_AK-13008CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13008CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13008CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13008CN74.webp",
 "price": 278
 },
 {
@@ -1856,8 +1856,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#101116",
-"img": "swatches/gindiing/gd_AK-13009CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13009CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13009CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13009CN74.webp",
 "price": 278
 },
 {
@@ -1867,8 +1867,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#897f75",
-"img": "swatches/gindiing/gd_AK-13019CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13019CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13019CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13019CN74.webp",
 "price": 278
 },
 {
@@ -1878,8 +1878,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#a78e78",
-"img": "swatches/gindiing/gd_AK-13020CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13020CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13020CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13020CN74.webp",
 "price": 278
 },
 {
@@ -1889,8 +1889,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#664d46",
-"img": "swatches/gindiing/gd_AK-13021CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13021CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13021CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13021CN74.webp",
 "price": 278
 },
 {
@@ -1900,8 +1900,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#535a60",
-"img": "swatches/gindiing/gd_AK-13023CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13023CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13023CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13023CN74.webp",
 "price": 278
 },
 {
@@ -1911,8 +1911,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#d0c1ae",
-"img": "swatches/gindiing/gd_AK-13025CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13025CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13025CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13025CN74.webp",
 "price": 278
 },
 {
@@ -1922,8 +1922,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#e5e6e8",
-"img": "swatches/gindiing/gd_AK-13026CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13026CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13026CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13026CN74.webp",
 "price": 278
 },
 {
@@ -1933,8 +1933,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#e1e5e4",
-"img": "swatches/gindiing/gd_AK-13027CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13027CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13027CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13027CN74.webp",
 "price": 278
 },
 {
@@ -1944,8 +1944,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#efeee9",
-"img": "swatches/gindiing/gd_AK-13028CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13028CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13028CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13028CN74.webp",
 "price": 278
 },
 {
@@ -1955,8 +1955,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#88898d",
-"img": "swatches/gindiing/gd_AK-13029CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13029CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13029CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13029CN74.webp",
 "price": 278
 },
 {
@@ -1966,8 +1966,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#434448",
-"img": "swatches/gindiing/gd_AK-13030CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13030CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13030CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13030CN74.webp",
 "price": 278
 },
 {
@@ -1977,8 +1977,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#d5d1c6",
-"img": "swatches/gindiing/gd_AK-13033CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13033CN74.jpg",
+"img": "swatches/gindiing/gd_AK-13033CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13033CN74.webp",
 "price": 278
 },
 {
@@ -1988,8 +1988,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA SOLID 單色",
 "hex": "#fdfdfd",
-"img": "swatches/gindiing/gd_HJ-5414CN74.jpg",
-"thumb": "swatches/gindiing/thumb/gd_HJ-5414CN74.jpg",
+"img": "swatches/gindiing/gd_HJ-5414CN74.webp",
+"thumb": "swatches/gindiing/thumb/gd_HJ-5414CN74.webp",
 "price": 278
 },
 {
@@ -1999,8 +1999,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA METAL 金屬",
 "hex": "#877676",
-"img": "swatches/gindiing/gd_AK-14064CS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14064CS83.jpg",
+"img": "swatches/gindiing/gd_AK-14064CS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14064CS83.webp",
 "price": 278
 },
 {
@@ -2010,8 +2010,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA METAL 金屬",
 "hex": "#936960",
-"img": "swatches/gindiing/gd_AK-14065CS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14065CS83.jpg",
+"img": "swatches/gindiing/gd_AK-14065CS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14065CS83.webp",
 "price": 278
 },
 {
@@ -2021,8 +2021,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA METAL 金屬",
 "hex": "#c4cad4",
-"img": "swatches/gindiing/gd_MAS14900K.jpg",
-"thumb": "swatches/gindiing/thumb/gd_MAS14900K.jpg",
+"img": "swatches/gindiing/gd_MAS14900K.webp",
+"thumb": "swatches/gindiing/thumb/gd_MAS14900K.webp",
 "price": 278
 },
 {
@@ -2032,8 +2032,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA METAL 金屬",
 "hex": "#b98f72",
-"img": "swatches/gindiing/gd_MAS14901K.jpg",
-"thumb": "swatches/gindiing/thumb/gd_MAS14901K.jpg",
+"img": "swatches/gindiing/gd_MAS14901K.webp",
+"thumb": "swatches/gindiing/thumb/gd_MAS14901K.webp",
 "price": 278
 },
 {
@@ -2043,8 +2043,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#101116",
-"img": "swatches/gindiing/gd_AK-13009CS22.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13009CS22.jpg",
+"img": "swatches/gindiing/gd_AK-13009CS22.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13009CS22.webp",
 "price": 278
 },
 {
@@ -2054,8 +2054,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#1d1d27",
-"img": "swatches/gindiing/gd_AK-13009CS89.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-13009CS89.jpg",
+"img": "swatches/gindiing/gd_AK-13009CS89.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-13009CS89.webp",
 "price": 278
 },
 {
@@ -2065,8 +2065,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#f9f3e5",
-"img": "swatches/gindiing/gd_AK-14059CS22.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14059CS22.jpg",
+"img": "swatches/gindiing/gd_AK-14059CS22.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14059CS22.webp",
 "price": 278
 },
 {
@@ -2076,8 +2076,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#b8b3a6",
-"img": "swatches/gindiing/gd_AK-14060CS22.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14060CS22.jpg",
+"img": "swatches/gindiing/gd_AK-14060CS22.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14060CS22.webp",
 "price": 278
 },
 {
@@ -2087,8 +2087,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#7f7b7d",
-"img": "swatches/gindiing/gd_AK-14061CS22.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14061CS22.jpg",
+"img": "swatches/gindiing/gd_AK-14061CS22.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14061CS22.webp",
 "price": 278
 },
 {
@@ -2098,8 +2098,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#eae7e0",
-"img": "swatches/gindiing/gd_AK-14076CS22.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14076CS22.jpg",
+"img": "swatches/gindiing/gd_AK-14076CS22.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14076CS22.webp",
 "price": 278
 },
 {
@@ -2109,8 +2109,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#57423f",
-"img": "swatches/gindiing/gd_AK-14077CS89.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14077CS89.jpg",
+"img": "swatches/gindiing/gd_AK-14077CS89.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14077CS89.webp",
 "price": 278
 },
 {
@@ -2120,8 +2120,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#3b3438",
-"img": "swatches/gindiing/gd_AK-14078CS89.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14078CS89.jpg",
+"img": "swatches/gindiing/gd_AK-14078CS89.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14078CS89.webp",
 "price": 278
 },
 {
@@ -2131,8 +2131,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#34343a",
-"img": "swatches/gindiing/gd_AK-14089CS83.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14089CS83.jpg",
+"img": "swatches/gindiing/gd_AK-14089CS83.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14089CS83.webp",
 "price": 278
 },
 {
@@ -2142,8 +2142,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#4f3f30",
-"img": "swatches/gindiing/gd_AK-14167CY32.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14167CY32.jpg",
+"img": "swatches/gindiing/gd_AK-14167CY32.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14167CY32.webp",
 "price": 278
 },
 {
@@ -2153,8 +2153,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA ABSTRACT 抽象",
 "hex": "#272727",
-"img": "swatches/gindiing/gd_AK-14171CY32.jpg",
-"thumb": "swatches/gindiing/thumb/gd_AK-14171CY32.jpg",
+"img": "swatches/gindiing/gd_AK-14171CY32.webp",
+"thumb": "swatches/gindiing/thumb/gd_AK-14171CY32.webp",
 "price": 278
 },
 {
@@ -2164,8 +2164,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 美耐板",
 "hex": "#a19e9a",
-"img": "swatches/gindiing/gd_WAK14702KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WAK14702KM.jpg",
+"img": "swatches/gindiing/gd_WAK14702KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_WAK14702KM.webp",
 "price": 278
 },
 {
@@ -2175,8 +2175,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 美耐板",
 "hex": "#88a3b1",
-"img": "swatches/gindiing/gd_WAK14706KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WAK14706KM.jpg",
+"img": "swatches/gindiing/gd_WAK14706KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_WAK14706KM.webp",
 "price": 278
 },
 {
@@ -2186,8 +2186,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 美耐板",
 "hex": "#bec4c3",
-"img": "swatches/gindiing/gd_WAKW14700KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WAKW14700KM.jpg",
+"img": "swatches/gindiing/gd_WAKW14700KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_WAKW14700KM.webp",
 "price": 278
 },
 {
@@ -2197,8 +2197,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 美耐板",
 "hex": "#caced6",
-"img": "swatches/gindiing/gd_WAKW14704KM.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WAKW14704KM.jpg",
+"img": "swatches/gindiing/gd_WAKW14704KM.webp",
+"thumb": "swatches/gindiing/thumb/gd_WAKW14704KM.webp",
 "price": 278
 },
 {
@@ -2208,8 +2208,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 美耐板",
 "hex": "#9da7ac",
-"img": "swatches/gindiing/gd_WAKW14708KG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WAKW14708KG.jpg",
+"img": "swatches/gindiing/gd_WAKW14708KG.webp",
+"thumb": "swatches/gindiing/thumb/gd_WAKW14708KG.webp",
 "price": 278
 },
 {
@@ -2219,8 +2219,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 美耐板",
 "hex": "#f2f1ec",
-"img": "swatches/gindiing/gd_WAKW14710KG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WAKW14710KG.jpg",
+"img": "swatches/gindiing/gd_WAKW14710KG.webp",
+"thumb": "swatches/gindiing/thumb/gd_WAKW14710KG.webp",
 "price": 278
 },
 {
@@ -2230,8 +2230,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "AICA 美耐板",
 "hex": "#e4e5df",
-"img": "swatches/gindiing/gd_WAKW14712KG.jpg",
-"thumb": "swatches/gindiing/thumb/gd_WAKW14712KG.jpg",
+"img": "swatches/gindiing/gd_WAKW14712KG.webp",
+"thumb": "swatches/gindiing/thumb/gd_WAKW14712KG.webp",
 "price": 278
 },
 {
@@ -2241,8 +2241,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "隕石系列",
 "hex": "#d1c8b9",
-"img": "swatches/gindiing/gd_ChardonnayCraterAL404P.jpg",
-"thumb": "swatches/gindiing/thumb/gd_ChardonnayCraterAL404P.jpg",
+"img": "swatches/gindiing/gd_ChardonnayCraterAL404P.webp",
+"thumb": "swatches/gindiing/thumb/gd_ChardonnayCraterAL404P.webp",
 "price": 296
 },
 {
@@ -2252,8 +2252,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "隕石系列",
 "hex": "#cfa37c",
-"img": "swatches/gindiing/gd_RoseCraterAL202P.jpg",
-"thumb": "swatches/gindiing/thumb/gd_RoseCraterAL202P.jpg",
+"img": "swatches/gindiing/gd_RoseCraterAL202P.webp",
+"thumb": "swatches/gindiing/thumb/gd_RoseCraterAL202P.webp",
 "price": 296
 },
 {
@@ -2263,8 +2263,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "隕石系列",
 "hex": "#838383",
-"img": "swatches/gindiing/gd_SteelCraterAL803P.jpg",
-"thumb": "swatches/gindiing/thumb/gd_SteelCraterAL803P.jpg",
+"img": "swatches/gindiing/gd_SteelCraterAL803P.webp",
+"thumb": "swatches/gindiing/thumb/gd_SteelCraterAL803P.webp",
 "price": 296
 },
 {
@@ -2274,8 +2274,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "隕石系列",
 "hex": "#b7a389",
-"img": "swatches/gindiing/gd_VegasCraterAL403P.jpg",
-"thumb": "swatches/gindiing/thumb/gd_VegasCraterAL403P.jpg",
+"img": "swatches/gindiing/gd_VegasCraterAL403P.webp",
+"thumb": "swatches/gindiing/thumb/gd_VegasCraterAL403P.webp",
 "price": 296
 },
 {
@@ -2285,8 +2285,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#f3f3f3",
-"img": "swatches/gindiing/gd_9001.jpg",
-"thumb": "swatches/gindiing/thumb/gd_9001.jpg",
+"img": "swatches/gindiing/gd_9001.webp",
+"thumb": "swatches/gindiing/thumb/gd_9001.webp",
 "price": 312
 },
 {
@@ -2296,8 +2296,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#cccccd",
-"img": "swatches/gindiing/gd_9002.jpg",
-"thumb": "swatches/gindiing/thumb/gd_9002.jpg",
+"img": "swatches/gindiing/gd_9002.webp",
+"thumb": "swatches/gindiing/thumb/gd_9002.webp",
 "price": 312
 },
 {
@@ -2307,8 +2307,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#403e3e",
-"img": "swatches/gindiing/gd_9003.jpg",
-"thumb": "swatches/gindiing/thumb/gd_9003.jpg",
+"img": "swatches/gindiing/gd_9003.webp",
+"thumb": "swatches/gindiing/thumb/gd_9003.webp",
 "price": 312
 },
 {
@@ -2318,8 +2318,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#f4f4f4",
-"img": "swatches/gindiing/gd_DLS.jpg",
-"thumb": "swatches/gindiing/thumb/gd_DLS.jpg",
+"img": "swatches/gindiing/gd_DLS.webp",
+"thumb": "swatches/gindiing/thumb/gd_DLS.webp",
 "price": 312
 },
 {
@@ -2329,8 +2329,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#fdfdfb",
-"img": "swatches/gindiing/gd_DLS-141.jpg",
-"thumb": "swatches/gindiing/thumb/gd_DLS-141.jpg",
+"img": "swatches/gindiing/gd_DLS-141.webp",
+"thumb": "swatches/gindiing/thumb/gd_DLS-141.webp",
 "price": 312
 },
 {
@@ -2340,8 +2340,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#7d8182",
-"img": "swatches/gindiing/gd_DLS-776.jpg",
-"thumb": "swatches/gindiing/thumb/gd_DLS-776.jpg",
+"img": "swatches/gindiing/gd_DLS-776.webp",
+"thumb": "swatches/gindiing/thumb/gd_DLS-776.webp",
 "price": 312
 },
 {
@@ -2351,8 +2351,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#dfdedd",
-"img": "swatches/gindiing/gd_DLS-786.jpg",
-"thumb": "swatches/gindiing/thumb/gd_DLS-786.jpg",
+"img": "swatches/gindiing/gd_DLS-786.webp",
+"thumb": "swatches/gindiing/thumb/gd_DLS-786.webp",
 "price": 312
 },
 {
@@ -2362,8 +2362,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#fbf9fb",
-"img": "swatches/gindiing/gd_DLS-822.jpg",
-"thumb": "swatches/gindiing/thumb/gd_DLS-822.jpg",
+"img": "swatches/gindiing/gd_DLS-822.webp",
+"thumb": "swatches/gindiing/thumb/gd_DLS-822.webp",
 "price": 312
 },
 {
@@ -2373,8 +2373,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#b8b8b8",
-"img": "swatches/gindiing/gd_DLS-828.jpg",
-"thumb": "swatches/gindiing/thumb/gd_DLS-828.jpg",
+"img": "swatches/gindiing/gd_DLS-828.webp",
+"thumb": "swatches/gindiing/thumb/gd_DLS-828.webp",
 "price": 250
 },
 {
@@ -2384,8 +2384,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#6a6a6a",
-"img": "swatches/gindiing/gd_DLS-837.jpg",
-"thumb": "swatches/gindiing/thumb/gd_DLS-837.jpg",
+"img": "swatches/gindiing/gd_DLS-837.webp",
+"thumb": "swatches/gindiing/thumb/gd_DLS-837.webp",
 "price": 312
 },
 {
@@ -2395,8 +2395,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#302c28",
-"img": "swatches/gindiing/gd_SW05007.jpg",
-"thumb": "swatches/gindiing/thumb/gd_SW05007.jpg",
+"img": "swatches/gindiing/gd_SW05007.webp",
+"thumb": "swatches/gindiing/thumb/gd_SW05007.webp",
 "price": 250
 },
 {
@@ -2406,8 +2406,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#ecece9",
-"img": "swatches/gindiing/gd_SW05008.jpg",
-"thumb": "swatches/gindiing/thumb/gd_SW05008.jpg",
+"img": "swatches/gindiing/gd_SW05008.webp",
+"thumb": "swatches/gindiing/thumb/gd_SW05008.webp",
 "price": 312
 },
 {
@@ -2417,8 +2417,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "金鼎建材",
 "series": "石晶薄板",
 "hex": "#efebea",
-"img": "swatches/gindiing/gd_SW05009.jpg",
-"thumb": "swatches/gindiing/thumb/gd_SW05009.jpg",
+"img": "swatches/gindiing/gd_SW05009.webp",
+"thumb": "swatches/gindiing/thumb/gd_SW05009.webp",
 "price": 312
 }
 ]);

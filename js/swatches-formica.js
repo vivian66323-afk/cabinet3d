@@ -8,8 +8,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#b19b7a",
-"img": "swatches/formica/fm_0756.jpg",
-"thumb": "swatches/formica/thumb/fm_0756.jpg",
+"img": "swatches/formica/fm_0756.webp",
+"thumb": "swatches/formica/thumb/fm_0756.webp",
 "price": 150
 },
 {
@@ -19,8 +19,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#6e6b68",
-"img": "swatches/formica/fm_0812.jpg",
-"thumb": "swatches/formica/thumb/fm_0812.jpg",
+"img": "swatches/formica/fm_0812.webp",
+"thumb": "swatches/formica/thumb/fm_0812.webp",
 "price": 150
 },
 {
@@ -30,8 +30,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#756852",
-"img": "swatches/formica/fm_0841.jpg",
-"thumb": "swatches/formica/thumb/fm_0841.jpg",
+"img": "swatches/formica/fm_0841.webp",
+"thumb": "swatches/formica/thumb/fm_0841.webp",
 "price": 150
 },
 {
@@ -41,8 +41,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#645849",
-"img": "swatches/formica/fm_0843.jpg",
-"thumb": "swatches/formica/thumb/fm_0843.jpg",
+"img": "swatches/formica/fm_0843.webp",
+"thumb": "swatches/formica/thumb/fm_0843.webp",
 "price": 150
 },
 {
@@ -52,8 +52,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a6937c",
-"img": "swatches/formica/fm_0860.jpg",
-"thumb": "swatches/formica/thumb/fm_0860.jpg",
+"img": "swatches/formica/fm_0860.webp",
+"thumb": "swatches/formica/thumb/fm_0860.webp",
 "price": 150
 },
 {
@@ -63,8 +63,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#837a6b",
-"img": "swatches/formica/fm_0861.jpg",
-"thumb": "swatches/formica/thumb/fm_0861.jpg",
+"img": "swatches/formica/fm_0861.webp",
+"thumb": "swatches/formica/thumb/fm_0861.webp",
 "price": 150
 },
 {
@@ -74,8 +74,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#9e8477",
-"img": "swatches/formica/fm_0862.jpg",
-"thumb": "swatches/formica/thumb/fm_0862.jpg",
+"img": "swatches/formica/fm_0862.webp",
+"thumb": "swatches/formica/thumb/fm_0862.webp",
 "price": 150
 },
 {
@@ -85,8 +85,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#92836b",
-"img": "swatches/formica/fm_0867.jpg",
-"thumb": "swatches/formica/thumb/fm_0867.jpg",
+"img": "swatches/formica/fm_0867.webp",
+"thumb": "swatches/formica/thumb/fm_0867.webp",
 "price": 150
 },
 {
@@ -96,8 +96,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a29a8b",
-"img": "swatches/formica/fm_0869.jpg",
-"thumb": "swatches/formica/thumb/fm_0869.jpg",
+"img": "swatches/formica/fm_0869.webp",
+"thumb": "swatches/formica/thumb/fm_0869.webp",
 "price": 150
 },
 {
@@ -107,8 +107,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a29882",
-"img": "swatches/formica/fm_0870.jpg",
-"thumb": "swatches/formica/thumb/fm_0870.jpg",
+"img": "swatches/formica/fm_0870.webp",
+"thumb": "swatches/formica/thumb/fm_0870.webp",
 "price": 150
 },
 {
@@ -118,8 +118,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#8d7959",
-"img": "swatches/formica/fm_0871.jpg",
-"thumb": "swatches/formica/thumb/fm_0871.jpg",
+"img": "swatches/formica/fm_0871.webp",
+"thumb": "swatches/formica/thumb/fm_0871.webp",
 "price": 150
 },
 {
@@ -129,8 +129,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#918a76",
-"img": "swatches/formica/fm_0872.jpg",
-"thumb": "swatches/formica/thumb/fm_0872.jpg",
+"img": "swatches/formica/fm_0872.webp",
+"thumb": "swatches/formica/thumb/fm_0872.webp",
 "price": 150
 },
 {
@@ -140,8 +140,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#906b4c",
-"img": "swatches/formica/fm_0874.jpg",
-"thumb": "swatches/formica/thumb/fm_0874.jpg",
+"img": "swatches/formica/fm_0874.webp",
+"thumb": "swatches/formica/thumb/fm_0874.webp",
 "price": 150
 },
 {
@@ -151,8 +151,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#ac9b7c",
-"img": "swatches/formica/fm_0878.jpg",
-"thumb": "swatches/formica/thumb/fm_0878.jpg",
+"img": "swatches/formica/fm_0878.webp",
+"thumb": "swatches/formica/thumb/fm_0878.webp",
 "price": 150
 },
 {
@@ -162,8 +162,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#3f3b37",
-"img": "swatches/formica/fm_0882.jpg",
-"thumb": "swatches/formica/thumb/fm_0882.jpg",
+"img": "swatches/formica/fm_0882.webp",
+"thumb": "swatches/formica/thumb/fm_0882.webp",
 "price": 150
 },
 {
@@ -173,8 +173,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a69b80",
-"img": "swatches/formica/fm_0937.jpg",
-"thumb": "swatches/formica/thumb/fm_0937.jpg",
+"img": "swatches/formica/fm_0937.webp",
+"thumb": "swatches/formica/thumb/fm_0937.webp",
 "price": 150
 },
 {
@@ -184,8 +184,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#7a6140",
-"img": "swatches/formica/fm_0939.jpg",
-"thumb": "swatches/formica/thumb/fm_0939.jpg",
+"img": "swatches/formica/fm_0939.webp",
+"thumb": "swatches/formica/thumb/fm_0939.webp",
 "price": 150
 },
 {
@@ -195,8 +195,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#706e67",
-"img": "swatches/formica/fm_0956.jpg",
-"thumb": "swatches/formica/thumb/fm_0956.jpg",
+"img": "swatches/formica/fm_0956.webp",
+"thumb": "swatches/formica/thumb/fm_0956.webp",
 "price": 150
 },
 {
@@ -206,8 +206,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#998f77",
-"img": "swatches/formica/fm_1079.jpg",
-"thumb": "swatches/formica/thumb/fm_1079.jpg",
+"img": "swatches/formica/fm_1079.webp",
+"thumb": "swatches/formica/thumb/fm_1079.webp",
 "price": 150
 },
 {
@@ -217,8 +217,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a6947b",
-"img": "swatches/formica/fm_1395.jpg",
-"thumb": "swatches/formica/thumb/fm_1395.jpg",
+"img": "swatches/formica/fm_1395.webp",
+"thumb": "swatches/formica/thumb/fm_1395.webp",
 "price": 150
 },
 {
@@ -228,8 +228,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#323433",
-"img": "swatches/formica/fm_1541.jpg",
-"thumb": "swatches/formica/thumb/fm_1541.jpg",
+"img": "swatches/formica/fm_1541.webp",
+"thumb": "swatches/formica/thumb/fm_1541.webp",
 "price": 150
 },
 {
@@ -239,8 +239,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#8b5b34",
-"img": "swatches/formica/fm_2567.jpg",
-"thumb": "swatches/formica/thumb/fm_2567.jpg",
+"img": "swatches/formica/fm_2567.webp",
+"thumb": "swatches/formica/thumb/fm_2567.webp",
 "price": 150
 },
 {
@@ -250,8 +250,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#c5ac7d",
-"img": "swatches/formica/fm_2726.jpg",
-"thumb": "swatches/formica/thumb/fm_2726.jpg",
+"img": "swatches/formica/fm_2726.webp",
+"thumb": "swatches/formica/thumb/fm_2726.webp",
 "price": 150
 },
 {
@@ -261,8 +261,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#594b3b",
-"img": "swatches/formica/fm_5150.jpg",
-"thumb": "swatches/formica/thumb/fm_5150.jpg",
+"img": "swatches/formica/fm_5150.webp",
+"thumb": "swatches/formica/thumb/fm_5150.webp",
 "price": 150
 },
 {
@@ -272,8 +272,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#737066",
-"img": "swatches/formica/fm_5482.jpg",
-"thumb": "swatches/formica/thumb/fm_5482.jpg",
+"img": "swatches/formica/fm_5482.webp",
+"thumb": "swatches/formica/thumb/fm_5482.webp",
 "price": 150
 },
 {
@@ -283,8 +283,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#817762",
-"img": "swatches/formica/fm_5483.jpg",
-"thumb": "swatches/formica/thumb/fm_5483.jpg",
+"img": "swatches/formica/fm_5483.webp",
+"thumb": "swatches/formica/thumb/fm_5483.webp",
 "price": 150
 },
 {
@@ -294,8 +294,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#968765",
-"img": "swatches/formica/fm_5484.jpg",
-"thumb": "swatches/formica/thumb/fm_5484.jpg",
+"img": "swatches/formica/fm_5484.webp",
+"thumb": "swatches/formica/thumb/fm_5484.webp",
 "price": 150
 },
 {
@@ -305,8 +305,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#695a47",
-"img": "swatches/formica/fm_5485.jpg",
-"thumb": "swatches/formica/thumb/fm_5485.jpg",
+"img": "swatches/formica/fm_5485.webp",
+"thumb": "swatches/formica/thumb/fm_5485.webp",
 "price": 150
 },
 {
@@ -316,8 +316,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#9b7a4d",
-"img": "swatches/formica/fm_5486.jpg",
-"thumb": "swatches/formica/thumb/fm_5486.jpg",
+"img": "swatches/formica/fm_5486.webp",
+"thumb": "swatches/formica/thumb/fm_5486.webp",
 "price": 150
 },
 {
@@ -327,8 +327,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#745b45",
-"img": "swatches/formica/fm_5487.jpg",
-"thumb": "swatches/formica/thumb/fm_5487.jpg",
+"img": "swatches/formica/fm_5487.webp",
+"thumb": "swatches/formica/thumb/fm_5487.webp",
 "price": 150
 },
 {
@@ -338,8 +338,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#25231f",
-"img": "swatches/formica/fm_5489.jpg",
-"thumb": "swatches/formica/thumb/fm_5489.jpg",
+"img": "swatches/formica/fm_5489.webp",
+"thumb": "swatches/formica/thumb/fm_5489.webp",
 "price": 150
 },
 {
@@ -349,8 +349,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#e6d9be",
-"img": "swatches/formica/fm_5667.jpg",
-"thumb": "swatches/formica/thumb/fm_5667.jpg",
+"img": "swatches/formica/fm_5667.webp",
+"thumb": "swatches/formica/thumb/fm_5667.webp",
 "price": 150
 },
 {
@@ -360,8 +360,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#d3d0ca",
-"img": "swatches/formica/fm_5668.jpg",
-"thumb": "swatches/formica/thumb/fm_5668.jpg",
+"img": "swatches/formica/fm_5668.webp",
+"thumb": "swatches/formica/thumb/fm_5668.webp",
 "price": 150
 },
 {
@@ -371,8 +371,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#2e2824",
-"img": "swatches/formica/fm_5669.jpg",
-"thumb": "swatches/formica/thumb/fm_5669.jpg",
+"img": "swatches/formica/fm_5669.webp",
+"thumb": "swatches/formica/thumb/fm_5669.webp",
 "price": 150
 },
 {
@@ -382,8 +382,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#d1cbc1",
-"img": "swatches/formica/fm_5671.jpg",
-"thumb": "swatches/formica/thumb/fm_5671.jpg",
+"img": "swatches/formica/fm_5671.webp",
+"thumb": "swatches/formica/thumb/fm_5671.webp",
 "price": 150
 },
 {
@@ -393,8 +393,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#5b4433",
-"img": "swatches/formica/fm_5782.jpg",
-"thumb": "swatches/formica/thumb/fm_5782.jpg",
+"img": "swatches/formica/fm_5782.webp",
+"thumb": "swatches/formica/thumb/fm_5782.webp",
 "price": 150
 },
 {
@@ -404,8 +404,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#c3b8ad",
-"img": "swatches/formica/fm_5793.jpg",
-"thumb": "swatches/formica/thumb/fm_5793.jpg",
+"img": "swatches/formica/fm_5793.webp",
+"thumb": "swatches/formica/thumb/fm_5793.webp",
 "price": 150
 },
 {
@@ -415,8 +415,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#9e8a68",
-"img": "swatches/formica/fm_5794.jpg",
-"thumb": "swatches/formica/thumb/fm_5794.jpg",
+"img": "swatches/formica/fm_5794.webp",
+"thumb": "swatches/formica/thumb/fm_5794.webp",
 "price": 150
 },
 {
@@ -426,8 +426,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#86745d",
-"img": "swatches/formica/fm_5883.jpg",
-"thumb": "swatches/formica/thumb/fm_5883.jpg",
+"img": "swatches/formica/fm_5883.webp",
+"thumb": "swatches/formica/thumb/fm_5883.webp",
 "price": 150
 },
 {
@@ -437,8 +437,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#927f60",
-"img": "swatches/formica/fm_5887.jpg",
-"thumb": "swatches/formica/thumb/fm_5887.jpg",
+"img": "swatches/formica/fm_5887.webp",
+"thumb": "swatches/formica/thumb/fm_5887.webp",
 "price": 150
 },
 {
@@ -448,8 +448,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#9b8e79",
-"img": "swatches/formica/fm_5964.jpg",
-"thumb": "swatches/formica/thumb/fm_5964.jpg",
+"img": "swatches/formica/fm_5964.webp",
+"thumb": "swatches/formica/thumb/fm_5964.webp",
 "price": 150
 },
 {
@@ -459,8 +459,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#3e382f",
-"img": "swatches/formica/fm_5965.jpg",
-"thumb": "swatches/formica/thumb/fm_5965.jpg",
+"img": "swatches/formica/fm_5965.webp",
+"thumb": "swatches/formica/thumb/fm_5965.webp",
 "price": 150
 },
 {
@@ -470,8 +470,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#695b4a",
-"img": "swatches/formica/fm_5966.jpg",
-"thumb": "swatches/formica/thumb/fm_5966.jpg",
+"img": "swatches/formica/fm_5966.webp",
+"thumb": "swatches/formica/thumb/fm_5966.webp",
 "price": 150
 },
 {
@@ -481,8 +481,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#4c443c",
-"img": "swatches/formica/fm_5968.jpg",
-"thumb": "swatches/formica/thumb/fm_5968.jpg",
+"img": "swatches/formica/fm_5968.webp",
+"thumb": "swatches/formica/thumb/fm_5968.webp",
 "price": 150
 },
 {
@@ -492,8 +492,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#aaa794",
-"img": "swatches/formica/fm_5969.jpg",
-"thumb": "swatches/formica/thumb/fm_5969.jpg",
+"img": "swatches/formica/fm_5969.webp",
+"thumb": "swatches/formica/thumb/fm_5969.webp",
 "price": 150
 },
 {
@@ -503,8 +503,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#46433f",
-"img": "swatches/formica/fm_5970.jpg",
-"thumb": "swatches/formica/thumb/fm_5970.jpg",
+"img": "swatches/formica/fm_5970.webp",
+"thumb": "swatches/formica/thumb/fm_5970.webp",
 "price": 150
 },
 {
@@ -514,8 +514,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#766c5b",
-"img": "swatches/formica/fm_5971.jpg",
-"thumb": "swatches/formica/thumb/fm_5971.jpg",
+"img": "swatches/formica/fm_5971.webp",
+"thumb": "swatches/formica/thumb/fm_5971.webp",
 "price": 150
 },
 {
@@ -525,8 +525,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#c5b9a4",
-"img": "swatches/formica/fm_5976.jpg",
-"thumb": "swatches/formica/thumb/fm_5976.jpg",
+"img": "swatches/formica/fm_5976.webp",
+"thumb": "swatches/formica/thumb/fm_5976.webp",
 "price": 150
 },
 {
@@ -536,8 +536,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#5d5955",
-"img": "swatches/formica/fm_5978.jpg",
-"thumb": "swatches/formica/thumb/fm_5978.jpg",
+"img": "swatches/formica/fm_5978.webp",
+"thumb": "swatches/formica/thumb/fm_5978.webp",
 "price": 150
 },
 {
@@ -547,8 +547,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#654f36",
-"img": "swatches/formica/fm_6210.jpg",
-"thumb": "swatches/formica/thumb/fm_6210.jpg",
+"img": "swatches/formica/fm_6210.webp",
+"thumb": "swatches/formica/thumb/fm_6210.webp",
 "price": 150
 },
 {
@@ -558,8 +558,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#cdcbc7",
-"img": "swatches/formica/fm_6372.jpg",
-"thumb": "swatches/formica/thumb/fm_6372.jpg",
+"img": "swatches/formica/fm_6372.webp",
+"thumb": "swatches/formica/thumb/fm_6372.webp",
 "price": 150
 },
 {
@@ -569,8 +569,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#6b5a47",
-"img": "swatches/formica/fm_6401.jpg",
-"thumb": "swatches/formica/thumb/fm_6401.jpg",
+"img": "swatches/formica/fm_6401.webp",
+"thumb": "swatches/formica/thumb/fm_6401.webp",
 "price": 150
 },
 {
@@ -580,8 +580,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#453b31",
-"img": "swatches/formica/fm_6402.jpg",
-"thumb": "swatches/formica/thumb/fm_6402.jpg",
+"img": "swatches/formica/fm_6402.webp",
+"thumb": "swatches/formica/thumb/fm_6402.webp",
 "price": 150
 },
 {
@@ -591,8 +591,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#d0c8b2",
-"img": "swatches/formica/fm_6404.jpg",
-"thumb": "swatches/formica/thumb/fm_6404.jpg",
+"img": "swatches/formica/fm_6404.webp",
+"thumb": "swatches/formica/thumb/fm_6404.webp",
 "price": 150
 },
 {
@@ -602,8 +602,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#c6c1b5",
-"img": "swatches/formica/fm_6405.jpg",
-"thumb": "swatches/formica/thumb/fm_6405.jpg",
+"img": "swatches/formica/fm_6405.webp",
+"thumb": "swatches/formica/thumb/fm_6405.webp",
 "price": 150
 },
 {
@@ -613,8 +613,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a38a62",
-"img": "swatches/formica/fm_6407.jpg",
-"thumb": "swatches/formica/thumb/fm_6407.jpg",
+"img": "swatches/formica/fm_6407.webp",
+"thumb": "swatches/formica/thumb/fm_6407.webp",
 "price": 150
 },
 {
@@ -624,8 +624,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#b09e7d",
-"img": "swatches/formica/fm_6412.jpg",
-"thumb": "swatches/formica/thumb/fm_6412.jpg",
+"img": "swatches/formica/fm_6412.webp",
+"thumb": "swatches/formica/thumb/fm_6412.webp",
 "price": 150
 },
 {
@@ -635,8 +635,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a38660",
-"img": "swatches/formica/fm_7012.jpg",
-"thumb": "swatches/formica/thumb/fm_7012.jpg",
+"img": "swatches/formica/fm_7012.webp",
+"thumb": "swatches/formica/thumb/fm_7012.webp",
 "price": 150
 },
 {
@@ -646,8 +646,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#c7c7c6",
-"img": "swatches/formica/fm_7182.jpg",
-"thumb": "swatches/formica/thumb/fm_7182.jpg",
+"img": "swatches/formica/fm_7182.webp",
+"thumb": "swatches/formica/thumb/fm_7182.webp",
 "price": 150
 },
 {
@@ -657,8 +657,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#3e2b1c",
-"img": "swatches/formica/fm_7188.jpg",
-"thumb": "swatches/formica/thumb/fm_7188.jpg",
+"img": "swatches/formica/fm_7188.webp",
+"thumb": "swatches/formica/thumb/fm_7188.webp",
 "price": 150
 },
 {
@@ -668,8 +668,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a09880",
-"img": "swatches/formica/fm_7388.jpg",
-"thumb": "swatches/formica/thumb/fm_7388.jpg",
+"img": "swatches/formica/fm_7388.webp",
+"thumb": "swatches/formica/thumb/fm_7388.webp",
 "price": 150
 },
 {
@@ -679,8 +679,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#73664c",
-"img": "swatches/formica/fm_7389.jpg",
-"thumb": "swatches/formica/thumb/fm_7389.jpg",
+"img": "swatches/formica/fm_7389.webp",
+"thumb": "swatches/formica/thumb/fm_7389.webp",
 "price": 150
 },
 {
@@ -690,8 +690,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#696045",
-"img": "swatches/formica/fm_7391.jpg",
-"thumb": "swatches/formica/thumb/fm_7391.jpg",
+"img": "swatches/formica/fm_7391.webp",
+"thumb": "swatches/formica/thumb/fm_7391.webp",
 "price": 150
 },
 {
@@ -701,8 +701,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#988a68",
-"img": "swatches/formica/fm_7392.jpg",
-"thumb": "swatches/formica/thumb/fm_7392.jpg",
+"img": "swatches/formica/fm_7392.webp",
+"thumb": "swatches/formica/thumb/fm_7392.webp",
 "price": 150
 },
 {
@@ -712,8 +712,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#ad9b73",
-"img": "swatches/formica/fm_7393.jpg",
-"thumb": "swatches/formica/thumb/fm_7393.jpg",
+"img": "swatches/formica/fm_7393.webp",
+"thumb": "swatches/formica/thumb/fm_7393.webp",
 "price": 150
 },
 {
@@ -723,8 +723,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#9c957c",
-"img": "swatches/formica/fm_7398.jpg",
-"thumb": "swatches/formica/thumb/fm_7398.jpg",
+"img": "swatches/formica/fm_7398.webp",
+"thumb": "swatches/formica/thumb/fm_7398.webp",
 "price": 150
 },
 {
@@ -734,8 +734,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#b4afa0",
-"img": "swatches/formica/fm_7399.jpg",
-"thumb": "swatches/formica/thumb/fm_7399.jpg",
+"img": "swatches/formica/fm_7399.webp",
+"thumb": "swatches/formica/thumb/fm_7399.webp",
 "price": 150
 },
 {
@@ -745,8 +745,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#cdc7a2",
-"img": "swatches/formica/fm_7412.jpg",
-"thumb": "swatches/formica/thumb/fm_7412.jpg",
+"img": "swatches/formica/fm_7412.webp",
+"thumb": "swatches/formica/thumb/fm_7412.webp",
 "price": 150
 },
 {
@@ -756,8 +756,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#4a2112",
-"img": "swatches/formica/fm_7759.jpg",
-"thumb": "swatches/formica/thumb/fm_7759.jpg",
+"img": "swatches/formica/fm_7759.webp",
+"thumb": "swatches/formica/thumb/fm_7759.webp",
 "price": 150
 },
 {
@@ -767,8 +767,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#958d7f",
-"img": "swatches/formica/fm_8006.jpg",
-"thumb": "swatches/formica/thumb/fm_8006.jpg",
+"img": "swatches/formica/fm_8006.webp",
+"thumb": "swatches/formica/thumb/fm_8006.webp",
 "price": 150
 },
 {
@@ -778,8 +778,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#c6c4b7",
-"img": "swatches/formica/fm_8577.jpg",
-"thumb": "swatches/formica/thumb/fm_8577.jpg",
+"img": "swatches/formica/fm_8577.webp",
+"thumb": "swatches/formica/thumb/fm_8577.webp",
 "price": 150
 },
 {
@@ -789,8 +789,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#c2b399",
-"img": "swatches/formica/fm_8578.jpg",
-"thumb": "swatches/formica/thumb/fm_8578.jpg",
+"img": "swatches/formica/fm_8578.webp",
+"thumb": "swatches/formica/thumb/fm_8578.webp",
 "price": 150
 },
 {
@@ -800,8 +800,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#7c6c54",
-"img": "swatches/formica/fm_8806.jpg",
-"thumb": "swatches/formica/thumb/fm_8806.jpg",
+"img": "swatches/formica/fm_8806.webp",
+"thumb": "swatches/formica/thumb/fm_8806.webp",
 "price": 150
 },
 {
@@ -811,8 +811,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#4b3e30",
-"img": "swatches/formica/fm_8807.jpg",
-"thumb": "swatches/formica/thumb/fm_8807.jpg",
+"img": "swatches/formica/fm_8807.webp",
+"thumb": "swatches/formica/thumb/fm_8807.webp",
 "price": 150
 },
 {
@@ -822,8 +822,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#494a45",
-"img": "swatches/formica/fm_8808.jpg",
-"thumb": "swatches/formica/thumb/fm_8808.jpg",
+"img": "swatches/formica/fm_8808.webp",
+"thumb": "swatches/formica/thumb/fm_8808.webp",
 "price": 150
 },
 {
@@ -833,8 +833,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#97886c",
-"img": "swatches/formica/fm_8809.jpg",
-"thumb": "swatches/formica/thumb/fm_8809.jpg",
+"img": "swatches/formica/fm_8809.webp",
+"thumb": "swatches/formica/thumb/fm_8809.webp",
 "price": 150
 },
 {
@@ -844,8 +844,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#514e47",
-"img": "swatches/formica/fm_8810.jpg",
-"thumb": "swatches/formica/thumb/fm_8810.jpg",
+"img": "swatches/formica/fm_8810.webp",
+"thumb": "swatches/formica/thumb/fm_8810.webp",
 "price": 150
 },
 {
@@ -855,8 +855,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#7e7f78",
-"img": "swatches/formica/fm_8811.jpg",
-"thumb": "swatches/formica/thumb/fm_8811.jpg",
+"img": "swatches/formica/fm_8811.webp",
+"thumb": "swatches/formica/thumb/fm_8811.webp",
 "price": 150
 },
 {
@@ -866,8 +866,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#d9ded8",
-"img": "swatches/formica/fm_8841.jpg",
-"thumb": "swatches/formica/thumb/fm_8841.jpg",
+"img": "swatches/formica/fm_8841.webp",
+"thumb": "swatches/formica/thumb/fm_8841.webp",
 "price": 150
 },
 {
@@ -877,8 +877,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#857a67",
-"img": "swatches/formica/fm_8842.jpg",
-"thumb": "swatches/formica/thumb/fm_8842.jpg",
+"img": "swatches/formica/fm_8842.webp",
+"thumb": "swatches/formica/thumb/fm_8842.webp",
 "price": 150
 },
 {
@@ -888,8 +888,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#ead5a8",
-"img": "swatches/formica/fm_8843.jpg",
-"thumb": "swatches/formica/thumb/fm_8843.jpg",
+"img": "swatches/formica/fm_8843.webp",
+"thumb": "swatches/formica/thumb/fm_8843.webp",
 "price": 150
 },
 {
@@ -899,8 +899,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#b29a73",
-"img": "swatches/formica/fm_8844.jpg",
-"thumb": "swatches/formica/thumb/fm_8844.jpg",
+"img": "swatches/formica/fm_8844.webp",
+"thumb": "swatches/formica/thumb/fm_8844.webp",
 "price": 150
 },
 {
@@ -910,8 +910,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#736f63",
-"img": "swatches/formica/fm_8845.jpg",
-"thumb": "swatches/formica/thumb/fm_8845.jpg",
+"img": "swatches/formica/fm_8845.webp",
+"thumb": "swatches/formica/thumb/fm_8845.webp",
 "price": 150
 },
 {
@@ -921,8 +921,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#645440",
-"img": "swatches/formica/fm_8846.jpg",
-"thumb": "swatches/formica/thumb/fm_8846.jpg",
+"img": "swatches/formica/fm_8846.webp",
+"thumb": "swatches/formica/thumb/fm_8846.webp",
 "price": 150
 },
 {
@@ -932,8 +932,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#3e322d",
-"img": "swatches/formica/fm_8847.jpg",
-"thumb": "swatches/formica/thumb/fm_8847.jpg",
+"img": "swatches/formica/fm_8847.webp",
+"thumb": "swatches/formica/thumb/fm_8847.webp",
 "price": 150
 },
 {
@@ -943,8 +943,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#212021",
-"img": "swatches/formica/fm_8848.jpg",
-"thumb": "swatches/formica/thumb/fm_8848.jpg",
+"img": "swatches/formica/fm_8848.webp",
+"thumb": "swatches/formica/thumb/fm_8848.webp",
 "price": 150
 },
 {
@@ -954,8 +954,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#6f5a43",
-"img": "swatches/formica/fm_8849.jpg",
-"thumb": "swatches/formica/thumb/fm_8849.jpg",
+"img": "swatches/formica/fm_8849.webp",
+"thumb": "swatches/formica/thumb/fm_8849.webp",
 "price": 150
 },
 {
@@ -965,8 +965,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#7b715e",
-"img": "swatches/formica/fm_8853.jpg",
-"thumb": "swatches/formica/thumb/fm_8853.jpg",
+"img": "swatches/formica/fm_8853.webp",
+"thumb": "swatches/formica/thumb/fm_8853.webp",
 "price": 150
 },
 {
@@ -976,8 +976,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#d1cbbd",
-"img": "swatches/formica/fm_8854.jpg",
-"thumb": "swatches/formica/thumb/fm_8854.jpg",
+"img": "swatches/formica/fm_8854.webp",
+"thumb": "swatches/formica/thumb/fm_8854.webp",
 "price": 150
 },
 {
@@ -987,8 +987,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#574f40",
-"img": "swatches/formica/fm_8860.jpg",
-"thumb": "swatches/formica/thumb/fm_8860.jpg",
+"img": "swatches/formica/fm_8860.webp",
+"thumb": "swatches/formica/thumb/fm_8860.webp",
 "price": 150
 },
 {
@@ -998,8 +998,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#ded4ba",
-"img": "swatches/formica/fm_8905.jpg",
-"thumb": "swatches/formica/thumb/fm_8905.jpg",
+"img": "swatches/formica/fm_8905.webp",
+"thumb": "swatches/formica/thumb/fm_8905.webp",
 "price": 150
 },
 {
@@ -1009,8 +1009,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#b39e7a",
-"img": "swatches/formica/fm_8906.jpg",
-"thumb": "swatches/formica/thumb/fm_8906.jpg",
+"img": "swatches/formica/fm_8906.webp",
+"thumb": "swatches/formica/thumb/fm_8906.webp",
 "price": 150
 },
 {
@@ -1020,8 +1020,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a19a77",
-"img": "swatches/formica/fm_8910.jpg",
-"thumb": "swatches/formica/thumb/fm_8910.jpg",
+"img": "swatches/formica/fm_8910.webp",
+"thumb": "swatches/formica/thumb/fm_8910.webp",
 "price": 150
 },
 {
@@ -1031,8 +1031,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#ae9f7e",
-"img": "swatches/formica/fm_9005.jpg",
-"thumb": "swatches/formica/thumb/fm_9005.jpg",
+"img": "swatches/formica/fm_9005.webp",
+"thumb": "swatches/formica/thumb/fm_9005.webp",
 "price": 150
 },
 {
@@ -1042,8 +1042,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#c3ad8a",
-"img": "swatches/formica/fm_9016.jpg",
-"thumb": "swatches/formica/thumb/fm_9016.jpg",
+"img": "swatches/formica/fm_9016.webp",
+"thumb": "swatches/formica/thumb/fm_9016.webp",
 "price": 150
 },
 {
@@ -1053,8 +1053,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#6d553c",
-"img": "swatches/formica/fm_9205.jpg",
-"thumb": "swatches/formica/thumb/fm_9205.jpg",
+"img": "swatches/formica/fm_9205.webp",
+"thumb": "swatches/formica/thumb/fm_9205.webp",
 "price": 150
 },
 {
@@ -1064,8 +1064,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#c4c2b5",
-"img": "swatches/formica/fm_9222.jpg",
-"thumb": "swatches/formica/thumb/fm_9222.jpg",
+"img": "swatches/formica/fm_9222.webp",
+"thumb": "swatches/formica/thumb/fm_9222.webp",
 "price": 150
 },
 {
@@ -1075,8 +1075,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#c7ba98",
-"img": "swatches/formica/fm_9281.jpg",
-"thumb": "swatches/formica/thumb/fm_9281.jpg",
+"img": "swatches/formica/fm_9281.webp",
+"thumb": "swatches/formica/thumb/fm_9281.webp",
 "price": 150
 },
 {
@@ -1086,8 +1086,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#86795b",
-"img": "swatches/formica/fm_9312.jpg",
-"thumb": "swatches/formica/thumb/fm_9312.jpg",
+"img": "swatches/formica/fm_9312.webp",
+"thumb": "swatches/formica/thumb/fm_9312.webp",
 "price": 150
 },
 {
@@ -1097,8 +1097,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a18c67",
-"img": "swatches/formica/fm_9348.jpg",
-"thumb": "swatches/formica/thumb/fm_9348.jpg",
+"img": "swatches/formica/fm_9348.webp",
+"thumb": "swatches/formica/thumb/fm_9348.webp",
 "price": 150
 },
 {
@@ -1108,8 +1108,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#9b8c74",
-"img": "swatches/formica/fm_9436.jpg",
-"thumb": "swatches/formica/thumb/fm_9436.jpg",
+"img": "swatches/formica/fm_9436.webp",
+"thumb": "swatches/formica/thumb/fm_9436.webp",
 "price": 150
 },
 {
@@ -1119,8 +1119,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#332b25",
-"img": "swatches/formica/fm_9439.jpg",
-"thumb": "swatches/formica/thumb/fm_9439.jpg",
+"img": "swatches/formica/fm_9439.webp",
+"thumb": "swatches/formica/thumb/fm_9439.webp",
 "price": 150
 },
 {
@@ -1130,8 +1130,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#6e6351",
-"img": "swatches/formica/fm_9931.jpg",
-"thumb": "swatches/formica/thumb/fm_9931.jpg",
+"img": "swatches/formica/fm_9931.webp",
+"thumb": "swatches/formica/thumb/fm_9931.webp",
 "price": 150
 },
 {
@@ -1141,8 +1141,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#3e2f27",
-"img": "swatches/formica/fm_9932.jpg",
-"thumb": "swatches/formica/thumb/fm_9932.jpg",
+"img": "swatches/formica/fm_9932.webp",
+"thumb": "swatches/formica/thumb/fm_9932.webp",
 "price": 150
 },
 {
@@ -1152,8 +1152,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#786853",
-"img": "swatches/formica/fm_9937.jpg",
-"thumb": "swatches/formica/thumb/fm_9937.jpg",
+"img": "swatches/formica/fm_9937.webp",
+"thumb": "swatches/formica/thumb/fm_9937.webp",
 "price": 150
 },
 {
@@ -1163,8 +1163,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#312e29",
-"img": "swatches/formica/fm_9938.jpg",
-"thumb": "swatches/formica/thumb/fm_9938.jpg",
+"img": "swatches/formica/fm_9938.webp",
+"thumb": "swatches/formica/thumb/fm_9938.webp",
 "price": 150
 },
 {
@@ -1174,8 +1174,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#a79b78",
-"img": "swatches/formica/fm_9947.jpg",
-"thumb": "swatches/formica/thumb/fm_9947.jpg",
+"img": "swatches/formica/fm_9947.webp",
+"thumb": "swatches/formica/thumb/fm_9947.webp",
 "price": 150
 },
 {
@@ -1185,8 +1185,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#72705e",
-"img": "swatches/formica/fm_9948.jpg",
-"thumb": "swatches/formica/thumb/fm_9948.jpg",
+"img": "swatches/formica/fm_9948.webp",
+"thumb": "swatches/formica/thumb/fm_9948.webp",
 "price": 150
 },
 {
@@ -1196,8 +1196,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#5d6968",
-"img": "swatches/formica/fm_9960.jpg",
-"thumb": "swatches/formica/thumb/fm_9960.jpg",
+"img": "swatches/formica/fm_9960.webp",
+"thumb": "swatches/formica/thumb/fm_9960.webp",
 "price": 150
 },
 {
@@ -1207,8 +1207,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "木紋",
 "hex": "#9c7c58",
-"img": "swatches/formica/fm_9966.jpg",
-"thumb": "swatches/formica/thumb/fm_9966.jpg",
+"img": "swatches/formica/fm_9966.webp",
+"thumb": "swatches/formica/thumb/fm_9966.webp",
 "price": 150
 },
 {
@@ -1218,8 +1218,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#a5a89e",
-"img": "swatches/formica/fm_0964.jpg",
-"thumb": "swatches/formica/thumb/fm_0964.jpg",
+"img": "swatches/formica/fm_0964.webp",
+"thumb": "swatches/formica/thumb/fm_0964.webp",
 "price": 150
 },
 {
@@ -1229,8 +1229,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#9ea2a5",
-"img": "swatches/formica/fm_0965.jpg",
-"thumb": "swatches/formica/thumb/fm_0965.jpg",
+"img": "swatches/formica/fm_0965.webp",
+"thumb": "swatches/formica/thumb/fm_0965.webp",
 "price": 150
 },
 {
@@ -1240,8 +1240,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#b4b9b5",
-"img": "swatches/formica/fm_0991.jpg",
-"thumb": "swatches/formica/thumb/fm_0991.jpg",
+"img": "swatches/formica/fm_0991.webp",
+"thumb": "swatches/formica/thumb/fm_0991.webp",
 "price": 150
 },
 {
@@ -1251,8 +1251,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#636056",
-"img": "swatches/formica/fm_0992.jpg",
-"thumb": "swatches/formica/thumb/fm_0992.jpg",
+"img": "swatches/formica/fm_0992.webp",
+"thumb": "swatches/formica/thumb/fm_0992.webp",
 "price": 150
 },
 {
@@ -1262,8 +1262,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#a5a296",
-"img": "swatches/formica/fm_0993.jpg",
-"thumb": "swatches/formica/thumb/fm_0993.jpg",
+"img": "swatches/formica/fm_0993.webp",
+"thumb": "swatches/formica/thumb/fm_0993.webp",
 "price": 150
 },
 {
@@ -1273,8 +1273,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#b0a994",
-"img": "swatches/formica/fm_0994.jpg",
-"thumb": "swatches/formica/thumb/fm_0994.jpg",
+"img": "swatches/formica/fm_0994.webp",
+"thumb": "swatches/formica/thumb/fm_0994.webp",
 "price": 150
 },
 {
@@ -1284,8 +1284,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#9d9c8f",
-"img": "swatches/formica/fm_0995.jpg",
-"thumb": "swatches/formica/thumb/fm_0995.jpg",
+"img": "swatches/formica/fm_0995.webp",
+"thumb": "swatches/formica/thumb/fm_0995.webp",
 "price": 150
 },
 {
@@ -1295,8 +1295,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#8a877f",
-"img": "swatches/formica/fm_1002.jpg",
-"thumb": "swatches/formica/thumb/fm_1002.jpg",
+"img": "swatches/formica/fm_1002.webp",
+"thumb": "swatches/formica/thumb/fm_1002.webp",
 "price": 150
 },
 {
@@ -1306,8 +1306,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#958f83",
-"img": "swatches/formica/fm_1111.jpg",
-"thumb": "swatches/formica/thumb/fm_1111.jpg",
+"img": "swatches/formica/fm_1111.webp",
+"thumb": "swatches/formica/thumb/fm_1111.webp",
 "price": 150
 },
 {
@@ -1317,8 +1317,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#e0e2e0",
-"img": "swatches/formica/fm_3460.jpg",
-"thumb": "swatches/formica/thumb/fm_3460.jpg",
+"img": "swatches/formica/fm_3460.webp",
+"thumb": "swatches/formica/thumb/fm_3460.webp",
 "price": 150
 },
 {
@@ -1328,8 +1328,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#363736",
-"img": "swatches/formica/fm_3476.jpg",
-"thumb": "swatches/formica/thumb/fm_3476.jpg",
+"img": "swatches/formica/fm_3476.webp",
+"thumb": "swatches/formica/thumb/fm_3476.webp",
 "price": 150
 },
 {
@@ -1339,8 +1339,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#d3d8d2",
-"img": "swatches/formica/fm_5018.jpg",
-"thumb": "swatches/formica/thumb/fm_5018.jpg",
+"img": "swatches/formica/fm_5018.webp",
+"thumb": "swatches/formica/thumb/fm_5018.webp",
 "price": 150
 },
 {
@@ -1350,8 +1350,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#3a443c",
-"img": "swatches/formica/fm_5046.jpg",
-"thumb": "swatches/formica/thumb/fm_5046.jpg",
+"img": "swatches/formica/fm_5046.webp",
+"thumb": "swatches/formica/thumb/fm_5046.webp",
 "price": 150
 },
 {
@@ -1361,8 +1361,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#b7b4a1",
-"img": "swatches/formica/fm_5047.jpg",
-"thumb": "swatches/formica/thumb/fm_5047.jpg",
+"img": "swatches/formica/fm_5047.webp",
+"thumb": "swatches/formica/thumb/fm_5047.webp",
 "price": 150
 },
 {
@@ -1372,8 +1372,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#b2a789",
-"img": "swatches/formica/fm_5048.jpg",
-"thumb": "swatches/formica/thumb/fm_5048.jpg",
+"img": "swatches/formica/fm_5048.webp",
+"thumb": "swatches/formica/thumb/fm_5048.webp",
 "price": 150
 },
 {
@@ -1383,8 +1383,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#9d988b",
-"img": "swatches/formica/fm_5052.jpg",
-"thumb": "swatches/formica/thumb/fm_5052.jpg",
+"img": "swatches/formica/fm_5052.webp",
+"thumb": "swatches/formica/thumb/fm_5052.webp",
 "price": 150
 },
 {
@@ -1394,8 +1394,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#b9b7a7",
-"img": "swatches/formica/fm_5053.jpg",
-"thumb": "swatches/formica/thumb/fm_5053.jpg",
+"img": "swatches/formica/fm_5053.webp",
+"thumb": "swatches/formica/thumb/fm_5053.webp",
 "price": 150
 },
 {
@@ -1405,8 +1405,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#babab1",
-"img": "swatches/formica/fm_5071.jpg",
-"thumb": "swatches/formica/thumb/fm_5071.jpg",
+"img": "swatches/formica/fm_5071.webp",
+"thumb": "swatches/formica/thumb/fm_5071.webp",
 "price": 150
 },
 {
@@ -1416,8 +1416,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#323a38",
-"img": "swatches/formica/fm_5072.jpg",
-"thumb": "swatches/formica/thumb/fm_5072.jpg",
+"img": "swatches/formica/fm_5072.webp",
+"thumb": "swatches/formica/thumb/fm_5072.webp",
 "price": 150
 },
 {
@@ -1427,8 +1427,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#acaca3",
-"img": "swatches/formica/fm_5073.jpg",
-"thumb": "swatches/formica/thumb/fm_5073.jpg",
+"img": "swatches/formica/fm_5073.webp",
+"thumb": "swatches/formica/thumb/fm_5073.webp",
 "price": 150
 },
 {
@@ -1438,8 +1438,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#afaea9",
-"img": "swatches/formica/fm_6363.jpg",
-"thumb": "swatches/formica/thumb/fm_6363.jpg",
+"img": "swatches/formica/fm_6363.webp",
+"thumb": "swatches/formica/thumb/fm_6363.webp",
 "price": 150
 },
 {
@@ -1449,8 +1449,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#aaaca7",
-"img": "swatches/formica/fm_7402.jpg",
-"thumb": "swatches/formica/thumb/fm_7402.jpg",
+"img": "swatches/formica/fm_7402.webp",
+"thumb": "swatches/formica/thumb/fm_7402.webp",
 "price": 150
 },
 {
@@ -1460,8 +1460,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#222222",
-"img": "swatches/formica/fm_7403.jpg",
-"thumb": "swatches/formica/thumb/fm_7403.jpg",
+"img": "swatches/formica/fm_7403.webp",
+"thumb": "swatches/formica/thumb/fm_7403.webp",
 "price": 150
 },
 {
@@ -1471,8 +1471,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#d7d8ce",
-"img": "swatches/formica/fm_7408.jpg",
-"thumb": "swatches/formica/thumb/fm_7408.jpg",
+"img": "swatches/formica/fm_7408.webp",
+"thumb": "swatches/formica/thumb/fm_7408.webp",
 "price": 150
 },
 {
@@ -1482,8 +1482,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#8b8a84",
-"img": "swatches/formica/fm_8830.jpg",
-"thumb": "swatches/formica/thumb/fm_8830.jpg",
+"img": "swatches/formica/fm_8830.webp",
+"thumb": "swatches/formica/thumb/fm_8830.webp",
 "price": 150
 },
 {
@@ -1493,8 +1493,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#bdbeb7",
-"img": "swatches/formica/fm_9306.jpg",
-"thumb": "swatches/formica/thumb/fm_9306.jpg",
+"img": "swatches/formica/fm_9306.webp",
+"thumb": "swatches/formica/thumb/fm_9306.webp",
 "price": 150
 },
 {
@@ -1504,8 +1504,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#363733",
-"img": "swatches/formica/fm_9483.jpg",
-"thumb": "swatches/formica/thumb/fm_9483.jpg",
+"img": "swatches/formica/fm_9483.webp",
+"thumb": "swatches/formica/thumb/fm_9483.webp",
 "price": 150
 },
 {
@@ -1515,8 +1515,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#c7cbba",
-"img": "swatches/formica/fm_9916.jpg",
-"thumb": "swatches/formica/thumb/fm_9916.jpg",
+"img": "swatches/formica/fm_9916.webp",
+"thumb": "swatches/formica/thumb/fm_9916.webp",
 "price": 150
 },
 {
@@ -1526,8 +1526,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#1a1c1f",
-"img": "swatches/formica/fm_9921.jpg",
-"thumb": "swatches/formica/thumb/fm_9921.jpg",
+"img": "swatches/formica/fm_9921.webp",
+"thumb": "swatches/formica/thumb/fm_9921.webp",
 "price": 150
 },
 {
@@ -1537,8 +1537,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "石紋",
 "hex": "#cac7b3",
-"img": "swatches/formica/fm_9961.jpg",
-"thumb": "swatches/formica/thumb/fm_9961.jpg",
+"img": "swatches/formica/fm_9961.webp",
+"thumb": "swatches/formica/thumb/fm_9961.webp",
 "price": 150
 },
 {
@@ -1548,8 +1548,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#b6d4ee",
-"img": "swatches/formica/fm_0231.jpg",
-"thumb": "swatches/formica/thumb/fm_0231.jpg",
+"img": "swatches/formica/fm_0231.webp",
+"thumb": "swatches/formica/thumb/fm_0231.webp",
 "price": 150
 },
 {
@@ -1559,8 +1559,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#e7fae6",
-"img": "swatches/formica/fm_0431.jpg",
-"thumb": "swatches/formica/thumb/fm_0431.jpg",
+"img": "swatches/formica/fm_0431.webp",
+"thumb": "swatches/formica/thumb/fm_0431.webp",
 "price": 150
 },
 {
@@ -1570,8 +1570,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#f9feff",
-"img": "swatches/formica/fm_0459.jpg",
-"thumb": "swatches/formica/thumb/fm_0459.jpg",
+"img": "swatches/formica/fm_0459.webp",
+"thumb": "swatches/formica/thumb/fm_0459.webp",
 "price": 150
 },
 {
@@ -1581,8 +1581,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#f4ead0",
-"img": "swatches/formica/fm_0460.jpg",
-"thumb": "swatches/formica/thumb/fm_0460.jpg",
+"img": "swatches/formica/fm_0460.webp",
+"thumb": "swatches/formica/thumb/fm_0460.webp",
 "price": 150
 },
 {
@@ -1592,8 +1592,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#c9c8bd",
-"img": "swatches/formica/fm_0464.jpg",
-"thumb": "swatches/formica/thumb/fm_0464.jpg",
+"img": "swatches/formica/fm_0464.webp",
+"thumb": "swatches/formica/thumb/fm_0464.webp",
 "price": 150
 },
 {
@@ -1603,8 +1603,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#bcaa97",
-"img": "swatches/formica/fm_0784.jpg",
-"thumb": "swatches/formica/thumb/fm_0784.jpg",
+"img": "swatches/formica/fm_0784.webp",
+"thumb": "swatches/formica/thumb/fm_0784.webp",
 "price": 150
 },
 {
@@ -1614,8 +1614,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#4c4b50",
-"img": "swatches/formica/fm_0806.jpg",
-"thumb": "swatches/formica/thumb/fm_0806.jpg",
+"img": "swatches/formica/fm_0806.webp",
+"thumb": "swatches/formica/thumb/fm_0806.webp",
 "price": 150
 },
 {
@@ -1625,8 +1625,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#444240",
-"img": "swatches/formica/fm_0837.jpg",
-"thumb": "swatches/formica/thumb/fm_0837.jpg",
+"img": "swatches/formica/fm_0837.webp",
+"thumb": "swatches/formica/thumb/fm_0837.webp",
 "price": 150
 },
 {
@@ -1636,8 +1636,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#a50025",
-"img": "swatches/formica/fm_0845.jpg",
-"thumb": "swatches/formica/thumb/fm_0845.jpg",
+"img": "swatches/formica/fm_0845.webp",
+"thumb": "swatches/formica/thumb/fm_0845.webp",
 "price": 150
 },
 {
@@ -1647,8 +1647,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#d5c9ad",
-"img": "swatches/formica/fm_0858.jpg",
-"thumb": "swatches/formica/thumb/fm_0858.jpg",
+"img": "swatches/formica/fm_0858.webp",
+"thumb": "swatches/formica/thumb/fm_0858.webp",
 "price": 150
 },
 {
@@ -1658,8 +1658,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#e2ad9f",
-"img": "swatches/formica/fm_0865.jpg",
-"thumb": "swatches/formica/thumb/fm_0865.jpg",
+"img": "swatches/formica/fm_0865.webp",
+"thumb": "swatches/formica/thumb/fm_0865.webp",
 "price": 150
 },
 {
@@ -1669,8 +1669,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#73a19b",
-"img": "swatches/formica/fm_0879.jpg",
-"thumb": "swatches/formica/thumb/fm_0879.jpg",
+"img": "swatches/formica/fm_0879.webp",
+"thumb": "swatches/formica/thumb/fm_0879.webp",
 "price": 150
 },
 {
@@ -1680,8 +1680,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#8e999e",
-"img": "swatches/formica/fm_0880.jpg",
-"thumb": "swatches/formica/thumb/fm_0880.jpg",
+"img": "swatches/formica/fm_0880.webp",
+"thumb": "swatches/formica/thumb/fm_0880.webp",
 "price": 150
 },
 {
@@ -1691,8 +1691,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#6b8d9d",
-"img": "swatches/formica/fm_0884.jpg",
-"thumb": "swatches/formica/thumb/fm_0884.jpg",
+"img": "swatches/formica/fm_0884.webp",
+"thumb": "swatches/formica/thumb/fm_0884.webp",
 "price": 150
 },
 {
@@ -1702,8 +1702,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#9a9b94",
-"img": "swatches/formica/fm_0902.jpg",
-"thumb": "swatches/formica/thumb/fm_0902.jpg",
+"img": "swatches/formica/fm_0902.webp",
+"thumb": "swatches/formica/thumb/fm_0902.webp",
 "price": 150
 },
 {
@@ -1713,8 +1713,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#b7b6ae",
-"img": "swatches/formica/fm_0905.jpg",
-"thumb": "swatches/formica/thumb/fm_0905.jpg",
+"img": "swatches/formica/fm_0905.webp",
+"thumb": "swatches/formica/thumb/fm_0905.webp",
 "price": 150
 },
 {
@@ -1724,8 +1724,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#111411",
-"img": "swatches/formica/fm_0909.jpg",
-"thumb": "swatches/formica/thumb/fm_0909.jpg",
+"img": "swatches/formica/fm_0909.webp",
+"thumb": "swatches/formica/thumb/fm_0909.webp",
 "price": 150
 },
 {
@@ -1735,8 +1735,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#43474a",
-"img": "swatches/formica/fm_0912.jpg",
-"thumb": "swatches/formica/thumb/fm_0912.jpg",
+"img": "swatches/formica/fm_0912.webp",
+"thumb": "swatches/formica/thumb/fm_0912.webp",
 "price": 150
 },
 {
@@ -1746,8 +1746,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#002b4c",
-"img": "swatches/formica/fm_0914.jpg",
-"thumb": "swatches/formica/thumb/fm_0914.jpg",
+"img": "swatches/formica/fm_0914.webp",
+"thumb": "swatches/formica/thumb/fm_0914.webp",
 "price": 150
 },
 {
@@ -1757,8 +1757,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#eae8d8",
-"img": "swatches/formica/fm_0918.jpg",
-"thumb": "swatches/formica/thumb/fm_0918.jpg",
+"img": "swatches/formica/fm_0918.webp",
+"thumb": "swatches/formica/thumb/fm_0918.webp",
 "price": 150
 },
 {
@@ -1768,8 +1768,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#d3c4b0",
-"img": "swatches/formica/fm_0921.jpg",
-"thumb": "swatches/formica/thumb/fm_0921.jpg",
+"img": "swatches/formica/fm_0921.webp",
+"thumb": "swatches/formica/thumb/fm_0921.webp",
 "price": 150
 },
 {
@@ -1779,8 +1779,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#d6d3c7",
-"img": "swatches/formica/fm_0923.jpg",
-"thumb": "swatches/formica/thumb/fm_0923.jpg",
+"img": "swatches/formica/fm_0923.webp",
+"thumb": "swatches/formica/thumb/fm_0923.webp",
 "price": 150
 },
 {
@@ -1790,8 +1790,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#fbe5b6",
-"img": "swatches/formica/fm_0925.jpg",
-"thumb": "swatches/formica/thumb/fm_0925.jpg",
+"img": "swatches/formica/fm_0925.webp",
+"thumb": "swatches/formica/thumb/fm_0925.webp",
 "price": 150
 },
 {
@@ -1801,8 +1801,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#cfcccb",
-"img": "swatches/formica/fm_0927.jpg",
-"thumb": "swatches/formica/thumb/fm_0927.jpg",
+"img": "swatches/formica/fm_0927.webp",
+"thumb": "swatches/formica/thumb/fm_0927.webp",
 "price": 150
 },
 {
@@ -1812,8 +1812,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#8e8e8e",
-"img": "swatches/formica/fm_0928.jpg",
-"thumb": "swatches/formica/thumb/fm_0928.jpg",
+"img": "swatches/formica/fm_0928.webp",
+"thumb": "swatches/formica/thumb/fm_0928.webp",
 "price": 150
 },
 {
@@ -1823,8 +1823,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#d1c3b8",
-"img": "swatches/formica/fm_0929.jpg",
-"thumb": "swatches/formica/thumb/fm_0929.jpg",
+"img": "swatches/formica/fm_0929.webp",
+"thumb": "swatches/formica/thumb/fm_0929.webp",
 "price": 150
 },
 {
@@ -1834,8 +1834,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#fff6e5",
-"img": "swatches/formica/fm_0932.jpg",
-"thumb": "swatches/formica/thumb/fm_0932.jpg",
+"img": "swatches/formica/fm_0932.webp",
+"thumb": "swatches/formica/thumb/fm_0932.webp",
 "price": 150
 },
 {
@@ -1845,8 +1845,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#fff9e9",
-"img": "swatches/formica/fm_0933.jpg",
-"thumb": "swatches/formica/thumb/fm_0933.jpg",
+"img": "swatches/formica/fm_0933.webp",
+"thumb": "swatches/formica/thumb/fm_0933.webp",
 "price": 150
 },
 {
@@ -1856,8 +1856,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#ebe8dc",
-"img": "swatches/formica/fm_0934.jpg",
-"thumb": "swatches/formica/thumb/fm_0934.jpg",
+"img": "swatches/formica/fm_0934.webp",
+"thumb": "swatches/formica/thumb/fm_0934.webp",
 "price": 150
 },
 {
@@ -1867,8 +1867,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#d1d8da",
-"img": "swatches/formica/fm_0938.jpg",
-"thumb": "swatches/formica/thumb/fm_0938.jpg",
+"img": "swatches/formica/fm_0938.webp",
+"thumb": "swatches/formica/thumb/fm_0938.webp",
 "price": 150
 },
 {
@@ -1878,8 +1878,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#fdfcff",
-"img": "swatches/formica/fm_0949.jpg",
-"thumb": "swatches/formica/thumb/fm_0949.jpg",
+"img": "swatches/formica/fm_0949.webp",
+"thumb": "swatches/formica/thumb/fm_0949.webp",
 "price": 150
 },
 {
@@ -1889,8 +1889,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#cab38d",
-"img": "swatches/formica/fm_0958.jpg",
-"thumb": "swatches/formica/thumb/fm_0958.jpg",
+"img": "swatches/formica/fm_0958.webp",
+"thumb": "swatches/formica/thumb/fm_0958.webp",
 "price": 150
 },
 {
@@ -1900,8 +1900,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#a5a5a5",
-"img": "swatches/formica/fm_0961.jpg",
-"thumb": "swatches/formica/thumb/fm_0961.jpg",
+"img": "swatches/formica/fm_0961.webp",
+"thumb": "swatches/formica/thumb/fm_0961.webp",
 "price": 150
 },
 {
@@ -1911,8 +1911,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#fdfdf9",
-"img": "swatches/formica/fm_1050.jpg",
-"thumb": "swatches/formica/thumb/fm_1050.jpg",
+"img": "swatches/formica/fm_1050.webp",
+"thumb": "swatches/formica/thumb/fm_1050.webp",
 "price": 150
 },
 {
@@ -1922,8 +1922,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#e1dfde",
-"img": "swatches/formica/fm_1093.jpg",
-"thumb": "swatches/formica/thumb/fm_1093.jpg",
+"img": "swatches/formica/fm_1093.webp",
+"thumb": "swatches/formica/thumb/fm_1093.webp",
 "price": 150
 },
 {
@@ -1933,8 +1933,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#bd0720",
-"img": "swatches/formica/fm_1238.jpg",
-"thumb": "swatches/formica/thumb/fm_1238.jpg",
+"img": "swatches/formica/fm_1238.webp",
+"thumb": "swatches/formica/thumb/fm_1238.webp",
 "price": 150
 },
 {
@@ -1944,8 +1944,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#989c9f",
-"img": "swatches/formica/fm_1484.jpg",
-"thumb": "swatches/formica/thumb/fm_1484.jpg",
+"img": "swatches/formica/fm_1484.webp",
+"thumb": "swatches/formica/thumb/fm_1484.webp",
 "price": 150
 },
 {
@@ -1955,8 +1955,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#fcd32a",
-"img": "swatches/formica/fm_1485.jpg",
-"thumb": "swatches/formica/thumb/fm_1485.jpg",
+"img": "swatches/formica/fm_1485.webp",
+"thumb": "swatches/formica/thumb/fm_1485.webp",
 "price": 150
 },
 {
@@ -1966,8 +1966,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#979797",
-"img": "swatches/formica/fm_1535.jpg",
-"thumb": "swatches/formica/thumb/fm_1535.jpg",
+"img": "swatches/formica/fm_1535.webp",
+"thumb": "swatches/formica/thumb/fm_1535.webp",
 "price": 150
 },
 {
@@ -1977,8 +1977,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#b0b0b0",
-"img": "swatches/formica/fm_1994.jpg",
-"thumb": "swatches/formica/thumb/fm_1994.jpg",
+"img": "swatches/formica/fm_1994.webp",
+"thumb": "swatches/formica/thumb/fm_1994.webp",
 "price": 150
 },
 {
@@ -1988,8 +1988,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#f2f3f0",
-"img": "swatches/formica/fm_2010.jpg",
-"thumb": "swatches/formica/thumb/fm_2010.jpg",
+"img": "swatches/formica/fm_2010.webp",
+"thumb": "swatches/formica/thumb/fm_2010.webp",
 "price": 150
 },
 {
@@ -1999,8 +1999,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#896e5a",
-"img": "swatches/formica/fm_2189.jpg",
-"thumb": "swatches/formica/thumb/fm_2189.jpg",
+"img": "swatches/formica/fm_2189.webp",
+"thumb": "swatches/formica/thumb/fm_2189.webp",
 "price": 150
 },
 {
@@ -2010,8 +2010,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#785e50",
-"img": "swatches/formica/fm_2195.jpg",
-"thumb": "swatches/formica/thumb/fm_2195.jpg",
+"img": "swatches/formica/fm_2195.webp",
+"thumb": "swatches/formica/thumb/fm_2195.webp",
 "price": 150
 },
 {
@@ -2021,8 +2021,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#a68f74",
-"img": "swatches/formica/fm_2196.jpg",
-"thumb": "swatches/formica/thumb/fm_2196.jpg",
+"img": "swatches/formica/fm_2196.webp",
+"thumb": "swatches/formica/thumb/fm_2196.webp",
 "price": 150
 },
 {
@@ -2032,8 +2032,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#7e7367",
-"img": "swatches/formica/fm_2197.jpg",
-"thumb": "swatches/formica/thumb/fm_2197.jpg",
+"img": "swatches/formica/fm_2197.webp",
+"thumb": "swatches/formica/thumb/fm_2197.webp",
 "price": 150
 },
 {
@@ -2043,8 +2043,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#716657",
-"img": "swatches/formica/fm_2198.jpg",
-"thumb": "swatches/formica/thumb/fm_2198.jpg",
+"img": "swatches/formica/fm_2198.webp",
+"thumb": "swatches/formica/thumb/fm_2198.webp",
 "price": 150
 },
 {
@@ -2054,8 +2054,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#241717",
-"img": "swatches/formica/fm_2200.jpg",
-"thumb": "swatches/formica/thumb/fm_2200.jpg",
+"img": "swatches/formica/fm_2200.webp",
+"thumb": "swatches/formica/thumb/fm_2200.webp",
 "price": 150
 },
 {
@@ -2065,8 +2065,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#617d56",
-"img": "swatches/formica/fm_2377.jpg",
-"thumb": "swatches/formica/thumb/fm_2377.jpg",
+"img": "swatches/formica/fm_2377.webp",
+"thumb": "swatches/formica/thumb/fm_2377.webp",
 "price": 150
 },
 {
@@ -2076,8 +2076,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#847d72",
-"img": "swatches/formica/fm_2770.jpg",
-"thumb": "swatches/formica/thumb/fm_2770.jpg",
+"img": "swatches/formica/fm_2770.webp",
+"thumb": "swatches/formica/thumb/fm_2770.webp",
 "price": 150
 },
 {
@@ -2087,8 +2087,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#9c4122",
-"img": "swatches/formica/fm_2824.jpg",
-"thumb": "swatches/formica/thumb/fm_2824.jpg",
+"img": "swatches/formica/fm_2824.webp",
+"thumb": "swatches/formica/thumb/fm_2824.webp",
 "price": 150
 },
 {
@@ -2098,8 +2098,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#005a99",
-"img": "swatches/formica/fm_2828.jpg",
-"thumb": "swatches/formica/thumb/fm_2828.jpg",
+"img": "swatches/formica/fm_2828.webp",
+"thumb": "swatches/formica/thumb/fm_2828.webp",
 "price": 150
 },
 {
@@ -2109,8 +2109,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#e33502",
-"img": "swatches/formica/fm_2962.jpg",
-"thumb": "swatches/formica/thumb/fm_2962.jpg",
+"img": "swatches/formica/fm_2962.webp",
+"thumb": "swatches/formica/thumb/fm_2962.webp",
 "price": 150
 },
 {
@@ -2120,8 +2120,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#e5f9de",
-"img": "swatches/formica/fm_2966.jpg",
-"thumb": "swatches/formica/thumb/fm_2966.jpg",
+"img": "swatches/formica/fm_2966.webp",
+"thumb": "swatches/formica/thumb/fm_2966.webp",
 "price": 150
 },
 {
@@ -2131,8 +2131,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#ffffff",
-"img": "swatches/formica/fm_3200.jpg",
-"thumb": "swatches/formica/thumb/fm_3200.jpg",
+"img": "swatches/formica/fm_3200.webp",
+"thumb": "swatches/formica/thumb/fm_3200.webp",
 "price": 150
 },
 {
@@ -2142,8 +2142,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#c3e8f3",
-"img": "swatches/formica/fm_3300.jpg",
-"thumb": "swatches/formica/thumb/fm_3300.jpg",
+"img": "swatches/formica/fm_3300.webp",
+"thumb": "swatches/formica/thumb/fm_3300.webp",
 "price": 150
 },
 {
@@ -2153,8 +2153,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#018aae",
-"img": "swatches/formica/fm_4171.jpg",
-"thumb": "swatches/formica/thumb/fm_4171.jpg",
+"img": "swatches/formica/fm_4171.webp",
+"thumb": "swatches/formica/thumb/fm_4171.webp",
 "price": 150
 },
 {
@@ -2164,8 +2164,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#cce77a",
-"img": "swatches/formica/fm_4177.jpg",
-"thumb": "swatches/formica/thumb/fm_4177.jpg",
+"img": "swatches/formica/fm_4177.webp",
+"thumb": "swatches/formica/thumb/fm_4177.webp",
 "price": 150
 },
 {
@@ -2175,8 +2175,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#91672e",
-"img": "swatches/formica/fm_5041.jpg",
-"thumb": "swatches/formica/thumb/fm_5041.jpg",
+"img": "swatches/formica/fm_5041.webp",
+"thumb": "swatches/formica/thumb/fm_5041.webp",
 "price": 150
 },
 {
@@ -2186,8 +2186,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#e9d169",
-"img": "swatches/formica/fm_5042.jpg",
-"thumb": "swatches/formica/thumb/fm_5042.jpg",
+"img": "swatches/formica/fm_5042.webp",
+"thumb": "swatches/formica/thumb/fm_5042.webp",
 "price": 150
 },
 {
@@ -2197,8 +2197,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#7a8e5c",
-"img": "swatches/formica/fm_5043.jpg",
-"thumb": "swatches/formica/thumb/fm_5043.jpg",
+"img": "swatches/formica/fm_5043.webp",
+"thumb": "swatches/formica/thumb/fm_5043.webp",
 "price": 150
 },
 {
@@ -2208,8 +2208,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#617345",
-"img": "swatches/formica/fm_5044.jpg",
-"thumb": "swatches/formica/thumb/fm_5044.jpg",
+"img": "swatches/formica/fm_5044.webp",
+"thumb": "swatches/formica/thumb/fm_5044.webp",
 "price": 150
 },
 {
@@ -2219,8 +2219,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#5e5548",
-"img": "swatches/formica/fm_5342.jpg",
-"thumb": "swatches/formica/thumb/fm_5342.jpg",
+"img": "swatches/formica/fm_5342.webp",
+"thumb": "swatches/formica/thumb/fm_5342.webp",
 "price": 150
 },
 {
@@ -2230,8 +2230,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#73afbb",
-"img": "swatches/formica/fm_5347.jpg",
-"thumb": "swatches/formica/thumb/fm_5347.jpg",
+"img": "swatches/formica/fm_5347.webp",
+"thumb": "swatches/formica/thumb/fm_5347.webp",
 "price": 150
 },
 {
@@ -2241,8 +2241,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#ffe9e3",
-"img": "swatches/formica/fm_5491.jpg",
-"thumb": "swatches/formica/thumb/fm_5491.jpg",
+"img": "swatches/formica/fm_5491.webp",
+"thumb": "swatches/formica/thumb/fm_5491.webp",
 "price": 150
 },
 {
@@ -2252,8 +2252,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#192f3d",
-"img": "swatches/formica/fm_5521.jpg",
-"thumb": "swatches/formica/thumb/fm_5521.jpg",
+"img": "swatches/formica/fm_5521.webp",
+"thumb": "swatches/formica/thumb/fm_5521.webp",
 "price": 150
 },
 {
@@ -2263,8 +2263,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#50b101",
-"img": "swatches/formica/fm_6901.jpg",
-"thumb": "swatches/formica/thumb/fm_6901.jpg",
+"img": "swatches/formica/fm_6901.webp",
+"thumb": "swatches/formica/thumb/fm_6901.webp",
 "price": 150
 },
 {
@@ -2274,8 +2274,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#ffe5a3",
-"img": "swatches/formica/fm_7024.jpg",
-"thumb": "swatches/formica/thumb/fm_7024.jpg",
+"img": "swatches/formica/fm_7024.webp",
+"thumb": "swatches/formica/thumb/fm_7024.webp",
 "price": 150
 },
 {
@@ -2285,8 +2285,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#fdfdfd",
-"img": "swatches/formica/fm_7197.jpg",
-"thumb": "swatches/formica/thumb/fm_7197.jpg",
+"img": "swatches/formica/fm_7197.webp",
+"thumb": "swatches/formica/thumb/fm_7197.webp",
 "price": 150
 },
 {
@@ -2296,8 +2296,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#c45c58",
-"img": "swatches/formica/fm_7384.jpg",
-"thumb": "swatches/formica/thumb/fm_7384.jpg",
+"img": "swatches/formica/fm_7384.webp",
+"thumb": "swatches/formica/thumb/fm_7384.webp",
 "price": 150
 },
 {
@@ -2307,8 +2307,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#145666",
-"img": "swatches/formica/fm_7846.jpg",
-"thumb": "swatches/formica/thumb/fm_7846.jpg",
+"img": "swatches/formica/fm_7846.webp",
+"thumb": "swatches/formica/thumb/fm_7846.webp",
 "price": 150
 },
 {
@@ -2318,8 +2318,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#957c5e",
-"img": "swatches/formica/fm_7913.jpg",
-"thumb": "swatches/formica/thumb/fm_7913.jpg",
+"img": "swatches/formica/fm_7913.webp",
+"thumb": "swatches/formica/thumb/fm_7913.webp",
 "price": 150
 },
 {
@@ -2329,8 +2329,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#f9bc02",
-"img": "swatches/formica/fm_7940.jpg",
-"thumb": "swatches/formica/thumb/fm_7940.jpg",
+"img": "swatches/formica/fm_7940.webp",
+"thumb": "swatches/formica/thumb/fm_7940.webp",
 "price": 150
 },
 {
@@ -2340,8 +2340,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#724a36",
-"img": "swatches/formica/fm_8140.jpg",
-"thumb": "swatches/formica/thumb/fm_8140.jpg",
+"img": "swatches/formica/fm_8140.webp",
+"thumb": "swatches/formica/thumb/fm_8140.webp",
 "price": 150
 },
 {
@@ -2351,8 +2351,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#907039",
-"img": "swatches/formica/fm_8142.jpg",
-"thumb": "swatches/formica/thumb/fm_8142.jpg",
+"img": "swatches/formica/fm_8142.webp",
+"thumb": "swatches/formica/thumb/fm_8142.webp",
 "price": 150
 },
 {
@@ -2362,8 +2362,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#bdd9e4",
-"img": "swatches/formica/fm_8194.jpg",
-"thumb": "swatches/formica/thumb/fm_8194.jpg",
+"img": "swatches/formica/fm_8194.webp",
+"thumb": "swatches/formica/thumb/fm_8194.webp",
 "price": 150
 },
 {
@@ -2373,8 +2373,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#ef7801",
-"img": "swatches/formica/fm_8210.jpg",
-"thumb": "swatches/formica/thumb/fm_8210.jpg",
+"img": "swatches/formica/fm_8210.webp",
+"thumb": "swatches/formica/thumb/fm_8210.webp",
 "price": 150
 },
 {
@@ -2384,8 +2384,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#8e828f",
-"img": "swatches/formica/fm_8233.jpg",
-"thumb": "swatches/formica/thumb/fm_8233.jpg",
+"img": "swatches/formica/fm_8233.webp",
+"thumb": "swatches/formica/thumb/fm_8233.webp",
 "price": 150
 },
 {
@@ -2395,8 +2395,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#b4928c",
-"img": "swatches/formica/fm_8238.jpg",
-"thumb": "swatches/formica/thumb/fm_8238.jpg",
+"img": "swatches/formica/fm_8238.webp",
+"thumb": "swatches/formica/thumb/fm_8238.webp",
 "price": 150
 },
 {
@@ -2406,8 +2406,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#011c1a",
-"img": "swatches/formica/fm_8244.jpg",
-"thumb": "swatches/formica/thumb/fm_8244.jpg",
+"img": "swatches/formica/fm_8244.webp",
+"thumb": "swatches/formica/thumb/fm_8244.webp",
 "price": 150
 },
 {
@@ -2417,8 +2417,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#434a6d",
-"img": "swatches/formica/fm_8734.jpg",
-"thumb": "swatches/formica/thumb/fm_8734.jpg",
+"img": "swatches/formica/fm_8734.webp",
+"thumb": "swatches/formica/thumb/fm_8734.webp",
 "price": 150
 },
 {
@@ -2428,8 +2428,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#687465",
-"img": "swatches/formica/fm_8793.jpg",
-"thumb": "swatches/formica/thumb/fm_8793.jpg",
+"img": "swatches/formica/fm_8793.webp",
+"thumb": "swatches/formica/thumb/fm_8793.webp",
 "price": 150
 },
 {
@@ -2439,8 +2439,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#a5bf99",
-"img": "swatches/formica/fm_8794.jpg",
-"thumb": "swatches/formica/thumb/fm_8794.jpg",
+"img": "swatches/formica/fm_8794.webp",
+"thumb": "swatches/formica/thumb/fm_8794.webp",
 "price": 150
 },
 {
@@ -2450,8 +2450,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#36541a",
-"img": "swatches/formica/fm_8796.jpg",
-"thumb": "swatches/formica/thumb/fm_8796.jpg",
+"img": "swatches/formica/fm_8796.webp",
+"thumb": "swatches/formica/thumb/fm_8796.webp",
 "price": 150
 },
 {
@@ -2461,8 +2461,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#265b7e",
-"img": "swatches/formica/fm_8822.jpg",
-"thumb": "swatches/formica/thumb/fm_8822.jpg",
+"img": "swatches/formica/fm_8822.webp",
+"thumb": "swatches/formica/thumb/fm_8822.webp",
 "price": 150
 },
 {
@@ -2472,8 +2472,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#f0d7d6",
-"img": "swatches/formica/fm_8858.jpg",
-"thumb": "swatches/formica/thumb/fm_8858.jpg",
+"img": "swatches/formica/fm_8858.webp",
+"thumb": "swatches/formica/thumb/fm_8858.webp",
 "price": 150
 },
 {
@@ -2483,8 +2483,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#6db7dc",
-"img": "swatches/formica/fm_8871.jpg",
-"thumb": "swatches/formica/thumb/fm_8871.jpg",
+"img": "swatches/formica/fm_8871.webp",
+"thumb": "swatches/formica/thumb/fm_8871.webp",
 "price": 150
 },
 {
@@ -2494,8 +2494,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之戀",
 "hex": "#555450",
-"img": "swatches/formica/fm_9266.jpg",
-"thumb": "swatches/formica/thumb/fm_9266.jpg",
+"img": "swatches/formica/fm_9266.webp",
+"thumb": "swatches/formica/thumb/fm_9266.webp",
 "price": 150
 },
 {
@@ -2505,8 +2505,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#91928f",
-"img": "swatches/formica/fm_4971.jpg",
-"thumb": "swatches/formica/thumb/fm_4971.jpg",
+"img": "swatches/formica/fm_4971.webp",
+"thumb": "swatches/formica/thumb/fm_4971.webp",
 "price": 150
 },
 {
@@ -2516,8 +2516,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#c9af63",
-"img": "swatches/formica/fm_4972.jpg",
-"thumb": "swatches/formica/thumb/fm_4972.jpg",
+"img": "swatches/formica/fm_4972.webp",
+"thumb": "swatches/formica/thumb/fm_4972.webp",
 "price": 150
 },
 {
@@ -2527,8 +2527,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#bd8254",
-"img": "swatches/formica/fm_4973.jpg",
-"thumb": "swatches/formica/thumb/fm_4973.jpg",
+"img": "swatches/formica/fm_4973.webp",
+"thumb": "swatches/formica/thumb/fm_4973.webp",
 "price": 150
 },
 {
@@ -2538,8 +2538,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#6e7e54",
-"img": "swatches/formica/fm_4974.jpg",
-"thumb": "swatches/formica/thumb/fm_4974.jpg",
+"img": "swatches/formica/fm_4974.webp",
+"thumb": "swatches/formica/thumb/fm_4974.webp",
 "price": 150
 },
 {
@@ -2549,8 +2549,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#5c5f59",
-"img": "swatches/formica/fm_5017.jpg",
-"thumb": "swatches/formica/thumb/fm_5017.jpg",
+"img": "swatches/formica/fm_5017.webp",
+"thumb": "swatches/formica/thumb/fm_5017.webp",
 "price": 150
 },
 {
@@ -2560,8 +2560,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#76736c",
-"img": "swatches/formica/fm_5479.jpg",
-"thumb": "swatches/formica/thumb/fm_5479.jpg",
+"img": "swatches/formica/fm_5479.webp",
+"thumb": "swatches/formica/thumb/fm_5479.webp",
 "price": 150
 },
 {
@@ -2571,8 +2571,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#a39d8a",
-"img": "swatches/formica/fm_5527.jpg",
-"thumb": "swatches/formica/thumb/fm_5527.jpg",
+"img": "swatches/formica/fm_5527.webp",
+"thumb": "swatches/formica/thumb/fm_5527.webp",
 "price": 150
 },
 {
@@ -2582,8 +2582,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#ede9dd",
-"img": "swatches/formica/fm_5875.jpg",
-"thumb": "swatches/formica/thumb/fm_5875.jpg",
+"img": "swatches/formica/fm_5875.webp",
+"thumb": "swatches/formica/thumb/fm_5875.webp",
 "price": 150
 },
 {
@@ -2593,8 +2593,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#9c927f",
-"img": "swatches/formica/fm_6444.jpg",
-"thumb": "swatches/formica/thumb/fm_6444.jpg",
+"img": "swatches/formica/fm_6444.webp",
+"thumb": "swatches/formica/thumb/fm_6444.webp",
 "price": 150
 },
 {
@@ -2604,8 +2604,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#97938f",
-"img": "swatches/formica/fm_6445.jpg",
-"thumb": "swatches/formica/thumb/fm_6445.jpg",
+"img": "swatches/formica/fm_6445.webp",
+"thumb": "swatches/formica/thumb/fm_6445.webp",
 "price": 150
 },
 {
@@ -2615,8 +2615,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#514e4d",
-"img": "swatches/formica/fm_6446.jpg",
-"thumb": "swatches/formica/thumb/fm_6446.jpg",
+"img": "swatches/formica/fm_6446.webp",
+"thumb": "swatches/formica/thumb/fm_6446.webp",
 "price": 150
 },
 {
@@ -2626,8 +2626,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#c7ccc5",
-"img": "swatches/formica/fm_7386.jpg",
-"thumb": "swatches/formica/thumb/fm_7386.jpg",
+"img": "swatches/formica/fm_7386.webp",
+"thumb": "swatches/formica/thumb/fm_7386.webp",
 "price": 150
 },
 {
@@ -2637,8 +2637,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#dfddd2",
-"img": "swatches/formica/fm_7387.jpg",
-"thumb": "swatches/formica/thumb/fm_7387.jpg",
+"img": "swatches/formica/fm_7387.webp",
+"thumb": "swatches/formica/thumb/fm_7387.webp",
 "price": 150
 },
 {
@@ -2648,8 +2648,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#b9b3a1",
-"img": "swatches/formica/fm_7976.jpg",
-"thumb": "swatches/formica/thumb/fm_7976.jpg",
+"img": "swatches/formica/fm_7976.webp",
+"thumb": "swatches/formica/thumb/fm_7976.webp",
 "price": 150
 },
 {
@@ -2659,8 +2659,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#3e3f3f",
-"img": "swatches/formica/fm_8387.jpg",
-"thumb": "swatches/formica/thumb/fm_8387.jpg",
+"img": "swatches/formica/fm_8387.webp",
+"thumb": "swatches/formica/thumb/fm_8387.webp",
 "price": 150
 },
 {
@@ -2670,8 +2670,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#756a59",
-"img": "swatches/formica/fm_8797.jpg",
-"thumb": "swatches/formica/thumb/fm_8797.jpg",
+"img": "swatches/formica/fm_8797.webp",
+"thumb": "swatches/formica/thumb/fm_8797.webp",
 "price": 150
 },
 {
@@ -2681,8 +2681,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#cfc7c0",
-"img": "swatches/formica/fm_8812.jpg",
-"thumb": "swatches/formica/thumb/fm_8812.jpg",
+"img": "swatches/formica/fm_8812.webp",
+"thumb": "swatches/formica/thumb/fm_8812.webp",
 "price": 150
 },
 {
@@ -2692,8 +2692,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#5d5245",
-"img": "swatches/formica/fm_8828.jpg",
-"thumb": "swatches/formica/thumb/fm_8828.jpg",
+"img": "swatches/formica/fm_8828.webp",
+"thumb": "swatches/formica/thumb/fm_8828.webp",
 "price": 150
 },
 {
@@ -2703,8 +2703,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#5a6261",
-"img": "swatches/formica/fm_8994.jpg",
-"thumb": "swatches/formica/thumb/fm_8994.jpg",
+"img": "swatches/formica/fm_8994.webp",
+"thumb": "swatches/formica/thumb/fm_8994.webp",
 "price": 150
 },
 {
@@ -2714,8 +2714,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#4c576c",
-"img": "swatches/formica/fm_9271.jpg",
-"thumb": "swatches/formica/thumb/fm_9271.jpg",
+"img": "swatches/formica/fm_9271.webp",
+"thumb": "swatches/formica/thumb/fm_9271.webp",
 "price": 150
 },
 {
@@ -2725,8 +2725,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#66625b",
-"img": "swatches/formica/fm_9287.jpg",
-"thumb": "swatches/formica/thumb/fm_9287.jpg",
+"img": "swatches/formica/fm_9287.webp",
+"thumb": "swatches/formica/thumb/fm_9287.webp",
 "price": 150
 },
 {
@@ -2736,8 +2736,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#265965",
-"img": "swatches/formica/fm_9521.jpg",
-"thumb": "swatches/formica/thumb/fm_9521.jpg",
+"img": "swatches/formica/fm_9521.webp",
+"thumb": "swatches/formica/thumb/fm_9521.webp",
 "price": 150
 },
 {
@@ -2747,8 +2747,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#928a84",
-"img": "swatches/formica/fm_9532.jpg",
-"thumb": "swatches/formica/thumb/fm_9532.jpg",
+"img": "swatches/formica/fm_9532.webp",
+"thumb": "swatches/formica/thumb/fm_9532.webp",
 "price": 150
 },
 {
@@ -2758,8 +2758,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩繪",
 "hex": "#817f7f",
-"img": "swatches/formica/fm_9534.jpg",
-"thumb": "swatches/formica/thumb/fm_9534.jpg",
+"img": "swatches/formica/fm_9534.webp",
+"thumb": "swatches/formica/thumb/fm_9534.webp",
 "price": 150
 },
 {
@@ -2769,8 +2769,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#9a9687",
-"img": "swatches/formica/fm_0844.jpg",
-"thumb": "swatches/formica/thumb/fm_0844.jpg",
+"img": "swatches/formica/fm_0844.webp",
+"thumb": "swatches/formica/thumb/fm_0844.webp",
 "price": 150
 },
 {
@@ -2780,8 +2780,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#a8a79a",
-"img": "swatches/formica/fm_3416.jpg",
-"thumb": "swatches/formica/thumb/fm_3416.jpg",
+"img": "swatches/formica/fm_3416.webp",
+"thumb": "swatches/formica/thumb/fm_3416.webp",
 "price": 150
 },
 {
@@ -2791,8 +2791,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#c7c5c3",
-"img": "swatches/formica/fm_5070.jpg",
-"thumb": "swatches/formica/thumb/fm_5070.jpg",
+"img": "swatches/formica/fm_5070.webp",
+"thumb": "swatches/formica/thumb/fm_5070.webp",
 "price": 150
 },
 {
@@ -2802,8 +2802,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#6f7069",
-"img": "swatches/formica/fm_5977.jpg",
-"thumb": "swatches/formica/thumb/fm_5977.jpg",
+"img": "swatches/formica/fm_5977.webp",
+"thumb": "swatches/formica/thumb/fm_5977.webp",
 "price": 150
 },
 {
@@ -2813,8 +2813,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#dcdbd4",
-"img": "swatches/formica/fm_7157.jpg",
-"thumb": "swatches/formica/thumb/fm_7157.jpg",
+"img": "swatches/formica/fm_7157.webp",
+"thumb": "swatches/formica/thumb/fm_7157.webp",
 "price": 150
 },
 {
@@ -2824,8 +2824,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#9d9694",
-"img": "swatches/formica/fm_7158.jpg",
-"thumb": "swatches/formica/thumb/fm_7158.jpg",
+"img": "swatches/formica/fm_7158.webp",
+"thumb": "swatches/formica/thumb/fm_7158.webp",
 "price": 150
 },
 {
@@ -2835,8 +2835,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#a4a8ae",
-"img": "swatches/formica/fm_7168.jpg",
-"thumb": "swatches/formica/thumb/fm_7168.jpg",
+"img": "swatches/formica/fm_7168.webp",
+"thumb": "swatches/formica/thumb/fm_7168.webp",
 "price": 150
 },
 {
@@ -2846,8 +2846,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#f1f3f3",
-"img": "swatches/formica/fm_7377.jpg",
-"thumb": "swatches/formica/thumb/fm_7377.jpg",
+"img": "swatches/formica/fm_7377.webp",
+"thumb": "swatches/formica/thumb/fm_7377.webp",
 "price": 150
 },
 {
@@ -2857,8 +2857,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#9e9f97",
-"img": "swatches/formica/fm_7378.jpg",
-"thumb": "swatches/formica/thumb/fm_7378.jpg",
+"img": "swatches/formica/fm_7378.webp",
+"thumb": "swatches/formica/thumb/fm_7378.webp",
 "price": 150
 },
 {
@@ -2868,8 +2868,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#774f28",
-"img": "swatches/formica/fm_7379.jpg",
-"thumb": "swatches/formica/thumb/fm_7379.jpg",
+"img": "swatches/formica/fm_7379.webp",
+"thumb": "swatches/formica/thumb/fm_7379.webp",
 "price": 150
 },
 {
@@ -2879,8 +2879,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#906223",
-"img": "swatches/formica/fm_7380.jpg",
-"thumb": "swatches/formica/thumb/fm_7380.jpg",
+"img": "swatches/formica/fm_7380.webp",
+"thumb": "swatches/formica/thumb/fm_7380.webp",
 "price": 150
 },
 {
@@ -2890,8 +2890,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#b0b7af",
-"img": "swatches/formica/fm_7381.jpg",
-"thumb": "swatches/formica/thumb/fm_7381.jpg",
+"img": "swatches/formica/fm_7381.webp",
+"thumb": "swatches/formica/thumb/fm_7381.webp",
 "price": 150
 },
 {
@@ -2901,8 +2901,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#b6b6b1",
-"img": "swatches/formica/fm_7382.jpg",
-"thumb": "swatches/formica/thumb/fm_7382.jpg",
+"img": "swatches/formica/fm_7382.webp",
+"thumb": "swatches/formica/thumb/fm_7382.webp",
 "price": 150
 },
 {
@@ -2912,8 +2912,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#918c86",
-"img": "swatches/formica/fm_7383.jpg",
-"thumb": "swatches/formica/thumb/fm_7383.jpg",
+"img": "swatches/formica/fm_7383.webp",
+"thumb": "swatches/formica/thumb/fm_7383.webp",
 "price": 150
 },
 {
@@ -2923,8 +2923,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#9d8f81",
-"img": "swatches/formica/fm_8816.jpg",
-"thumb": "swatches/formica/thumb/fm_8816.jpg",
+"img": "swatches/formica/fm_8816.webp",
+"thumb": "swatches/formica/thumb/fm_8816.webp",
 "price": 150
 },
 {
@@ -2934,8 +2934,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#777a7f",
-"img": "swatches/formica/fm_8818.jpg",
-"thumb": "swatches/formica/thumb/fm_8818.jpg",
+"img": "swatches/formica/fm_8818.webp",
+"thumb": "swatches/formica/thumb/fm_8818.webp",
 "price": 150
 },
 {
@@ -2945,8 +2945,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#c2c2c2",
-"img": "swatches/formica/fm_9364.jpg",
-"thumb": "swatches/formica/thumb/fm_9364.jpg",
+"img": "swatches/formica/fm_9364.webp",
+"thumb": "swatches/formica/thumb/fm_9364.webp",
 "price": 150
 },
 {
@@ -2956,8 +2956,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#342213",
-"img": "swatches/formica/fm_9365.jpg",
-"thumb": "swatches/formica/thumb/fm_9365.jpg",
+"img": "swatches/formica/fm_9365.webp",
+"thumb": "swatches/formica/thumb/fm_9365.webp",
 "price": 150
 },
 {
@@ -2967,8 +2967,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#201f1c",
-"img": "swatches/formica/fm_9366.jpg",
-"thumb": "swatches/formica/thumb/fm_9366.jpg",
+"img": "swatches/formica/fm_9366.webp",
+"thumb": "swatches/formica/thumb/fm_9366.webp",
 "price": 150
 },
 {
@@ -2978,8 +2978,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#bab196",
-"img": "swatches/formica/fm_9964.jpg",
-"thumb": "swatches/formica/thumb/fm_9964.jpg",
+"img": "swatches/formica/fm_9964.webp",
+"thumb": "swatches/formica/thumb/fm_9964.webp",
 "price": 150
 },
 {
@@ -2989,8 +2989,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#617461",
-"img": "swatches/formica/fm_9977.jpg",
-"thumb": "swatches/formica/thumb/fm_9977.jpg",
+"img": "swatches/formica/fm_9977.webp",
+"thumb": "swatches/formica/thumb/fm_9977.webp",
 "price": 150
 },
 {
@@ -3000,8 +3000,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#bba68b",
-"img": "swatches/formica/fm_9978.jpg",
-"thumb": "swatches/formica/thumb/fm_9978.jpg",
+"img": "swatches/formica/fm_9978.webp",
+"thumb": "swatches/formica/thumb/fm_9978.webp",
 "price": 150
 },
 {
@@ -3011,8 +3011,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#848686",
-"img": "swatches/formica/fm_9979.jpg",
-"thumb": "swatches/formica/thumb/fm_9979.jpg",
+"img": "swatches/formica/fm_9979.webp",
+"thumb": "swatches/formica/thumb/fm_9979.webp",
 "price": 150
 },
 {
@@ -3022,8 +3022,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#88723f",
-"img": "swatches/formica/fm_9983.jpg",
-"thumb": "swatches/formica/thumb/fm_9983.jpg",
+"img": "swatches/formica/fm_9983.webp",
+"thumb": "swatches/formica/thumb/fm_9983.webp",
 "price": 150
 },
 {
@@ -3033,8 +3033,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "晶華與金屬石紋",
 "hex": "#5c5852",
-"img": "swatches/formica/fm_9984.jpg",
-"thumb": "swatches/formica/thumb/fm_9984.jpg",
+"img": "swatches/formica/fm_9984.webp",
+"thumb": "swatches/formica/thumb/fm_9984.webp",
 "price": 150
 },
 {
@@ -3044,8 +3044,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#f9feff",
-"img": "swatches/formica/fm_CR0459.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0459.jpg",
+"img": "swatches/formica/fm_CR0459.webp",
+"thumb": "swatches/formica/thumb/fm_CR0459.webp",
 "price": 150
 },
 {
@@ -3055,8 +3055,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#f4ead0",
-"img": "swatches/formica/fm_CR0460.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0460.jpg",
+"img": "swatches/formica/fm_CR0460.webp",
+"thumb": "swatches/formica/thumb/fm_CR0460.webp",
 "price": 150
 },
 {
@@ -3066,8 +3066,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c9c8bd",
-"img": "swatches/formica/fm_CR0464.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0464.jpg",
+"img": "swatches/formica/fm_CR0464.webp",
+"thumb": "swatches/formica/thumb/fm_CR0464.webp",
 "price": 150
 },
 {
@@ -3077,8 +3077,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#bcaa97",
-"img": "swatches/formica/fm_CR0784.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0784.jpg",
+"img": "swatches/formica/fm_CR0784.webp",
+"thumb": "swatches/formica/thumb/fm_CR0784.webp",
 "price": 150
 },
 {
@@ -3088,8 +3088,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#4c4b50",
-"img": "swatches/formica/fm_CR0806.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0806.jpg",
+"img": "swatches/formica/fm_CR0806.webp",
+"thumb": "swatches/formica/thumb/fm_CR0806.webp",
 "price": 150
 },
 {
@@ -3099,8 +3099,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#6e6b68",
-"img": "swatches/formica/fm_CR0812.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0812.jpg",
+"img": "swatches/formica/fm_CR0812.webp",
+"thumb": "swatches/formica/thumb/fm_CR0812.webp",
 "price": 150
 },
 {
@@ -3110,8 +3110,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#444240",
-"img": "swatches/formica/fm_CR0837.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0837.jpg",
+"img": "swatches/formica/fm_CR0837.webp",
+"thumb": "swatches/formica/thumb/fm_CR0837.webp",
 "price": 150
 },
 {
@@ -3121,8 +3121,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#988573",
-"img": "swatches/formica/fm_CR0841.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0841.jpg",
+"img": "swatches/formica/fm_CR0841.webp",
+"thumb": "swatches/formica/thumb/fm_CR0841.webp",
 "price": 150
 },
 {
@@ -3132,8 +3132,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9a9687",
-"img": "swatches/formica/fm_CR0844.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0844.jpg",
+"img": "swatches/formica/fm_CR0844.webp",
+"thumb": "swatches/formica/thumb/fm_CR0844.webp",
 "price": 150
 },
 {
@@ -3143,8 +3143,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d5c9ad",
-"img": "swatches/formica/fm_CR0858.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0858.jpg",
+"img": "swatches/formica/fm_CR0858.webp",
+"thumb": "swatches/formica/thumb/fm_CR0858.webp",
 "price": 150
 },
 {
@@ -3154,8 +3154,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a6937c",
-"img": "swatches/formica/fm_CR0860.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0860.jpg",
+"img": "swatches/formica/fm_CR0860.webp",
+"thumb": "swatches/formica/thumb/fm_CR0860.webp",
 "price": 150
 },
 {
@@ -3165,8 +3165,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#837a6b",
-"img": "swatches/formica/fm_CR0861.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0861.jpg",
+"img": "swatches/formica/fm_CR0861.webp",
+"thumb": "swatches/formica/thumb/fm_CR0861.webp",
 "price": 150
 },
 {
@@ -3176,8 +3176,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9e8477",
-"img": "swatches/formica/fm_CR0862.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0862.jpg",
+"img": "swatches/formica/fm_CR0862.webp",
+"thumb": "swatches/formica/thumb/fm_CR0862.webp",
 "price": 150
 },
 {
@@ -3187,8 +3187,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#92836b",
-"img": "swatches/formica/fm_CR0867.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0867.jpg",
+"img": "swatches/formica/fm_CR0867.webp",
+"thumb": "swatches/formica/thumb/fm_CR0867.webp",
 "price": 150
 },
 {
@@ -3198,8 +3198,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a29a8b",
-"img": "swatches/formica/fm_CR0869.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0869.jpg",
+"img": "swatches/formica/fm_CR0869.webp",
+"thumb": "swatches/formica/thumb/fm_CR0869.webp",
 "price": 150
 },
 {
@@ -3209,8 +3209,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a29882",
-"img": "swatches/formica/fm_CR0870.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0870.jpg",
+"img": "swatches/formica/fm_CR0870.webp",
+"thumb": "swatches/formica/thumb/fm_CR0870.webp",
 "price": 150
 },
 {
@@ -3220,8 +3220,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#8d7959",
-"img": "swatches/formica/fm_CR0871.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0871.jpg",
+"img": "swatches/formica/fm_CR0871.webp",
+"thumb": "swatches/formica/thumb/fm_CR0871.webp",
 "price": 150
 },
 {
@@ -3231,8 +3231,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#918a76",
-"img": "swatches/formica/fm_CR0872.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0872.jpg",
+"img": "swatches/formica/fm_CR0872.webp",
+"thumb": "swatches/formica/thumb/fm_CR0872.webp",
 "price": 150
 },
 {
@@ -3242,8 +3242,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#906b4c",
-"img": "swatches/formica/fm_CR0874.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0874.jpg",
+"img": "swatches/formica/fm_CR0874.webp",
+"thumb": "swatches/formica/thumb/fm_CR0874.webp",
 "price": 150
 },
 {
@@ -3253,8 +3253,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#ac9b7c",
-"img": "swatches/formica/fm_CR0878.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0878.jpg",
+"img": "swatches/formica/fm_CR0878.webp",
+"thumb": "swatches/formica/thumb/fm_CR0878.webp",
 "price": 150
 },
 {
@@ -3264,8 +3264,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#eae8d8",
-"img": "swatches/formica/fm_CR0918.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0918.jpg",
+"img": "swatches/formica/fm_CR0918.webp",
+"thumb": "swatches/formica/thumb/fm_CR0918.webp",
 "price": 150
 },
 {
@@ -3275,8 +3275,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d3c4b0",
-"img": "swatches/formica/fm_CR0921.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0921.jpg",
+"img": "swatches/formica/fm_CR0921.webp",
+"thumb": "swatches/formica/thumb/fm_CR0921.webp",
 "price": 150
 },
 {
@@ -3286,8 +3286,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#cfcccb",
-"img": "swatches/formica/fm_CR0927.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0927.jpg",
+"img": "swatches/formica/fm_CR0927.webp",
+"thumb": "swatches/formica/thumb/fm_CR0927.webp",
 "price": 150
 },
 {
@@ -3297,8 +3297,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#8e8e8e",
-"img": "swatches/formica/fm_CR0928.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0928.jpg",
+"img": "swatches/formica/fm_CR0928.webp",
+"thumb": "swatches/formica/thumb/fm_CR0928.webp",
 "price": 150
 },
 {
@@ -3308,8 +3308,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d1c3b8",
-"img": "swatches/formica/fm_CR0929.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0929.jpg",
+"img": "swatches/formica/fm_CR0929.webp",
+"thumb": "swatches/formica/thumb/fm_CR0929.webp",
 "price": 150
 },
 {
@@ -3319,8 +3319,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#fff6e5",
-"img": "swatches/formica/fm_CR0932.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0932.jpg",
+"img": "swatches/formica/fm_CR0932.webp",
+"thumb": "swatches/formica/thumb/fm_CR0932.webp",
 "price": 150
 },
 {
@@ -3330,8 +3330,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a69b80",
-"img": "swatches/formica/fm_CR0937.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0937.jpg",
+"img": "swatches/formica/fm_CR0937.webp",
+"thumb": "swatches/formica/thumb/fm_CR0937.webp",
 "price": 150
 },
 {
@@ -3341,8 +3341,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#7a6140",
-"img": "swatches/formica/fm_CR0939.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0939.jpg",
+"img": "swatches/formica/fm_CR0939.webp",
+"thumb": "swatches/formica/thumb/fm_CR0939.webp",
 "price": 150
 },
 {
@@ -3352,8 +3352,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#fdfcff",
-"img": "swatches/formica/fm_CR0949.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0949.jpg",
+"img": "swatches/formica/fm_CR0949.webp",
+"thumb": "swatches/formica/thumb/fm_CR0949.webp",
 "price": 150
 },
 {
@@ -3363,8 +3363,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a3958c",
-"img": "swatches/formica/fm_CR0956.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0956.jpg",
+"img": "swatches/formica/fm_CR0956.webp",
+"thumb": "swatches/formica/thumb/fm_CR0956.webp",
 "price": 150
 },
 {
@@ -3374,8 +3374,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a5a89e",
-"img": "swatches/formica/fm_CR0964.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0964.jpg",
+"img": "swatches/formica/fm_CR0964.webp",
+"thumb": "swatches/formica/thumb/fm_CR0964.webp",
 "price": 150
 },
 {
@@ -3385,8 +3385,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9ea2a5",
-"img": "swatches/formica/fm_CR0965.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0965.jpg",
+"img": "swatches/formica/fm_CR0965.webp",
+"thumb": "swatches/formica/thumb/fm_CR0965.webp",
 "price": 150
 },
 {
@@ -3396,8 +3396,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#f4f0ec",
-"img": "swatches/formica/fm_CR0991.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0991.jpg",
+"img": "swatches/formica/fm_CR0991.webp",
+"thumb": "swatches/formica/thumb/fm_CR0991.webp",
 "price": 150
 },
 {
@@ -3407,8 +3407,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#817a76",
-"img": "swatches/formica/fm_CR0992.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0992.jpg",
+"img": "swatches/formica/fm_CR0992.webp",
+"thumb": "swatches/formica/thumb/fm_CR0992.webp",
 "price": 150
 },
 {
@@ -3418,8 +3418,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c3bdba",
-"img": "swatches/formica/fm_CR0993.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0993.jpg",
+"img": "swatches/formica/fm_CR0993.webp",
+"thumb": "swatches/formica/thumb/fm_CR0993.webp",
 "price": 150
 },
 {
@@ -3429,8 +3429,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d4ccc4",
-"img": "swatches/formica/fm_CR0994.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0994.jpg",
+"img": "swatches/formica/fm_CR0994.webp",
+"thumb": "swatches/formica/thumb/fm_CR0994.webp",
 "price": 150
 },
 {
@@ -3440,8 +3440,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9d9c8f",
-"img": "swatches/formica/fm_CR0995.jpg",
-"thumb": "swatches/formica/thumb/fm_CR0995.jpg",
+"img": "swatches/formica/fm_CR0995.webp",
+"thumb": "swatches/formica/thumb/fm_CR0995.webp",
 "price": 150
 },
 {
@@ -3451,8 +3451,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#8a877f",
-"img": "swatches/formica/fm_CR1002.jpg",
-"thumb": "swatches/formica/thumb/fm_CR1002.jpg",
+"img": "swatches/formica/fm_CR1002.webp",
+"thumb": "swatches/formica/thumb/fm_CR1002.webp",
 "price": 150
 },
 {
@@ -3462,8 +3462,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#998f77",
-"img": "swatches/formica/fm_CR1079.jpg",
-"thumb": "swatches/formica/thumb/fm_CR1079.jpg",
+"img": "swatches/formica/fm_CR1079.webp",
+"thumb": "swatches/formica/thumb/fm_CR1079.webp",
 "price": 150
 },
 {
@@ -3473,8 +3473,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#958f83",
-"img": "swatches/formica/fm_CR1111.jpg",
-"thumb": "swatches/formica/thumb/fm_CR1111.jpg",
+"img": "swatches/formica/fm_CR1111.webp",
+"thumb": "swatches/formica/thumb/fm_CR1111.webp",
 "price": 150
 },
 {
@@ -3484,8 +3484,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#323433",
-"img": "swatches/formica/fm_CR1541.jpg",
-"thumb": "swatches/formica/thumb/fm_CR1541.jpg",
+"img": "swatches/formica/fm_CR1541.webp",
+"thumb": "swatches/formica/thumb/fm_CR1541.webp",
 "price": 150
 },
 {
@@ -3495,8 +3495,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b0b0b0",
-"img": "swatches/formica/fm_CR1994.jpg",
-"thumb": "swatches/formica/thumb/fm_CR1994.jpg",
+"img": "swatches/formica/fm_CR1994.webp",
+"thumb": "swatches/formica/thumb/fm_CR1994.webp",
 "price": 150
 },
 {
@@ -3506,8 +3506,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a68f74",
-"img": "swatches/formica/fm_CR2196.jpg",
-"thumb": "swatches/formica/thumb/fm_CR2196.jpg",
+"img": "swatches/formica/fm_CR2196.webp",
+"thumb": "swatches/formica/thumb/fm_CR2196.webp",
 "price": 150
 },
 {
@@ -3517,8 +3517,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#7e7367",
-"img": "swatches/formica/fm_CR2197.jpg",
-"thumb": "swatches/formica/thumb/fm_CR2197.jpg",
+"img": "swatches/formica/fm_CR2197.webp",
+"thumb": "swatches/formica/thumb/fm_CR2197.webp",
 "price": 150
 },
 {
@@ -3528,8 +3528,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#716657",
-"img": "swatches/formica/fm_CR2198.jpg",
-"thumb": "swatches/formica/thumb/fm_CR2198.jpg",
+"img": "swatches/formica/fm_CR2198.webp",
+"thumb": "swatches/formica/thumb/fm_CR2198.webp",
 "price": 150
 },
 {
@@ -3539,8 +3539,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#8b5b34",
-"img": "swatches/formica/fm_CR2567.jpg",
-"thumb": "swatches/formica/thumb/fm_CR2567.jpg",
+"img": "swatches/formica/fm_CR2567.webp",
+"thumb": "swatches/formica/thumb/fm_CR2567.webp",
 "price": 150
 },
 {
@@ -3550,8 +3550,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#ffffff",
-"img": "swatches/formica/fm_CR3200.jpg",
-"thumb": "swatches/formica/thumb/fm_CR3200.jpg",
+"img": "swatches/formica/fm_CR3200.webp",
+"thumb": "swatches/formica/thumb/fm_CR3200.webp",
 "price": 150
 },
 {
@@ -3561,8 +3561,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a8a79a",
-"img": "swatches/formica/fm_CR3416.jpg",
-"thumb": "swatches/formica/thumb/fm_CR3416.jpg",
+"img": "swatches/formica/fm_CR3416.webp",
+"thumb": "swatches/formica/thumb/fm_CR3416.webp",
 "price": 150
 },
 {
@@ -3572,8 +3572,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#e0e2e0",
-"img": "swatches/formica/fm_CR3460.jpg",
-"thumb": "swatches/formica/thumb/fm_CR3460.jpg",
+"img": "swatches/formica/fm_CR3460.webp",
+"thumb": "swatches/formica/thumb/fm_CR3460.webp",
 "price": 150
 },
 {
@@ -3583,8 +3583,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#363736",
-"img": "swatches/formica/fm_CR3476.jpg",
-"thumb": "swatches/formica/thumb/fm_CR3476.jpg",
+"img": "swatches/formica/fm_CR3476.webp",
+"thumb": "swatches/formica/thumb/fm_CR3476.webp",
 "price": 150
 },
 {
@@ -3594,8 +3594,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#91928f",
-"img": "swatches/formica/fm_CR4971.jpg",
-"thumb": "swatches/formica/thumb/fm_CR4971.jpg",
+"img": "swatches/formica/fm_CR4971.webp",
+"thumb": "swatches/formica/thumb/fm_CR4971.webp",
 "price": 150
 },
 {
@@ -3605,8 +3605,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#5c5f59",
-"img": "swatches/formica/fm_CR5017.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5017.jpg",
+"img": "swatches/formica/fm_CR5017.webp",
+"thumb": "swatches/formica/thumb/fm_CR5017.webp",
 "price": 150
 },
 {
@@ -3616,8 +3616,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d3d8d2",
-"img": "swatches/formica/fm_CR5018.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5018.jpg",
+"img": "swatches/formica/fm_CR5018.webp",
+"thumb": "swatches/formica/thumb/fm_CR5018.webp",
 "price": 150
 },
 {
@@ -3627,8 +3627,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b7b4a1",
-"img": "swatches/formica/fm_CR5047.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5047.jpg",
+"img": "swatches/formica/fm_CR5047.webp",
+"thumb": "swatches/formica/thumb/fm_CR5047.webp",
 "price": 150
 },
 {
@@ -3638,8 +3638,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b2a789",
-"img": "swatches/formica/fm_CR5048.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5048.jpg",
+"img": "swatches/formica/fm_CR5048.webp",
+"thumb": "swatches/formica/thumb/fm_CR5048.webp",
 "price": 150
 },
 {
@@ -3649,8 +3649,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9d988b",
-"img": "swatches/formica/fm_CR5052.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5052.jpg",
+"img": "swatches/formica/fm_CR5052.webp",
+"thumb": "swatches/formica/thumb/fm_CR5052.webp",
 "price": 150
 },
 {
@@ -3660,8 +3660,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b9b7a7",
-"img": "swatches/formica/fm_CR5053.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5053.jpg",
+"img": "swatches/formica/fm_CR5053.webp",
+"thumb": "swatches/formica/thumb/fm_CR5053.webp",
 "price": 150
 },
 {
@@ -3671,8 +3671,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c7c5c3",
-"img": "swatches/formica/fm_CR5070.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5070.jpg",
+"img": "swatches/formica/fm_CR5070.webp",
+"thumb": "swatches/formica/thumb/fm_CR5070.webp",
 "price": 150
 },
 {
@@ -3682,8 +3682,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#babab1",
-"img": "swatches/formica/fm_CR5071.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5071.jpg",
+"img": "swatches/formica/fm_CR5071.webp",
+"thumb": "swatches/formica/thumb/fm_CR5071.webp",
 "price": 150
 },
 {
@@ -3693,8 +3693,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#323a38",
-"img": "swatches/formica/fm_CR5072.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5072.jpg",
+"img": "swatches/formica/fm_CR5072.webp",
+"thumb": "swatches/formica/thumb/fm_CR5072.webp",
 "price": 150
 },
 {
@@ -3704,8 +3704,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9d9e96",
-"img": "swatches/formica/fm_CR5073.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5073.jpg",
+"img": "swatches/formica/fm_CR5073.webp",
+"thumb": "swatches/formica/thumb/fm_CR5073.webp",
 "price": 150
 },
 {
@@ -3715,8 +3715,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#76736c",
-"img": "swatches/formica/fm_CR5479.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5479.jpg",
+"img": "swatches/formica/fm_CR5479.webp",
+"thumb": "swatches/formica/thumb/fm_CR5479.webp",
 "price": 150
 },
 {
@@ -3726,8 +3726,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#baa486",
-"img": "swatches/formica/fm_CR5484.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5484.jpg",
+"img": "swatches/formica/fm_CR5484.webp",
+"thumb": "swatches/formica/thumb/fm_CR5484.webp",
 "price": 150
 },
 {
@@ -3737,8 +3737,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a39d8a",
-"img": "swatches/formica/fm_CR5527.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5527.jpg",
+"img": "swatches/formica/fm_CR5527.webp",
+"thumb": "swatches/formica/thumb/fm_CR5527.webp",
 "price": 150
 },
 {
@@ -3748,8 +3748,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#e6d9be",
-"img": "swatches/formica/fm_CR5667.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5667.jpg",
+"img": "swatches/formica/fm_CR5667.webp",
+"thumb": "swatches/formica/thumb/fm_CR5667.webp",
 "price": 150
 },
 {
@@ -3759,8 +3759,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d3d0ca",
-"img": "swatches/formica/fm_CR5668.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5668.jpg",
+"img": "swatches/formica/fm_CR5668.webp",
+"thumb": "swatches/formica/thumb/fm_CR5668.webp",
 "price": 150
 },
 {
@@ -3770,8 +3770,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d1cbc1",
-"img": "swatches/formica/fm_CR5671.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5671.jpg",
+"img": "swatches/formica/fm_CR5671.webp",
+"thumb": "swatches/formica/thumb/fm_CR5671.webp",
 "price": 150
 },
 {
@@ -3781,8 +3781,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c3b8ad",
-"img": "swatches/formica/fm_CR5793.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5793.jpg",
+"img": "swatches/formica/fm_CR5793.webp",
+"thumb": "swatches/formica/thumb/fm_CR5793.webp",
 "price": 150
 },
 {
@@ -3792,8 +3792,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9e8a68",
-"img": "swatches/formica/fm_CR5794.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5794.jpg",
+"img": "swatches/formica/fm_CR5794.webp",
+"thumb": "swatches/formica/thumb/fm_CR5794.webp",
 "price": 150
 },
 {
@@ -3803,8 +3803,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#ede9dd",
-"img": "swatches/formica/fm_CR5875.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5875.jpg",
+"img": "swatches/formica/fm_CR5875.webp",
+"thumb": "swatches/formica/thumb/fm_CR5875.webp",
 "price": 150
 },
 {
@@ -3814,8 +3814,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d1b7a0",
-"img": "swatches/formica/fm_CR5964.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5964.jpg",
+"img": "swatches/formica/fm_CR5964.webp",
+"thumb": "swatches/formica/thumb/fm_CR5964.webp",
 "price": 150
 },
 {
@@ -3825,8 +3825,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#aaa794",
-"img": "swatches/formica/fm_CR5969.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5969.jpg",
+"img": "swatches/formica/fm_CR5969.webp",
+"thumb": "swatches/formica/thumb/fm_CR5969.webp",
 "price": 150
 },
 {
@@ -3836,8 +3836,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#907f74",
-"img": "swatches/formica/fm_CR5971.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5971.jpg",
+"img": "swatches/formica/fm_CR5971.webp",
+"thumb": "swatches/formica/thumb/fm_CR5971.webp",
 "price": 150
 },
 {
@@ -3847,8 +3847,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#deccbb",
-"img": "swatches/formica/fm_CR5976.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5976.jpg",
+"img": "swatches/formica/fm_CR5976.webp",
+"thumb": "swatches/formica/thumb/fm_CR5976.webp",
 "price": 150
 },
 {
@@ -3858,8 +3858,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#6f7069",
-"img": "swatches/formica/fm_CR5977.jpg",
-"thumb": "swatches/formica/thumb/fm_CR5977.jpg",
+"img": "swatches/formica/fm_CR5977.webp",
+"thumb": "swatches/formica/thumb/fm_CR5977.webp",
 "price": 150
 },
 {
@@ -3869,8 +3869,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#afaea9",
-"img": "swatches/formica/fm_CR6363.jpg",
-"thumb": "swatches/formica/thumb/fm_CR6363.jpg",
+"img": "swatches/formica/fm_CR6363.webp",
+"thumb": "swatches/formica/thumb/fm_CR6363.webp",
 "price": 150
 },
 {
@@ -3880,8 +3880,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#6b5a47",
-"img": "swatches/formica/fm_CR6401.jpg",
-"thumb": "swatches/formica/thumb/fm_CR6401.jpg",
+"img": "swatches/formica/fm_CR6401.webp",
+"thumb": "swatches/formica/thumb/fm_CR6401.webp",
 "price": 150
 },
 {
@@ -3891,8 +3891,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d0c8b2",
-"img": "swatches/formica/fm_CR6404.jpg",
-"thumb": "swatches/formica/thumb/fm_CR6404.jpg",
+"img": "swatches/formica/fm_CR6404.webp",
+"thumb": "swatches/formica/thumb/fm_CR6404.webp",
 "price": 150
 },
 {
@@ -3902,8 +3902,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c6c1b5",
-"img": "swatches/formica/fm_CR6405.jpg",
-"thumb": "swatches/formica/thumb/fm_CR6405.jpg",
+"img": "swatches/formica/fm_CR6405.webp",
+"thumb": "swatches/formica/thumb/fm_CR6405.webp",
 "price": 150
 },
 {
@@ -3913,8 +3913,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a38a62",
-"img": "swatches/formica/fm_CR6407.jpg",
-"thumb": "swatches/formica/thumb/fm_CR6407.jpg",
+"img": "swatches/formica/fm_CR6407.webp",
+"thumb": "swatches/formica/thumb/fm_CR6407.webp",
 "price": 150
 },
 {
@@ -3924,8 +3924,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b09e7d",
-"img": "swatches/formica/fm_CR6412.jpg",
-"thumb": "swatches/formica/thumb/fm_CR6412.jpg",
+"img": "swatches/formica/fm_CR6412.webp",
+"thumb": "swatches/formica/thumb/fm_CR6412.webp",
 "price": 150
 },
 {
@@ -3935,8 +3935,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9c927f",
-"img": "swatches/formica/fm_CR6444.jpg",
-"thumb": "swatches/formica/thumb/fm_CR6444.jpg",
+"img": "swatches/formica/fm_CR6444.webp",
+"thumb": "swatches/formica/thumb/fm_CR6444.webp",
 "price": 150
 },
 {
@@ -3946,8 +3946,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#97938f",
-"img": "swatches/formica/fm_CR6445.jpg",
-"thumb": "swatches/formica/thumb/fm_CR6445.jpg",
+"img": "swatches/formica/fm_CR6445.webp",
+"thumb": "swatches/formica/thumb/fm_CR6445.webp",
 "price": 150
 },
 {
@@ -3957,8 +3957,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#514e4d",
-"img": "swatches/formica/fm_CR6446.jpg",
-"thumb": "swatches/formica/thumb/fm_CR6446.jpg",
+"img": "swatches/formica/fm_CR6446.webp",
+"thumb": "swatches/formica/thumb/fm_CR6446.webp",
 "price": 150
 },
 {
@@ -3968,8 +3968,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#dcdbd4",
-"img": "swatches/formica/fm_CR7157.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7157.jpg",
+"img": "swatches/formica/fm_CR7157.webp",
+"thumb": "swatches/formica/thumb/fm_CR7157.webp",
 "price": 150
 },
 {
@@ -3979,8 +3979,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9d9694",
-"img": "swatches/formica/fm_CR7158.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7158.jpg",
+"img": "swatches/formica/fm_CR7158.webp",
+"thumb": "swatches/formica/thumb/fm_CR7158.webp",
 "price": 150
 },
 {
@@ -3990,8 +3990,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#f1f3f3",
-"img": "swatches/formica/fm_CR7377.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7377.jpg",
+"img": "swatches/formica/fm_CR7377.webp",
+"thumb": "swatches/formica/thumb/fm_CR7377.webp",
 "price": 150
 },
 {
@@ -4001,8 +4001,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9e9f97",
-"img": "swatches/formica/fm_CR7378.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7378.jpg",
+"img": "swatches/formica/fm_CR7378.webp",
+"thumb": "swatches/formica/thumb/fm_CR7378.webp",
 "price": 150
 },
 {
@@ -4012,8 +4012,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#774f28",
-"img": "swatches/formica/fm_CR7379.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7379.jpg",
+"img": "swatches/formica/fm_CR7379.webp",
+"thumb": "swatches/formica/thumb/fm_CR7379.webp",
 "price": 150
 },
 {
@@ -4023,8 +4023,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#906223",
-"img": "swatches/formica/fm_CR7380.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7380.jpg",
+"img": "swatches/formica/fm_CR7380.webp",
+"thumb": "swatches/formica/thumb/fm_CR7380.webp",
 "price": 150
 },
 {
@@ -4034,8 +4034,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b0b7af",
-"img": "swatches/formica/fm_CR7381.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7381.jpg",
+"img": "swatches/formica/fm_CR7381.webp",
+"thumb": "swatches/formica/thumb/fm_CR7381.webp",
 "price": 150
 },
 {
@@ -4045,8 +4045,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b6b6b1",
-"img": "swatches/formica/fm_CR7382.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7382.jpg",
+"img": "swatches/formica/fm_CR7382.webp",
+"thumb": "swatches/formica/thumb/fm_CR7382.webp",
 "price": 150
 },
 {
@@ -4056,8 +4056,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#918c86",
-"img": "swatches/formica/fm_CR7383.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7383.jpg",
+"img": "swatches/formica/fm_CR7383.webp",
+"thumb": "swatches/formica/thumb/fm_CR7383.webp",
 "price": 150
 },
 {
@@ -4067,8 +4067,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c7ccc5",
-"img": "swatches/formica/fm_CR7386.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7386.jpg",
+"img": "swatches/formica/fm_CR7386.webp",
+"thumb": "swatches/formica/thumb/fm_CR7386.webp",
 "price": 150
 },
 {
@@ -4078,8 +4078,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#dfddd2",
-"img": "swatches/formica/fm_CR7387.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7387.jpg",
+"img": "swatches/formica/fm_CR7387.webp",
+"thumb": "swatches/formica/thumb/fm_CR7387.webp",
 "price": 150
 },
 {
@@ -4089,8 +4089,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#988a68",
-"img": "swatches/formica/fm_CR7392.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7392.jpg",
+"img": "swatches/formica/fm_CR7392.webp",
+"thumb": "swatches/formica/thumb/fm_CR7392.webp",
 "price": 150
 },
 {
@@ -4100,8 +4100,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#ad9b73",
-"img": "swatches/formica/fm_CR7393.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7393.jpg",
+"img": "swatches/formica/fm_CR7393.webp",
+"thumb": "swatches/formica/thumb/fm_CR7393.webp",
 "price": 150
 },
 {
@@ -4111,8 +4111,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b4afa0",
-"img": "swatches/formica/fm_CR7399.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7399.jpg",
+"img": "swatches/formica/fm_CR7399.webp",
+"thumb": "swatches/formica/thumb/fm_CR7399.webp",
 "price": 150
 },
 {
@@ -4122,8 +4122,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#aaaca7",
-"img": "swatches/formica/fm_CR7402.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7402.jpg",
+"img": "swatches/formica/fm_CR7402.webp",
+"thumb": "swatches/formica/thumb/fm_CR7402.webp",
 "price": 150
 },
 {
@@ -4133,8 +4133,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#222222",
-"img": "swatches/formica/fm_CR7403.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7403.jpg",
+"img": "swatches/formica/fm_CR7403.webp",
+"thumb": "swatches/formica/thumb/fm_CR7403.webp",
 "price": 150
 },
 {
@@ -4144,8 +4144,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d7d8ce",
-"img": "swatches/formica/fm_CR7408.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7408.jpg",
+"img": "swatches/formica/fm_CR7408.webp",
+"thumb": "swatches/formica/thumb/fm_CR7408.webp",
 "price": 150
 },
 {
@@ -4155,8 +4155,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#145666",
-"img": "swatches/formica/fm_CR7846.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7846.jpg",
+"img": "swatches/formica/fm_CR7846.webp",
+"thumb": "swatches/formica/thumb/fm_CR7846.webp",
 "price": 150
 },
 {
@@ -4166,8 +4166,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b9b3a1",
-"img": "swatches/formica/fm_CR7976.jpg",
-"thumb": "swatches/formica/thumb/fm_CR7976.jpg",
+"img": "swatches/formica/fm_CR7976.webp",
+"thumb": "swatches/formica/thumb/fm_CR7976.webp",
 "price": 150
 },
 {
@@ -4177,8 +4177,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#958d7f",
-"img": "swatches/formica/fm_CR8006.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8006.jpg",
+"img": "swatches/formica/fm_CR8006.webp",
+"thumb": "swatches/formica/thumb/fm_CR8006.webp",
 "price": 150
 },
 {
@@ -4188,8 +4188,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#724a36",
-"img": "swatches/formica/fm_CR8140.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8140.jpg",
+"img": "swatches/formica/fm_CR8140.webp",
+"thumb": "swatches/formica/thumb/fm_CR8140.webp",
 "price": 150
 },
 {
@@ -4199,8 +4199,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#907039",
-"img": "swatches/formica/fm_CR8142.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8142.jpg",
+"img": "swatches/formica/fm_CR8142.webp",
+"thumb": "swatches/formica/thumb/fm_CR8142.webp",
 "price": 150
 },
 {
@@ -4210,8 +4210,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#bdd9e4",
-"img": "swatches/formica/fm_CR8194.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8194.jpg",
+"img": "swatches/formica/fm_CR8194.webp",
+"thumb": "swatches/formica/thumb/fm_CR8194.webp",
 "price": 150
 },
 {
@@ -4221,8 +4221,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#011c1a",
-"img": "swatches/formica/fm_CR8244.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8244.jpg",
+"img": "swatches/formica/fm_CR8244.webp",
+"thumb": "swatches/formica/thumb/fm_CR8244.webp",
 "price": 150
 },
 {
@@ -4232,8 +4232,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#3e3f3f",
-"img": "swatches/formica/fm_CR8387.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8387.jpg",
+"img": "swatches/formica/fm_CR8387.webp",
+"thumb": "swatches/formica/thumb/fm_CR8387.webp",
 "price": 150
 },
 {
@@ -4243,8 +4243,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c6c4b7",
-"img": "swatches/formica/fm_CR8577.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8577.jpg",
+"img": "swatches/formica/fm_CR8577.webp",
+"thumb": "swatches/formica/thumb/fm_CR8577.webp",
 "price": 150
 },
 {
@@ -4254,8 +4254,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c2b399",
-"img": "swatches/formica/fm_CR8578.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8578.jpg",
+"img": "swatches/formica/fm_CR8578.webp",
+"thumb": "swatches/formica/thumb/fm_CR8578.webp",
 "price": 150
 },
 {
@@ -4265,8 +4265,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#687465",
-"img": "swatches/formica/fm_CR8793.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8793.jpg",
+"img": "swatches/formica/fm_CR8793.webp",
+"thumb": "swatches/formica/thumb/fm_CR8793.webp",
 "price": 150
 },
 {
@@ -4276,8 +4276,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a5bf99",
-"img": "swatches/formica/fm_CR8794.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8794.jpg",
+"img": "swatches/formica/fm_CR8794.webp",
+"thumb": "swatches/formica/thumb/fm_CR8794.webp",
 "price": 150
 },
 {
@@ -4287,8 +4287,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#36541a",
-"img": "swatches/formica/fm_CR8796.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8796.jpg",
+"img": "swatches/formica/fm_CR8796.webp",
+"thumb": "swatches/formica/thumb/fm_CR8796.webp",
 "price": 150
 },
 {
@@ -4298,8 +4298,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#756a59",
-"img": "swatches/formica/fm_CR8797.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8797.jpg",
+"img": "swatches/formica/fm_CR8797.webp",
+"thumb": "swatches/formica/thumb/fm_CR8797.webp",
 "price": 150
 },
 {
@@ -4309,8 +4309,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#7c6c54",
-"img": "swatches/formica/fm_CR8806.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8806.jpg",
+"img": "swatches/formica/fm_CR8806.webp",
+"thumb": "swatches/formica/thumb/fm_CR8806.webp",
 "price": 150
 },
 {
@@ -4320,8 +4320,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#494a45",
-"img": "swatches/formica/fm_CR8808.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8808.jpg",
+"img": "swatches/formica/fm_CR8808.webp",
+"thumb": "swatches/formica/thumb/fm_CR8808.webp",
 "price": 150
 },
 {
@@ -4331,8 +4331,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b8a891",
-"img": "swatches/formica/fm_CR8809.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8809.jpg",
+"img": "swatches/formica/fm_CR8809.webp",
+"thumb": "swatches/formica/thumb/fm_CR8809.webp",
 "price": 150
 },
 {
@@ -4342,8 +4342,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#66605a",
-"img": "swatches/formica/fm_CR8810.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8810.jpg",
+"img": "swatches/formica/fm_CR8810.webp",
+"thumb": "swatches/formica/thumb/fm_CR8810.webp",
 "price": 150
 },
 {
@@ -4353,8 +4353,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#bbb0a6",
-"img": "swatches/formica/fm_CR8811.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8811.jpg",
+"img": "swatches/formica/fm_CR8811.webp",
+"thumb": "swatches/formica/thumb/fm_CR8811.webp",
 "price": 150
 },
 {
@@ -4364,8 +4364,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#cfc7c0",
-"img": "swatches/formica/fm_CR8812.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8812.jpg",
+"img": "swatches/formica/fm_CR8812.webp",
+"thumb": "swatches/formica/thumb/fm_CR8812.webp",
 "price": 150
 },
 {
@@ -4375,8 +4375,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9d8f81",
-"img": "swatches/formica/fm_CR8816.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8816.jpg",
+"img": "swatches/formica/fm_CR8816.webp",
+"thumb": "swatches/formica/thumb/fm_CR8816.webp",
 "price": 150
 },
 {
@@ -4386,8 +4386,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#777a7f",
-"img": "swatches/formica/fm_CR8818.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8818.jpg",
+"img": "swatches/formica/fm_CR8818.webp",
+"thumb": "swatches/formica/thumb/fm_CR8818.webp",
 "price": 150
 },
 {
@@ -4397,8 +4397,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#5d5245",
-"img": "swatches/formica/fm_CR8828.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8828.jpg",
+"img": "swatches/formica/fm_CR8828.webp",
+"thumb": "swatches/formica/thumb/fm_CR8828.webp",
 "price": 150
 },
 {
@@ -4408,8 +4408,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#8b8a84",
-"img": "swatches/formica/fm_CR8830.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8830.jpg",
+"img": "swatches/formica/fm_CR8830.webp",
+"thumb": "swatches/formica/thumb/fm_CR8830.webp",
 "price": 150
 },
 {
@@ -4419,8 +4419,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d9ded8",
-"img": "swatches/formica/fm_CR8841.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8841.jpg",
+"img": "swatches/formica/fm_CR8841.webp",
+"thumb": "swatches/formica/thumb/fm_CR8841.webp",
 "price": 150
 },
 {
@@ -4430,8 +4430,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#857a67",
-"img": "swatches/formica/fm_CR8842.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8842.jpg",
+"img": "swatches/formica/fm_CR8842.webp",
+"thumb": "swatches/formica/thumb/fm_CR8842.webp",
 "price": 150
 },
 {
@@ -4441,8 +4441,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#ead5a8",
-"img": "swatches/formica/fm_CR8843.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8843.jpg",
+"img": "swatches/formica/fm_CR8843.webp",
+"thumb": "swatches/formica/thumb/fm_CR8843.webp",
 "price": 150
 },
 {
@@ -4452,8 +4452,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b29a73",
-"img": "swatches/formica/fm_CR8844.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8844.jpg",
+"img": "swatches/formica/fm_CR8844.webp",
+"thumb": "swatches/formica/thumb/fm_CR8844.webp",
 "price": 150
 },
 {
@@ -4463,8 +4463,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#736f63",
-"img": "swatches/formica/fm_CR8845.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8845.jpg",
+"img": "swatches/formica/fm_CR8845.webp",
+"thumb": "swatches/formica/thumb/fm_CR8845.webp",
 "price": 150
 },
 {
@@ -4474,8 +4474,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#645440",
-"img": "swatches/formica/fm_CR8846.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8846.jpg",
+"img": "swatches/formica/fm_CR8846.webp",
+"thumb": "swatches/formica/thumb/fm_CR8846.webp",
 "price": 150
 },
 {
@@ -4485,8 +4485,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#212021",
-"img": "swatches/formica/fm_CR8848.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8848.jpg",
+"img": "swatches/formica/fm_CR8848.webp",
+"thumb": "swatches/formica/thumb/fm_CR8848.webp",
 "price": 150
 },
 {
@@ -4496,8 +4496,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#6f5a43",
-"img": "swatches/formica/fm_CR8849.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8849.jpg",
+"img": "swatches/formica/fm_CR8849.webp",
+"thumb": "swatches/formica/thumb/fm_CR8849.webp",
 "price": 150
 },
 {
@@ -4507,8 +4507,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d1cbbd",
-"img": "swatches/formica/fm_CR8854.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8854.jpg",
+"img": "swatches/formica/fm_CR8854.webp",
+"thumb": "swatches/formica/thumb/fm_CR8854.webp",
 "price": 150
 },
 {
@@ -4518,8 +4518,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#ded4ba",
-"img": "swatches/formica/fm_CR8905.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8905.jpg",
+"img": "swatches/formica/fm_CR8905.webp",
+"thumb": "swatches/formica/thumb/fm_CR8905.webp",
 "price": 150
 },
 {
@@ -4529,8 +4529,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#b39e7a",
-"img": "swatches/formica/fm_CR8906.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8906.jpg",
+"img": "swatches/formica/fm_CR8906.webp",
+"thumb": "swatches/formica/thumb/fm_CR8906.webp",
 "price": 150
 },
 {
@@ -4540,8 +4540,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a19a77",
-"img": "swatches/formica/fm_CR8910.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8910.jpg",
+"img": "swatches/formica/fm_CR8910.webp",
+"thumb": "swatches/formica/thumb/fm_CR8910.webp",
 "price": 150
 },
 {
@@ -4551,8 +4551,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#5a6261",
-"img": "swatches/formica/fm_CR8994.jpg",
-"thumb": "swatches/formica/thumb/fm_CR8994.jpg",
+"img": "swatches/formica/fm_CR8994.webp",
+"thumb": "swatches/formica/thumb/fm_CR8994.webp",
 "price": 150
 },
 {
@@ -4562,8 +4562,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#ae9f7e",
-"img": "swatches/formica/fm_CR9005.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9005.jpg",
+"img": "swatches/formica/fm_CR9005.webp",
+"thumb": "swatches/formica/thumb/fm_CR9005.webp",
 "price": 150
 },
 {
@@ -4573,8 +4573,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c4c2b5",
-"img": "swatches/formica/fm_CR9222.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9222.jpg",
+"img": "swatches/formica/fm_CR9222.webp",
+"thumb": "swatches/formica/thumb/fm_CR9222.webp",
 "price": 150
 },
 {
@@ -4584,8 +4584,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c7ba98",
-"img": "swatches/formica/fm_CR9281.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9281.jpg",
+"img": "swatches/formica/fm_CR9281.webp",
+"thumb": "swatches/formica/thumb/fm_CR9281.webp",
 "price": 150
 },
 {
@@ -4595,8 +4595,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#66625b",
-"img": "swatches/formica/fm_CR9287.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9287.jpg",
+"img": "swatches/formica/fm_CR9287.webp",
+"thumb": "swatches/formica/thumb/fm_CR9287.webp",
 "price": 150
 },
 {
@@ -4606,8 +4606,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#bdbeb7",
-"img": "swatches/formica/fm_CR9306.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9306.jpg",
+"img": "swatches/formica/fm_CR9306.webp",
+"thumb": "swatches/formica/thumb/fm_CR9306.webp",
 "price": 150
 },
 {
@@ -4617,8 +4617,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#86795b",
-"img": "swatches/formica/fm_CR9312.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9312.jpg",
+"img": "swatches/formica/fm_CR9312.webp",
+"thumb": "swatches/formica/thumb/fm_CR9312.webp",
 "price": 150
 },
 {
@@ -4628,8 +4628,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a18c67",
-"img": "swatches/formica/fm_CR9348.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9348.jpg",
+"img": "swatches/formica/fm_CR9348.webp",
+"thumb": "swatches/formica/thumb/fm_CR9348.webp",
 "price": 150
 },
 {
@@ -4639,8 +4639,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c2c2c2",
-"img": "swatches/formica/fm_CR9364.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9364.jpg",
+"img": "swatches/formica/fm_CR9364.webp",
+"thumb": "swatches/formica/thumb/fm_CR9364.webp",
 "price": 150
 },
 {
@@ -4650,8 +4650,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9b8c74",
-"img": "swatches/formica/fm_CR9436.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9436.jpg",
+"img": "swatches/formica/fm_CR9436.webp",
+"thumb": "swatches/formica/thumb/fm_CR9436.webp",
 "price": 150
 },
 {
@@ -4661,8 +4661,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#373435",
-"img": "swatches/formica/fm_CR9483.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9483.jpg",
+"img": "swatches/formica/fm_CR9483.webp",
+"thumb": "swatches/formica/thumb/fm_CR9483.webp",
 "price": 150
 },
 {
@@ -4672,8 +4672,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#265965",
-"img": "swatches/formica/fm_CR9521.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9521.jpg",
+"img": "swatches/formica/fm_CR9521.webp",
+"thumb": "swatches/formica/thumb/fm_CR9521.webp",
 "price": 150
 },
 {
@@ -4683,8 +4683,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#928a84",
-"img": "swatches/formica/fm_CR9532.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9532.jpg",
+"img": "swatches/formica/fm_CR9532.webp",
+"thumb": "swatches/formica/thumb/fm_CR9532.webp",
 "price": 150
 },
 {
@@ -4694,8 +4694,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#817f7f",
-"img": "swatches/formica/fm_CR9534.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9534.jpg",
+"img": "swatches/formica/fm_CR9534.webp",
+"thumb": "swatches/formica/thumb/fm_CR9534.webp",
 "price": 150
 },
 {
@@ -4705,8 +4705,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#c7cbba",
-"img": "swatches/formica/fm_CR9916.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9916.jpg",
+"img": "swatches/formica/fm_CR9916.webp",
+"thumb": "swatches/formica/thumb/fm_CR9916.webp",
 "price": 150
 },
 {
@@ -4716,8 +4716,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#1a1c1f",
-"img": "swatches/formica/fm_CR9921.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9921.jpg",
+"img": "swatches/formica/fm_CR9921.webp",
+"thumb": "swatches/formica/thumb/fm_CR9921.webp",
 "price": 150
 },
 {
@@ -4727,8 +4727,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#6d6353",
-"img": "swatches/formica/fm_CR9931.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9931.jpg",
+"img": "swatches/formica/fm_CR9931.webp",
+"thumb": "swatches/formica/thumb/fm_CR9931.webp",
 "price": 150
 },
 {
@@ -4738,8 +4738,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#837158",
-"img": "swatches/formica/fm_CR9937.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9937.jpg",
+"img": "swatches/formica/fm_CR9937.webp",
+"thumb": "swatches/formica/thumb/fm_CR9937.webp",
 "price": 150
 },
 {
@@ -4749,8 +4749,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#a69a78",
-"img": "swatches/formica/fm_CR9947.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9947.jpg",
+"img": "swatches/formica/fm_CR9947.webp",
+"thumb": "swatches/formica/thumb/fm_CR9947.webp",
 "price": 150
 },
 {
@@ -4760,8 +4760,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#7a7866",
-"img": "swatches/formica/fm_CR9948.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9948.jpg",
+"img": "swatches/formica/fm_CR9948.webp",
+"thumb": "swatches/formica/thumb/fm_CR9948.webp",
 "price": 150
 },
 {
@@ -4771,8 +4771,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#d4d0bc",
-"img": "swatches/formica/fm_CR9961.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9961.jpg",
+"img": "swatches/formica/fm_CR9961.webp",
+"thumb": "swatches/formica/thumb/fm_CR9961.webp",
 "price": 150
 },
 {
@@ -4782,8 +4782,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#bab196",
-"img": "swatches/formica/fm_CR9964.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9964.jpg",
+"img": "swatches/formica/fm_CR9964.webp",
+"thumb": "swatches/formica/thumb/fm_CR9964.webp",
 "price": 150
 },
 {
@@ -4793,8 +4793,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#9c7c58",
-"img": "swatches/formica/fm_CR9966.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9966.jpg",
+"img": "swatches/formica/fm_CR9966.webp",
+"thumb": "swatches/formica/thumb/fm_CR9966.webp",
 "price": 150
 },
 {
@@ -4804,8 +4804,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#bba68b",
-"img": "swatches/formica/fm_CR9978.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9978.jpg",
+"img": "swatches/formica/fm_CR9978.webp",
+"thumb": "swatches/formica/thumb/fm_CR9978.webp",
 "price": 150
 },
 {
@@ -4815,8 +4815,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "彩之芯 CORA",
 "hex": "#848686",
-"img": "swatches/formica/fm_CR9979.jpg",
-"thumb": "swatches/formica/thumb/fm_CR9979.jpg",
+"img": "swatches/formica/fm_CR9979.webp",
+"thumb": "swatches/formica/thumb/fm_CR9979.webp",
 "price": 150
 },
 {
@@ -4826,8 +4826,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#a8adaf",
-"img": "swatches/formica/fm_D1333.jpg",
-"thumb": "swatches/formica/thumb/fm_D1333.jpg",
+"img": "swatches/formica/fm_D1333.webp",
+"thumb": "swatches/formica/thumb/fm_D1333.webp",
 "price": 150
 },
 {
@@ -4837,8 +4837,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#8d8c8d",
-"img": "swatches/formica/fm_D1990.jpg",
-"thumb": "swatches/formica/thumb/fm_D1990.jpg",
+"img": "swatches/formica/fm_D1990.webp",
+"thumb": "swatches/formica/thumb/fm_D1990.webp",
 "price": 150
 },
 {
@@ -4848,8 +4848,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#7c7867",
-"img": "swatches/formica/fm_D2006.jpg",
-"thumb": "swatches/formica/thumb/fm_D2006.jpg",
+"img": "swatches/formica/fm_D2006.webp",
+"thumb": "swatches/formica/thumb/fm_D2006.webp",
 "price": 150
 },
 {
@@ -4859,8 +4859,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#c1c1c2",
-"img": "swatches/formica/fm_D2021.jpg",
-"thumb": "swatches/formica/thumb/fm_D2021.jpg",
+"img": "swatches/formica/fm_D2021.webp",
+"thumb": "swatches/formica/thumb/fm_D2021.webp",
 "price": 150
 },
 {
@@ -4870,8 +4870,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#aaaaaa",
-"img": "swatches/formica/fm_D2022.jpg",
-"thumb": "swatches/formica/thumb/fm_D2022.jpg",
+"img": "swatches/formica/fm_D2022.webp",
+"thumb": "swatches/formica/thumb/fm_D2022.webp",
 "price": 150
 },
 {
@@ -4881,8 +4881,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#ababab",
-"img": "swatches/formica/fm_D2032.jpg",
-"thumb": "swatches/formica/thumb/fm_D2032.jpg",
+"img": "swatches/formica/fm_D2032.webp",
+"thumb": "swatches/formica/thumb/fm_D2032.webp",
 "price": 150
 },
 {
@@ -4892,8 +4892,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#868688",
-"img": "swatches/formica/fm_D2035.jpg",
-"thumb": "swatches/formica/thumb/fm_D2035.jpg",
+"img": "swatches/formica/fm_D2035.webp",
+"thumb": "swatches/formica/thumb/fm_D2035.webp",
 "price": 150
 },
 {
@@ -4903,8 +4903,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#bdb784",
-"img": "swatches/formica/fm_D2041.jpg",
-"thumb": "swatches/formica/thumb/fm_D2041.jpg",
+"img": "swatches/formica/fm_D2041.webp",
+"thumb": "swatches/formica/thumb/fm_D2041.webp",
 "price": 150
 },
 {
@@ -4914,8 +4914,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#a78469",
-"img": "swatches/formica/fm_D2052.jpg",
-"thumb": "swatches/formica/thumb/fm_D2052.jpg",
+"img": "swatches/formica/fm_D2052.webp",
+"thumb": "swatches/formica/thumb/fm_D2052.webp",
 "price": 150
 },
 {
@@ -4925,8 +4925,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#c08864",
-"img": "swatches/formica/fm_D2121.jpg",
-"thumb": "swatches/formica/thumb/fm_D2121.jpg",
+"img": "swatches/formica/fm_D2121.webp",
+"thumb": "swatches/formica/thumb/fm_D2121.webp",
 "price": 150
 },
 {
@@ -4936,8 +4936,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#7f6956",
-"img": "swatches/formica/fm_D2126.jpg",
-"thumb": "swatches/formica/thumb/fm_D2126.jpg",
+"img": "swatches/formica/fm_D2126.webp",
+"thumb": "swatches/formica/thumb/fm_D2126.webp",
 "price": 150
 },
 {
@@ -4947,8 +4947,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#acacac",
-"img": "swatches/formica/fm_D2178.jpg",
-"thumb": "swatches/formica/thumb/fm_D2178.jpg",
+"img": "swatches/formica/fm_D2178.webp",
+"thumb": "swatches/formica/thumb/fm_D2178.webp",
 "price": 150
 },
 {
@@ -4958,8 +4958,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#b0a372",
-"img": "swatches/formica/fm_D2802.jpg",
-"thumb": "swatches/formica/thumb/fm_D2802.jpg",
+"img": "swatches/formica/fm_D2802.webp",
+"thumb": "swatches/formica/thumb/fm_D2802.webp",
 "price": 150
 },
 {
@@ -4969,8 +4969,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#b89169",
-"img": "swatches/formica/fm_D2807.jpg",
-"thumb": "swatches/formica/thumb/fm_D2807.jpg",
+"img": "swatches/formica/fm_D2807.webp",
+"thumb": "swatches/formica/thumb/fm_D2807.webp",
 "price": 150
 },
 {
@@ -4980,8 +4980,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#aca99c",
-"img": "swatches/formica/fm_D4249.jpg",
-"thumb": "swatches/formica/thumb/fm_D4249.jpg",
+"img": "swatches/formica/fm_D4249.webp",
+"thumb": "swatches/formica/thumb/fm_D4249.webp",
 "price": 150
 },
 {
@@ -4991,8 +4991,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#675344",
-"img": "swatches/formica/fm_D4899.jpg",
-"thumb": "swatches/formica/thumb/fm_D4899.jpg",
+"img": "swatches/formica/fm_D4899.webp",
+"thumb": "swatches/formica/thumb/fm_D4899.webp",
 "price": 150
 },
 {
@@ -5002,8 +5002,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#b28e6f",
-"img": "swatches/formica/fm_D4904.jpg",
-"thumb": "swatches/formica/thumb/fm_D4904.jpg",
+"img": "swatches/formica/fm_D4904.webp",
+"thumb": "swatches/formica/thumb/fm_D4904.webp",
 "price": 150
 },
 {
@@ -5013,8 +5013,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#918e7e",
-"img": "swatches/formica/fm_D5306.jpg",
-"thumb": "swatches/formica/thumb/fm_D5306.jpg",
+"img": "swatches/formica/fm_D5306.webp",
+"thumb": "swatches/formica/thumb/fm_D5306.webp",
 "price": 150
 },
 {
@@ -5024,8 +5024,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#b2a56d",
-"img": "swatches/formica/fm_D5309.jpg",
-"thumb": "swatches/formica/thumb/fm_D5309.jpg",
+"img": "swatches/formica/fm_D5309.webp",
+"thumb": "swatches/formica/thumb/fm_D5309.webp",
 "price": 150
 },
 {
@@ -5035,8 +5035,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#5c5c5e",
-"img": "swatches/formica/fm_D5310.jpg",
-"thumb": "swatches/formica/thumb/fm_D5310.jpg",
+"img": "swatches/formica/fm_D5310.webp",
+"thumb": "swatches/formica/thumb/fm_D5310.webp",
 "price": 150
 },
 {
@@ -5046,8 +5046,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#3f3d3c",
-"img": "swatches/formica/fm_D5312.jpg",
-"thumb": "swatches/formica/thumb/fm_D5312.jpg",
+"img": "swatches/formica/fm_D5312.webp",
+"thumb": "swatches/formica/thumb/fm_D5312.webp",
 "price": 150
 },
 {
@@ -5057,8 +5057,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#555452",
-"img": "swatches/formica/fm_D5391.jpg",
-"thumb": "swatches/formica/thumb/fm_D5391.jpg",
+"img": "swatches/formica/fm_D5391.webp",
+"thumb": "swatches/formica/thumb/fm_D5391.webp",
 "price": 150
 },
 {
@@ -5068,8 +5068,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#3d3022",
-"img": "swatches/formica/fm_D5392.jpg",
-"thumb": "swatches/formica/thumb/fm_D5392.jpg",
+"img": "swatches/formica/fm_D5392.webp",
+"thumb": "swatches/formica/thumb/fm_D5392.webp",
 "price": 150
 },
 {
@@ -5079,8 +5079,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#b2a563",
-"img": "swatches/formica/fm_D5471.jpg",
-"thumb": "swatches/formica/thumb/fm_D5471.jpg",
+"img": "swatches/formica/fm_D5471.webp",
+"thumb": "swatches/formica/thumb/fm_D5471.webp",
 "price": 150
 },
 {
@@ -5090,8 +5090,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#85878b",
-"img": "swatches/formica/fm_D5474.jpg",
-"thumb": "swatches/formica/thumb/fm_D5474.jpg",
+"img": "swatches/formica/fm_D5474.webp",
+"thumb": "swatches/formica/thumb/fm_D5474.webp",
 "price": 150
 },
 {
@@ -5101,8 +5101,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#958f83",
-"img": "swatches/formica/fm_D6428.jpg",
-"thumb": "swatches/formica/thumb/fm_D6428.jpg",
+"img": "swatches/formica/fm_D6428.webp",
+"thumb": "swatches/formica/thumb/fm_D6428.webp",
 "price": 150
 },
 {
@@ -5112,8 +5112,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#b06b31",
-"img": "swatches/formica/fm_D6429.jpg",
-"thumb": "swatches/formica/thumb/fm_D6429.jpg",
+"img": "swatches/formica/fm_D6429.webp",
+"thumb": "swatches/formica/thumb/fm_D6429.webp",
 "price": 150
 },
 {
@@ -5123,8 +5123,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#514f4d",
-"img": "swatches/formica/fm_D6431.jpg",
-"thumb": "swatches/formica/thumb/fm_D6431.jpg",
+"img": "swatches/formica/fm_D6431.webp",
+"thumb": "swatches/formica/thumb/fm_D6431.webp",
 "price": 150
 },
 {
@@ -5134,8 +5134,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#acada6",
-"img": "swatches/formica/fm_D6433.jpg",
-"thumb": "swatches/formica/thumb/fm_D6433.jpg",
+"img": "swatches/formica/fm_D6433.webp",
+"thumb": "swatches/formica/thumb/fm_D6433.webp",
 "price": 150
 },
 {
@@ -5145,8 +5145,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#9d5106",
-"img": "swatches/formica/fm_D6434.jpg",
-"thumb": "swatches/formica/thumb/fm_D6434.jpg",
+"img": "swatches/formica/fm_D6434.webp",
+"thumb": "swatches/formica/thumb/fm_D6434.webp",
 "price": 150
 },
 {
@@ -5156,8 +5156,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#7e6726",
-"img": "swatches/formica/fm_D6435.jpg",
-"thumb": "swatches/formica/thumb/fm_D6435.jpg",
+"img": "swatches/formica/fm_D6435.webp",
+"thumb": "swatches/formica/thumb/fm_D6435.webp",
 "price": 150
 },
 {
@@ -5167,8 +5167,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#404040",
-"img": "swatches/formica/fm_D6482.jpg",
-"thumb": "swatches/formica/thumb/fm_D6482.jpg",
+"img": "swatches/formica/fm_D6482.webp",
+"thumb": "swatches/formica/thumb/fm_D6482.webp",
 "price": 150
 },
 {
@@ -5178,8 +5178,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#a08e6a",
-"img": "swatches/formica/fm_D6483.jpg",
-"thumb": "swatches/formica/thumb/fm_D6483.jpg",
+"img": "swatches/formica/fm_D6483.webp",
+"thumb": "swatches/formica/thumb/fm_D6483.webp",
 "price": 150
 },
 {
@@ -5189,8 +5189,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#918e86",
-"img": "swatches/formica/fm_D6484.jpg",
-"thumb": "swatches/formica/thumb/fm_D6484.jpg",
+"img": "swatches/formica/fm_D6484.webp",
+"thumb": "swatches/formica/thumb/fm_D6484.webp",
 "price": 150
 },
 {
@@ -5200,8 +5200,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#6a5947",
-"img": "swatches/formica/fm_D6486.jpg",
-"thumb": "swatches/formica/thumb/fm_D6486.jpg",
+"img": "swatches/formica/fm_D6486.webp",
+"thumb": "swatches/formica/thumb/fm_D6486.webp",
 "price": 150
 },
 {
@@ -5211,8 +5211,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#7d7f83",
-"img": "swatches/formica/fm_D6811.jpg",
-"thumb": "swatches/formica/thumb/fm_D6811.jpg",
+"img": "swatches/formica/fm_D6811.webp",
+"thumb": "swatches/formica/thumb/fm_D6811.webp",
 "price": 150
 },
 {
@@ -5222,8 +5222,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#928f84",
-"img": "swatches/formica/fm_D6812.jpg",
-"thumb": "swatches/formica/thumb/fm_D6812.jpg",
+"img": "swatches/formica/fm_D6812.webp",
+"thumb": "swatches/formica/thumb/fm_D6812.webp",
 "price": 150
 },
 {
@@ -5233,8 +5233,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#656563",
-"img": "swatches/formica/fm_D6814.jpg",
-"thumb": "swatches/formica/thumb/fm_D6814.jpg",
+"img": "swatches/formica/fm_D6814.webp",
+"thumb": "swatches/formica/thumb/fm_D6814.webp",
 "price": 150
 },
 {
@@ -5244,8 +5244,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#473e3c",
-"img": "swatches/formica/fm_D8040.jpg",
-"thumb": "swatches/formica/thumb/fm_D8040.jpg",
+"img": "swatches/formica/fm_D8040.webp",
+"thumb": "swatches/formica/thumb/fm_D8040.webp",
 "price": 150
 },
 {
@@ -5255,8 +5255,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#4f3929",
-"img": "swatches/formica/fm_D8104.jpg",
-"thumb": "swatches/formica/thumb/fm_D8104.jpg",
+"img": "swatches/formica/fm_D8104.webp",
+"thumb": "swatches/formica/thumb/fm_D8104.webp",
 "price": 150
 },
 {
@@ -5266,8 +5266,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#1a1a1a",
-"img": "swatches/formica/fm_D8105.jpg",
-"thumb": "swatches/formica/thumb/fm_D8105.jpg",
+"img": "swatches/formica/fm_D8105.webp",
+"thumb": "swatches/formica/thumb/fm_D8105.webp",
 "price": 150
 },
 {
@@ -5277,8 +5277,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#43301f",
-"img": "swatches/formica/fm_D8109.jpg",
-"thumb": "swatches/formica/thumb/fm_D8109.jpg",
+"img": "swatches/formica/fm_D8109.webp",
+"thumb": "swatches/formica/thumb/fm_D8109.webp",
 "price": 150
 },
 {
@@ -5288,8 +5288,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#e5e3e4",
-"img": "swatches/formica/fm_D8122.jpg",
-"thumb": "swatches/formica/thumb/fm_D8122.jpg",
+"img": "swatches/formica/fm_D8122.webp",
+"thumb": "swatches/formica/thumb/fm_D8122.webp",
 "price": 150
 },
 {
@@ -5299,8 +5299,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#f9e3ab",
-"img": "swatches/formica/fm_D8123.jpg",
-"thumb": "swatches/formica/thumb/fm_D8123.jpg",
+"img": "swatches/formica/fm_D8123.webp",
+"thumb": "swatches/formica/thumb/fm_D8123.webp",
 "price": 150
 },
 {
@@ -5310,8 +5310,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#dfdee0",
-"img": "swatches/formica/fm_D8124.jpg",
-"thumb": "swatches/formica/thumb/fm_D8124.jpg",
+"img": "swatches/formica/fm_D8124.webp",
+"thumb": "swatches/formica/thumb/fm_D8124.webp",
 "price": 150
 },
 {
@@ -5321,8 +5321,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#ae7239",
-"img": "swatches/formica/fm_D8265.jpg",
-"thumb": "swatches/formica/thumb/fm_D8265.jpg",
+"img": "swatches/formica/fm_D8265.webp",
+"thumb": "swatches/formica/thumb/fm_D8265.webp",
 "price": 150
 },
 {
@@ -5332,8 +5332,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#6f5542",
-"img": "swatches/formica/fm_D8279.jpg",
-"thumb": "swatches/formica/thumb/fm_D8279.jpg",
+"img": "swatches/formica/fm_D8279.webp",
+"thumb": "swatches/formica/thumb/fm_D8279.webp",
 "price": 150
 },
 {
@@ -5343,8 +5343,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#906358",
-"img": "swatches/formica/fm_D8280.jpg",
-"thumb": "swatches/formica/thumb/fm_D8280.jpg",
+"img": "swatches/formica/fm_D8280.webp",
+"thumb": "swatches/formica/thumb/fm_D8280.webp",
 "price": 150
 },
 {
@@ -5354,8 +5354,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#654d2e",
-"img": "swatches/formica/fm_D8547.jpg",
-"thumb": "swatches/formica/thumb/fm_D8547.jpg",
+"img": "swatches/formica/fm_D8547.webp",
+"thumb": "swatches/formica/thumb/fm_D8547.webp",
 "price": 150
 },
 {
@@ -5365,8 +5365,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#997252",
-"img": "swatches/formica/fm_D9410.jpg",
-"thumb": "swatches/formica/thumb/fm_D9410.jpg",
+"img": "swatches/formica/fm_D9410.webp",
+"thumb": "swatches/formica/thumb/fm_D9410.webp",
 "price": 150
 },
 {
@@ -5376,8 +5376,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#9b786a",
-"img": "swatches/formica/fm_D9429.jpg",
-"thumb": "swatches/formica/thumb/fm_D9429.jpg",
+"img": "swatches/formica/fm_D9429.webp",
+"thumb": "swatches/formica/thumb/fm_D9429.webp",
 "price": 150
 },
 {
@@ -5387,8 +5387,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#9d9e99",
-"img": "swatches/formica/fm_D9430.jpg",
-"thumb": "swatches/formica/thumb/fm_D9430.jpg",
+"img": "swatches/formica/fm_D9430.webp",
+"thumb": "swatches/formica/thumb/fm_D9430.webp",
 "price": 150
 },
 {
@@ -5398,8 +5398,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#9c9892",
-"img": "swatches/formica/fm_D9432.jpg",
-"thumb": "swatches/formica/thumb/fm_D9432.jpg",
+"img": "swatches/formica/fm_D9432.webp",
+"thumb": "swatches/formica/thumb/fm_D9432.webp",
 "price": 150
 },
 {
@@ -5409,8 +5409,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#a0998d",
-"img": "swatches/formica/fm_D9433.jpg",
-"thumb": "swatches/formica/thumb/fm_D9433.jpg",
+"img": "swatches/formica/fm_D9433.webp",
+"thumb": "swatches/formica/thumb/fm_D9433.webp",
 "price": 150
 },
 {
@@ -5420,8 +5420,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#d6caae",
-"img": "swatches/formica/fm_D9595.jpg",
-"thumb": "swatches/formica/thumb/fm_D9595.jpg",
+"img": "swatches/formica/fm_D9595.webp",
+"thumb": "swatches/formica/thumb/fm_D9595.webp",
 "price": 150
 },
 {
@@ -5431,8 +5431,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#e2c7bb",
-"img": "swatches/formica/fm_D9596.jpg",
-"thumb": "swatches/formica/thumb/fm_D9596.jpg",
+"img": "swatches/formica/fm_D9596.webp",
+"thumb": "swatches/formica/thumb/fm_D9596.webp",
 "price": 150
 },
 {
@@ -5442,8 +5442,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#8e632f",
-"img": "swatches/formica/fm_D9956.jpg",
-"thumb": "swatches/formica/thumb/fm_D9956.jpg",
+"img": "swatches/formica/fm_D9956.webp",
+"thumb": "swatches/formica/thumb/fm_D9956.webp",
 "price": 150
 },
 {
@@ -5453,8 +5453,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#62452a",
-"img": "swatches/formica/fm_D9957.jpg",
-"thumb": "swatches/formica/thumb/fm_D9957.jpg",
+"img": "swatches/formica/fm_D9957.webp",
+"thumb": "swatches/formica/thumb/fm_D9957.webp",
 "price": 150
 },
 {
@@ -5464,8 +5464,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#563a2f",
-"img": "swatches/formica/fm_D9958.jpg",
-"thumb": "swatches/formica/thumb/fm_D9958.jpg",
+"img": "swatches/formica/fm_D9958.webp",
+"thumb": "swatches/formica/thumb/fm_D9958.webp",
 "price": 150
 },
 {
@@ -5475,8 +5475,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#af825e",
-"img": "swatches/formica/fm_DH003.jpg",
-"thumb": "swatches/formica/thumb/fm_DH003.jpg",
+"img": "swatches/formica/fm_DH003.webp",
+"thumb": "swatches/formica/thumb/fm_DH003.webp",
 "price": 150
 },
 {
@@ -5486,8 +5486,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#a89768",
-"img": "swatches/formica/fm_DH036.jpg",
-"thumb": "swatches/formica/thumb/fm_DH036.jpg",
+"img": "swatches/formica/fm_DH036.webp",
+"thumb": "swatches/formica/thumb/fm_DH036.webp",
 "price": 150
 },
 {
@@ -5497,8 +5497,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#bc8544",
-"img": "swatches/formica/fm_DH089.jpg",
-"thumb": "swatches/formica/thumb/fm_DH089.jpg",
+"img": "swatches/formica/fm_DH089.webp",
+"thumb": "swatches/formica/thumb/fm_DH089.webp",
 "price": 150
 },
 {
@@ -5508,8 +5508,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#adb0b4",
-"img": "swatches/formica/fm_DH141.jpg",
-"thumb": "swatches/formica/thumb/fm_DH141.jpg",
+"img": "swatches/formica/fm_DH141.webp",
+"thumb": "swatches/formica/thumb/fm_DH141.webp",
 "price": 150
 },
 {
@@ -5519,8 +5519,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "富美家 Formica",
 "series": "Homapal 金屬板",
 "hex": "#9e7656",
-"img": "swatches/formica/fm_DH147.jpg",
-"thumb": "swatches/formica/thumb/fm_DH147.jpg",
+"img": "swatches/formica/fm_DH147.webp",
+"thumb": "swatches/formica/thumb/fm_DH147.webp",
 "price": 150
 }
 ]);

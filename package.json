@@ -1,0 +1,13 @@
+{
+  "name": "cabinet3d",
+  "version": "1.0.0",
+  "private": true,
+  "description": "系統櫃 3D 設計平台（純靜態網站，部署於 GitHub Pages）",
+  "scripts": {
+    "images:check": "node tools/check-images.js",
+    "images:optimize": "node tools/optimize-images.js --update-refs"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
+}

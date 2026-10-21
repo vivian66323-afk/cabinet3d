@@ -8,8 +8,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#d6c6b4",
-"img": "swatches/wilsonart/wa_3044.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_3044.jpg",
+"img": "swatches/wilsonart/wa_3044.webp",
+"thumb": "swatches/wilsonart/thumb/wa_3044.webp",
 "price": 150
 },
 {
@@ -19,8 +19,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#726154",
-"img": "swatches/wilsonart/wa_4007.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4007.jpg",
+"img": "swatches/wilsonart/wa_4007.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4007.webp",
 "price": 150
 },
 {
@@ -30,8 +30,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#9e9890",
-"img": "swatches/wilsonart/wa_4027.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4027.jpg",
+"img": "swatches/wilsonart/wa_4027.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4027.webp",
 "price": 150
 },
 {
@@ -41,8 +41,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#787065",
-"img": "swatches/wilsonart/wa_4038.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4038.jpg",
+"img": "swatches/wilsonart/wa_4038.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4038.webp",
 "price": 150
 },
 {
@@ -52,8 +52,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#c7bcab",
-"img": "swatches/wilsonart/wa_4040.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4040.jpg",
+"img": "swatches/wilsonart/wa_4040.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4040.webp",
 "price": 150
 },
 {
@@ -63,8 +63,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#786f66",
-"img": "swatches/wilsonart/wa_4043.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4043.jpg",
+"img": "swatches/wilsonart/wa_4043.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4043.webp",
 "price": 150
 },
 {
@@ -74,8 +74,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#625246",
-"img": "swatches/wilsonart/wa_4044.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4044.jpg",
+"img": "swatches/wilsonart/wa_4044.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4044.webp",
 "price": 150
 },
 {
@@ -85,8 +85,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#dac8b6",
-"img": "swatches/wilsonart/wa_4055.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4055.jpg",
+"img": "swatches/wilsonart/wa_4055.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4055.webp",
 "price": 150
 },
 {
@@ -96,8 +96,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#d3d4ce",
-"img": "swatches/wilsonart/wa_4059.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4059.jpg",
+"img": "swatches/wilsonart/wa_4059.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4059.webp",
 "price": 150
 },
 {
@@ -107,8 +107,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#89847a",
-"img": "swatches/wilsonart/wa_4060.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4060.jpg",
+"img": "swatches/wilsonart/wa_4060.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4060.webp",
 "price": 150
 },
 {
@@ -118,8 +118,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#3f2c1f",
-"img": "swatches/wilsonart/wa_4066.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4066.jpg",
+"img": "swatches/wilsonart/wa_4066.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4066.webp",
 "price": 150
 },
 {
@@ -129,8 +129,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#ccc3b5",
-"img": "swatches/wilsonart/wa_4068.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4068.jpg",
+"img": "swatches/wilsonart/wa_4068.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4068.webp",
 "price": 150
 },
 {
@@ -140,8 +140,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#9a9286",
-"img": "swatches/wilsonart/wa_4103.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4103.jpg",
+"img": "swatches/wilsonart/wa_4103.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4103.webp",
 "price": 150
 },
 {
@@ -151,8 +151,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#f1d8bc",
-"img": "swatches/wilsonart/wa_4148.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4148.jpg",
+"img": "swatches/wilsonart/wa_4148.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4148.webp",
 "price": 150
 },
 {
@@ -162,8 +162,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#aa9b82",
-"img": "swatches/wilsonart/wa_4151.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4151.jpg",
+"img": "swatches/wilsonart/wa_4151.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4151.webp",
 "price": 150
 },
 {
@@ -173,8 +173,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#e0cfb0",
-"img": "swatches/wilsonart/wa_4160.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4160.jpg",
+"img": "swatches/wilsonart/wa_4160.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4160.webp",
 "price": 150
 },
 {
@@ -184,8 +184,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#c3af8a",
-"img": "swatches/wilsonart/wa_4166.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4166.jpg",
+"img": "swatches/wilsonart/wa_4166.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4166.webp",
 "price": 150
 },
 {
@@ -195,8 +195,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#b38a67",
-"img": "swatches/wilsonart/wa_4194.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4194.jpg",
+"img": "swatches/wilsonart/wa_4194.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4194.webp",
 "price": 150
 },
 {
@@ -206,8 +206,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#695646",
-"img": "swatches/wilsonart/wa_4195.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4195.jpg",
+"img": "swatches/wilsonart/wa_4195.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4195.webp",
 "price": 150
 },
 {
@@ -217,8 +217,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#daaf83",
-"img": "swatches/wilsonart/wa_4280.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4280.jpg",
+"img": "swatches/wilsonart/wa_4280.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4280.webp",
 "price": 150
 },
 {
@@ -228,8 +228,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#98826a",
-"img": "swatches/wilsonart/wa_4286.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4286.jpg",
+"img": "swatches/wilsonart/wa_4286.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4286.webp",
 "price": 150
 },
 {
@@ -239,8 +239,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#9c8b76",
-"img": "swatches/wilsonart/wa_4289.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4289.jpg",
+"img": "swatches/wilsonart/wa_4289.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4289.webp",
 "price": 150
 },
 {
@@ -250,8 +250,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#8b7b71",
-"img": "swatches/wilsonart/wa_4293.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4293.jpg",
+"img": "swatches/wilsonart/wa_4293.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4293.webp",
 "price": 150
 },
 {
@@ -261,8 +261,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#8b7d74",
-"img": "swatches/wilsonart/wa_4293H.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4293H.jpg",
+"img": "swatches/wilsonart/wa_4293H.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4293H.webp",
 "price": 150
 },
 {
@@ -272,8 +272,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#473426",
-"img": "swatches/wilsonart/wa_4294.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4294.jpg",
+"img": "swatches/wilsonart/wa_4294.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4294.webp",
 "price": 150
 },
 {
@@ -283,8 +283,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#967859",
-"img": "swatches/wilsonart/wa_4332.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4332.jpg",
+"img": "swatches/wilsonart/wa_4332.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4332.webp",
 "price": 150
 },
 {
@@ -294,8 +294,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#6d533f",
-"img": "swatches/wilsonart/wa_4340.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4340.jpg",
+"img": "swatches/wilsonart/wa_4340.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4340.webp",
 "price": 150
 },
 {
@@ -305,8 +305,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#daaf90",
-"img": "swatches/wilsonart/wa_4412.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4412.jpg",
+"img": "swatches/wilsonart/wa_4412.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4412.webp",
 "price": 150
 },
 {
@@ -316,8 +316,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#cab8ab",
-"img": "swatches/wilsonart/wa_4420.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4420.jpg",
+"img": "swatches/wilsonart/wa_4420.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4420.webp",
 "price": 150
 },
 {
@@ -327,8 +327,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#95715c",
-"img": "swatches/wilsonart/wa_4421.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4421.jpg",
+"img": "swatches/wilsonart/wa_4421.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4421.webp",
 "price": 150
 },
 {
@@ -338,8 +338,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#dccec1",
-"img": "swatches/wilsonart/wa_4901.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4901.jpg",
+"img": "swatches/wilsonart/wa_4901.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4901.webp",
 "price": 150
 },
 {
@@ -349,8 +349,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#d9c8b5",
-"img": "swatches/wilsonart/wa_5066.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_5066.jpg",
+"img": "swatches/wilsonart/wa_5066.webp",
+"thumb": "swatches/wilsonart/thumb/wa_5066.webp",
 "price": 150
 },
 {
@@ -360,8 +360,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#4a3d39",
-"img": "swatches/wilsonart/wa_7949.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_7949.jpg",
+"img": "swatches/wilsonart/wa_7949.webp",
+"thumb": "swatches/wilsonart/thumb/wa_7949.webp",
 "price": 150
 },
 {
@@ -371,8 +371,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#af8b71",
-"img": "swatches/wilsonart/wa_C901.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_C901.jpg",
+"img": "swatches/wilsonart/wa_C901.webp",
+"thumb": "swatches/wilsonart/thumb/wa_C901.webp",
 "price": 150
 },
 {
@@ -382,8 +382,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#e4cdb0",
-"img": "swatches/wilsonart/wa_M4192.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_M4192.jpg",
+"img": "swatches/wilsonart/wa_M4192.webp",
+"thumb": "swatches/wilsonart/thumb/wa_M4192.webp",
 "price": 150
 },
 {
@@ -393,8 +393,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#cea884",
-"img": "swatches/wilsonart/wa_S133.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S133.jpg",
+"img": "swatches/wilsonart/wa_S133.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S133.webp",
 "price": 150
 },
 {
@@ -404,8 +404,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#473c35",
-"img": "swatches/wilsonart/wa_S153.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S153.jpg",
+"img": "swatches/wilsonart/wa_S153.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S153.webp",
 "price": 150
 },
 {
@@ -415,8 +415,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#b49d8d",
-"img": "swatches/wilsonart/wa_S168.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S168.jpg",
+"img": "swatches/wilsonart/wa_S168.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S168.webp",
 "price": 150
 },
 {
@@ -426,8 +426,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#9c8d85",
-"img": "swatches/wilsonart/wa_S170.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S170.jpg",
+"img": "swatches/wilsonart/wa_S170.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S170.webp",
 "price": 150
 },
 {
@@ -437,8 +437,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#3a3a3a",
-"img": "swatches/wilsonart/wa_S174.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S174.jpg",
+"img": "swatches/wilsonart/wa_S174.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S174.webp",
 "price": 150
 },
 {
@@ -448,8 +448,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#cfc0b0",
-"img": "swatches/wilsonart/wa_S192.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S192.jpg",
+"img": "swatches/wilsonart/wa_S192.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S192.webp",
 "price": 150
 },
 {
@@ -459,8 +459,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#89786a",
-"img": "swatches/wilsonart/wa_W476.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_W476.jpg",
+"img": "swatches/wilsonart/wa_W476.webp",
+"thumb": "swatches/wilsonart/thumb/wa_W476.webp",
 "price": 150
 },
 {
@@ -470,8 +470,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#403b37",
-"img": "swatches/wilsonart/wa_W479.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_W479.jpg",
+"img": "swatches/wilsonart/wa_W479.webp",
+"thumb": "swatches/wilsonart/thumb/wa_W479.webp",
 "price": 150
 },
 {
@@ -481,8 +481,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#d2bcab",
-"img": "swatches/wilsonart/wa_W6003.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_W6003.jpg",
+"img": "swatches/wilsonart/wa_W6003.webp",
+"thumb": "swatches/wilsonart/thumb/wa_W6003.webp",
 "price": 150
 },
 {
@@ -492,8 +492,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "趨勢木紋",
 "hex": "#cc9c76",
-"img": "swatches/wilsonart/wa_W6901.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_W6901.jpg",
+"img": "swatches/wilsonart/wa_W6901.webp",
+"thumb": "swatches/wilsonart/thumb/wa_W6901.webp",
 "price": 150
 },
 {
@@ -503,8 +503,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#c6b8ac",
-"img": "swatches/wilsonart/wa_1881.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_1881.jpg",
+"img": "swatches/wilsonart/wa_1881.webp",
+"thumb": "swatches/wilsonart/thumb/wa_1881.webp",
 "price": 150
 },
 {
@@ -514,8 +514,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#655f5b",
-"img": "swatches/wilsonart/wa_1882.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_1882.jpg",
+"img": "swatches/wilsonart/wa_1882.webp",
+"thumb": "swatches/wilsonart/thumb/wa_1882.webp",
 "price": 150
 },
 {
@@ -525,8 +525,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#d1c8c4",
-"img": "swatches/wilsonart/wa_3540.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_3540.jpg",
+"img": "swatches/wilsonart/wa_3540.webp",
+"thumb": "swatches/wilsonart/thumb/wa_3540.webp",
 "price": 150
 },
 {
@@ -536,8 +536,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#c7c0b4",
-"img": "swatches/wilsonart/wa_4954.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4954.jpg",
+"img": "swatches/wilsonart/wa_4954.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4954.webp",
 "price": 150
 },
 {
@@ -547,8 +547,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#62574e",
-"img": "swatches/wilsonart/wa_4971.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4971.jpg",
+"img": "swatches/wilsonart/wa_4971.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4971.webp",
 "price": 150
 },
 {
@@ -558,8 +558,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#897a73",
-"img": "swatches/wilsonart/wa_4999K.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4999K.jpg",
+"img": "swatches/wilsonart/wa_4999K.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4999K.webp",
 "price": 150
 },
 {
@@ -569,8 +569,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#332c26",
-"img": "swatches/wilsonart/wa_5028K.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_5028K.jpg",
+"img": "swatches/wilsonart/wa_5028K.webp",
+"thumb": "swatches/wilsonart/thumb/wa_5028K.webp",
 "price": 150
 },
 {
@@ -580,8 +580,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#92908d",
-"img": "swatches/wilsonart/wa_8151.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_8151.jpg",
+"img": "swatches/wilsonart/wa_8151.webp",
+"thumb": "swatches/wilsonart/thumb/wa_8151.webp",
 "price": 150
 },
 {
@@ -591,8 +591,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#514f4f",
-"img": "swatches/wilsonart/wa_8324.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_8324.jpg",
+"img": "swatches/wilsonart/wa_8324.webp",
+"thumb": "swatches/wilsonart/thumb/wa_8324.webp",
 "price": 150
 },
 {
@@ -602,8 +602,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#b5a697",
-"img": "swatches/wilsonart/wa_8338.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_8338.jpg",
+"img": "swatches/wilsonart/wa_8338.webp",
+"thumb": "swatches/wilsonart/thumb/wa_8338.webp",
 "price": 150
 },
 {
@@ -613,8 +613,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#c4c3bc",
-"img": "swatches/wilsonart/wa_A120.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_A120.jpg",
+"img": "swatches/wilsonart/wa_A120.webp",
+"thumb": "swatches/wilsonart/thumb/wa_A120.webp",
 "price": 150
 },
 {
@@ -624,8 +624,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#e6e6e2",
-"img": "swatches/wilsonart/wa_M022.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_M022.jpg",
+"img": "swatches/wilsonart/wa_M022.webp",
+"thumb": "swatches/wilsonart/thumb/wa_M022.webp",
 "price": 150
 },
 {
@@ -635,8 +635,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#c1c2c3",
-"img": "swatches/wilsonart/wa_M134.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_M134.jpg",
+"img": "swatches/wilsonart/wa_M134.webp",
+"thumb": "swatches/wilsonart/thumb/wa_M134.webp",
 "price": 150
 },
 {
@@ -646,8 +646,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#4e5156",
-"img": "swatches/wilsonart/wa_S049.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S049.jpg",
+"img": "swatches/wilsonart/wa_S049.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S049.webp",
 "price": 150
 },
 {
@@ -657,8 +657,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#c3b9a0",
-"img": "swatches/wilsonart/wa_T108.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_T108.jpg",
+"img": "swatches/wilsonart/wa_T108.webp",
+"thumb": "swatches/wilsonart/thumb/wa_T108.webp",
 "price": 150
 },
 {
@@ -668,8 +668,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "石紋",
 "hex": "#ccc8bc",
-"img": "swatches/wilsonart/wa_T109.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_T109.jpg",
+"img": "swatches/wilsonart/wa_T109.webp",
+"thumb": "swatches/wilsonart/thumb/wa_T109.webp",
 "price": 150
 },
 {
@@ -679,8 +679,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#a86421",
-"img": "swatches/wilsonart/wa_0340-LP.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_0340-LP.jpg",
+"img": "swatches/wilsonart/wa_0340-LP.webp",
+"thumb": "swatches/wilsonart/thumb/wa_0340-LP.webp",
 "price": 150
 },
 {
@@ -690,8 +690,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#e5dece",
-"img": "swatches/wilsonart/wa_1500N.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_1500N.jpg",
+"img": "swatches/wilsonart/wa_1500N.webp",
+"thumb": "swatches/wilsonart/thumb/wa_1500N.webp",
 "price": 150
 },
 {
@@ -701,8 +701,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#e8e7e2",
-"img": "swatches/wilsonart/wa_5401.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_5401.jpg",
+"img": "swatches/wilsonart/wa_5401.webp",
+"thumb": "swatches/wilsonart/thumb/wa_5401.webp",
 "price": 150
 },
 {
@@ -712,8 +712,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#cac3b7",
-"img": "swatches/wilsonart/wa_8123.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_8123.jpg",
+"img": "swatches/wilsonart/wa_8123.webp",
+"thumb": "swatches/wilsonart/thumb/wa_8123.webp",
 "price": 150
 },
 {
@@ -723,8 +723,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#aaa397",
-"img": "swatches/wilsonart/wa_8124.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_8124.jpg",
+"img": "swatches/wilsonart/wa_8124.webp",
+"thumb": "swatches/wilsonart/thumb/wa_8124.webp",
 "price": 150
 },
 {
@@ -734,8 +734,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#8c8b83",
-"img": "swatches/wilsonart/wa_8144.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_8144.jpg",
+"img": "swatches/wilsonart/wa_8144.webp",
+"thumb": "swatches/wilsonart/thumb/wa_8144.webp",
 "price": 150
 },
 {
@@ -745,8 +745,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#221e1a",
-"img": "swatches/wilsonart/wa_8145.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_8145.jpg",
+"img": "swatches/wilsonart/wa_8145.webp",
+"thumb": "swatches/wilsonart/thumb/wa_8145.webp",
 "price": 150
 },
 {
@@ -756,8 +756,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#482b17",
-"img": "swatches/wilsonart/wa_P002.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_P002.jpg",
+"img": "swatches/wilsonart/wa_P002.webp",
+"thumb": "swatches/wilsonart/thumb/wa_P002.webp",
 "price": 150
 },
 {
@@ -767,8 +767,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#edddce",
-"img": "swatches/wilsonart/wa_S179.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S179.jpg",
+"img": "swatches/wilsonart/wa_S179.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S179.webp",
 "price": 150
 },
 {
@@ -778,8 +778,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#c2b4a9",
-"img": "swatches/wilsonart/wa_S180.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S180.jpg",
+"img": "swatches/wilsonart/wa_S180.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S180.webp",
 "price": 150
 },
 {
@@ -789,8 +789,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#677276",
-"img": "swatches/wilsonart/wa_S189.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S189.jpg",
+"img": "swatches/wilsonart/wa_S189.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S189.webp",
 "price": 150
 },
 {
@@ -800,8 +800,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "織布與素色",
 "hex": "#dad4d1",
-"img": "swatches/wilsonart/wa_S190.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S190.jpg",
+"img": "swatches/wilsonart/wa_S190.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S190.webp",
 "price": 150
 },
 {
@@ -811,8 +811,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "鏽蝕與混凝",
 "hex": "#635946",
-"img": "swatches/wilsonart/wa_4603.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4603.jpg",
+"img": "swatches/wilsonart/wa_4603.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4603.webp",
 "price": 150
 },
 {
@@ -822,8 +822,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "鏽蝕與混凝",
 "hex": "#515351",
-"img": "swatches/wilsonart/wa_4604.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_4604.jpg",
+"img": "swatches/wilsonart/wa_4604.webp",
+"thumb": "swatches/wilsonart/thumb/wa_4604.webp",
 "price": 150
 },
 {
@@ -833,8 +833,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "鏽蝕與混凝",
 "hex": "#b3ada2",
-"img": "swatches/wilsonart/wa_8146.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_8146.jpg",
+"img": "swatches/wilsonart/wa_8146.webp",
+"thumb": "swatches/wilsonart/thumb/wa_8146.webp",
 "price": 150
 },
 {
@@ -844,8 +844,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "鏽蝕與混凝",
 "hex": "#74716e",
-"img": "swatches/wilsonart/wa_8147.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_8147.jpg",
+"img": "swatches/wilsonart/wa_8147.webp",
+"thumb": "swatches/wilsonart/thumb/wa_8147.webp",
 "price": 150
 },
 {
@@ -855,8 +855,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "鏽蝕與混凝",
 "hex": "#656460",
-"img": "swatches/wilsonart/wa_S143.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S143.jpg",
+"img": "swatches/wilsonart/wa_S143.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S143.webp",
 "price": 150
 },
 {
@@ -866,8 +866,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "鏽蝕與混凝",
 "hex": "#858687",
-"img": "swatches/wilsonart/wa_S144.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S144.jpg",
+"img": "swatches/wilsonart/wa_S144.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S144.webp",
 "price": 150
 },
 {
@@ -877,8 +877,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "鏽蝕與混凝",
 "hex": "#4d4a4e",
-"img": "swatches/wilsonart/wa_S145.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S145.jpg",
+"img": "swatches/wilsonart/wa_S145.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S145.webp",
 "price": 150
 },
 {
@@ -888,8 +888,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "鏽蝕與混凝",
 "hex": "#919494",
-"img": "swatches/wilsonart/wa_S146.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_S146.jpg",
+"img": "swatches/wilsonart/wa_S146.webp",
+"thumb": "swatches/wilsonart/thumb/wa_S146.webp",
 "price": 150
 },
 {
@@ -899,8 +899,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#c0c0c1",
-"img": "swatches/wilsonart/wa_3952-B.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_3952-B.jpg",
+"img": "swatches/wilsonart/wa_3952-B.webp",
+"thumb": "swatches/wilsonart/thumb/wa_3952-B.webp",
 "price": 260
 },
 {
@@ -910,8 +910,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#edeef9",
-"img": "swatches/wilsonart/wa_3953-S.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_3953-S.jpg",
+"img": "swatches/wilsonart/wa_3953-S.webp",
+"thumb": "swatches/wilsonart/thumb/wa_3953-S.webp",
 "price": 260
 },
 {
@@ -921,8 +921,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#d4bf78",
-"img": "swatches/wilsonart/wa_3961-B.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_3961-B.jpg",
+"img": "swatches/wilsonart/wa_3961-B.webp",
+"thumb": "swatches/wilsonart/thumb/wa_3961-B.webp",
 "price": 260
 },
 {
@@ -932,8 +932,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#74695d",
-"img": "swatches/wilsonart/wa_3962-B.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_3962-B.jpg",
+"img": "swatches/wilsonart/wa_3962-B.webp",
+"thumb": "swatches/wilsonart/thumb/wa_3962-B.webp",
 "price": 260
 },
 {
@@ -943,8 +943,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#a97c62",
-"img": "swatches/wilsonart/wa_3964-B.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_3964-B.jpg",
+"img": "swatches/wilsonart/wa_3964-B.webp",
+"thumb": "swatches/wilsonart/thumb/wa_3964-B.webp",
 "price": 260
 },
 {
@@ -954,8 +954,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#5f5f5f",
-"img": "swatches/wilsonart/wa_6102.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_6102.jpg",
+"img": "swatches/wilsonart/wa_6102.webp",
+"thumb": "swatches/wilsonart/thumb/wa_6102.webp",
 "price": 260
 },
 {
@@ -965,8 +965,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#413527",
-"img": "swatches/wilsonart/wa_6200.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_6200.jpg",
+"img": "swatches/wilsonart/wa_6200.webp",
+"thumb": "swatches/wilsonart/thumb/wa_6200.webp",
 "price": 260
 },
 {
@@ -976,8 +976,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#ceb28a",
-"img": "swatches/wilsonart/wa_6258.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_6258.jpg",
+"img": "swatches/wilsonart/wa_6258.webp",
+"thumb": "swatches/wilsonart/thumb/wa_6258.webp",
 "price": 260
 },
 {
@@ -987,8 +987,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#675f42",
-"img": "swatches/wilsonart/wa_6261.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_6261.jpg",
+"img": "swatches/wilsonart/wa_6261.webp",
+"thumb": "swatches/wilsonart/thumb/wa_6261.webp",
 "price": 260
 },
 {
@@ -998,8 +998,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#514b35",
-"img": "swatches/wilsonart/wa_6262.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_6262.jpg",
+"img": "swatches/wilsonart/wa_6262.webp",
+"thumb": "swatches/wilsonart/thumb/wa_6262.webp",
 "price": 260
 },
 {
@@ -1009,8 +1009,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#aca59c",
-"img": "swatches/wilsonart/wa_6277.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_6277.jpg",
+"img": "swatches/wilsonart/wa_6277.webp",
+"thumb": "swatches/wilsonart/thumb/wa_6277.webp",
 "price": 260
 },
 {
@@ -1020,8 +1020,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#817a79",
-"img": "swatches/wilsonart/wa_6281.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_6281.jpg",
+"img": "swatches/wilsonart/wa_6281.webp",
+"thumb": "swatches/wilsonart/thumb/wa_6281.webp",
 "price": 260
 },
 {
@@ -1031,8 +1031,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#cb8f69",
-"img": "swatches/wilsonart/wa_6284.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_6284.jpg",
+"img": "swatches/wilsonart/wa_6284.webp",
+"thumb": "swatches/wilsonart/thumb/wa_6284.webp",
 "price": 260
 },
 {
@@ -1042,8 +1042,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#2e2d28",
-"img": "swatches/wilsonart/wa_6296.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_6296.jpg",
+"img": "swatches/wilsonart/wa_6296.webp",
+"thumb": "swatches/wilsonart/thumb/wa_6296.webp",
 "price": 260
 },
 {
@@ -1053,8 +1053,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#818181",
-"img": "swatches/wilsonart/wa_L6445.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_L6445.jpg",
+"img": "swatches/wilsonart/wa_L6445.webp",
+"thumb": "swatches/wilsonart/thumb/wa_L6445.webp",
 "price": 260
 },
 {
@@ -1064,8 +1064,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "威盛亞 Wilsonart",
 "series": "金屬板",
 "hex": "#73716f",
-"img": "swatches/wilsonart/wa_L6453.jpg",
-"thumb": "swatches/wilsonart/thumb/wa_L6453.jpg",
+"img": "swatches/wilsonart/wa_L6453.webp",
+"thumb": "swatches/wilsonart/thumb/wa_L6453.webp",
 "price": 260
 }
 ]);
