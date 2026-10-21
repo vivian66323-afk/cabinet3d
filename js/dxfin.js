@@ -452,7 +452,7 @@
           case 'MTEXT': {
             const [al, va] = MT_ALIGN[gn(r, 71, 1)] || ['l', 't'];
             const rawTxt = gcat(r, 3) + gs(r, 1, '');   // 長字串先用一堆 code 3 分段，最後才是 code 1
-            const raw = mtextPlain(rawTxt);
+            const raw = mtextPlain(unesc(rawTxt));   // 先還原 \U+XXXX／\M+1XXXX，再拿格式碼（否則反斜線會先被吃掉）
             const x = gn(r, 10, 0), y = gn(r, 20, 0), h = gn(r, 40, 2.5);
             let rot = gn(r, 50, 0);
             if (gv(r, 11) !== undefined) rot = Math.atan2(gn(r, 21, 0), gn(r, 11, 1)) * 180 / Math.PI;
