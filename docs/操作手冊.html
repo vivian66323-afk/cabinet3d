@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>系統櫃 3D 設計平台 操作手冊</title>
+<meta name="description" content="系統櫃 3D 設計平台的完整操作手冊：建立空間、放置系統櫃與家具、天花板與電路、報價、出圖與存檔。">
+<link rel="icon" href="../LOGO.png">
+<style>
+:root{--bg:#faf8f4;--panel:#fff;--ink:#2b2622;--muted:#6b645c;--line:#e4ddd2;--brand:#9b7d47;--brand-2:#f4ede0;--code:#f1ece3;--side:280px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--brand)}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line)}
+.top img{height:30px;width:auto}
+.top b{font-size:16px}
+.top small{color:var(--muted);margin-left:6px}
+.top .sp{flex:1}
+.top a.app{font-size:13px;text-decoration:none;border:1px solid var(--line);padding:5px 10px;border-radius:6px;color:var(--ink);background:#fff;white-space:nowrap}
+#menuBtn{display:none;border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 10px;font-size:14px;cursor:pointer}
+.wrap{display:flex;max-width:1200px;margin:0 auto}
+nav.toc{width:var(--side);flex:none;position:sticky;top:52px;height:calc(100vh - 52px);overflow:auto;padding:18px 10px 40px 16px;border-right:1px solid var(--line);background:var(--bg)}
+nav.toc h2{font-size:12px;letter-spacing:.1em;color:var(--muted);margin:0 0 8px 8px;font-weight:600}
+nav.toc ul{list-style:none;margin:0;padding:0}
+nav.toc li a{display:block;padding:4px 8px;border-radius:6px;color:var(--ink);text-decoration:none;font-size:13.5px;line-height:1.5}
+nav.toc li.l3 a{padding-left:22px;color:var(--muted);font-size:12.5px}
+nav.toc li a:hover,nav.toc li a.on{background:var(--brand-2);color:var(--brand)}
+main{flex:1;min-width:0;padding:24px 32px 80px}
+main>h2{font-size:22px;margin:44px 0 12px;padding-top:12px;border-top:2px solid var(--brand);color:var(--brand)}
+main>h2:first-of-type{margin-top:8px}
+main h3{font-size:17px;margin:28px 0 8px}
+main h4{font-size:15px;margin:18px 0 6px}
+p{margin:8px 0}
+ul,ol{padding-left:24px;margin:6px 0}
+li{margin:3px 0}
+li>ul,li>ol{margin:2px 0}
+blockquote{margin:12px 0;padding:10px 14px;border-left:4px solid var(--brand);background:var(--brand-2);border-radius:0 8px 8px 0;color:#5a4a2e}
+blockquote p{margin:4px 0}
+code{background:var(--code);padding:1px 6px;border-radius:4px;font-size:.92em;font-family:ui-monospace,Menlo,Consolas,monospace}
+strong{color:#4a3a1e}
+hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+.tbl{overflow-x:auto;margin:10px 0;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:var(--brand-2);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td:first-child{white-space:nowrap}
+.lead{color:var(--muted);font-size:14px;margin:0 0 6px}
+.foot{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+@media (max-width:900px){
+  #menuBtn{display:inline-block}
+  .top small{display:none}
+  .wrap{display:block}
+  nav.toc{position:fixed;left:0;top:52px;height:calc(100vh - 52px);width:min(86vw,320px);transform:translateX(-105%);transition:transform .2s;z-index:15;box-shadow:4px 0 20px rgba(0,0,0,.12);background:#fff}
+  body.menu nav.toc{transform:none}
+  main{padding:16px 16px 60px}
+  main>h2{font-size:20px}
+  td:first-child{white-space:normal}
+}
+@media print{.top,nav.toc{display:none}main{padding:0}}
+</style>
+</head>
+<body>
+<header class="top">
+  <button id="menuBtn" aria-label="目錄">☰ 目錄</button>
+  <img src="../logo-puyu.png" alt="菩語國際設計 PURELY DESIGN" onerror="this.style.display='none'">
+  <b>系統櫃 3D 設計平台</b><small>操作手冊</small>
+  <span class="sp"></span>
+  <a class="app" href="../" target="_blank" rel="noopener">開啟設計平台 ↗</a>
+</header>
+<div class="wrap">
+<nav class="toc" id="toc">
+  <h2>目錄</h2>
+  <ul>
+<li class="l2"><a href="#0-認識畫面">0. 認識畫面</a></li>
+<li class="l2"><a href="#1-開始一個專案">1. 開始一個專案</a></li>
+<li class="l3"><a href="#1-1-登入與登出">1.1 登入與登出</a></li>
+<li class="l3"><a href="#1-2-專案暫存的規則-很重要">1.2 專案暫存的規則（很重要）</a></li>
+<li class="l3"><a href="#1-3-新專案">1.3 新專案</a></li>
+<li class="l3"><a href="#1-4-載入既有專案-json">1.4 載入既有專案（.json）</a></li>
+<li class="l3"><a href="#1-5-用平面圖當底圖描牆-jpg-png-掃描-pdf">1.5 用平面圖當底圖描牆（JPG／PNG／掃描 PDF）</a></li>
+<li class="l3"><a href="#1-6-匯入-dxf-或向量-pdf-自動建立空間">1.6 匯入 DXF 或向量 PDF 自動建立空間</a></li>
+<li class="l3"><a href="#1-7-樓層">1.7 樓層</a></li>
+<li class="l2"><a href="#2-畫牆與空間">2. 畫牆與空間</a></li>
+<li class="l3"><a href="#2-1-矩形空間">2.1 矩形空間</a></li>
+<li class="l3"><a href="#2-2-自由繪製多線段">2.2 自由繪製多線段</a></li>
+<li class="l3"><a href="#2-3-空間屬性">2.3 空間屬性</a></li>
+<li class="l3"><a href="#2-4-牆面-門窗與窗簾">2.4 牆面、門窗與窗簾</a></li>
+<li class="l3"><a href="#2-5-檢視與視角">2.5 檢視與視角</a></li>
+<li class="l2"><a href="#3-放系統櫃">3. 放系統櫃</a></li>
+<li class="l3"><a href="#3-1-看懂-標準型錄">3.1 看懂「標準型錄」</a></li>
+<li class="l3"><a href="#3-2-放進空間">3.2 放進空間</a></li>
+<li class="l3"><a href="#3-3-選取-移動-旋轉-複製-刪除">3.3 選取、移動、旋轉、複製、刪除</a></li>
+<li class="l3"><a href="#3-4-櫃體屬性面板">3.4 櫃體屬性面板</a></li>
+<li class="l3"><a href="#3-5-特殊櫃型">3.5 特殊櫃型</a></li>
+<li class="l3"><a href="#3-6-板材色板">3.6 板材色板</a></li>
+<li class="l3"><a href="#3-7-開門預覽">3.7 開門預覽</a></li>
+<li class="l3"><a href="#3-8-新櫃體預設">3.8 新櫃體預設</a></li>
+<li class="l2"><a href="#4-家具與型錄">4. 家具與型錄</a></li>
+<li class="l3"><a href="#4-1-廚房-浴室設備">4.1 廚房／浴室設備</a></li>
+<li class="l3"><a href="#4-2-家具-通用-ikea-muji-無印良品">4.2 家具（通用／IKEA／MUJI 無印良品）</a></li>
+<li class="l3"><a href="#4-3-燈具">4.3 燈具</a></li>
+<li class="l3"><a href="#4-4-門片-固定牆板-外掛門組-窗簾">4.4 門片、固定牆板、外掛門組、窗簾</a></li>
+<li class="l3"><a href="#4-5-地板與塗料">4.5 地板與塗料</a></li>
+<li class="l2"><a href="#5-天花板">5. 天花板</a></li>
+<li class="l3"><a href="#5-1-基本設定">5.1 基本設定</a></li>
+<li class="l3"><a href="#5-2-造型天花-降板-下高區-包樑-窗簾盒-鋁槽燈">5.2 造型天花：降板、下高區、包樑、窗簾盒、鋁槽燈</a></li>
+<li class="l3"><a href="#5-3-燈具與空調設備">5.3 燈具與空調設備</a></li>
+<li class="l3"><a href="#5-4-冷氣系統與冷媒管">5.4 冷氣系統與冷媒管</a></li>
+<li class="l2"><a href="#6-電路與弱電">6. 電路與弱電</a></li>
+<li class="l3"><a href="#6-1-插座-開關-弱電-電箱">6.1 插座、開關、弱電、電箱</a></li>
+<li class="l3"><a href="#6-2-迴路">6.2 迴路</a></li>
+<li class="l2"><a href="#7-編輯模式-掣點拖曳">7. 編輯模式（掣點拖曳）</a></li>
+<li class="l2"><a href="#8-報價">8. 報價</a></li>
+<li class="l3"><a href="#8-1-報價分頁">8.1 報價分頁</a></li>
+<li class="l3"><a href="#8-2-計價方式">8.2 計價方式</a></li>
+<li class="l3"><a href="#8-3-板材售價分頁">8.3 板材售價分頁</a></li>
+<li class="l3"><a href="#8-4-色板維護">8.4 色板維護</a></li>
+<li class="l2"><a href="#9-出圖與匯出">9. 出圖與匯出</a></li>
+<li class="l3"><a href="#9-1-匯出選單">9.1 匯出選單</a></li>
+<li class="l3"><a href="#9-2-場景分頁">9.2 場景分頁</a></li>
+<li class="l3"><a href="#9-3-平面圖及立面圖-pdf-的圖頁">9.3 平面圖及立面圖 PDF 的圖頁</a></li>
+<li class="l3"><a href="#9-4-施工圖-dxf">9.4 施工圖 DXF</a></li>
+<li class="l3"><a href="#9-5-3d-渲染-ai-出圖">9.5 3D 渲染（AI 出圖）</a></li>
+<li class="l2"><a href="#10-存檔與雲端同步">10. 存檔與雲端同步</a></li>
+<li class="l3"><a href="#10-1-專案檔-json">10.1 專案檔 .json</a></li>
+<li class="l3"><a href="#10-2-雲端專案-dropbox">10.2 雲端專案（Dropbox）</a></li>
+<li class="l3"><a href="#10-3-存在瀏覽器裡的設定">10.3 存在瀏覽器裡的設定</a></li>
+<li class="l2"><a href="#11-常見問題">11. 常見問題</a></li>
+<li class="l2"><a href="#12-附錄-快捷鍵與操作總表">12. 附錄：快捷鍵與操作總表</a></li>
+<li class="l3"><a href="#12-1-鍵盤快捷鍵">12.1 鍵盤快捷鍵</a></li>
+<li class="l3"><a href="#12-2-滑鼠操作">12.2 滑鼠操作</a></li>
+<li class="l3"><a href="#12-3-常用尺寸限制">12.3 常用尺寸限制</a></li>
+<li class="l3"><a href="#12-4-本手冊標註-依實際畫面為準-的項目">12.4 本手冊標註「依實際畫面為準」的項目</a></li>
+  </ul>
+</nav>
+<main>
+<p class="lead">本手冊依網站程式碼（2026 年 10 月版）整理而成。畫面文字、按鈕名稱均對照程式內的實際字串；少數細節若程式中無法判讀，會標註「依實際畫面為準」，請以您看到的畫面為主。建議使用桌機或平板版 Chrome／Edge 開啟平台。</p>
+<hr>
+<h2 id="0-認識畫面">0. 認識畫面</h2>
+<p>開啟網站並登入後，畫面分成六個區域：</p>
+<div class="tbl"><table><thead><tr><th>區域</th><th>位置</th><th>內容</th></tr></thead><tbody><tr><td><strong>頂列</strong></td><td>最上方</td><td>左邊是 Logo 與「目前專案」名稱欄；中間是「匯入專案 .json」「儲存專案」「新專案」「雲端專案」與雲端狀態（☁）；右邊是「登出」「3D渲染」「匯出 ▾」。</td></tr>
+<tr><td><strong>工具列</strong></td><td>頂列下方一排圖示</td><td>選取／移動／旋轉、靠牆、吸附、燈光、複製、刪除、矩形空間、自由繪製、底圖、捲尺、環轉／平移／縮放、充滿視窗、六個視圖、透視切換、牆面顯示、材質／白模／X光、全部開門、牆長標註、復原／重做、操作說明。把滑鼠停在按鈕上會顯示說明與快捷鍵。</td></tr>
+<tr><td><strong>左側「標準型錄」</strong></td><td>左欄</td><td>所有可放進空間的東西：系統櫃、桌面、補板、廚房／浴室設備、家具、燈具。上方有搜尋欄與分類篩選。</td></tr>
+<tr><td><strong>3D 視窗</strong></td><td>中央</td><td>建模與檢視的地方。左上角有樓層列（1F、＋ 樓層），選取櫃體時會浮出迷你列（⟲ 90°、⟳ 90°、複製、刪除）。空白專案時中央會出現「開始建立空間」三個按鈕。</td></tr>
+<tr><td><strong>右側面板</strong></td><td>右欄</td><td>四個分頁：<strong>屬性</strong>、<strong>報價</strong>、<strong>場景</strong>、<strong>板材售價</strong>。「屬性」會依目前選取的東西（專案／牆面／櫃體）顯示不同內容。</td></tr>
+<tr><td><strong>狀態列</strong></td><td>最下方</td><td>左邊是操作提示；中間若有「⚠ N 件櫃體重疊」可點它逐一選取重疊的櫃體；右邊顯示「報價總計」；最右邊是<strong>數值框</strong>（畫線時輸入長度、移動時輸入距離、選取櫃體時輸入「x,z」位移）。</td></tr></tbody></table></div>
+<p>左右兩欄都可以收合：3D 視窗左右邊緣各有一顆小按鈕（‹ ／ ›，收起後顯示「型錄 ›」「‹ 屬性」），平板或小螢幕可以把 3D 區放大。收合狀態會記在瀏覽器裡。</p>
+<p>工具列最右邊的「操作說明」（問號圖示）會打開一個視窗，列出滑鼠與鍵盤操作，以及建議流程：① 建立空間 → ② 點選牆面放門窗並鎖定 → ③ 從型錄放系統櫃 → ④ 右側調整層板、門片、材質 → ⑤ 報價分頁自動計算 → ⑥ 新增場景、由「匯出」產出檔案。</p>
+<hr>
+<h2 id="1-開始一個專案">1. 開始一個專案</h2>
+<h3 id="1-1-登入與登出">1.1 登入與登出</h3>
+<ul>
+<li>第一次開啟網站會看到「系統櫃 3D 設計平台」登入頁，輸入<strong>帳號</strong>與<strong>密碼</strong>後按「登入」。帳號由公司管理者建立，本手冊不記載任何帳密；忘記密碼請洽管理者。</li>
+<li>登入成功後瀏覽器會記住，下次開啟不必再輸入。</li>
+<li>要換帳號或離開共用電腦時，按頂列右上角的「登出」，網頁會重新載入並回到登入頁。</li>
+</ul>
+<h3 id="1-2-專案暫存的規則-很重要">1.2 專案暫存的規則（很重要）</h3>
+<ul>
+<li>專案內容會暫存在<strong>這個瀏覽器分頁</strong>裡：按 F5 重新整理不會不見，但<strong>關掉分頁或瀏覽器後就會消失</strong>。</li>
+<li>專案有變更但還沒下載 .json 時，專案名稱旁會出現紅色的「● 未匯出」。關閉網站時瀏覽器也會跳出確認。</li>
+<li>養成習慣：告一段落就按「儲存專案」下載 .json，或連線「雲端專案」讓它自動儲存（見第 10 章）。</li>
+</ul>
+<h3 id="1-3-新專案">1.3 新專案</h3>
+<ol>
+<li>按頂列「新專案」。</li>
+<li>若目前專案已有內容，會出現「開立新專案」對話框，請選擇：<ul>
+<li><strong>1. 開立新專案，不儲存目前專案</strong>：目前的空間、櫃體與場景會被清除，無法復原。</li>
+<li><strong>2. 先匯出本專案檔（.json），再開立新專案</strong>（預設）：先下載目前專案，再開新專案。</li>
+</ul>
+</li>
+<li>新專案會自動命名為「新專案 年月日-時分」，可直接在「目前專案」欄改名（按 Enter 或點別處即套用）。</li>
+</ol>
+<h3 id="1-4-載入既有專案-json">1.4 載入既有專案（.json）</h3>
+<ul>
+<li>按頂列「匯入專案 .json」，選擇之前下載的專案檔。</li>
+<li>只接受本平台匯出的專案檔；若檔案不對，會出現「匯入失敗」。</li>
+<li>專案檔內若含有自訂或修改過的色板，匯入時會一併加進這台電腦的色板庫，並提示加入了幾個色板。</li>
+<li>舊專案若用到型錄已移除的設備型號，會略過該設備並提示。</li>
+</ul>
+<h3 id="1-5-用平面圖當底圖描牆-jpg-png-掃描-pdf">1.5 用平面圖當底圖描牆（JPG／PNG／掃描 PDF）</h3>
+<p>適合手上只有圖片或掃描檔的情況。</p>
+<ol>
+<li>按工具列「底圖」，或空白專案中央的「匯入平面圖（JPG／PDF／DXF）」，或右側「屬性」→「平面圖底圖」區的「匯入底圖」。</li>
+<li>選擇 JPG／PNG／PDF。PDF 有多頁時會先問「使用第幾頁」。</li>
+<li>底圖會放到地面、視角自動切到上視圖，並提示「底圖已放到地面，接著請設定比例尺」。</li>
+<li><strong>兩點設定比例尺</strong>：在底圖上點兩個已知距離的點（例如有標註尺寸的一道牆或門寬），再輸入實際距離（mm）按「套用比例」。</li>
+<li>按 <strong>L</strong>（自由繪製）沿底圖牆線點各轉角描出空間（做法見 2.2）。</li>
+</ol>
+<p>底圖的「屬性」區可調整：實際尺寸、底圖寬、中心 X／Z、旋轉（可按「⟳ 90°」）、透明度，以及「兩點設定比例尺」「隱藏／顯示」「更換」「移除」。底圖只在編輯時顯示，不會出現在報價單與圖面；底圖依樓層各自儲存在專案裡。</p>
+<h3 id="1-6-匯入-dxf-或向量-pdf-自動建立空間">1.6 匯入 DXF 或向量 PDF 自動建立空間</h3>
+<p>CAD 輸出的 DXF，或由 CAD 直接輸出的向量 PDF，可以自動找出牆線並建立 3D 空間與門窗。</p>
+<ol>
+<li>同樣由「底圖」按鈕選檔（.dxf，或向量 PDF）。</li>
+<li>會打開「匯入 DXF：檔名」或「匯入 PDF 平面圖：檔名」對話框：<ul>
+<li>左邊是預覽：滾輪縮放、拖曳平移，「＋」「－」「全圖」按鈕。</li>
+<li><strong>單位</strong>（DXF：mm／cm／m／inch）或<strong>圖面比例</strong>（PDF：1 : N，程式會自動推測，可改）。</li>
+<li><strong>點選線段輸入長度定比例</strong>：在預覽點一條已知長度的線段（例如一道牆），輸入實際 mm 按「套用」，比例會重算。</li>
+<li><strong>牆厚</strong>、<strong>牆高</strong>（預設 2800）。</li>
+<li><strong>門窗</strong>：勾「自動帶入」會依門弧、窗圖層與開口寬度辨識門窗，並顯示「偵測到 門 N、窗 N」。</li>
+<li><strong>圖層</strong>：勾選含牆線的圖層（程式會先勾名稱像牆的圖層；PDF 以線寬當作圖層，預設勾深色粗線）。</li>
+<li>自動找到的封閉區域會以淡色標出，點選即成為「空間」（藍色）。找不到或不準時按「圈選空間」自己沿牆內緣點各轉角（會吸附線段端點與直角），點回起點或快按兩下封閉；「退一點」「取消圈選」可修正。</li>
+</ul>
+</li>
+<li>按「建立空間」直接建立 3D 牆與門窗；或按「轉成底圖描圖」把線條轉成比例正確的底圖，再用 L 描牆。</li>
+</ol>
+<h3 id="1-7-樓層">1.7 樓層</h3>
+<ul>
+<li>3D 視窗左上角的樓層列：點樓層名稱切換、<strong>雙擊</strong>重新命名、「＋ 樓層」新增。</li>
+<li>右側「屬性」→「樓層」區也可切換、改名、刪除（至少保留一層）。</li>
+<li>新樓層會沿用目前樓層的空間外框（不含門窗與櫃體）。報價、拆料清單、平立面圖都會包含全部樓層。</li>
+</ul>
+<hr>
+<h2 id="2-畫牆與空間">2. 畫牆與空間</h2>
+<h3 id="2-1-矩形空間">2.1 矩形空間</h3>
+<ul>
+<li>按工具列「矩形空間」或鍵盤 <strong>R</strong>，或空白專案中央的「矩形空間（寬／深／高）」。</li>
+<li>輸入<strong>內淨尺寸</strong>：寬（X 向）、深（Z 向）、高、牆厚，按「建立空間」。</li>
+<li>限制：寬、深至少 600 mm；高 1800–6000 mm；牆厚 50–400 mm。</li>
+<li>若已有空間，會取代目前空間與門窗，櫃體保留。</li>
+</ul>
+<h3 id="2-2-自由繪製多線段">2.2 自由繪製多線段</h3>
+<ul>
+<li>按工具列「自由繪製多線段空間」或鍵盤 <strong>L</strong>。</li>
+<li>在地面依序點各轉角。畫線時會自動鎖點（端點、中點、邊線上、軸向），按住 <strong>Shift</strong> 可鎖定目前軸向。</li>
+<li>滑鼠旁會跟著一個輸入框：直接打數字輸入<strong>長度</strong>，或「<strong>長度,角度</strong>」（0° 向右、90° 向上）再按 Enter，就能精準畫出一段；也可以還沒點起點就直接輸入「長度,角度」從滑鼠位置開始畫。</li>
+<li><strong>退一點</strong>：Backspace。</li>
+<li><strong>完成封閉</strong>的方式（任選其一）：點回起點；在同一位置快按兩下；輸入框空白時按 Enter（第一次按只會提示，<strong>2 秒內再按一次 Enter</strong> 才會自動連回起點）；或點 3D 視窗下方浮動的「完成封閉」按鈕（平板用）。「取消」或 Esc 可放棄。</li>
+<li>至少要 3 個點才能封閉。封閉後輸入<strong>高</strong>與<strong>牆厚</strong>，按「建立空間」。</li>
+<li>若已有空間，完成後會取代目前空間（櫃體保留）。</li>
+</ul>
+<h3 id="2-3-空間屬性">2.3 空間屬性</h3>
+<p>沒有選取任何東西時，右側「屬性」顯示專案面板，其中「空間」區有：</p>
+<ul>
+<li><strong>面積</strong>（m² 與坪）、<strong>周長</strong>與牆數。</li>
+<li><strong>牆高</strong>（1800–6000）、<strong>牆厚</strong>（50–400）：改牆高時門窗高度會自動限制在牆高內。</li>
+<li><strong>地板</strong>：按「選擇地板」打開地板視窗，依品牌／系列分組，可搜尋花色名稱或型號，點花色即套用（品牌地板為原廠實拍花色，售價請向經銷商詢價）。</li>
+<li><strong>牆面</strong>：按「選擇塗料」打開「選擇牆面塗料（整體）」視窗：得利 Dulux 台灣色卡依色相分組，可搜尋色號／名稱（例如 10YY 或 奶茶），也可用「自訂」色票挑任意顏色。已上色時可按「清除」恢復預設白。</li>
+<li>牆面清單：列出每一面牆（牆面 1、牆面 2…）、長度、門窗數與鎖定狀態，點一列即選取該牆。</li>
+<li>「重建矩形」「重新繪製」「刪除空間」（刪除牆面與門窗，櫃體保留）。</li>
+</ul>
+<h3 id="2-4-牆面-門窗與窗簾">2.4 牆面、門窗與窗簾</h3>
+<p>點 3D 視窗中的牆面或屬性面板的牆面清單，右側會切換成<strong>牆面面板</strong>：</p>
+<ul>
+<li>標題顯示牆名、長與高、鎖定狀態。</li>
+<li><strong>牆面塗料</strong>：這一面牆單獨上色（跳色牆）。「選擇塗料」／「同整體」。</li>
+<li><strong>門／窗</strong>清單：每個門窗可改寬、高、抬高（窗台高；門固定 0）、距左、款式、門片色（門）、框色；「×」刪除。尺寸是從室內面向這面牆看的方向。<ul>
+<li>門款式分三組：<strong>房間門</strong>（平板門、細鋁框玻璃門／推拉門兩扇／三扇／雙開、造型門、雙開門、百葉門、穀倉門、隱藏拉門、隱藏門、玻璃框門、玻璃推拉門）、<strong>陽台門</strong>（三合一通風門、鋁框玻璃單開門、落地推拉門兩扇／四扇、折疊門）、<strong>入戶門</strong>（單玄關門、雙玄關門、子母門、雙開大門、鍛造門、防火門）。</li>
+<li>窗款式：橫拉窗（兩扇）、三扇橫拉、固定窗、中間景觀固定＋兩側推射窗、推開窗、推射窗、格子窗。</li>
+<li>門片色：原木／胡桃／白／灰／黑，以及 22 種玻璃與鏡面（清玻璃、超白、霧面、長虹、茶色、灰色、黑色、方格壓花、水波紋、海棠花、鐵絲網、夾紗、明鏡、茶鏡、灰鏡、墨鏡、金鏡、烤漆玻璃白／黑／灰／墨綠／灰藍）。框色：白框／銀框／黑框／木框。</li>
+</ul>
+</li>
+<li>快速新增按鈕：「房間門 900×2100」「鋁框拉門 1600×2100」「陽台門 800×2100」「玄關門 1000×2100」「加窗 1200×1200」。新門窗會放在牆的正中央，再用清單欄位或 3D 拖曳調整。</li>
+<li><strong>在 3D 裡直接拖</strong>：選取牆面後，拖門窗本體沿牆移動；拖<strong>綠色掣點</strong>改寬度（左右緣）、拖<strong>藍色掣點</strong>改高度（上緣）或窗台高（下緣）。以 10 mm 為單位，放開即套用，可復原。</li>
+<li><strong>加窗簾</strong>：這面牆有窗或陽台門時會多出兩顆按鈕。「加窗簾（窗寬＋20cm）」為每個窗各放一組窗簾（高窗用捲簾貼窗、落地窗用蛇形簾到地）；「加窗簾（與牆同寬）」放一組與牆同寬、到地的蛇形簾。窗簾的款式、顏色、開合見 4.4。</li>
+<li><strong>確認並鎖定牆面</strong>：鎖定後門窗不能修改（灰色），避免誤動；要改請先按「解鎖牆面」。</li>
+<li>「返回專案」回到專案面板。</li>
+</ul>
+<h3 id="2-5-檢視與視角">2.5 檢視與視角</h3>
+<div class="tbl"><table><thead><tr><th>操作</th><th>方式</th></tr></thead><tbody><tr><td>環轉視角</td><td>滑鼠<strong>中鍵拖曳</strong>（任何工具下皆可），或工具列「環轉」(O) 用左鍵拖曳</td></tr>
+<tr><td>平移</td><td><strong>Shift＋中鍵</strong> 或 <strong>右鍵拖曳</strong>，或工具列「平移」(H)</td></tr>
+<tr><td>縮放</td><td><strong>滾輪</strong>（以游標為中心），或工具列「縮放」(Z) 左鍵上下拖曳</td></tr>
+<tr><td>充滿視窗</td><td>工具列「充滿視窗」或 <strong>Shift＋Z</strong></td></tr>
+<tr><td>縮放到實際空間最適大小</td><td>在任何位置<strong>快按左鍵兩下</strong></td></tr>
+<tr><td>六個標準視圖</td><td>工具列「等角」「上」「前」「右」「後」「左」</td></tr>
+<tr><td>透視／平行投影</td><td>工具列「透視」／「平行」切換</td></tr>
+<tr><td>牆面顯示</td><td>工具列「牆:自動」（自動隱藏靠近鏡頭的牆）→「牆:顯示」→「牆:隱藏」循環</td></tr>
+<tr><td>顯示樣式</td><td>工具列「材質」→「白模」→「X光」循環</td></tr>
+<tr><td>牆長標註</td><td>工具列「顯示牆長標註」開關</td></tr>
+<tr><td>捲尺量測</td><td>工具列「捲尺」(T)：點兩點顯示距離（mm，並列出 X、Z、高三個方向的分量），按住 Shift 鎖軸向</td></tr></tbody></table></div>
+<hr>
+<h2 id="3-放系統櫃">3. 放系統櫃</h2>
+<h3 id="3-1-看懂-標準型錄">3.1 看懂「標準型錄」</h3>
+<ul>
+<li><strong>搜尋欄</strong>：可輸入尺寸（例如 <code>W600</code>、<code>H720</code>、<code>W450D580</code>，W 寬、D 深、H 高，不分順序），或型號、名稱、品牌。</li>
+<li><strong>分類篩選</strong>：全部、★ 我的最愛、D580mm、D408mm、D360mm、電視空櫃 D500、電器櫃、轉角櫃、吊櫃、雙開隔間、三角邊櫃、補板、桌面、廚房／浴室設備、家具、燈具。選到設備、家具或燈具時會再出現<strong>品牌</strong>子按鈕，有些分類還有<strong>品項分類</strong>與<strong>色系</strong>列（可用「分類篩選」標題收起或展開）。</li>
+<li>系統櫃依「深度＋高度」分組，標題例如「D580 H720mm」，副標寫出常見用途（床頭櫃、電視櫃、書櫃、衣櫃…）。櫃體高度有 320／480／640／700／720／960／1280／1600／1920／2080／2240／2400／2560 mm；深度 A 深 580、B 深 408、C 深 360、電視空櫃 T 深 500。</li>
+<li>每張卡片顯示：縮圖、名稱（W寬D深H高）、門片配置（例如「左開＋抽屜×2」）、以及<strong>板材才數與 110 白的參考售價</strong>（僅板材，不含五金與款式加價）。滑鼠停在卡片上會看到完整說明。</li>
+<li>卡片右上角的 <strong>☆</strong> 可加入「我的最愛」，存在這台電腦的瀏覽器。</li>
+</ul>
+<h3 id="3-2-放進空間">3.2 放進空間</h3>
+<ol>
+<li><strong>點一下</strong>型錄卡片（或<strong>拖曳</strong>卡片到 3D 視窗）。</li>
+<li>滑鼠移到 3D 視窗，櫃體會跟著游標；靠近牆面時自動貼齊（狀態列會顯示「貼齊牆面 1」「吸附牆角」「靠齊」等提示），<strong>按 Q 可旋轉 90°</strong>（Shift＋Q 反向）。</li>
+<li>點一下放下，放下後會自動選取這件櫃體並回到「選取」工具；要再放一件請再點型錄卡片。放置途中按 <strong>Esc</strong> 可取消。</li>
+<li>設備與桌面會自動找位置：水槽、爐具等「嵌入檯面」的設備放到櫃體上方會自動對齊並在桌面開孔；桌面放到櫃體上會自動貼齊櫃頂。</li>
+</ol>
+<p>工具列兩個開關會影響放置與移動：</p>
+<ul>
+<li><strong>靠牆／自由</strong>：開啟時櫃背離牆 5 cm 內自動貼齊牆面。</li>
+<li><strong>吸附／不吸附</strong>：開啟時自動對齊鄰近櫃體邊緣（6 cm 內靠齊或邊緣對齊，洋紅虛線提示）。</li>
+<li>拖曳時<strong>按住 Alt</strong> 可暫時停用以上兩種吸附。</li>
+</ul>
+<p>放下後若與其他櫃體或牆面重疊，該櫃會以<strong>紅色線框</strong>標示，狀態列出現「⚠ N 件櫃體重疊／穿牆」，點它可逐一選取有問題的櫃體。</p>
+<h3 id="3-3-選取-移動-旋轉-複製-刪除">3.3 選取、移動、旋轉、複製、刪除</h3>
+<div class="tbl"><table><thead><tr><th>動作</th><th>做法</th></tr></thead><tbody><tr><td>選取</td><td>「選取」工具（空白鍵）下點櫃體；點地面取消選取</td></tr>
+<tr><td>拖曳移動</td><td>選取工具下直接拖櫃體（自動靠牆、吸附；按住 Alt 自由移動）</td></tr>
+<tr><td>精準移動</td><td>工具列「移動」(M)：點櫃體開始移動，可在狀態列數值框輸入距離後 Enter，或再點一下放下；Esc 取消</td></tr>
+<tr><td>微調</td><td><strong>方向鍵</strong> 每次 10 mm，<strong>Shift＋方向鍵</strong> 100 mm；或選取後在數值框輸入「x,z」位移</td></tr>
+<tr><td>旋轉 90°</td><td><strong>Q</strong>（Shift＋Q 反向）、迷你列「⟲ 90°」「⟳ 90°」、屬性面板「90°」按鈕或旋轉下拉（0／90／180／270）</td></tr>
+<tr><td>複製</td><td><strong>Ctrl＋D</strong> 就地複製（放在旁邊）；<strong>Ctrl＋C</strong> 複製、<strong>Ctrl＋V</strong> 貼上（每貼一次往旁邊排一格）；迷你列或屬性面板「複製」</td></tr>
+<tr><td>刪除</td><td><strong>Delete</strong>、迷你列或屬性面板「刪除」</td></tr>
+<tr><td>靠牆</td><td>屬性面板「靠最近牆面」</td></tr>
+<tr><td>鎖定</td><td>屬性面板型號旁的「鎖定」：鎖定後不能移動、旋轉、改尺寸、換型號或刪除，色號與備註仍可改；再按一次解鎖</td></tr>
+<tr><td>復原／重做</td><td><strong>Ctrl＋Z</strong>／<strong>Ctrl＋Y</strong>（或 Ctrl＋Shift＋Z），工具列也有按鈕；最多可回溯約 80 步</td></tr></tbody></table></div>
+<h3 id="3-4-櫃體屬性面板">3.4 櫃體屬性面板</h3>
+<p>選取系統櫃後，右側「屬性」由上而下有：</p>
+<ol>
+<li><strong>標題區</strong>：縮圖、名稱（例如 <code>W600D580H720-左開-S</code>；結尾 <strong>-S</strong> 代表型錄標準尺寸，<strong>-M</strong> 代表已修改尺寸）、「鎖定」、「☆」收藏、尺寸與門片描述。若重疊會有紅字提醒。</li>
+<li><strong>報價</strong>：這件櫃體的總價與明細（板材才數、款式加價、玻璃門、抽屜組、把手、鉸鍊、調整腳、檯面…）。</li>
+<li><strong>位置</strong>：X、Z、離地高度、旋轉、「靠最近牆面」；另有三組一鍵加物件：「左側加門片／右側加門片」（在櫃旁加一片獨立門片）、「外掛門組」（在櫃前加推拉或平開門組）、「左側加牆板／右側加牆板」（加固定牆板到天花）。三角邊櫃多一個「左右鏡射」。</li>
+<li><strong>尺寸</strong>（一般櫃、電視空櫃、雙開隔間櫃、吊櫃）：寬 200–3600、高 200–2800、深 150–900 mm。改高度時門片／抽屜依比例調整、層板重排；改深度時層板與背板跟著變，五金仍以型錄深度計價。非規格尺寸會出現「還原型錄尺寸」。</li>
+<li><strong>色板</strong>（見 3.6）。</li>
+<li><strong>門板款式 / 把手</strong>：款式下拉（標準平板門、斜型門板、挖孔無把手門板、飾條門板、內嵌式把手門板、鋁擠型門板、鄉村風門板、框飾門板、結晶鋼烤門板、古典成型門板、鋼琴烤漆門板、陶瓷烤漆門板、細鋁框皮革門板、鋁百葉門板、噴繪門板）。有玻璃門時多出「鋁框色」「玻璃」「框寬（標準 32mm／細框 20mm）」。把手下拉分「依門板款式」「系統櫃把手（含於門板價）」與「IKEA 把手／門鈕／夾式／貝殼／皮革（單支價）」；選 IKEA 把手會顯示照片、尺寸、孔距、包裝價與官網連結。</li>
+<li><strong>門片 / 抽屜</strong>（由上而下）：每一列可改類型（開放、左開門、右開門、對開門、玻璃門、玻璃對開門、抽屜、折疊門、電器抽）與高度；左右開門有「⇄ 換邊」；可「上移」「下移」「移除」。下方顯示「已配置 ／ 櫃高」，超過會變紅。「加門片」「加抽屜」「還原型錄配置」。沒配滿的高度會自動成為最上方的開放空間。</li>
+<li><strong>層板</strong>：每片層板的高度（距櫃體底部 mm）與「活動層板／固定隔板」；「加層板」「平均分配」「預設層板」；「加裝吊衣桿」。</li>
+<li><strong>五金</strong>：西德鉸鍊與調整腳數量自動帶入（鉸鍊：門高 ≤80 cm 2 個、81–150 3 個、151–220 4 個、221–265 5 個；調整腳：櫃寬 ≤90 cm 4 個、&gt;90–120 cm 6 個），可改數量，「還原自動」。</li>
+<li><strong>配件</strong>：「100mm 踢腳板」、<strong>檯面</strong>（無檯面、T3A 檯面 32mm、T5A 檯面 28mm、T2A 檯面 25mm、T4B 蜂巢板 40mm）、<strong>備註</strong>（會印在報價單）。</li>
+<li>底部按鈕：「開門預覽」「複製」「刪除」。</li>
+</ol>
+<blockquote>
+<p>數字欄位可以直接輸入算式，例如 <code>2970/2</code>、<code>600*3+18</code>，按 Enter 或離開欄位會自動算出。</p>
+</blockquote>
+<h3 id="3-5-特殊櫃型">3.5 特殊櫃型</h3>
+<ul>
+<li><strong>轉角櫃</strong>：L 形平面，門片只能選開放／左開／右開。</li>
+<li><strong>吊櫃</strong>：離地高度是「吊櫃底」，沒有踢腳板與調整腳。</li>
+<li><strong>三角邊櫃</strong>：三種型式（兩片板、A型斜角、B型圓弧），有「左右鏡射」，不可改門片配置。</li>
+<li><strong>補板</strong>：寬 20–600、高 100–2800、深 50–900 mm，用來補櫃體與牆之間的空隙（深度通常＝櫃深＋門片 18）。放在櫃體旁會自動靠齊。只有一個色板部位。</li>
+<li><strong>桌面</strong>（矩形／L形／ㄇ形）：依才數計價。可改寬（或總寬）、深（或側翼長／兩側長）、桌面高度（上緣離地）、材質（系統板、美耐板、人造石、石英石、實木、賽麗石）、厚度（18／25／30／40）、端部（不處理、1/4圓角、1/2圓角、5mm倒角、凸20mm下方設止水溝槽）。在 3D 中拖桌面兩側的<strong>綠色掣點</strong>改寬度、前緣的<strong>藍色掣點</strong>改深度（會吸附櫃體前緣或前緣＋20 mm）。桌面選用檯面材色板（人造石、石英石、賽麗石等）時依該色板的每才單價計價。</li>
+</ul>
+<h3 id="3-6-板材色板">3.6 板材色板</h3>
+<p>色板區在櫃體面板與「新櫃體預設」裡都有，用法相同：</p>
+<ol>
+<li>先點<strong>部位</strong>：櫃身、門片、桌面、踢腳板（補板只有「補板」，桌面只有「桌面」）。</li>
+<li>選<strong>紋路</strong>：自動（沿板材長邊）、直紋、橫紋。</li>
+<li>用搜尋欄（色號／名稱）、<strong>廠商</strong>與<strong>系列</strong>下拉縮小範圍，點色號即套用。</li>
+<li>「此部位色號套用至全部櫃體」可一次把目前部位的色號（含紋路）套到所有櫃體。</li>
+<li>「色板維護」打開色板庫視窗（見 8.4）。</li>
+</ol>
+<p>內建色板包含型錄規格色與多家板材廠商的實拍貼圖（禾邁、賽麗石、北華安、金鼎建材、樂維、富美家、威盛亞 Wilsonart、EGGER 愛格、人造石 HIMACS／Staron／Corian、石英石與燒結石 愷薩金石／帝通石／耐麗石 等；實際廠商與色數依實際畫面為準）。</p>
+<blockquote>
+<p>設定了「桌面」色號但櫃體還沒選檯面時，會提示要先在「配件」→「檯面」選檯面種類才會顯示。</p>
+</blockquote>
+<h3 id="3-7-開門預覽">3.7 開門預覽</h3>
+<ul>
+<li>工具列「全部開門預覽」：所有櫃體的門片旋開、抽屜拉出。</li>
+<li><strong>Shift＋快按兩下</strong>某個櫃體：單獨開關那一件。</li>
+<li>櫃體面板最下方「開門預覽」按鈕：效果同上。</li>
+<li>家具類的衣櫃、電視櫃、床頭櫃、抽屜櫃、鞋櫃、尿布台與外掛門組也支援（推拉門會推開第一片、平開門全部旋開）。</li>
+</ul>
+<h3 id="3-8-新櫃體預設">3.8 新櫃體預設</h3>
+<p>專案面板的「新櫃體預設」區可設定之後放置的櫃體要套用的<strong>門板款式</strong>、<strong>把手</strong>與各部位的<strong>預設色板</strong>；「預設色號與款式套用至所有櫃體」會一次改掉現有的所有櫃體。</p>
+<hr>
+<h2 id="4-家具與型錄">4. 家具與型錄</h2>
+<p>除了系統櫃，型錄裡還有以下幾類。放置、移動、旋轉、刪除方式與系統櫃相同；屬性面板則依類別不同。</p>
+<h3 id="4-1-廚房-浴室設備">4.1 廚房／浴室設備</h3>
+<ul>
+<li>分類「廚房／浴室設備」，品牌子按鈕：櫻花、林內、豪山、喜特麗、莊頭北（廚房三機：水槽、爐具、洗碗機、烘碗機、烤箱、抽油煙機）、DAY&amp;DAY（不鏽鋼配件、衛浴、龍頭）、TOTO、和成 HCG、大吉熊 LUCKY BEAR（水槽、龍頭）。可再依<strong>品項分類</strong>與<strong>色系</strong>（不鏽鋼／絲光、金色、暮灰色、黑色）篩選。</li>
+<li>屬性面板：設備售價（空白＝型錄建議售價或估計價，可自行覆寫）、型號下拉（同品項可直接換型號）、品牌、規格與「官網頁面 ↗」、尺寸、檯面開孔、安裝方式（嵌入檯面、落地嵌入、嵌入櫃內、壁掛、放置於檯面等）、位置（X、Z、離地高度或上緣高度、旋轉、靠最近牆面）、備註。</li>
+<li>嵌門板款式的洗碗機／烘碗機會多一個「嵌門板」色板區。</li>
+</ul>
+<h3 id="4-2-家具-通用-ikea-muji-無印良品">4.2 家具（通用／IKEA／MUJI 無印良品）</h3>
+<ul>
+<li>分類「家具」，品牌子按鈕：通用家具、IKEA、無印良品；再依品項分類（沙發、床、餐桌、椅、衣櫃、書櫃、兒童家具…）篩選。</li>
+<li>尺寸與售價取自官網，屬性面板附「官網頁面 ↗」連結；<strong>寬、深、高可自行修改</strong>（3D 為參數化的近似造型）。</li>
+<li>衣櫃、電視櫃、床頭櫃、抽屜櫃、鞋櫃、尿布台有「開門預覽」。</li>
+</ul>
+<h3 id="4-3-燈具">4.3 燈具</h3>
+<ul>
+<li>分類「燈具」，品牌：Louis Poulsen、&amp;Tradition、Muuto、Ferm Living、Audo Copenhagen 等北歐品牌；品項分類：吊燈、桌燈、立燈、壁燈、吸頂燈、無線燈。</li>
+<li>吊燈會自動從天花垂吊線到設定的「離地高度」（燈罩底部離地）。</li>
+<li>屬性面板「燈光」區：開燈（顯示光源）、色溫（2200–6500K）、亮度（200–3000 lm）、燈罩色。</li>
+<li>工具列「燈光」是所有燈具光源的總開關（燈多時可關閉以提升效能）；搭配「場景」分頁的「夜景」燈光最能看出打光效果。</li>
+</ul>
+<h3 id="4-4-門片-固定牆板-外掛門組-窗簾">4.4 門片、固定牆板、外掛門組、窗簾</h3>
+<p>這些都在「家具」分類裡（也可由櫃體面板一鍵加入）：</p>
+<ul>
+<li><strong>單片門</strong>（獨立門片＋門框，不需靠牆開口）：款式沿用房間門／陽台門／入戶門全部樣式，可改門片色（含玻璃）、門框有／無、框色、鉸鏈側；「左側加牆板／右側加牆板」在門旁補固定牆板。放在櫃體旁會自動對齊門片面。</li>
+<li><strong>固定牆板</strong>：面材可選白牆、灰色、深色、木紋、胡桃木紋，或各種玻璃／鏡面（上下鋁框固定隔屏）。寬＝牆板長度、深＝厚度、高通常＝天花高。</li>
+<li><strong>外掛門組</strong>：放在開放櫃或衣櫃前方。開門方式（推拉／平開）、片數（2–4）、款式（板材門片、木門片、鋁框玻璃門）、木門色或鋁框色／玻璃／框寬、軌道色。要罩整排櫃時把寬度改成總寬。</li>
+<li><strong>窗簾</strong>：款式（蛇形簾、打摺布簾、紗簾、捲簾、斑馬簾、橫式百葉、直立百葉、羅馬簾、蜂巢簾）、顏色（10 色）、片數（單開／雙開）、拉開或拉起百分比。布簾高度通常到地；捲簾類高＝窗高＋100、離地＝窗台高－50。</li>
+</ul>
+<h3 id="4-5-地板與塗料">4.5 地板與塗料</h3>
+<ul>
+<li><strong>地板</strong>：專案面板「空間」→「地板」→「選擇地板」。品牌地板（EGGER 愛格、PERGO 百力等）為原廠實拍花色，依板材尺寸重複貼圖。</li>
+<li><strong>塗料</strong>：「選擇塗料」可用於整體牆面、單面牆（牆面面板）與天花板（天花板區）。色卡為得利 Dulux 台灣色卡，依色相分組；可搜尋色號／名稱，或用「自訂」色票。螢幕顯色僅供參考，施工前請以實體色卡確認。平面圖會以淡色顯示牆面顏色。</li>
+</ul>
+<hr>
+<h2 id="5-天花板">5. 天花板</h2>
+<p>天花板功能都在專案面板「空間」區裡的「<strong>天花板</strong>」段落（必須先建立空間）。</p>
+<h3 id="5-1-基本設定">5.1 基本設定</h3>
+<ul>
+<li><strong>顯示</strong>：勾「做天花板（相機在天花下方才看得到）」才會建模與出圖。</li>
+<li><strong>基本高</strong>：平釘高度（2000–6000 mm），預設為牆高減 200。</li>
+<li><strong>顏色</strong>：「選擇塗料」（同牆面色卡）。</li>
+<li><strong>線板</strong>：無線板、平線板 50、弧形線板 60、歐式線板 80。</li>
+<li><strong>3D 顯示</strong>：「自動（相機在天花下方顯示）」或「永遠隱藏」。上視圖與「牆:隱藏」時天花也不顯示。</li>
+</ul>
+<h3 id="5-2-造型天花-降板-下高區-包樑-窗簾盒-鋁槽燈">5.2 造型天花：降板、下高區、包樑、窗簾盒、鋁槽燈</h3>
+<p>天花板段落下方有一排按鈕，每個都是「在平面上點幾個點」的畫法（建議切到<strong>上視圖</strong>操作）：</p>
+<div class="tbl"><table><thead><tr><th>按鈕</th><th>怎麼畫</th><th>完成後</th></tr></thead><tbody><tr><td><strong>畫降板區</strong></td><td>點降板區各轉角，點回起點完成</td><td>輸入高度（預設基本高－100）、勾「間接光」（沿區域邊緣做燈槽，封板內縮 10 cm）、選色溫（2700K／3000K／4000K）</td></tr>
+<tr><td><strong>畫灑水頭下高區</strong></td><td>點各轉角，點回起點</td><td>輸入高度（比基本高高一些），用來標示灑水頭下方要維持的較高天花</td></tr>
+<tr><td><strong>畫包樑</strong></td><td>點樑的起點與終點（中心線）</td><td>輸入樑寬（預設 400）與樑底高（預設基本高－150）</td></tr>
+<tr><td><strong>自動窗簾盒</strong></td><td>一鍵</td><td>在每面有窗的牆加窗簾盒（深 180）；已有或沒有窗時會提示</td></tr>
+<tr><td><strong>畫鋁槽燈</strong></td><td>點起點與終點</td><td>立即建立；清單可改色溫（2700K／3000K／4000K／6500K）</td></tr></tbody></table></div>
+<p>畫好的區域與鋁槽燈會列在下方清單：降板區可改 H、勾／取消「間接光」，每列都有「×」刪除。</p>
+<h3 id="5-3-燈具與空調設備">5.3 燈具與空調設備</h3>
+<p>「燈具與空調」段落：</p>
+<ol>
+<li>在<strong>設備</strong>下拉選擇：燈具（大崁燈 Ø12、小崁燈 Ø9、AR111 盒燈（雙頭）、吊燈出線位、壁燈出線位）、空調／設備（吊隱式冷氣（室內機）、冷氣排水口、檢修孔 45×45）、天花弱電／設備（偵煙探測器、灑水頭（移位）、監視攝影機、吸頂喇叭、排風扇、浴室暖風乾燥機（出線）、緊急照明燈）。</li>
+<li>選放置方式：<ul>
+<li><strong>逐顆放置</strong>：點天花位置一顆一顆放，可連續點，Esc 或「取消」結束。</li>
+<li><strong>排一排</strong>：點一排的起點與終點，再輸入數量（含兩端），自動等距。</li>
+<li><strong>區域內矩陣</strong>：點矩形區域的兩個對角，輸入間距（預設 1200）與離邊（預設 600），自動排滿。</li>
+<li><strong>退一個</strong>：刪除最後放的一個。</li>
+</ul>
+</li>
+<li>線型設備：「<strong>軌道燈</strong>」（點起點與終點，自動依長度配投射燈頭）、「<strong>線型出風口</strong>」、「<strong>回風口</strong>」。</li>
+<li>下方清單列出每種設備的數量，「×」可整類刪除。</li>
+</ol>
+<p>3D 中崁燈、軌道燈與燈槽會發光（受工具列「燈光」開關影響）。</p>
+<h3 id="5-4-冷氣系統與冷媒管">5.4 冷氣系統與冷媒管</h3>
+<p>「冷氣系統」段落：</p>
+<ol>
+<li>按「<strong>新增冷氣（點室內機→室外機）</strong>」：先在天花內點室內機位置，再點室外機位置（陽台或外牆）。</li>
+<li>對話框輸入名稱、能力（kW；程式依所在區域面積約每坪 0.6 kW 建議）、室外機離地高度（0＝落地，壁掛約 1800）。</li>
+<li>冷媒管會先拉成 L 形。清單每台冷氣可改名稱、能力、<strong>外機H</strong>（室外機離地）、<strong>管高</strong>（冷媒管走管高度，例如走樑下或貼樓板），並自動顯示冷媒管管徑、管長（m 與尺）、電源電壓、線徑與無熔絲規格（依常見 R32 分離式估計，以原廠安裝手冊為準）。</li>
+<li>要改管線路徑，進入「編輯」模式拖曳（見第 7 章）。</li>
+</ol>
+<hr>
+<h2 id="6-電路與弱電">6. 電路與弱電</h2>
+<p>「電路／弱電」段落（在天花板段落內）：</p>
+<h3 id="6-1-插座-開關-弱電-電箱">6.1 插座、開關、弱電、電箱</h3>
+<ol>
+<li><strong>類型</strong>下拉分四組：<ul>
+<li>插座：一般插座 110V、220V 插座、USB 插座、專用迴路插座、防水插座（附蓋）、地板插座</li>
+<li>開關：開關（S）、雙切開關、三切開關、三路開關（兩處控制）、調光開關</li>
+<li>弱電：電視出線、網路（C）、電話出線、音響喇叭出線、對講機、門鈴按鈕、電動窗簾電源</li>
+<li>電箱：電箱（配電盤）、弱電箱（網路／電視集中）</li>
+</ul>
+</li>
+<li><strong>高度</strong>：選類型時會帶入常見高度（例如插座 300、開關 1200、電視出線 450），可改。</li>
+<li>按「<strong>點牆邊放置</strong>」，在牆邊連續點擊放置，Esc 或「取消」結束。「退一個」刪最後一個。</li>
+<li>下方清單列出各類數量，「×」整類刪除。</li>
+</ol>
+<h3 id="6-2-迴路">6.2 迴路</h3>
+<ul>
+<li><strong>自動分迴路</strong>：依設備自動分配，規則是：照明約 10 個一迴（同一降板區優先同迴）、插座依牆每 6 個一迴、220V／專用插座與暖風機各一迴、冷氣依能力各一迴。已有迴路時會先確認（可 Ctrl＋Z 復原）。</li>
+<li><strong>新增迴路</strong>：先在旁邊下拉選類型（L 照明、C 插座、E 專用迴路、A 冷氣），按「新增迴路」。</li>
+<li><strong>指派模式（點設備）</strong>：在迴路下拉選好要指派的迴路，按「指派模式」後，在畫面上點設備的圓點即指派到該迴路（灰色＝未指派；再點一次同迴路可取消）。按「結束指派」離開。建議在上視圖操作。</li>
+<li>迴路清單每列可改顏色、編號、名稱、電壓（110／220V）、無熔絲（15A–50A）、線徑（1.6mm–8.0mm²），並顯示該迴路的設備數；「×」刪除迴路。</li>
+<li>出圖時燈具／插座／空調配置圖會依迴路顏色畫配線虛線與迴路編號，PDF 另有「配電盤迴路表」。</li>
+</ul>
+<hr>
+<h2 id="7-編輯模式-掣點拖曳">7. 編輯模式（掣點拖曳）</h2>
+<p>天花板段落的「<strong>編輯（拖曳調整）</strong>」按鈕會進入編輯模式（再按一次「結束編輯」離開）。此模式下畫面會出現各種顏色的掣點：</p>
+<div class="tbl"><table><thead><tr><th>顏色</th><th>代表</th><th>拖曳效果</th></tr></thead><tbody><tr><td>橘</td><td>燈具／天花設備</td><td>移動位置</td></tr>
+<tr><td>綠</td><td>天花降板／包樑／窗簾盒的頂點</td><td>改變形狀</td></tr>
+<tr><td>淺綠</td><td>邊的中點</td><td><strong>拖曳即新增一個頂點</strong></td></tr>
+<tr><td>藍</td><td>線型設備（鋁槽燈、軌道燈、出風口、回風口）的端點</td><td>改長度與方向</td></tr>
+<tr><td>紅</td><td>冷氣室內機／室外機</td><td>移動位置</td></tr>
+<tr><td>棕</td><td>冷媒管轉折點</td><td>改路徑</td></tr>
+<tr><td>淺棕</td><td>冷媒管線段中點</td><td><strong>拖曳即新增轉折</strong></td></tr>
+<tr><td>桃紅</td><td>插座／開關</td><td>沿牆移動</td></tr></tbody></table></div>
+<ul>
+<li>點一下掣點選取後，按 <strong>Delete</strong> 或面板上的「刪除選取」即可刪除該物件；拖曳途中按 <strong>Esc</strong> 取消。</li>
+<li>所有變更都可用 <strong>Ctrl＋Z</strong> 復原。建議切到<strong>上視圖</strong>操作。</li>
+<li>其他掣點：桌面的綠（寬）／藍（深）掣點、門窗的綠（寬）／藍（高、窗台）掣點不需進入編輯模式，選取後直接拖曳即可（見 2.4、3.5）。</li>
+</ul>
+<hr>
+<h2 id="8-報價">8. 報價</h2>
+<h3 id="8-1-報價分頁">8.1 報價分頁</h3>
+<p>右側「報價」分頁（分頁名稱旁顯示件數）：</p>
+<ul>
+<li><strong>自動報價</strong>表：相同型號、尺寸、色號與配置的櫃體會合併成一列，顯示型號／規格、數量、複價，下方小字列出明細。<strong>點一列會選取該櫃體</strong>。多樓層時會標樓層。</li>
+<li><strong>天花工程</strong>：有做天花時自動列出平釘、造型降板、包樑、窗簾盒、燈槽、LED 燈條、線板、鋁槽燈與各設備、插座、迴路數等項目。</li>
+<li><strong>小計／折數（%）／營業稅（%）／總計</strong>：折數與稅率可直接改。</li>
+<li><strong>報價單備註</strong>：會印在報價單 PDF 最下方（預設三條說明文字，可改）。</li>
+<li>「<strong>匯出報價單 PDF</strong>」。</li>
+</ul>
+<p>狀態列右側與專案面板也會即時顯示「報價總計」；專案面板的「客戶名稱」會印在報價單上。</p>
+<h3 id="8-2-計價方式">8.2 計價方式</h3>
+<ul>
+<li>系統櫃售價＝各色號板材<strong>才數 × 色板單價</strong>（1 才＝303 mm × 303 mm，每片板材無條件進位到整數才），另加門板款式加價、鋁框玻璃門、抽屜組（屜牆＋滑軌）、電器抽滑軌、吊衣桿、IKEA 把手、西德鉸鍊、調整腳與檯面。</li>
+<li>桌面依材質、厚度的每才單價計（整片進位），端部加工依外露邊長（尺）計。</li>
+<li>設備、家具、燈具依型錄售價，每件可在屬性面板覆寫。</li>
+<li>未設定單價的色板＝「預設單價 × 材質係數」。</li>
+</ul>
+<h3 id="8-3-板材售價分頁">8.3 板材售價分頁</h3>
+<ul>
+<li><strong>計價方式</strong>：預設單價（元/才）、「色板單價維護」。</li>
+<li><strong>板材材質係數</strong>：每個材質的型號、名稱、用途（櫃體／門板／皆可）、類別、係數 %；「新增材質」「色板維護（貼圖）」。</li>
+<li><strong>門板款式加價</strong>：各款式 %。</li>
+<li><strong>桌面每才單價</strong>（材質 × 厚度）與<strong>桌面端部加工</strong>（元/尺）。</li>
+<li><strong>廚房設備售價</strong>、<strong>DAY&amp;DAY／TOTO／和成／大吉熊／家具／IKEA／無印良品售價</strong>：每個型號可覆寫（空白＝參考價或官網訂價）。</li>
+<li><strong>其他配件</strong>：吊衣桿、西德鉸鍊、調整腳、電器抽滑軌。</li>
+<li>「<strong>全部恢復預設售價</strong>」（色板維護裡的色板單價不受影響）。</li>
+</ul>
+<p>這些售價設定會隨專案存在 .json 裡。</p>
+<h3 id="8-4-色板維護">8.4 色板維護</h3>
+<p>按「色板維護」或「色板單價維護」會打開色板庫視窗：</p>
+<ul>
+<li>搜尋、依廠商／系列篩選；每個色板可直接填<strong>單價（元/才）</strong>。</li>
+<li>「新增色板」：色號、名稱、廠商、系列、單價、上傳圖片或貼圖片網址。</li>
+<li>「批次匯入（Excel／圖片）」「匯出（Excel＋圖片 ZIP）」「批次設定單價」「下載匯入範本」。</li>
+<li>「修改」「還原」「刪除」；已刪除的內建色板可在「已刪除的內建色板」分頁還原；「全部還原為原始色板」。</li>
+<li>色板庫存在這台電腦的瀏覽器裡；專案檔會一併帶著用到的自訂色板，換電腦匯入也能顯示。</li>
+</ul>
+<hr>
+<h2 id="9-出圖與匯出">9. 出圖與匯出</h2>
+<h3 id="9-1-匯出選單">9.1 匯出選單</h3>
+<p>頂列「匯出 ▾」有七個項目，檔名都以專案名稱開頭：</p>
+<div class="tbl"><table><thead><tr><th>項目</th><th>內容</th></tr></thead><tbody><tr><td><strong>a 報價單 .PDF</strong></td><td>直式 A4。抬頭有專案名稱、客戶、報價日期、報價單號；第一頁放 3D 圖，每件櫃體標上與表格對應的項次圓圈；表格欄位：項次、型號、品名規格、數量、單價、複價；最後是小計、折數、稅、總計與備註。</td></tr>
+<tr><td><strong>b 3D 模型 .DAE</strong></td><td>單位 mm、Y 軸向上，可匯入 SketchUp 等軟體。</td></tr>
+<tr><td><strong>c 所有場景渲染圖 .JPG</strong></td><td>依「場景」分頁逐一渲染 1920×1080；多張會打包成 ZIP。沒有場景時輸出目前視角。</td></tr>
+<tr><td><strong>d 所有櫃體三視圖 .PDF</strong></td><td>每種櫃體一頁：正視圖、俯視圖、側視圖與等角圖，附型號、尺寸、門片、層板、色板與單價規格表。</td></tr>
+<tr><td><strong>e 平面圖及立面圖 .PDF</strong></td><td>見 9.3。</td></tr>
+<tr><td><strong>f 模型拆料清單 .CSV</strong></td><td>三個表：每件櫃體的零件明細（類別、零件名稱、色號、厚度、長寬、數量、封邊、計價才數）、依零件彙總、依色號統計（含約合 4×8 尺板片數）。可用 Excel 開啟。</td></tr>
+<tr><td><strong>g 施工圖 .DXF（CAD 可編輯）</strong></td><td>見 9.4。</td></tr>
+<tr><td>自動送圖擴充功能</td><td>選配的 Chrome 擴充功能安裝說明頁（見 9.5）。</td></tr></tbody></table></div>
+<h3 id="9-2-場景分頁">9.2 場景分頁</h3>
+<ul>
+<li>先把 3D 視角調好，按「<strong>新增場景（目前視角）</strong>」。</li>
+<li>每個場景卡片可改名稱、<strong>燈光</strong>（日光、暖色、柔光、夜景）、<strong>牆面顯示</strong>（牆:自動／顯示／隱藏）、<strong>背景色</strong>；「前往」「更新為目前視角」「刪除」。點縮圖也可前往。</li>
+<li>多樓層時場景會記住所屬樓層。</li>
+<li>「匯出全部渲染圖」同「匯出 → c」。報價單 PDF 的 3D 圖會用第一個場景。</li>
+</ul>
+<h3 id="9-3-平面圖及立面圖-pdf-的圖頁">9.3 平面圖及立面圖 PDF 的圖頁</h3>
+<p>橫式 A4，每頁有圖框與標題欄（圖名、比例、頁次）。依序產生：</p>
+<ol>
+<li><strong>平面配置圖</strong>：牆體、門窗、櫃體俯視（色板貼圖）、尺寸與色板圖例。</li>
+<li><strong>天花板配置圖</strong>（有做天花時）：依高度分色斜線、包樑、窗簾盒、燈槽、鋁槽燈與高層圖例，標註高度以 cm 顯示。</li>
+<li><strong>燈具配置圖</strong>（有燈具時）：燈具符號、數量圖例，依迴路顏色畫配線虛線與迴路編號。</li>
+<li><strong>空調設備配置圖</strong>（有空調設備時）：含冷媒管路徑與規格標註。</li>
+<li><strong>插座配置圖</strong>（有插座／開關／弱電時）：符號與圖例數量。</li>
+<li><strong>配電盤迴路表</strong>（有迴路時）：各迴路編號、名稱、電壓、無熔絲、線徑與設備。</li>
+<li><strong>立面圖 牆面 1（W1）、牆面 2（W2）…</strong>：每面牆一頁，從室內面向該牆看；畫出門窗、靠牆櫃體正視（門片與層板，被門擋住的層板以虛線表示）、尺寸、色板圖例與右上角索引小圖。</li>
+</ol>
+<p>多樓層時每層各自產生以上圖頁，圖名前加樓層名稱。</p>
+<h3 id="9-4-施工圖-dxf">9.4 施工圖 DXF</h3>
+<p>「匯出施工圖 .DXF」對話框：</p>
+<ul>
+<li><strong>圖紙</strong>（A4／A3／A2／A1）、<strong>出圖比例</strong>（自動或 1:10–1:100）。</li>
+<li><strong>要出哪些立面</strong>：只出有靠牆櫃體的牆面／每一面牆都出。</li>
+<li><strong>圖框</strong>：用內建圖框與標題欄／不畫圖框。</li>
+<li><strong>公司圖框 .dxf</strong>：載入自家圖框後會自動套到每一張圖，並可把圖框裡的文字對應到專案欄位（標題欄欄位對應）；圖框只需載入一次，記在這台電腦的瀏覽器。</li>
+<li>勾選項目：一併輸出平面配置圖、尺寸標註、型號與色號標籤、門片開啟方向、門後層板用隱藏線、把手符號、平面圖牆體剖面填充。</li>
+<li>輸出 AutoCAD R12 格式，模型空間 1:1、單位 mm；中文字型用標楷體，電腦沒有時 CAD 會提示替代字型。</li>
+</ul>
+<h3 id="9-5-3d-渲染-ai-出圖">9.5 3D 渲染（AI 出圖）</h3>
+<p>頂列「<strong>3D渲染</strong>」會把目前視角輸出成三張控制圖（視角、白模、線稿），搭配提示詞交給 Gemini 或 ChatGPT 網頁生成渲染圖（用網頁免費額度，不需 API 金鑰）：</p>
+<ol>
+<li>先把 3D 視角調好，按「3D渲染」。</li>
+<li>在對話框選「送到」（Gemini／ChatGPT）、風格、燈光、家具／飾品。</li>
+<li>按「下載 3 張圖並開啟網頁」，把三張圖一起拖進對話框（視角圖放第一張），貼上已自動複製的提示詞送出。也可用「複製提示詞」「只下載圖片」「只開啟網頁」。</li>
+<li>安裝「自動送圖擴充功能」（匯出選單最下方）後，會多出「自動送出並生圖」按鈕，上傳、貼提示詞與送出全自動（第一次要先在該網站登入）。擴充功能的實際行為依實際畫面為準。</li>
+</ol>
+<hr>
+<h2 id="10-存檔與雲端同步">10. 存檔與雲端同步</h2>
+<h3 id="10-1-專案檔-json">10.1 專案檔 .json</h3>
+<ul>
+<li>「<strong>儲存專案</strong>」或 <strong>Ctrl＋S</strong>：下載「專案名稱.json」。專案檔包含所有樓層、空間、櫃體、天花、電路、場景、報價設定與用到的自訂色板。</li>
+<li>「<strong>匯入專案 .json</strong>」：載入專案檔。</li>
+<li>下載後「● 未匯出」標記會消失。</li>
+</ul>
+<h3 id="10-2-雲端專案-dropbox">10.2 雲端專案（Dropbox）</h3>
+<ul>
+<li>按頂列「<strong>雲端專案</strong>」→「連線 Dropbox」，會跳到 Dropbox 授權頁，授權後自動回到本站。專案會儲存在您 Dropbox 的「應用程式／系統櫃3D」資料夾。</li>
+<li>連線後頂列的 ☁ 會顯示「自動儲存」「已儲存 時:分」「儲存中…」或「儲存失敗」。</li>
+<li>再按「雲端專案」可以：勾選「每次修改後自動儲存」（修改後數秒自動上傳）、列出歷屆專案並「開啟」或刪除、「儲存目前專案」、「中斷連線」（雲端上的專案檔會保留）。</li>
+<li>雲端功能需要管理者事先設定 Dropbox 應用程式；若看到「尚未設定 Dropbox App key」請洽管理者。本手冊不記載任何帳號密碼。</li>
+</ul>
+<h3 id="10-3-存在瀏覽器裡的設定">10.3 存在瀏覽器裡的設定</h3>
+<p>以下不在專案檔內，而是記在這台電腦的瀏覽器：登入狀態、色板庫（自訂／修改的色板與單價）、我的最愛、面板收合狀態、燈光開關、吸附設定、DXF 匯出選項與公司圖框。換電腦時這些不會跟著走。</p>
+<hr>
+<h2 id="11-常見問題">11. 常見問題</h2>
+<p><strong>Q：關掉網站再開，專案不見了？</strong>
+專案只暫存在該分頁，關閉後就會清除。請用「儲存專案」下載 .json，或連線雲端專案自動儲存。F5 重新整理不會清除。</p>
+<p><strong>Q：櫃體放不到想要的位置，一直被吸過去？</strong>
+拖曳時按住 Alt 可暫時停用靠牆與吸附，或在工具列把「靠牆」「吸附」關掉。也可以在屬性面板直接輸入 X、Z。</p>
+<p><strong>Q：櫃體變成紅色線框？</strong>
+表示與其他櫃體或牆面重疊。狀態列「⚠ N 件櫃體重疊」可逐一點選，調整位置或尺寸即可。</p>
+<p><strong>Q：看不到天花板？</strong>
+請確認「做天花板」已勾選、「3D 顯示」不是「永遠隱藏」，而且相機要在天花高度以下（上視圖與「牆:隱藏」時不顯示）。</p>
+<p><strong>Q：畫線時不小心封閉了，或封不起來？</strong>
+封閉只會在點回起點、同一位置快按兩下、2 秒內按兩次 Enter 或按「完成封閉」時發生。至少要 3 個點。Backspace 可退一點，Esc 放棄。</p>
+<p><strong>Q：改了尺寸後名稱變成「-M」？</strong>
+-M 表示已修改、非型錄規格尺寸，板材才數會依實際尺寸重算；可按「還原型錄尺寸」回到 -S。</p>
+<p><strong>Q：報價和型錄卡片上的價格不一樣？</strong>
+卡片價是「110 白」板材的參考價，不含五金、款式加價與檯面。實際報價依您選的色板單價與配置計算。</p>
+<p><strong>Q：門窗改不了？</strong>
+該牆面已「確認並鎖定」，請先在牆面面板按「解鎖牆面」。櫃體同理：按型號旁的「已鎖定」解鎖。</p>
+<p><strong>Q：型錄裡找不到某個設備型號？</strong>
+型錄會隨版本調整；舊專案載入時若型號已移除會自動略過並提示，請改選相近型號。</p>
+<p><strong>Q：平板能用嗎？</strong>
+可以。單指＝目前工具的動作、雙指縮放／平移、「環轉」工具單指旋轉視角；快點兩下縮放至空間（畫線時＝完成封閉）；畫線時有「退一點／完成封閉／取消」浮動按鈕；左右面板可收合。細部手勢依實際畫面為準。</p>
+<hr>
+<h2 id="12-附錄-快捷鍵與操作總表">12. 附錄：快捷鍵與操作總表</h2>
+<h3 id="12-1-鍵盤快捷鍵">12.1 鍵盤快捷鍵</h3>
+<div class="tbl"><table><thead><tr><th>按鍵</th><th>功能</th></tr></thead><tbody><tr><td>空白鍵</td><td>選取工具</td></tr>
+<tr><td>M</td><td>移動工具</td></tr>
+<tr><td>Q／Shift＋Q</td><td>選取的櫃體順時針／逆時針旋轉 90°（放置中則旋轉預覽；未選取時切換到旋轉工具）</td></tr>
+<tr><td>R</td><td>矩形空間</td></tr>
+<tr><td>L</td><td>自由繪製多線段</td></tr>
+<tr><td>T</td><td>捲尺</td></tr>
+<tr><td>O／H／Z</td><td>環轉／平移／縮放工具</td></tr>
+<tr><td>Shift＋Z</td><td>充滿視窗</td></tr>
+<tr><td>方向鍵</td><td>微調 10 mm（Shift＋方向鍵 100 mm）</td></tr>
+<tr><td>Delete／Backspace</td><td>刪除選取（編輯模式先刪掣點）</td></tr>
+<tr><td>Esc</td><td>取消目前動作、取消選取、關閉對話框</td></tr>
+<tr><td>Enter</td><td>畫線時完成（空白時 2 秒內按兩次自動連回起點）；對話框確定</td></tr>
+<tr><td>Backspace（畫線時）</td><td>退一點</td></tr>
+<tr><td>Shift（畫線／捲尺時按住）</td><td>鎖定軸向</td></tr>
+<tr><td>Alt（拖曳時按住）</td><td>暫時停用靠牆與吸附</td></tr>
+<tr><td>數字、小數點、逗號、負號</td><td>直接開始在數值框（或畫線輸入框）輸入</td></tr>
+<tr><td>Ctrl＋Z</td><td>復原</td></tr>
+<tr><td>Ctrl＋Y／Ctrl＋Shift＋Z</td><td>重做</td></tr>
+<tr><td>Ctrl＋S</td><td>儲存專案（下載 .json）</td></tr>
+<tr><td>Ctrl＋D</td><td>就地複製</td></tr>
+<tr><td>Ctrl＋C／Ctrl＋V</td><td>複製／貼上櫃體</td></tr>
+<tr><td>Shift＋快按兩下櫃體</td><td>單件開門預覽</td></tr></tbody></table></div>
+<p>Mac 使用者以 Cmd 取代 Ctrl。</p>
+<h3 id="12-2-滑鼠操作">12.2 滑鼠操作</h3>
+<div class="tbl"><table><thead><tr><th>操作</th><th>功能</th></tr></thead><tbody><tr><td>左鍵點</td><td>選取櫃體或牆面；放置櫃體；畫線點轉角</td></tr>
+<tr><td>左鍵拖曳櫃體</td><td>移動（自動靠牆、吸附）</td></tr>
+<tr><td>左鍵快按兩下</td><td>縮放至空間最適大小</td></tr>
+<tr><td>中鍵拖曳</td><td>環轉視角</td></tr>
+<tr><td>Shift＋中鍵 或 右鍵拖曳</td><td>平移</td></tr>
+<tr><td>滾輪</td><td>以游標為中心縮放</td></tr>
+<tr><td>型錄卡片拖到 3D 視窗</td><td>放置</td></tr></tbody></table></div>
+<h3 id="12-3-常用尺寸限制">12.3 常用尺寸限制</h3>
+<div class="tbl"><table><thead><tr><th>項目</th><th>範圍</th></tr></thead><tbody><tr><td>矩形空間 寬／深</td><td>≥ 600 mm</td></tr>
+<tr><td>牆高</td><td>1800–6000 mm</td></tr>
+<tr><td>牆厚</td><td>50–400 mm</td></tr>
+<tr><td>櫃體 寬／高／深</td><td>200–3600／200–2800／150–900 mm</td></tr>
+<tr><td>補板 寬／高／深</td><td>20–600／100–2800／50–900 mm</td></tr>
+<tr><td>天花基本高</td><td>2000–6000 mm</td></tr>
+<tr><td>插座高度</td><td>0–2400 mm</td></tr>
+<tr><td>門窗 寬／高</td><td>≥ 300／≥ 200 mm，不超出牆面與牆高</td></tr></tbody></table></div>
+<h3 id="12-4-本手冊標註-依實際畫面為準-的項目">12.4 本手冊標註「依實際畫面為準」的項目</h3>
+<ul>
+<li>色板廠商與各廠商色數的完整清單。</li>
+<li>把手選單中「系統櫃把手」的完整款式名稱。</li>
+<li>地板視窗的品牌與系列分組名稱。</li>
+<li>3D 渲染之 Chrome 擴充功能的實際安裝與自動送出流程。</li>
+<li>雲端專案（Dropbox）的授權畫面文字。</li>
+<li>平板觸控的細部手勢。</li>
+<li>報價單 PDF 與三視圖 PDF 的詳細版面。</li>
+</ul>
+
+<div class="foot">系統櫃 3D 設計平台 操作手冊　·　另有 Markdown 版本 <a href="操作手冊.md">操作手冊.md</a>　·　更新紀錄見 <a href="../CHANGELOG.md">CHANGELOG.md</a></div>
+</main>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('menuBtn'),toc=document.getElementById('toc');
+  btn.addEventListener('click',function(){document.body.classList.toggle('menu');});
+  toc.addEventListener('click',function(e){if(e.target.tagName==='A')document.body.classList.remove('menu');});
+  var links=[].slice.call(toc.querySelectorAll('a')),heads=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1));});
+  function mark(){var y=window.scrollY+80,cur=0;heads.forEach(function(h,i){if(h&&h.offsetTop<=y)cur=i;});links.forEach(function(a,i){a.classList.toggle('on',i===cur);});}
+  window.addEventListener('scroll',mark,{passive:true});mark();
+})();
+</script>
+</body>
+</html>
