@@ -1800,35 +1800,31 @@
   FURN.forEach(a => items.push(a));
   // 北歐設計燈具（catalog-lamps.js）：[品牌, 型號, 名稱, 類別, 外型, 直徑, 寬, 深, 高, 售價, 圖片, 網址, 設計師, 顏色]
   const LAMP_AGENT = { 'Louis Poulsen': '居雅堂 JYT Design', 'Muuto': '居雅堂 JYT Design', '&Tradition': '瑪黑家居 MARAIS', 'Audo Copenhagen': '瑪黑家居 MARAIS', 'Ferm Living': '瑪黑家居 MARAIS', 'Design House Stockholm': '瑪黑家居 MARAIS' };
-  const LAMPS = (window.LAMP_RAW || []).map(([brand, code, name, at, shape, dia, w, d, h, price, img, url, designer, colors]) => ({
+  const LAMPS = [], mapLamps = raw => raw.map(([brand, code, name, at, shape, dia, w, d, h, price, img, url, designer, colors]) => ({
     at, code, name, shape, dia, w, d, h, price, mount: at === 'lamp_pendant' || at === 'lamp_ceiling' ? 'ceiling' : at === 'lamp_wall' ? 'wall' : 'top', y: 0, finish: 'white', est: false,
     brand, series: '燈具', url, designer, colors, hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'lamp', hanging: false, img,
     spec: `${APPL_TYPES[at]}　${dia === w ? 'Ø' + dia : 'W' + w + '×D' + d}×H${h} mm${designer ? '　設計 ' + designer : ''}${colors && colors.length ? '　顏色：' + colors.join('／') : ''}　台灣代理 ${LAMP_AGENT[brand] || ''} 公開售價`
   }));
-  LAMPS.forEach(a => items.push(a));
 
   /* IKEA 台灣官網家具（js/catalog-ikea.js → window.IKEA_RAW）：尺寸取自官網產品頁，可在屬性面板改寬深高；售價為官網 2026/10 一般售價 */
-  const IKEA = (window.IKEA_RAW || []).map(([at, id, name, facts, w, d, h, price, img, href]) => ({
+  const IKEA = [], mapIkea = raw => raw.map(([at, id, name, facts, w, d, h, price, img, href]) => ({
     at, code: 'IK' + id, name: `${name} ${facts}`, w, d, h, price, mount: 'top', y: 0, finish: 'white', est: false, note: '', series: name, brand: 'IKEA',
     spec: `${w}×${d}×${h}　落地　IKEA 貨號 ${id.slice(0, 3)}.${id.slice(3, 6)}.${id.slice(6)}　官網一般售價`, url: 'https://www.ikea.com.tw/zh/products/' + href,
     img: img ? 'https://www.ikea.com.tw/dairyfarm/tw/images/' + img : '', hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'ikea', hanging: false
   }));
-  IKEA.forEach(a => items.push(a));
 
   /* 無印良品 MUJI 台灣網路商店家具（js/catalog-muji.js → window.MUJI_RAW）：尺寸取自官網商品規格，售價為官網 2026/10 售價 */
-  const MUJI = (window.MUJI_RAW || []).map(([at, id, name, w, d, h, price, img, cat, sold]) => ({
+  const MUJI = [], mapMuji = raw => raw.map(([at, id, name, w, d, h, price, img, cat, sold]) => ({
     at, code: 'MJ' + id, name, w, d, h, price, mount: 'top', y: 0, finish: 'white', est: false, note: sold ? '官網目前售完' : '', series: cat, brand: 'MUJI 無印良品',
     spec: `${w}×${d}×${h}　落地　無印良品 ${cat}${sold ? '　官網目前售完' : ''}　官網售價`, url: 'https://shop.muji.tw/SalePage/Index/' + id,
     img, hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'muji', hanging: false
   }));
-  MUJI.forEach(a => items.push(a));
 
   /* 大吉熊 LUCKY BEAR 水槽／龍頭／掛件（js/catalog-bear.js → window.BEAR_RAW）：規格取自功林不銹鋼官網，售價取自日成廚衛公開售價，無者為估計 */
-  const BEAR = (window.BEAR_RAW || []).map(([at, code, name, w, d, h, price, est, cut, finish, img, url, cat, spec]) => ({
+  const BEAR = [], mapBear = raw => raw.map(([at, code, name, w, d, h, price, est, cut, finish, img, url, cat, spec]) => ({
     at, code, name, w, d, h, price, est: !!est, cut: cut || undefined, finish, mount: at === 'rack' ? 'wall' : 'counter', y: at === 'rack' ? 1400 : undefined, series: cat, brand: '大吉熊 LUCKY BEAR',
     spec, url, img, note: '', hc: 'appl', dc: 'A', kind: 'appl', fronts: [], group: 'appl', hanging: at === 'rack'
   }));
-  BEAR.forEach(a => items.push(a));
 
   const CAI = 303 * 303; // 1 才＝303mm×303mm（1 台尺見方，mm²）；櫃體板材與桌面共用
   const CHI = 303;       // 1 尺（mm）
@@ -1968,10 +1964,10 @@
   ];
   // 品牌木地板（catalog-floors.js）：實拍花色貼圖，plan 色為平面圖用的淡色
   const lighten = (hex, k) => { const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255; const f = v => Math.round(v + (255 - v) * k); return '#' + [f(r), f(g), f(b)].map(v => v.toString(16).padStart(2, '0')).join(''); };
-  (window.FLOOR_LIB || []).forEach(f => FLOORS.push({ id: f.id, type: 'img', group: f.brand, series: f.series, name: f.name, img: f.img, thumb: f.thumb, plank: f.plank, tile: 1100, color: f.color, plan: lighten(f.color, 0.55), note: f.note, url: f.url }));
+  const mapFloors = raw => raw.map(f => ({ id: f.id, type: 'img', group: f.brand, series: f.series, name: f.name, img: f.img, thumb: f.thumb, plank: f.plank, tile: 1100, color: f.color, plan: lighten(f.color, 0.55), note: f.note, url: f.url }));
   // 塗料色卡（catalog-paint.js）：code|name|hex；依色相字母分組，低彩度歸白／灰
   const HUE_NAME = { RR: '紅', YR: '橙紅', YY: '黃', GY: '黃綠', GG: '綠', BG: '藍綠', BB: '藍', RB: '紫' };
-  const PAINTS = (window.PAINT_RAW || []).map(([brand, code, name, hex]) => {
+  const PAINTS = [], mapPaints = raw => raw.map(([brand, code, name, hex]) => {
     const m = /^(\d{2})([A-Z]{2})\s?(\d{2})\/(\d{3})$/.exec(code) || [];
     const light = +m[3] || 50, chroma = +m[4] || 0;
     const group = chroma < 60 ? (light >= 62 ? '白／米白' : light >= 25 ? '灰' : '深色') : (HUE_NAME[m[2]] || '其他');
@@ -1979,7 +1975,28 @@
   });
   const PAINT_GROUPS = ['白／米白', '灰', '深色', '紅', '橙紅', '黃', '黃綠', '綠', '藍綠', '藍', '紫'];
 
+  /* ---------- 延遲載入的型錄（js/lazy.js）----------
+     IKEA／無印良品／大吉熊／燈具／品牌木地板／塗料色卡的資料檔不在首頁一開始載入；
+     第一次用到時由 Lazy 抓檔，再呼叫 DATA.addPack(name) 併入 items／byCode／FLOORS／PAINTS */
+  const PACKS = {
+    lamps: ['LAMP_RAW', LAMPS, mapLamps], ikea: ['IKEA_RAW', IKEA, mapIkea], muji: ['MUJI_RAW', MUJI, mapMuji], bear: ['BEAR_RAW', BEAR, mapBear],
+    floors: ['FLOOR_LIB', FLOORS, mapFloors], paint: ['PAINT_RAW', PAINTS, mapPaints]
+  };
+  const PACK_DONE = new Set();
+  function addPack(name) {
+    const p = PACKS[name];
+    if (!p || PACK_DONE.has(name) || !Array.isArray(window[p[0]])) return 0;
+    const added = p[2](window[p[0]]);
+    added.forEach(x => p[1].push(x));
+    if (['lamps', 'ikea', 'muji', 'bear'].includes(name)) added.forEach(it => { items.push(it); byCode[it.code] = it; });
+    PACK_DONE.add(name);
+    return added.length;
+  }
+  const hasPack = name => PACK_DONE.has(name);
+  Object.keys(PACKS).forEach(addPack);   // 資料檔若已先載入（例如由 index.html 直接引入）就直接併入
+
   window.DATA = {
+    addPack, hasPack,
     FLOORS, HANDLES, HANDLE_BY_ID, APPL_TYPES, APPLIANCES, APPL_BRANDS, DAYDAY, DD_BRAND, TOTO, HCG, FURN, IKEA, MUJI, BEAR, LAMPS, PAINTS, PAINT_GROUPS, DESK_SHAPES, DESK_MATS, DESK_THICK, DESK_EDGES, DESK_PRICE, DESK_EDGE_PRICE, CAI, CHI,
     HEIGHTS, HEIGHT_LABEL, HEIGHT_USE, DEPTHS, DEPTH_NAME, CORNER_W, KICK, BOARD, BACK,
     FRONT_NAME, FRONT_HEIGHTS, TRI_TYPE_NAME,

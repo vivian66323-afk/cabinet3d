@@ -21,6 +21,7 @@
     if (need === 'cab' && !allCount) { App.ui.alert('無法匯出', '空間中尚無系統櫃，請先從左側型錄取用。'); return; }
     if (need === 'any' && !allCount && !P().floorsOf(st).some((f, i) => i === st.floor ? st.room : (st.floors[i] || {}).room)) { App.ui.alert('無法匯出', '尚未建立空間或放置櫃體。'); return; }
     if ((kind === 'quote' || kind === 'views' || kind === 'plans') && !window.jspdf) { App.ui.alert('PDF 元件未載入', '請確認網路連線（jsPDF 由 CDN 載入）後重新整理頁面。'); return; }
+    if (kind === 'dxf' && window.Lazy && !(await window.Lazy.ensure('dxf', '載入 DXF 模組…'))) return;
     await window.Drawings.ready();
     // DXF 要先問選項，忙碌遮罩由 Ex.dxf 自己在對話框關掉後才開
     if (kind !== 'dxf') {
