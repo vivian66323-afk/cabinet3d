@@ -8,8 +8,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#d0ab89",
-"img": "swatches/egger/eg_H1145-ST10.jpg",
-"thumb": "swatches/egger/thumb/eg_H1145-ST10.jpg",
+"img": "swatches/egger/eg_H1145-ST10.webp",
+"thumb": "swatches/egger/thumb/eg_H1145-ST10.webp",
 "price": 200
 },
 {
@@ -19,8 +19,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#d0ab89",
-"img": "swatches/egger/eg_H1145-ST22.jpg",
-"thumb": "swatches/egger/thumb/eg_H1145-ST22.jpg",
+"img": "swatches/egger/eg_H1145-ST22.webp",
+"thumb": "swatches/egger/thumb/eg_H1145-ST22.webp",
 "price": 200
 },
 {
@@ -30,8 +30,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#a79583",
-"img": "swatches/egger/eg_H1150-ST22.jpg",
-"thumb": "swatches/egger/thumb/eg_H1150-ST22.jpg",
+"img": "swatches/egger/eg_H1150-ST22.webp",
+"thumb": "swatches/egger/thumb/eg_H1150-ST22.webp",
 "price": 200
 },
 {
@@ -41,8 +41,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#efebe8",
-"img": "swatches/egger/eg_H1225-ST12.jpg",
-"thumb": "swatches/egger/thumb/eg_H1225-ST12.jpg",
+"img": "swatches/egger/eg_H1225-ST12.webp",
+"thumb": "swatches/egger/thumb/eg_H1225-ST12.webp",
 "price": 200
 },
 {
@@ -52,8 +52,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#a79379",
-"img": "swatches/egger/eg_H1267-ST22.jpg",
-"thumb": "swatches/egger/thumb/eg_H1267-ST22.jpg",
+"img": "swatches/egger/eg_H1267-ST22.webp",
+"thumb": "swatches/egger/thumb/eg_H1267-ST22.webp",
 "price": 200
 },
 {
@@ -63,8 +63,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#d5bfa4",
-"img": "swatches/egger/eg_H1277-ST12.jpg",
-"thumb": "swatches/egger/thumb/eg_H1277-ST12.jpg",
+"img": "swatches/egger/eg_H1277-ST12.webp",
+"thumb": "swatches/egger/thumb/eg_H1277-ST12.webp",
 "price": 200
 },
 {
@@ -74,8 +74,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#d5bfa4",
-"img": "swatches/egger/eg_H1277-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_H1277-ST9.jpg",
+"img": "swatches/egger/eg_H1277-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_H1277-ST9.webp",
 "price": 200
 },
 {
@@ -85,8 +85,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#c7b6a3",
-"img": "swatches/egger/eg_H1312-ST10.jpg",
-"thumb": "swatches/egger/thumb/eg_H1312-ST10.jpg",
+"img": "swatches/egger/eg_H1312-ST10.webp",
+"thumb": "swatches/egger/thumb/eg_H1312-ST10.webp",
 "price": 200
 },
 {
@@ -96,8 +96,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#724e34",
-"img": "swatches/egger/eg_H1714-ST19.jpg",
-"thumb": "swatches/egger/thumb/eg_H1714-ST19.jpg",
+"img": "swatches/egger/eg_H1714-ST19.webp",
+"thumb": "swatches/egger/thumb/eg_H1714-ST19.webp",
 "price": 200
 },
 {
@@ -107,8 +107,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#d2cdc1",
-"img": "swatches/egger/eg_H3060-ST22.jpg",
-"thumb": "swatches/egger/thumb/eg_H3060-ST22.jpg",
+"img": "swatches/egger/eg_H3060-ST22.webp",
+"thumb": "swatches/egger/thumb/eg_H3060-ST22.webp",
 "price": 200
 },
 {
@@ -118,8 +118,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#e9e4d9",
-"img": "swatches/egger/eg_H3078-ST22.jpg",
-"thumb": "swatches/egger/thumb/eg_H3078-ST22.jpg",
+"img": "swatches/egger/eg_H3078-ST22.webp",
+"thumb": "swatches/egger/thumb/eg_H3078-ST22.webp",
 "price": 200
 },
 {
@@ -129,8 +129,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#caad89",
-"img": "swatches/egger/eg_H3157-ST19.jpg",
-"thumb": "swatches/egger/thumb/eg_H3157-ST19.jpg",
+"img": "swatches/egger/eg_H3157-ST19.webp",
+"thumb": "swatches/egger/thumb/eg_H3157-ST19.webp",
 "price": 200
 },
 {
@@ -140,8 +140,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋",
 "hex": "#ccc0ad",
-"img": "swatches/egger/eg_H3760-ST10.jpg",
-"thumb": "swatches/egger/thumb/eg_H3760-ST10.jpg",
+"img": "swatches/egger/eg_H3760-ST10.webp",
+"thumb": "swatches/egger/thumb/eg_H3760-ST10.webp",
 "price": 200
 },
 {
@@ -151,8 +151,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋-深壓紋",
 "hex": "#c0b3a2",
-"img": "swatches/egger/eg_H1176-ST37.jpg",
-"thumb": "swatches/egger/thumb/eg_H1176-ST37.jpg",
+"img": "swatches/egger/eg_H1176-ST37.webp",
+"thumb": "swatches/egger/thumb/eg_H1176-ST37.webp",
 "price": 200
 },
 {
@@ -162,8 +162,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋-深壓紋",
 "hex": "#b3926f",
-"img": "swatches/egger/eg_H1180-ST37.jpg",
-"thumb": "swatches/egger/thumb/eg_H1180-ST37.jpg",
+"img": "swatches/egger/eg_H1180-ST37.webp",
+"thumb": "swatches/egger/thumb/eg_H1180-ST37.webp",
 "price": 200
 },
 {
@@ -173,8 +173,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋-深壓紋",
 "hex": "#b1a396",
-"img": "swatches/egger/eg_H1336-ST37.jpg",
-"thumb": "swatches/egger/thumb/eg_H1336-ST37.jpg",
+"img": "swatches/egger/eg_H1336-ST37.webp",
+"thumb": "swatches/egger/thumb/eg_H1336-ST37.webp",
 "price": 200
 },
 {
@@ -184,8 +184,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋-深壓紋",
 "hex": "#392a28",
-"img": "swatches/egger/eg_H1346-ST32.jpg",
-"thumb": "swatches/egger/thumb/eg_H1346-ST32.jpg",
+"img": "swatches/egger/eg_H1346-ST32.webp",
+"thumb": "swatches/egger/thumb/eg_H1346-ST32.webp",
 "price": 200
 },
 {
@@ -195,8 +195,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋-深壓紋",
 "hex": "#b8a28a",
-"img": "swatches/egger/eg_H1377-ST36.jpg",
-"thumb": "swatches/egger/thumb/eg_H1377-ST36.jpg",
+"img": "swatches/egger/eg_H1377-ST36.webp",
+"thumb": "swatches/egger/thumb/eg_H1377-ST36.webp",
 "price": 200
 },
 {
@@ -206,8 +206,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋-深壓紋",
 "hex": "#c9ae89",
-"img": "swatches/egger/eg_H3309-ST28.jpg",
-"thumb": "swatches/egger/thumb/eg_H3309-ST28.jpg",
+"img": "swatches/egger/eg_H3309-ST28.webp",
+"thumb": "swatches/egger/thumb/eg_H3309-ST28.webp",
 "price": 200
 },
 {
@@ -217,8 +217,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "木紋-深壓紋",
 "hex": "#dcd3c4",
-"img": "swatches/egger/eg_H3335-ST28.jpg",
-"thumb": "swatches/egger/thumb/eg_H3335-ST28.jpg",
+"img": "swatches/egger/eg_H3335-ST28.webp",
+"thumb": "swatches/egger/thumb/eg_H3335-ST28.webp",
 "price": 200
 },
 {
@@ -228,8 +228,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#5c5751",
-"img": "swatches/egger/eg_F121-ST87.jpg",
-"thumb": "swatches/egger/thumb/eg_F121-ST87.jpg",
+"img": "swatches/egger/eg_F121-ST87.webp",
+"thumb": "swatches/egger/thumb/eg_F121-ST87.webp",
 "price": 200
 },
 {
@@ -239,8 +239,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#3f3e3f",
-"img": "swatches/egger/eg_F160-PM.jpg",
-"thumb": "swatches/egger/thumb/eg_F160-PM.jpg",
+"img": "swatches/egger/eg_F160-PM.webp",
+"thumb": "swatches/egger/thumb/eg_F160-PM.webp",
 "price": 200
 },
 {
@@ -250,8 +250,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#9c9a98",
-"img": "swatches/egger/eg_F186-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_F186-ST9.jpg",
+"img": "swatches/egger/eg_F186-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_F186-ST9.webp",
 "price": 200
 },
 {
@@ -261,8 +261,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#6a5e56",
-"img": "swatches/egger/eg_F205-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_F205-ST9.jpg",
+"img": "swatches/egger/eg_F205-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_F205-ST9.webp",
 "price": 200
 },
 {
@@ -272,8 +272,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#454344",
-"img": "swatches/egger/eg_F235-ST76.jpg",
-"thumb": "swatches/egger/thumb/eg_F235-ST76.jpg",
+"img": "swatches/egger/eg_F235-ST76.webp",
+"thumb": "swatches/egger/thumb/eg_F235-ST76.webp",
 "price": 200
 },
 {
@@ -283,8 +283,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#aaa6a2",
-"img": "swatches/egger/eg_F243-ST76.jpg",
-"thumb": "swatches/egger/thumb/eg_F243-ST76.jpg",
+"img": "swatches/egger/eg_F243-ST76.webp",
+"thumb": "swatches/egger/thumb/eg_F243-ST76.webp",
 "price": 200
 },
 {
@@ -294,8 +294,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#5b5959",
-"img": "swatches/egger/eg_F244-ST76.jpg",
-"thumb": "swatches/egger/thumb/eg_F244-ST76.jpg",
+"img": "swatches/egger/eg_F244-ST76.webp",
+"thumb": "swatches/egger/thumb/eg_F244-ST76.webp",
 "price": 200
 },
 {
@@ -305,8 +305,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#2c2721",
-"img": "swatches/egger/eg_F311-ST87.jpg",
-"thumb": "swatches/egger/thumb/eg_F311-ST87.jpg",
+"img": "swatches/egger/eg_F311-ST87.webp",
+"thumb": "swatches/egger/thumb/eg_F311-ST87.webp",
 "price": 200
 },
 {
@@ -316,8 +316,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#d7c4ab",
-"img": "swatches/egger/eg_F416-ST10.jpg",
-"thumb": "swatches/egger/thumb/eg_F416-ST10.jpg",
+"img": "swatches/egger/eg_F416-ST10.webp",
+"thumb": "swatches/egger/thumb/eg_F416-ST10.webp",
 "price": 200
 },
 {
@@ -327,8 +327,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#c4bbae",
-"img": "swatches/egger/eg_F417-ST10.jpg",
-"thumb": "swatches/egger/thumb/eg_F417-ST10.jpg",
+"img": "swatches/egger/eg_F417-ST10.webp",
+"thumb": "swatches/egger/thumb/eg_F417-ST10.webp",
 "price": 200
 },
 {
@@ -338,8 +338,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#c9bca8",
-"img": "swatches/egger/eg_F425-ST10.jpg",
-"thumb": "swatches/egger/thumb/eg_F425-ST10.jpg",
+"img": "swatches/egger/eg_F425-ST10.webp",
+"thumb": "swatches/egger/thumb/eg_F425-ST10.webp",
 "price": 200
 },
 {
@@ -349,8 +349,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#7d7873",
-"img": "swatches/egger/eg_F433-ST10.jpg",
-"thumb": "swatches/egger/thumb/eg_F433-ST10.jpg",
+"img": "swatches/egger/eg_F433-ST10.webp",
+"thumb": "swatches/egger/thumb/eg_F433-ST10.webp",
 "price": 200
 },
 {
@@ -360,8 +360,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#6a6b6b",
-"img": "swatches/egger/eg_F463-ST20.jpg",
-"thumb": "swatches/egger/thumb/eg_F463-ST20.jpg",
+"img": "swatches/egger/eg_F463-ST20.webp",
+"thumb": "swatches/egger/thumb/eg_F463-ST20.webp",
 "price": 200
 },
 {
@@ -371,8 +371,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#8f8581",
-"img": "swatches/egger/eg_F500-ST20.jpg",
-"thumb": "swatches/egger/thumb/eg_F500-ST20.jpg",
+"img": "swatches/egger/eg_F500-ST20.webp",
+"thumb": "swatches/egger/thumb/eg_F500-ST20.webp",
 "price": 200
 },
 {
@@ -382,8 +382,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#d2cdc1",
-"img": "swatches/egger/eg_F637-ST10.jpg",
-"thumb": "swatches/egger/thumb/eg_F637-ST10.jpg",
+"img": "swatches/egger/eg_F637-ST10.webp",
+"thumb": "swatches/egger/thumb/eg_F637-ST10.webp",
 "price": 200
 },
 {
@@ -393,8 +393,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#d2cdc1",
-"img": "swatches/egger/eg_F637-ST16.jpg",
-"thumb": "swatches/egger/thumb/eg_F637-ST16.jpg",
+"img": "swatches/egger/eg_F637-ST16.webp",
+"thumb": "swatches/egger/thumb/eg_F637-ST16.webp",
 "price": 200
 },
 {
@@ -404,8 +404,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#a19993",
-"img": "swatches/egger/eg_F638-ST10.jpg",
-"thumb": "swatches/egger/thumb/eg_F638-ST10.jpg",
+"img": "swatches/egger/eg_F638-ST10.webp",
+"thumb": "swatches/egger/thumb/eg_F638-ST10.webp",
 "price": 200
 },
 {
@@ -415,8 +415,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#a29991",
-"img": "swatches/egger/eg_F638-ST16.jpg",
-"thumb": "swatches/egger/thumb/eg_F638-ST16.jpg",
+"img": "swatches/egger/eg_F638-ST16.webp",
+"thumb": "swatches/egger/thumb/eg_F638-ST16.webp",
 "price": 200
 },
 {
@@ -426,8 +426,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#5f564e",
-"img": "swatches/egger/eg_F642-ST16.jpg",
-"thumb": "swatches/egger/thumb/eg_F642-ST16.jpg",
+"img": "swatches/egger/eg_F642-ST16.webp",
+"thumb": "swatches/egger/thumb/eg_F642-ST16.webp",
 "price": 200
 },
 {
@@ -437,8 +437,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#eae6d9",
-"img": "swatches/egger/eg_F649-ST16.jpg",
-"thumb": "swatches/egger/thumb/eg_F649-ST16.jpg",
+"img": "swatches/egger/eg_F649-ST16.webp",
+"thumb": "swatches/egger/thumb/eg_F649-ST16.webp",
 "price": 200
 },
 {
@@ -448,8 +448,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#d7c6b6",
-"img": "swatches/egger/eg_F661-ST76.jpg",
-"thumb": "swatches/egger/thumb/eg_F661-ST76.jpg",
+"img": "swatches/egger/eg_F661-ST76.webp",
+"thumb": "swatches/egger/thumb/eg_F661-ST76.webp",
 "price": 200
 },
 {
@@ -459,8 +459,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#aea18f",
-"img": "swatches/egger/eg_F784-ST20.jpg",
-"thumb": "swatches/egger/thumb/eg_F784-ST20.jpg",
+"img": "swatches/egger/eg_F784-ST20.webp",
+"thumb": "swatches/egger/thumb/eg_F784-ST20.webp",
 "price": 200
 },
 {
@@ -470,8 +470,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#efebe5",
-"img": "swatches/egger/eg_F800-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_F800-ST9.jpg",
+"img": "swatches/egger/eg_F800-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_F800-ST9.webp",
 "price": 200
 },
 {
@@ -481,8 +481,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "材質",
 "hex": "#ecebe6",
-"img": "swatches/egger/eg_F812-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_F812-ST9.jpg",
+"img": "swatches/egger/eg_F812-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_F812-ST9.webp",
 "price": 200
 },
 {
@@ -492,8 +492,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#eedfc8",
-"img": "swatches/egger/eg_U115-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U115-ST9.jpg",
+"img": "swatches/egger/eg_U115-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U115-ST9.webp",
 "price": 200
 },
 {
@@ -503,8 +503,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#e7c192",
-"img": "swatches/egger/eg_U125-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U125-ST9.jpg",
+"img": "swatches/egger/eg_U125-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U125-ST9.webp",
 "price": 200
 },
 {
@@ -514,8 +514,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#b79e94",
-"img": "swatches/egger/eg_U211-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U211-ST9.jpg",
+"img": "swatches/egger/eg_U211-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U211-ST9.webp",
 "price": 200
 },
 {
@@ -525,8 +525,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#c1967e",
-"img": "swatches/egger/eg_U232-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U232-ST9.jpg",
+"img": "swatches/egger/eg_U232-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U232-ST9.webp",
 "price": 200
 },
 {
@@ -536,8 +536,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#b69085",
-"img": "swatches/egger/eg_U325-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U325-ST9.jpg",
+"img": "swatches/egger/eg_U325-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U325-ST9.webp",
 "price": 200
 },
 {
@@ -547,8 +547,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#89554d",
-"img": "swatches/egger/eg_U335-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U335-ST9.jpg",
+"img": "swatches/egger/eg_U335-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U335-ST9.webp",
 "price": 200
 },
 {
@@ -558,8 +558,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#526b7f",
-"img": "swatches/egger/eg_U502-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U502-ST9.jpg",
+"img": "swatches/egger/eg_U502-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U502-ST9.webp",
 "price": 200
 },
 {
@@ -569,8 +569,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#464f5e",
-"img": "swatches/egger/eg_U504-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U504-ST9.jpg",
+"img": "swatches/egger/eg_U504-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U504-ST9.webp",
 "price": 200
 },
 {
@@ -580,8 +580,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#6b9db6",
-"img": "swatches/egger/eg_U505-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U505-ST9.jpg",
+"img": "swatches/egger/eg_U505-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U505-ST9.webp",
 "price": 200
 },
 {
@@ -591,8 +591,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#90a3b1",
-"img": "swatches/egger/eg_U540-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U540-ST9.jpg",
+"img": "swatches/egger/eg_U540-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U540-ST9.webp",
 "price": 200
 },
 {
@@ -602,8 +602,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#d7d7bf",
-"img": "swatches/egger/eg_U603-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U603-ST9.jpg",
+"img": "swatches/egger/eg_U603-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U603-ST9.webp",
 "price": 200
 },
 {
@@ -613,8 +613,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#737e71",
-"img": "swatches/egger/eg_U604-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U604-ST9.jpg",
+"img": "swatches/egger/eg_U604-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U604-ST9.webp",
 "price": 200
 },
 {
@@ -624,8 +624,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#c2c5b0",
-"img": "swatches/egger/eg_U608-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U608-ST9.jpg",
+"img": "swatches/egger/eg_U608-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U608-ST9.webp",
 "price": 200
 },
 {
@@ -635,8 +635,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#8b9089",
-"img": "swatches/egger/eg_U636-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U636-ST9.jpg",
+"img": "swatches/egger/eg_U636-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U636-ST9.webp",
 "price": 200
 },
 {
@@ -646,8 +646,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#c3bea4",
-"img": "swatches/egger/eg_U638-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U638-ST9.jpg",
+"img": "swatches/egger/eg_U638-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U638-ST9.webp",
 "price": 200
 },
 {
@@ -657,8 +657,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#506e70",
-"img": "swatches/egger/eg_U646-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U646-ST9.jpg",
+"img": "swatches/egger/eg_U646-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U646-ST9.webp",
 "price": 200
 },
 {
@@ -668,8 +668,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#cdc3b7",
-"img": "swatches/egger/eg_U702-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U702-ST9.jpg",
+"img": "swatches/egger/eg_U702-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U702-ST9.webp",
 "price": 200
 },
 {
@@ -679,8 +679,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#e4dcd1",
-"img": "swatches/egger/eg_U705-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U705-ST9.jpg",
+"img": "swatches/egger/eg_U705-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U705-ST9.webp",
 "price": 200
 },
 {
@@ -690,8 +690,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#d0cdc8",
-"img": "swatches/egger/eg_U708-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U708-ST9.jpg",
+"img": "swatches/egger/eg_U708-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U708-ST9.webp",
 "price": 200
 },
 {
@@ -701,8 +701,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#9b8a7a",
-"img": "swatches/egger/eg_U727-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U727-ST9.jpg",
+"img": "swatches/egger/eg_U727-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U727-ST9.webp",
 "price": 200
 },
 {
@@ -712,8 +712,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#848683",
-"img": "swatches/egger/eg_U732-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U732-ST9.jpg",
+"img": "swatches/egger/eg_U732-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U732-ST9.webp",
 "price": 200
 },
 {
@@ -723,8 +723,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#5c5954",
-"img": "swatches/egger/eg_U741-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U741-ST9.jpg",
+"img": "swatches/egger/eg_U741-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U741-ST9.webp",
 "price": 200
 },
 {
@@ -734,8 +734,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#544f4b",
-"img": "swatches/egger/eg_U753-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U753-ST9.jpg",
+"img": "swatches/egger/eg_U753-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U753-ST9.webp",
 "price": 200
 },
 {
@@ -745,8 +745,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#c4bcb6",
-"img": "swatches/egger/eg_U763-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U763-ST9.jpg",
+"img": "swatches/egger/eg_U763-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U763-ST9.webp",
 "price": 200
 },
 {
@@ -756,8 +756,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#737373",
-"img": "swatches/egger/eg_U780-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U780-ST9.jpg",
+"img": "swatches/egger/eg_U780-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U780-ST9.webp",
 "price": 200
 },
 {
@@ -767,8 +767,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#3c3839",
-"img": "swatches/egger/eg_U899-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U899-ST9.jpg",
+"img": "swatches/egger/eg_U899-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U899-ST9.webp",
 "price": 200
 },
 {
@@ -778,8 +778,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#3c3837",
-"img": "swatches/egger/eg_U968-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_U968-ST9.jpg",
+"img": "swatches/egger/eg_U968-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_U968-ST9.webp",
 "price": 200
 },
 {
@@ -789,8 +789,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#f7f6f1",
-"img": "swatches/egger/eg_W928-ST15.jpg",
-"thumb": "swatches/egger/thumb/eg_W928-ST15.jpg",
+"img": "swatches/egger/eg_W928-ST15.webp",
+"thumb": "swatches/egger/thumb/eg_W928-ST15.webp",
 "price": 200
 },
 {
@@ -800,8 +800,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "單色",
 "hex": "#f7f6f1",
-"img": "swatches/egger/eg_W928-ST9.jpg",
-"thumb": "swatches/egger/thumb/eg_W928-ST9.jpg",
+"img": "swatches/egger/eg_W928-ST9.webp",
+"thumb": "swatches/egger/thumb/eg_W928-ST9.webp",
 "price": 200
 },
 {
@@ -811,8 +811,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "PM",
 "hex": "#1d2a3a",
-"img": "swatches/egger/eg_U599-PM.jpg",
-"thumb": "swatches/egger/thumb/eg_U599-PM.jpg",
+"img": "swatches/egger/eg_U599-PM.webp",
+"thumb": "swatches/egger/thumb/eg_U599-PM.webp",
 "price": 200
 },
 {
@@ -822,8 +822,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "PM",
 "hex": "#cdc3b7",
-"img": "swatches/egger/eg_U702-PM.jpg",
-"thumb": "swatches/egger/thumb/eg_U702-PM.jpg",
+"img": "swatches/egger/eg_U702-PM.webp",
+"thumb": "swatches/egger/thumb/eg_U702-PM.webp",
 "price": 200
 },
 {
@@ -833,8 +833,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "PM",
 "hex": "#d2d2c8",
-"img": "swatches/egger/eg_U708-PM.jpg",
-"thumb": "swatches/egger/thumb/eg_U708-PM.jpg",
+"img": "swatches/egger/eg_U708-PM.webp",
+"thumb": "swatches/egger/thumb/eg_U708-PM.webp",
 "price": 200
 },
 {
@@ -844,8 +844,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "PM",
 "hex": "#9b8a7a",
-"img": "swatches/egger/eg_U727-PM.jpg",
-"thumb": "swatches/egger/thumb/eg_U727-PM.jpg",
+"img": "swatches/egger/eg_U727-PM.webp",
+"thumb": "swatches/egger/thumb/eg_U727-PM.webp",
 "price": 200
 },
 {
@@ -855,8 +855,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "PM",
 "hex": "#848683",
-"img": "swatches/egger/eg_U732-PM.jpg",
-"thumb": "swatches/egger/thumb/eg_U732-PM.jpg",
+"img": "swatches/egger/eg_U732-PM.webp",
+"thumb": "swatches/egger/thumb/eg_U732-PM.webp",
 "price": 200
 },
 {
@@ -866,8 +866,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "PM",
 "hex": "#292a2f",
-"img": "swatches/egger/eg_U961-PM.jpg",
-"thumb": "swatches/egger/thumb/eg_U961-PM.jpg",
+"img": "swatches/egger/eg_U961-PM.webp",
+"thumb": "swatches/egger/thumb/eg_U961-PM.webp",
 "price": 200
 },
 {
@@ -877,8 +877,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "PM",
 "hex": "#020308",
-"img": "swatches/egger/eg_U9991-PM-透芯.jpg",
-"thumb": "swatches/egger/thumb/eg_U9991-PM-透芯.jpg",
+"img": "swatches/egger/eg_U9991-PM-透芯.webp",
+"thumb": "swatches/egger/thumb/eg_U9991-PM-透芯.webp",
 "price": 200
 },
 {
@@ -888,8 +888,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "PM",
 "hex": "#fffefb",
-"img": "swatches/egger/eg_W1100-PM.jpg",
-"thumb": "swatches/egger/thumb/eg_W1100-PM.jpg",
+"img": "swatches/egger/eg_W1100-PM.webp",
+"thumb": "swatches/egger/thumb/eg_W1100-PM.webp",
 "price": 200
 },
 {
@@ -899,8 +899,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "PM",
 "hex": "#fffefb",
-"img": "swatches/egger/eg_W1101-PM-透芯.jpg",
-"thumb": "swatches/egger/thumb/eg_W1101-PM-透芯.jpg",
+"img": "swatches/egger/eg_W1101-PM-透芯.webp",
+"thumb": "swatches/egger/thumb/eg_W1101-PM-透芯.webp",
 "price": 200
 },
 {
@@ -910,8 +910,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "PM",
 "hex": "#fffefb",
-"img": "swatches/egger/eg_W1101-SM-透芯.jpg",
-"thumb": "swatches/egger/thumb/eg_W1101-SM-透芯.jpg",
+"img": "swatches/egger/eg_W1101-SM-透芯.webp",
+"thumb": "swatches/egger/thumb/eg_W1101-SM-透芯.webp",
 "price": 200
 },
 {
@@ -921,8 +921,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "透芯",
 "hex": "#cdc3b7",
-"img": "swatches/egger/eg_U7021-ST9-透芯.jpg",
-"thumb": "swatches/egger/thumb/eg_U7021-ST9-透芯.jpg",
+"img": "swatches/egger/eg_U7021-ST9-透芯.webp",
+"thumb": "swatches/egger/thumb/eg_U7021-ST9-透芯.webp",
 "price": 200
 },
 {
@@ -932,8 +932,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "透芯",
 "hex": "#d0cdc8",
-"img": "swatches/egger/eg_U7081-ST9-透芯.jpg",
-"thumb": "swatches/egger/thumb/eg_U7081-ST9-透芯.jpg",
+"img": "swatches/egger/eg_U7081-ST9-透芯.webp",
+"thumb": "swatches/egger/thumb/eg_U7081-ST9-透芯.webp",
 "price": 200
 },
 {
@@ -943,8 +943,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "透芯",
 "hex": "#fbfef3",
-"img": "swatches/egger/eg_W1001-ST9-透芯.jpg",
-"thumb": "swatches/egger/thumb/eg_W1001-ST9-透芯.jpg",
+"img": "swatches/egger/eg_W1001-ST9-透芯.webp",
+"thumb": "swatches/egger/thumb/eg_W1001-ST9-透芯.webp",
 "price": 200
 },
 {
@@ -954,8 +954,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "EGGER 愛格",
 "series": "透芯",
 "hex": "#fffefb",
-"img": "swatches/egger/eg_W1101-ST9-透芯.jpg",
-"thumb": "swatches/egger/thumb/eg_W1101-ST9-透芯.jpg",
+"img": "swatches/egger/eg_W1101-ST9-透芯.webp",
+"thumb": "swatches/egger/thumb/eg_W1101-ST9-透芯.webp",
 "price": 200
 }
 ]);

@@ -8,8 +8,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#dededa",
-"img": "swatches/beihuaan/bh_P69.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P69.jpg",
+"img": "swatches/beihuaan/bh_P69.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P69.webp",
 "price": 150
 },
 {
@@ -19,8 +19,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#dedad5",
-"img": "swatches/beihuaan/bh_P60.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P60.jpg",
+"img": "swatches/beihuaan/bh_P60.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P60.webp",
 "price": 150
 },
 {
@@ -30,8 +30,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#e0dcd5",
-"img": "swatches/beihuaan/bh_P67.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P67.jpg",
+"img": "swatches/beihuaan/bh_P67.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P67.webp",
 "price": 150
 },
 {
@@ -41,8 +41,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#dbd8d4",
-"img": "swatches/beihuaan/bh_B37.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B37.jpg",
+"img": "swatches/beihuaan/bh_B37.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B37.webp",
 "price": 150
 },
 {
@@ -52,8 +52,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#dbd9d3",
-"img": "swatches/beihuaan/bh_B55.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B55.jpg",
+"img": "swatches/beihuaan/bh_B55.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B55.webp",
 "price": 150
 },
 {
@@ -63,8 +63,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#dcd6cb",
-"img": "swatches/beihuaan/bh_B33.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B33.jpg",
+"img": "swatches/beihuaan/bh_B33.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B33.webp",
 "price": 150
 },
 {
@@ -74,8 +74,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#dbd2c6",
-"img": "swatches/beihuaan/bh_P70.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P70.jpg",
+"img": "swatches/beihuaan/bh_P70.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P70.webp",
 "price": 150
 },
 {
@@ -85,8 +85,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#d6d4cc",
-"img": "swatches/beihuaan/bh_P73.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P73.jpg",
+"img": "swatches/beihuaan/bh_P73.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P73.webp",
 "price": 150
 },
 {
@@ -96,8 +96,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#cfcec5",
-"img": "swatches/beihuaan/bh_P81.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P81.jpg",
+"img": "swatches/beihuaan/bh_P81.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P81.webp",
 "price": 150
 },
 {
@@ -107,8 +107,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#cbc1b2",
-"img": "swatches/beihuaan/bh_P82.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P82.jpg",
+"img": "swatches/beihuaan/bh_P82.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P82.webp",
 "price": 150
 },
 {
@@ -118,8 +118,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#e0d2c0",
-"img": "swatches/beihuaan/bh_P86.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P86.jpg",
+"img": "swatches/beihuaan/bh_P86.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P86.webp",
 "price": 150
 },
 {
@@ -129,8 +129,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#e3cab3",
-"img": "swatches/beihuaan/bh_B18.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B18.jpg",
+"img": "swatches/beihuaan/bh_B18.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B18.webp",
 "price": 150
 },
 {
@@ -140,8 +140,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#e4cdad",
-"img": "swatches/beihuaan/bh_A07.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_A07.jpg",
+"img": "swatches/beihuaan/bh_A07.webp",
+"thumb": "swatches/beihuaan/thumb/bh_A07.webp",
 "price": 150
 },
 {
@@ -151,8 +151,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#d4c9b9",
-"img": "swatches/beihuaan/bh_P68.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P68.jpg",
+"img": "swatches/beihuaan/bh_P68.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P68.webp",
 "price": 150
 },
 {
@@ -162,8 +162,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#d3c4b3",
-"img": "swatches/beihuaan/bh_P92.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P92.jpg",
+"img": "swatches/beihuaan/bh_P92.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P92.webp",
 "price": 150
 },
 {
@@ -173,8 +173,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#e1c5a5",
-"img": "swatches/beihuaan/bh_B20.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B20.jpg",
+"img": "swatches/beihuaan/bh_B20.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B20.webp",
 "price": 150
 },
 {
@@ -184,8 +184,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#dabf9b",
-"img": "swatches/beihuaan/bh_P87.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P87.jpg",
+"img": "swatches/beihuaan/bh_P87.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P87.webp",
 "price": 150
 },
 {
@@ -195,8 +195,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#c0b3a7",
-"img": "swatches/beihuaan/bh_B39.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B39.jpg",
+"img": "swatches/beihuaan/bh_B39.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B39.webp",
 "price": 150
 },
 {
@@ -206,8 +206,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#c2b09d",
-"img": "swatches/beihuaan/bh_P80.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P80.jpg",
+"img": "swatches/beihuaan/bh_P80.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P80.webp",
 "price": 150
 },
 {
@@ -217,8 +217,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#c5ae94",
-"img": "swatches/beihuaan/bh_B46.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B46.jpg",
+"img": "swatches/beihuaan/bh_B46.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B46.webp",
 "price": 150
 },
 {
@@ -228,8 +228,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#beab9a",
-"img": "swatches/beihuaan/bh_B31.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B31.jpg",
+"img": "swatches/beihuaan/bh_B31.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B31.webp",
 "price": 150
 },
 {
@@ -239,8 +239,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#d4b180",
-"img": "swatches/beihuaan/bh_P61.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P61.jpg",
+"img": "swatches/beihuaan/bh_P61.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P61.webp",
 "price": 150
 },
 {
@@ -250,8 +250,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#d1b490",
-"img": "swatches/beihuaan/bh_P71.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P71.jpg",
+"img": "swatches/beihuaan/bh_P71.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P71.webp",
 "price": 150
 },
 {
@@ -261,8 +261,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#c8b091",
-"img": "swatches/beihuaan/bh_B42.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B42.jpg",
+"img": "swatches/beihuaan/bh_B42.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B42.webp",
 "price": 150
 },
 {
@@ -272,8 +272,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#bca082",
-"img": "swatches/beihuaan/bh_P78.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P78.jpg",
+"img": "swatches/beihuaan/bh_P78.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P78.webp",
 "price": 150
 },
 {
@@ -283,8 +283,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#c79f76",
-"img": "swatches/beihuaan/bh_P88.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P88.jpg",
+"img": "swatches/beihuaan/bh_P88.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P88.webp",
 "price": 150
 },
 {
@@ -294,8 +294,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#be9569",
-"img": "swatches/beihuaan/bh_P79.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P79.jpg",
+"img": "swatches/beihuaan/bh_P79.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P79.webp",
 "price": 150
 },
 {
@@ -305,8 +305,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#b99670",
-"img": "swatches/beihuaan/bh_B38.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B38.jpg",
+"img": "swatches/beihuaan/bh_B38.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B38.webp",
 "price": 150
 },
 {
@@ -316,8 +316,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#a79686",
-"img": "swatches/beihuaan/bh_B47.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B47.jpg",
+"img": "swatches/beihuaan/bh_B47.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B47.webp",
 "price": 150
 },
 {
@@ -327,8 +327,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#bc926f",
-"img": "swatches/beihuaan/bh_B35.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B35.jpg",
+"img": "swatches/beihuaan/bh_B35.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B35.webp",
 "price": 150
 },
 {
@@ -338,8 +338,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#8f725b",
-"img": "swatches/beihuaan/bh_P64.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P64.jpg",
+"img": "swatches/beihuaan/bh_P64.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P64.webp",
 "price": 150
 },
 {
@@ -349,8 +349,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#a46129",
-"img": "swatches/beihuaan/bh_A11.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_A11.jpg",
+"img": "swatches/beihuaan/bh_A11.webp",
+"thumb": "swatches/beihuaan/thumb/bh_A11.webp",
 "price": 150
 },
 {
@@ -360,8 +360,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "原木色系",
 "hex": "#5a4b3f",
-"img": "swatches/beihuaan/bh_P75.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P75.jpg",
+"img": "swatches/beihuaan/bh_P75.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P75.webp",
 "price": 150
 },
 {
@@ -371,8 +371,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#4d3b2d",
-"img": "swatches/beihuaan/bh_P66.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P66.jpg",
+"img": "swatches/beihuaan/bh_P66.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P66.webp",
 "price": 150
 },
 {
@@ -382,8 +382,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#efefef",
-"img": "swatches/beihuaan/bh_A12.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_A12.jpg",
+"img": "swatches/beihuaan/bh_A12.webp",
+"thumb": "swatches/beihuaan/thumb/bh_A12.webp",
 "price": 150
 },
 {
@@ -393,8 +393,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#eceeed",
-"img": "swatches/beihuaan/bh_B27.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B27.jpg",
+"img": "swatches/beihuaan/bh_B27.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B27.webp",
 "price": 150
 },
 {
@@ -404,8 +404,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#e2e3e3",
-"img": "swatches/beihuaan/bh_P74.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P74.jpg",
+"img": "swatches/beihuaan/bh_P74.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P74.webp",
 "price": 150
 },
 {
@@ -415,8 +415,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#e0ded7",
-"img": "swatches/beihuaan/bh_P85.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P85.jpg",
+"img": "swatches/beihuaan/bh_P85.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P85.webp",
 "price": 150
 },
 {
@@ -426,8 +426,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#e0dfda",
-"img": "swatches/beihuaan/bh_P90.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P90.jpg",
+"img": "swatches/beihuaan/bh_P90.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P90.webp",
 "price": 150
 },
 {
@@ -437,8 +437,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#d8d8d6",
-"img": "swatches/beihuaan/bh_B481.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B481.jpg",
+"img": "swatches/beihuaan/bh_B481.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B481.webp",
 "price": 150
 },
 {
@@ -448,8 +448,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#d0cfcd",
-"img": "swatches/beihuaan/bh_P77.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P77.jpg",
+"img": "swatches/beihuaan/bh_P77.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P77.webp",
 "price": 150
 },
 {
@@ -459,8 +459,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#bebebe",
-"img": "swatches/beihuaan/bh_P89.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P89.jpg",
+"img": "swatches/beihuaan/bh_P89.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P89.webp",
 "price": 150
 },
 {
@@ -470,8 +470,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#bfbebd",
-"img": "swatches/beihuaan/bh_P91.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P91.jpg",
+"img": "swatches/beihuaan/bh_P91.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P91.webp",
 "price": 150
 },
 {
@@ -481,8 +481,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#aaa7a2",
-"img": "swatches/beihuaan/bh_B56.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B56.jpg",
+"img": "swatches/beihuaan/bh_B56.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B56.webp",
 "price": 150
 },
 {
@@ -492,8 +492,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "淺白色系",
 "hex": "#cac9c5",
-"img": "swatches/beihuaan/bh_B45.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B45.jpg",
+"img": "swatches/beihuaan/bh_B45.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B45.webp",
 "price": 150
 },
 {
@@ -503,8 +503,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#b8b3aa",
-"img": "swatches/beihuaan/bh_B49.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B49.jpg",
+"img": "swatches/beihuaan/bh_B49.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B49.webp",
 "price": 150
 },
 {
@@ -514,8 +514,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#989692",
-"img": "swatches/beihuaan/bh_P72.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P72.jpg",
+"img": "swatches/beihuaan/bh_P72.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P72.webp",
 "price": 150
 },
 {
@@ -525,8 +525,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#9c958e",
-"img": "swatches/beihuaan/bh_P65.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P65.jpg",
+"img": "swatches/beihuaan/bh_P65.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P65.webp",
 "price": 150
 },
 {
@@ -536,8 +536,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#847d74",
-"img": "swatches/beihuaan/bh_B36.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_B36.jpg",
+"img": "swatches/beihuaan/bh_B36.webp",
+"thumb": "swatches/beihuaan/thumb/bh_B36.webp",
 "price": 150
 },
 {
@@ -547,8 +547,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#5b534c",
-"img": "swatches/beihuaan/bh_P63.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P63.jpg",
+"img": "swatches/beihuaan/bh_P63.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P63.webp",
 "price": 150
 },
 {
@@ -558,8 +558,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#7d7f80",
-"img": "swatches/beihuaan/bh_P83.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P83.jpg",
+"img": "swatches/beihuaan/bh_P83.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P83.webp",
 "price": 150
 },
 {
@@ -569,8 +569,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#2e2926",
-"img": "swatches/beihuaan/bh_P76.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P76.jpg",
+"img": "swatches/beihuaan/bh_P76.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P76.webp",
 "price": 150
 },
 {
@@ -580,8 +580,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#38383a",
-"img": "swatches/beihuaan/bh_P84.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P84.jpg",
+"img": "swatches/beihuaan/bh_P84.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P84.webp",
 "price": 150
 },
 {
@@ -591,8 +591,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "北華安",
 "series": "灰黑色系",
 "hex": "#202020",
-"img": "swatches/beihuaan/bh_P62.jpg",
-"thumb": "swatches/beihuaan/thumb/bh_P62.jpg",
+"img": "swatches/beihuaan/bh_P62.webp",
+"thumb": "swatches/beihuaan/thumb/bh_P62.webp",
 "price": 150
 }
 ]);

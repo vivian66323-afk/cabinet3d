@@ -8,8 +8,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#d9d8d3",
-"img": "swatches/lavi/lv_LV1001.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1001.jpg",
+"img": "swatches/lavi/lv_LV1001.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1001.webp",
 "price": 150
 },
 {
@@ -19,8 +19,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#dfe0d7",
-"img": "swatches/lavi/lv_LV1002.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1002.jpg",
+"img": "swatches/lavi/lv_LV1002.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1002.webp",
 "price": 150
 },
 {
@@ -30,8 +30,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#c4c2b2",
-"img": "swatches/lavi/lv_LV1003.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1003.jpg",
+"img": "swatches/lavi/lv_LV1003.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1003.webp",
 "price": 150
 },
 {
@@ -41,8 +41,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#d9ccb1",
-"img": "swatches/lavi/lv_LV1004.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1004.jpg",
+"img": "swatches/lavi/lv_LV1004.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1004.webp",
 "price": 150
 },
 {
@@ -52,8 +52,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#d2c0aa",
-"img": "swatches/lavi/lv_LV1005.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1005.jpg",
+"img": "swatches/lavi/lv_LV1005.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1005.webp",
 "price": 150
 },
 {
@@ -63,8 +63,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#d9cab9",
-"img": "swatches/lavi/lv_LV1006.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1006.jpg",
+"img": "swatches/lavi/lv_LV1006.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1006.webp",
 "price": 150
 },
 {
@@ -74,8 +74,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#bfa283",
-"img": "swatches/lavi/lv_LV1007.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1007.jpg",
+"img": "swatches/lavi/lv_LV1007.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1007.webp",
 "price": 150
 },
 {
@@ -85,8 +85,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#b1a58b",
-"img": "swatches/lavi/lv_LV1008.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1008.jpg",
+"img": "swatches/lavi/lv_LV1008.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1008.webp",
 "price": 150
 },
 {
@@ -96,8 +96,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#ad9f80",
-"img": "swatches/lavi/lv_LV1009.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1009.jpg",
+"img": "swatches/lavi/lv_LV1009.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1009.webp",
 "price": 150
 },
 {
@@ -107,8 +107,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#b8a88b",
-"img": "swatches/lavi/lv_LV1010.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1010.jpg",
+"img": "swatches/lavi/lv_LV1010.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1010.webp",
 "price": 150
 },
 {
@@ -118,8 +118,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#b69f86",
-"img": "swatches/lavi/lv_LV1011.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1011.jpg",
+"img": "swatches/lavi/lv_LV1011.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1011.webp",
 "price": 150
 },
 {
@@ -129,8 +129,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#8d7c65",
-"img": "swatches/lavi/lv_LV1012.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1012.jpg",
+"img": "swatches/lavi/lv_LV1012.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1012.webp",
 "price": 150
 },
 {
@@ -140,8 +140,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#826f63",
-"img": "swatches/lavi/lv_LV1013.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1013.jpg",
+"img": "swatches/lavi/lv_LV1013.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1013.webp",
 "price": 150
 },
 {
@@ -151,8 +151,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#472d1e",
-"img": "swatches/lavi/lv_LV1014.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1014.jpg",
+"img": "swatches/lavi/lv_LV1014.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1014.webp",
 "price": 150
 },
 {
@@ -162,8 +162,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#442d23",
-"img": "swatches/lavi/lv_LV1015.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1015.jpg",
+"img": "swatches/lavi/lv_LV1015.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1015.webp",
 "price": 150
 },
 {
@@ -173,8 +173,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#513229",
-"img": "swatches/lavi/lv_LV1016.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1016.jpg",
+"img": "swatches/lavi/lv_LV1016.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1016.webp",
 "price": 150
 },
 {
@@ -184,8 +184,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#524034",
-"img": "swatches/lavi/lv_LV1017.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1017.jpg",
+"img": "swatches/lavi/lv_LV1017.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1017.webp",
 "price": 150
 },
 {
@@ -195,8 +195,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#45322a",
-"img": "swatches/lavi/lv_LV1018.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1018.jpg",
+"img": "swatches/lavi/lv_LV1018.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1018.webp",
 "price": 150
 },
 {
@@ -206,8 +206,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#433529",
-"img": "swatches/lavi/lv_LV1019.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1019.jpg",
+"img": "swatches/lavi/lv_LV1019.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1019.webp",
 "price": 150
 },
 {
@@ -217,8 +217,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#2e211d",
-"img": "swatches/lavi/lv_LV1020.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1020.jpg",
+"img": "swatches/lavi/lv_LV1020.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1020.webp",
 "price": 150
 },
 {
@@ -228,8 +228,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#584e3f",
-"img": "swatches/lavi/lv_LV1021.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1021.jpg",
+"img": "swatches/lavi/lv_LV1021.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1021.webp",
 "price": 150
 },
 {
@@ -239,8 +239,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#574a3f",
-"img": "swatches/lavi/lv_LV1022.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1022.jpg",
+"img": "swatches/lavi/lv_LV1022.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1022.webp",
 "price": 150
 },
 {
@@ -250,8 +250,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#777370",
-"img": "swatches/lavi/lv_LV1023.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1023.jpg",
+"img": "swatches/lavi/lv_LV1023.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1023.webp",
 "price": 150
 },
 {
@@ -261,8 +261,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#403a36",
-"img": "swatches/lavi/lv_LV1024.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1024.jpg",
+"img": "swatches/lavi/lv_LV1024.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1024.webp",
 "price": 150
 },
 {
@@ -272,8 +272,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#52443d",
-"img": "swatches/lavi/lv_LV1025.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1025.jpg",
+"img": "swatches/lavi/lv_LV1025.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1025.webp",
 "price": 150
 },
 {
@@ -283,8 +283,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#4b423d",
-"img": "swatches/lavi/lv_LV1026.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1026.jpg",
+"img": "swatches/lavi/lv_LV1026.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1026.webp",
 "price": 150
 },
 {
@@ -294,8 +294,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#434342",
-"img": "swatches/lavi/lv_LV1027.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1027.jpg",
+"img": "swatches/lavi/lv_LV1027.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1027.webp",
 "price": 150
 },
 {
@@ -305,8 +305,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#534c41",
-"img": "swatches/lavi/lv_LV1028.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1028.jpg",
+"img": "swatches/lavi/lv_LV1028.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1028.webp",
 "price": 150
 },
 {
@@ -316,8 +316,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#5e4e39",
-"img": "swatches/lavi/lv_LV1029.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1029.jpg",
+"img": "swatches/lavi/lv_LV1029.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1029.webp",
 "price": 150
 },
 {
@@ -327,8 +327,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#d6cbb1",
-"img": "swatches/lavi/lv_LV1030.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1030.jpg",
+"img": "swatches/lavi/lv_LV1030.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1030.webp",
 "price": 150
 },
 {
@@ -338,8 +338,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#97979d",
-"img": "swatches/lavi/lv_LV1031.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1031.jpg",
+"img": "swatches/lavi/lv_LV1031.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1031.webp",
 "price": 150
 },
 {
@@ -349,8 +349,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#737170",
-"img": "swatches/lavi/lv_LV1036.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1036.jpg",
+"img": "swatches/lavi/lv_LV1036.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1036.webp",
 "price": 150
 },
 {
@@ -360,8 +360,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#4b4b4a",
-"img": "swatches/lavi/lv_LV1037.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1037.jpg",
+"img": "swatches/lavi/lv_LV1037.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1037.webp",
 "price": 150
 },
 {
@@ -371,8 +371,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#726559",
-"img": "swatches/lavi/lv_LV1038.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1038.jpg",
+"img": "swatches/lavi/lv_LV1038.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1038.webp",
 "price": 150
 },
 {
@@ -382,8 +382,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#e8dedc",
-"img": "swatches/lavi/lv_LV1039.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1039.jpg",
+"img": "swatches/lavi/lv_LV1039.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1039.webp",
 "price": 150
 },
 {
@@ -393,8 +393,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#9d948b",
-"img": "swatches/lavi/lv_LV1040.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1040.jpg",
+"img": "swatches/lavi/lv_LV1040.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1040.webp",
 "price": 150
 },
 {
@@ -404,8 +404,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#ac9072",
-"img": "swatches/lavi/lv_LV1041.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1041.jpg",
+"img": "swatches/lavi/lv_LV1041.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1041.webp",
 "price": 150
 },
 {
@@ -415,8 +415,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#cab7a2",
-"img": "swatches/lavi/lv_LV1042.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1042.jpg",
+"img": "swatches/lavi/lv_LV1042.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1042.webp",
 "price": 150
 },
 {
@@ -426,8 +426,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#6f5d44",
-"img": "swatches/lavi/lv_LV1043.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1043.jpg",
+"img": "swatches/lavi/lv_LV1043.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1043.webp",
 "price": 150
 },
 {
@@ -437,8 +437,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#2f2718",
-"img": "swatches/lavi/lv_LV1044.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1044.jpg",
+"img": "swatches/lavi/lv_LV1044.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1044.webp",
 "price": 150
 },
 {
@@ -448,8 +448,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#3c3b39",
-"img": "swatches/lavi/lv_LV1045.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1045.jpg",
+"img": "swatches/lavi/lv_LV1045.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1045.webp",
 "price": 150
 },
 {
@@ -459,8 +459,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#e6e1d0",
-"img": "swatches/lavi/lv_LV1046.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1046.jpg",
+"img": "swatches/lavi/lv_LV1046.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1046.webp",
 "price": 150
 },
 {
@@ -470,8 +470,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#d8d1b7",
-"img": "swatches/lavi/lv_LV1047.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1047.jpg",
+"img": "swatches/lavi/lv_LV1047.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1047.webp",
 "price": 150
 },
 {
@@ -481,8 +481,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#45413c",
-"img": "swatches/lavi/lv_LV1051.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1051.jpg",
+"img": "swatches/lavi/lv_LV1051.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1051.webp",
 "price": 150
 },
 {
@@ -492,8 +492,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#baada0",
-"img": "swatches/lavi/lv_LV1053.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1053.jpg",
+"img": "swatches/lavi/lv_LV1053.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1053.webp",
 "price": 150
 },
 {
@@ -503,8 +503,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#dcbea4",
-"img": "swatches/lavi/lv_LV1056.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1056.jpg",
+"img": "swatches/lavi/lv_LV1056.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1056.webp",
 "price": 150
 },
 {
@@ -514,8 +514,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#e3d0ba",
-"img": "swatches/lavi/lv_LV2001.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2001.jpg",
+"img": "swatches/lavi/lv_LV2001.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2001.webp",
 "price": 150
 },
 {
@@ -525,8 +525,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#d3ba9f",
-"img": "swatches/lavi/lv_LV2006.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2006.jpg",
+"img": "swatches/lavi/lv_LV2006.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2006.webp",
 "price": 150
 },
 {
@@ -536,8 +536,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#d8c9ae",
-"img": "swatches/lavi/lv_LV2007.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2007.jpg",
+"img": "swatches/lavi/lv_LV2007.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2007.webp",
 "price": 150
 },
 {
@@ -547,8 +547,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#957254",
-"img": "swatches/lavi/lv_LV2010.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2010.jpg",
+"img": "swatches/lavi/lv_LV2010.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2010.webp",
 "price": 150
 },
 {
@@ -558,8 +558,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#ad8156",
-"img": "swatches/lavi/lv_LV2011.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2011.jpg",
+"img": "swatches/lavi/lv_LV2011.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2011.webp",
 "price": 150
 },
 {
@@ -569,8 +569,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#704628",
-"img": "swatches/lavi/lv_LV2012.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2012.jpg",
+"img": "swatches/lavi/lv_LV2012.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2012.webp",
 "price": 150
 },
 {
@@ -580,8 +580,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#503626",
-"img": "swatches/lavi/lv_LV2013.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2013.jpg",
+"img": "swatches/lavi/lv_LV2013.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2013.webp",
 "price": 150
 },
 {
@@ -591,8 +591,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#321b12",
-"img": "swatches/lavi/lv_LV2014.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2014.jpg",
+"img": "swatches/lavi/lv_LV2014.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2014.webp",
 "price": 150
 },
 {
@@ -602,8 +602,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#a15c39",
-"img": "swatches/lavi/lv_LV2016.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2016.jpg",
+"img": "swatches/lavi/lv_LV2016.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2016.webp",
 "price": 150
 },
 {
@@ -613,8 +613,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#955835",
-"img": "swatches/lavi/lv_LV2017.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2017.jpg",
+"img": "swatches/lavi/lv_LV2017.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2017.webp",
 "price": 150
 },
 {
@@ -624,8 +624,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#a48467",
-"img": "swatches/lavi/lv_LV2018.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2018.jpg",
+"img": "swatches/lavi/lv_LV2018.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2018.webp",
 "price": 150
 },
 {
@@ -635,8 +635,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#49251d",
-"img": "swatches/lavi/lv_LV2019.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2019.jpg",
+"img": "swatches/lavi/lv_LV2019.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2019.webp",
 "price": 150
 },
 {
@@ -646,8 +646,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#dbbe9f",
-"img": "swatches/lavi/lv_LV2020.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2020.jpg",
+"img": "swatches/lavi/lv_LV2020.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2020.webp",
 "price": 150
 },
 {
@@ -657,8 +657,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#dbcfc1",
-"img": "swatches/lavi/lv_LV2021.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2021.jpg",
+"img": "swatches/lavi/lv_LV2021.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2021.webp",
 "price": 150
 },
 {
@@ -668,8 +668,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#9a6646",
-"img": "swatches/lavi/lv_LV2022.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2022.jpg",
+"img": "swatches/lavi/lv_LV2022.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2022.webp",
 "price": 150
 },
 {
@@ -679,8 +679,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#e1d5c7",
-"img": "swatches/lavi/lv_LV2024.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2024.jpg",
+"img": "swatches/lavi/lv_LV2024.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2024.webp",
 "price": 150
 },
 {
@@ -690,8 +690,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#bfaa92",
-"img": "swatches/lavi/lv_LV2026.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2026.jpg",
+"img": "swatches/lavi/lv_LV2026.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2026.webp",
 "price": 150
 },
 {
@@ -701,8 +701,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#edeee8",
-"img": "swatches/lavi/lv_LV2027.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2027.jpg",
+"img": "swatches/lavi/lv_LV2027.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2027.webp",
 "price": 150
 },
 {
@@ -712,8 +712,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#877468",
-"img": "swatches/lavi/lv_LV2028.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2028.jpg",
+"img": "swatches/lavi/lv_LV2028.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2028.webp",
 "price": 150
 },
 {
@@ -723,8 +723,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#dfddce",
-"img": "swatches/lavi/lv_LV2029.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2029.jpg",
+"img": "swatches/lavi/lv_LV2029.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2029.webp",
 "price": 150
 },
 {
@@ -734,8 +734,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#694531",
-"img": "swatches/lavi/lv_LV2033.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2033.jpg",
+"img": "swatches/lavi/lv_LV2033.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2033.webp",
 "price": 150
 },
 {
@@ -745,8 +745,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#a18367",
-"img": "swatches/lavi/lv_LV2034.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2034.jpg",
+"img": "swatches/lavi/lv_LV2034.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2034.webp",
 "price": 150
 },
 {
@@ -756,8 +756,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#684938",
-"img": "swatches/lavi/lv_LV2035.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2035.jpg",
+"img": "swatches/lavi/lv_LV2035.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2035.webp",
 "price": 150
 },
 {
@@ -767,8 +767,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#775a43",
-"img": "swatches/lavi/lv_LV2036.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2036.jpg",
+"img": "swatches/lavi/lv_LV2036.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2036.webp",
 "price": 150
 },
 {
@@ -778,8 +778,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#4f352c",
-"img": "swatches/lavi/lv_LV2037.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2037.jpg",
+"img": "swatches/lavi/lv_LV2037.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2037.webp",
 "price": 150
 },
 {
@@ -789,8 +789,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#755944",
-"img": "swatches/lavi/lv_LV2040.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2040.jpg",
+"img": "swatches/lavi/lv_LV2040.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2040.webp",
 "price": 150
 },
 {
@@ -800,8 +800,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#b0a79d",
-"img": "swatches/lavi/lv_LV2046.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2046.jpg",
+"img": "swatches/lavi/lv_LV2046.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2046.webp",
 "price": 150
 },
 {
@@ -811,8 +811,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#e5d7b6",
-"img": "swatches/lavi/lv_LV2047.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2047.jpg",
+"img": "swatches/lavi/lv_LV2047.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2047.webp",
 "price": 150
 },
 {
@@ -822,8 +822,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#423b2d",
-"img": "swatches/lavi/lv_LV2048.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2048.jpg",
+"img": "swatches/lavi/lv_LV2048.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2048.webp",
 "price": 150
 },
 {
@@ -833,8 +833,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#b6b1ab",
-"img": "swatches/lavi/lv_LV2049.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2049.jpg",
+"img": "swatches/lavi/lv_LV2049.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2049.webp",
 "price": 150
 },
 {
@@ -844,8 +844,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#6c6457",
-"img": "swatches/lavi/lv_LV2050.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2050.jpg",
+"img": "swatches/lavi/lv_LV2050.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2050.webp",
 "price": 150
 },
 {
@@ -855,8 +855,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#dfded4",
-"img": "swatches/lavi/lv_LV2051.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2051.jpg",
+"img": "swatches/lavi/lv_LV2051.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2051.webp",
 "price": 150
 },
 {
@@ -866,8 +866,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#514235",
-"img": "swatches/lavi/lv_LV2052.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2052.jpg",
+"img": "swatches/lavi/lv_LV2052.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2052.webp",
 "price": 150
 },
 {
@@ -877,8 +877,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#e0dbc9",
-"img": "swatches/lavi/lv_LV2053.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2053.jpg",
+"img": "swatches/lavi/lv_LV2053.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2053.webp",
 "price": 150
 },
 {
@@ -888,8 +888,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "木紋",
 "hex": "#6a6258",
-"img": "swatches/lavi/lv_LV4013.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4013.jpg",
+"img": "swatches/lavi/lv_LV4013.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4013.webp",
 "price": 150
 },
 {
@@ -899,8 +899,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#aca9ab",
-"img": "swatches/lavi/lv_LV1032.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1032.jpg",
+"img": "swatches/lavi/lv_LV1032.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1032.webp",
 "price": 150
 },
 {
@@ -910,8 +910,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#d3c8be",
-"img": "swatches/lavi/lv_LV1033.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1033.jpg",
+"img": "swatches/lavi/lv_LV1033.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1033.webp",
 "price": 150
 },
 {
@@ -921,8 +921,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#e4e3e1",
-"img": "swatches/lavi/lv_LV1034.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1034.jpg",
+"img": "swatches/lavi/lv_LV1034.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1034.webp",
 "price": 150
 },
 {
@@ -932,8 +932,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#e1dcd6",
-"img": "swatches/lavi/lv_LV1035.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1035.jpg",
+"img": "swatches/lavi/lv_LV1035.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1035.webp",
 "price": 150
 },
 {
@@ -943,8 +943,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#373737",
-"img": "swatches/lavi/lv_LV1048.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1048.jpg",
+"img": "swatches/lavi/lv_LV1048.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1048.webp",
 "price": 150
 },
 {
@@ -954,8 +954,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#9c9c9c",
-"img": "swatches/lavi/lv_LV1049.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1049.jpg",
+"img": "swatches/lavi/lv_LV1049.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1049.webp",
 "price": 150
 },
 {
@@ -965,8 +965,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#efefef",
-"img": "swatches/lavi/lv_LV1050.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1050.jpg",
+"img": "swatches/lavi/lv_LV1050.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1050.webp",
 "price": 150
 },
 {
@@ -976,8 +976,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#bebfbe",
-"img": "swatches/lavi/lv_LV1052.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1052.jpg",
+"img": "swatches/lavi/lv_LV1052.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1052.webp",
 "price": 150
 },
 {
@@ -987,8 +987,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#ededed",
-"img": "swatches/lavi/lv_LV1054.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1054.jpg",
+"img": "swatches/lavi/lv_LV1054.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1054.webp",
 "price": 150
 },
 {
@@ -998,8 +998,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#cdc7c4",
-"img": "swatches/lavi/lv_LV1055.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV1055.jpg",
+"img": "swatches/lavi/lv_LV1055.webp",
+"thumb": "swatches/lavi/thumb/lv_LV1055.webp",
 "price": 150
 },
 {
@@ -1009,8 +1009,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#a19e95",
-"img": "swatches/lavi/lv_LV2054.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2054.jpg",
+"img": "swatches/lavi/lv_LV2054.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2054.webp",
 "price": 150
 },
 {
@@ -1020,8 +1020,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#c6c6c5",
-"img": "swatches/lavi/lv_LV2055.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2055.jpg",
+"img": "swatches/lavi/lv_LV2055.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2055.webp",
 "price": 150
 },
 {
@@ -1031,8 +1031,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#dbdbdb",
-"img": "swatches/lavi/lv_LV2056.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2056.jpg",
+"img": "swatches/lavi/lv_LV2056.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2056.webp",
 "price": 150
 },
 {
@@ -1042,8 +1042,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#d3c6b5",
-"img": "swatches/lavi/lv_LV2057.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2057.jpg",
+"img": "swatches/lavi/lv_LV2057.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2057.webp",
 "price": 150
 },
 {
@@ -1053,8 +1053,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#eae0cf",
-"img": "swatches/lavi/lv_LV2058.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2058.jpg",
+"img": "swatches/lavi/lv_LV2058.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2058.webp",
 "price": 150
 },
 {
@@ -1064,8 +1064,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#636664",
-"img": "swatches/lavi/lv_LV2059.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2059.jpg",
+"img": "swatches/lavi/lv_LV2059.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2059.webp",
 "price": 150
 },
 {
@@ -1075,8 +1075,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#2f3032",
-"img": "swatches/lavi/lv_LV2060.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2060.jpg",
+"img": "swatches/lavi/lv_LV2060.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2060.webp",
 "price": 150
 },
 {
@@ -1086,8 +1086,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#c4b9a7",
-"img": "swatches/lavi/lv_LV2061.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2061.jpg",
+"img": "swatches/lavi/lv_LV2061.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2061.webp",
 "price": 150
 },
 {
@@ -1097,8 +1097,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#635845",
-"img": "swatches/lavi/lv_LV2062.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2062.jpg",
+"img": "swatches/lavi/lv_LV2062.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2062.webp",
 "price": 150
 },
 {
@@ -1108,8 +1108,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#c4c0ba",
-"img": "swatches/lavi/lv_LV2063.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2063.jpg",
+"img": "swatches/lavi/lv_LV2063.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2063.webp",
 "price": 150
 },
 {
@@ -1119,8 +1119,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#ede2d3",
-"img": "swatches/lavi/lv_LV2064.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2064.jpg",
+"img": "swatches/lavi/lv_LV2064.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2064.webp",
 "price": 150
 },
 {
@@ -1130,8 +1130,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#9e9e96",
-"img": "swatches/lavi/lv_LV2065.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2065.jpg",
+"img": "swatches/lavi/lv_LV2065.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2065.webp",
 "price": 150
 },
 {
@@ -1141,8 +1141,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#aaa79b",
-"img": "swatches/lavi/lv_LV2066.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2066.jpg",
+"img": "swatches/lavi/lv_LV2066.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2066.webp",
 "price": 150
 },
 {
@@ -1152,8 +1152,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#d7d5d0",
-"img": "swatches/lavi/lv_LV2067.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV2067.jpg",
+"img": "swatches/lavi/lv_LV2067.webp",
+"thumb": "swatches/lavi/thumb/lv_LV2067.webp",
 "price": 150
 },
 {
@@ -1163,8 +1163,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#a59988",
-"img": "swatches/lavi/lv_LV4003.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4003.jpg",
+"img": "swatches/lavi/lv_LV4003.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4003.webp",
 "price": 150
 },
 {
@@ -1174,8 +1174,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#ebeaea",
-"img": "swatches/lavi/lv_LV4004.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4004.jpg",
+"img": "swatches/lavi/lv_LV4004.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4004.webp",
 "price": 150
 },
 {
@@ -1185,8 +1185,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#eae9e8",
-"img": "swatches/lavi/lv_LV4005.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4005.jpg",
+"img": "swatches/lavi/lv_LV4005.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4005.webp",
 "price": 150
 },
 {
@@ -1196,8 +1196,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#b8b9ac",
-"img": "swatches/lavi/lv_LV4006.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4006.jpg",
+"img": "swatches/lavi/lv_LV4006.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4006.webp",
 "price": 150
 },
 {
@@ -1207,8 +1207,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#57564e",
-"img": "swatches/lavi/lv_LV4008.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4008.jpg",
+"img": "swatches/lavi/lv_LV4008.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4008.webp",
 "price": 150
 },
 {
@@ -1218,8 +1218,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#eae3d1",
-"img": "swatches/lavi/lv_LV4009.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4009.jpg",
+"img": "swatches/lavi/lv_LV4009.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4009.webp",
 "price": 150
 },
 {
@@ -1229,8 +1229,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#505050",
-"img": "swatches/lavi/lv_LV4010.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4010.jpg",
+"img": "swatches/lavi/lv_LV4010.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4010.webp",
 "price": 150
 },
 {
@@ -1240,8 +1240,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#83765b",
-"img": "swatches/lavi/lv_LV4011.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4011.jpg",
+"img": "swatches/lavi/lv_LV4011.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4011.webp",
 "price": 150
 },
 {
@@ -1251,8 +1251,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#747474",
-"img": "swatches/lavi/lv_LV4012.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4012.jpg",
+"img": "swatches/lavi/lv_LV4012.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4012.webp",
 "price": 150
 },
 {
@@ -1262,8 +1262,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#473731",
-"img": "swatches/lavi/lv_LV4014.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4014.jpg",
+"img": "swatches/lavi/lv_LV4014.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4014.webp",
 "price": 150
 },
 {
@@ -1273,8 +1273,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#e8e6e0",
-"img": "swatches/lavi/lv_LV4015.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4015.jpg",
+"img": "swatches/lavi/lv_LV4015.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4015.webp",
 "price": 150
 },
 {
@@ -1284,8 +1284,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#52534d",
-"img": "swatches/lavi/lv_LV4016.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4016.jpg",
+"img": "swatches/lavi/lv_LV4016.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4016.webp",
 "price": 150
 },
 {
@@ -1295,8 +1295,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#c6c2c1",
-"img": "swatches/lavi/lv_LV4017.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4017.jpg",
+"img": "swatches/lavi/lv_LV4017.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4017.webp",
 "price": 150
 },
 {
@@ -1306,8 +1306,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#efdece",
-"img": "swatches/lavi/lv_LV4018.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4018.jpg",
+"img": "swatches/lavi/lv_LV4018.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4018.webp",
 "price": 150
 },
 {
@@ -1317,8 +1317,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#ece4d9",
-"img": "swatches/lavi/lv_LV4019.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4019.jpg",
+"img": "swatches/lavi/lv_LV4019.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4019.webp",
 "price": 150
 },
 {
@@ -1328,8 +1328,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#b7aea3",
-"img": "swatches/lavi/lv_LV4020.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4020.jpg",
+"img": "swatches/lavi/lv_LV4020.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4020.webp",
 "price": 150
 },
 {
@@ -1339,8 +1339,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#f6f2e6",
-"img": "swatches/lavi/lv_LV4021.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4021.jpg",
+"img": "swatches/lavi/lv_LV4021.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4021.webp",
 "price": 150
 },
 {
@@ -1350,8 +1350,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#b8b5b0",
-"img": "swatches/lavi/lv_LV4022.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV4022.jpg",
+"img": "swatches/lavi/lv_LV4022.webp",
+"thumb": "swatches/lavi/thumb/lv_LV4022.webp",
 "price": 150
 },
 {
@@ -1361,8 +1361,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#3c3c3c",
-"img": "swatches/lavi/lv_LV6000.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV6000.jpg",
+"img": "swatches/lavi/lv_LV6000.webp",
+"thumb": "swatches/lavi/thumb/lv_LV6000.webp",
 "price": 150
 },
 {
@@ -1372,8 +1372,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "花紋",
 "hex": "#434343",
-"img": "swatches/lavi/lv_LV6001.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV6001.jpg",
+"img": "swatches/lavi/lv_LV6001.webp",
+"thumb": "swatches/lavi/thumb/lv_LV6001.webp",
 "price": 150
 },
 {
@@ -1383,8 +1383,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#ffffff",
-"img": "swatches/lavi/lv_LV7224.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7224.jpg",
+"img": "swatches/lavi/lv_LV7224.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7224.webp",
 "price": 150
 },
 {
@@ -1394,8 +1394,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#fefefe",
-"img": "swatches/lavi/lv_LV7225.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7225.jpg",
+"img": "swatches/lavi/lv_LV7225.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7225.webp",
 "price": 150
 },
 {
@@ -1405,8 +1405,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#f9f6e5",
-"img": "swatches/lavi/lv_LV7226.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7226.jpg",
+"img": "swatches/lavi/lv_LV7226.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7226.webp",
 "price": 150
 },
 {
@@ -1416,8 +1416,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#ffffff",
-"img": "swatches/lavi/lv_LV7229.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7229.jpg",
+"img": "swatches/lavi/lv_LV7229.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7229.webp",
 "price": 150
 },
 {
@@ -1427,8 +1427,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#fffff7",
-"img": "swatches/lavi/lv_LV7230.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7230.jpg",
+"img": "swatches/lavi/lv_LV7230.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7230.webp",
 "price": 150
 },
 {
@@ -1438,8 +1438,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#fdfdfd",
-"img": "swatches/lavi/lv_LV7231.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7231.jpg",
+"img": "swatches/lavi/lv_LV7231.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7231.webp",
 "price": 150
 },
 {
@@ -1449,8 +1449,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#151515",
-"img": "swatches/lavi/lv_LV7274.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7274.jpg",
+"img": "swatches/lavi/lv_LV7274.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7274.webp",
 "price": 150
 },
 {
@@ -1460,8 +1460,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#000000",
-"img": "swatches/lavi/lv_LV7275.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7275.jpg",
+"img": "swatches/lavi/lv_LV7275.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7275.webp",
 "price": 150
 },
 {
@@ -1471,8 +1471,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#dfdfdd",
-"img": "swatches/lavi/lv_LV7276.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7276.jpg",
+"img": "swatches/lavi/lv_LV7276.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7276.webp",
 "price": 150
 },
 {
@@ -1482,8 +1482,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#c2c6c7",
-"img": "swatches/lavi/lv_LV7278.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7278.jpg",
+"img": "swatches/lavi/lv_LV7278.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7278.webp",
 "price": 150
 },
 {
@@ -1493,8 +1493,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#535353",
-"img": "swatches/lavi/lv_LV7279.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7279.jpg",
+"img": "swatches/lavi/lv_LV7279.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7279.webp",
 "price": 150
 },
 {
@@ -1504,8 +1504,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#d6dadd",
-"img": "swatches/lavi/lv_LV7280.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7280.jpg",
+"img": "swatches/lavi/lv_LV7280.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7280.webp",
 "price": 150
 },
 {
@@ -1515,8 +1515,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#8d948d",
-"img": "swatches/lavi/lv_LV7281.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7281.jpg",
+"img": "swatches/lavi/lv_LV7281.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7281.webp",
 "price": 150
 },
 {
@@ -1526,8 +1526,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#b3a88a",
-"img": "swatches/lavi/lv_LV7282.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7282.jpg",
+"img": "swatches/lavi/lv_LV7282.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7282.webp",
 "price": 150
 },
 {
@@ -1537,8 +1537,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#b3c6b2",
-"img": "swatches/lavi/lv_LV7284.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7284.jpg",
+"img": "swatches/lavi/lv_LV7284.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7284.webp",
 "price": 150
 },
 {
@@ -1548,8 +1548,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#8e8695",
-"img": "swatches/lavi/lv_LV7285.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7285.jpg",
+"img": "swatches/lavi/lv_LV7285.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7285.webp",
 "price": 150
 },
 {
@@ -1559,8 +1559,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#d8d7d3",
-"img": "swatches/lavi/lv_LV7286.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7286.jpg",
+"img": "swatches/lavi/lv_LV7286.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7286.webp",
 "price": 150
 },
 {
@@ -1570,8 +1570,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#d0cdbc",
-"img": "swatches/lavi/lv_LV7287.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7287.jpg",
+"img": "swatches/lavi/lv_LV7287.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7287.webp",
 "price": 150
 },
 {
@@ -1581,8 +1581,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#1c0b03",
-"img": "swatches/lavi/lv_LV7313.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7313.jpg",
+"img": "swatches/lavi/lv_LV7313.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7313.webp",
 "price": 150
 },
 {
@@ -1592,8 +1592,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#ffebed",
-"img": "swatches/lavi/lv_LV7323.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7323.jpg",
+"img": "swatches/lavi/lv_LV7323.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7323.webp",
 "price": 150
 },
 {
@@ -1603,8 +1603,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#fbaabd",
-"img": "swatches/lavi/lv_LV7324.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7324.jpg",
+"img": "swatches/lavi/lv_LV7324.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7324.webp",
 "price": 150
 },
 {
@@ -1614,8 +1614,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#e9030f",
-"img": "swatches/lavi/lv_LV7325.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7325.jpg",
+"img": "swatches/lavi/lv_LV7325.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7325.webp",
 "price": 150
 },
 {
@@ -1625,8 +1625,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#f4c0cd",
-"img": "swatches/lavi/lv_LV7326.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7326.jpg",
+"img": "swatches/lavi/lv_LV7326.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7326.webp",
 "price": 150
 },
 {
@@ -1636,8 +1636,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#bf277c",
-"img": "swatches/lavi/lv_LV7328.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7328.jpg",
+"img": "swatches/lavi/lv_LV7328.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7328.webp",
 "price": 150
 },
 {
@@ -1647,8 +1647,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#f9e0e3",
-"img": "swatches/lavi/lv_LV7329.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7329.jpg",
+"img": "swatches/lavi/lv_LV7329.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7329.webp",
 "price": 150
 },
 {
@@ -1658,8 +1658,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#a3095f",
-"img": "swatches/lavi/lv_LV7330.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7330.jpg",
+"img": "swatches/lavi/lv_LV7330.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7330.webp",
 "price": 150
 },
 {
@@ -1669,8 +1669,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#ed5e8a",
-"img": "swatches/lavi/lv_LV7331.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7331.jpg",
+"img": "swatches/lavi/lv_LV7331.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7331.webp",
 "price": 150
 },
 {
@@ -1680,8 +1680,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#f25252",
-"img": "swatches/lavi/lv_LV7332.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7332.jpg",
+"img": "swatches/lavi/lv_LV7332.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7332.webp",
 "price": 150
 },
 {
@@ -1691,8 +1691,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#540026",
-"img": "swatches/lavi/lv_LV7333.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7333.jpg",
+"img": "swatches/lavi/lv_LV7333.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7333.webp",
 "price": 150
 },
 {
@@ -1702,8 +1702,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#bf0007",
-"img": "swatches/lavi/lv_LV7334.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7334.jpg",
+"img": "swatches/lavi/lv_LV7334.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7334.webp",
 "price": 150
 },
 {
@@ -1713,8 +1713,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#640002",
-"img": "swatches/lavi/lv_LV7335.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7335.jpg",
+"img": "swatches/lavi/lv_LV7335.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7335.webp",
 "price": 150
 },
 {
@@ -1724,8 +1724,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#ff4b0c",
-"img": "swatches/lavi/lv_LV7373.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7373.jpg",
+"img": "swatches/lavi/lv_LV7373.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7373.webp",
 "price": 150
 },
 {
@@ -1735,8 +1735,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#ff2c01",
-"img": "swatches/lavi/lv_LV7374.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7374.jpg",
+"img": "swatches/lavi/lv_LV7374.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7374.webp",
 "price": 150
 },
 {
@@ -1746,8 +1746,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#ff4401",
-"img": "swatches/lavi/lv_LV7375.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7375.jpg",
+"img": "swatches/lavi/lv_LV7375.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7375.webp",
 "price": 150
 },
 {
@@ -1757,8 +1757,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#ff861d",
-"img": "swatches/lavi/lv_LV7376.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7376.jpg",
+"img": "swatches/lavi/lv_LV7376.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7376.webp",
 "price": 150
 },
 {
@@ -1768,8 +1768,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#fede00",
-"img": "swatches/lavi/lv_LV7424.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7424.jpg",
+"img": "swatches/lavi/lv_LV7424.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7424.webp",
 "price": 150
 },
 {
@@ -1779,8 +1779,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#fffbb4",
-"img": "swatches/lavi/lv_LV7425.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7425.jpg",
+"img": "swatches/lavi/lv_LV7425.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7425.webp",
 "price": 150
 },
 {
@@ -1790,8 +1790,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#e5d5b3",
-"img": "swatches/lavi/lv_LV7426.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7426.jpg",
+"img": "swatches/lavi/lv_LV7426.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7426.webp",
 "price": 150
 },
 {
@@ -1801,8 +1801,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#fff4de",
-"img": "swatches/lavi/lv_LV7427.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7427.jpg",
+"img": "swatches/lavi/lv_LV7427.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7427.webp",
 "price": 150
 },
 {
@@ -1812,8 +1812,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#fffeef",
-"img": "swatches/lavi/lv_LV7428.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7428.jpg",
+"img": "swatches/lavi/lv_LV7428.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7428.webp",
 "price": 150
 },
 {
@@ -1823,8 +1823,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#ffad01",
-"img": "swatches/lavi/lv_LV7429.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7429.jpg",
+"img": "swatches/lavi/lv_LV7429.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7429.webp",
 "price": 150
 },
 {
@@ -1834,8 +1834,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#fef6a3",
-"img": "swatches/lavi/lv_LV7430.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7430.jpg",
+"img": "swatches/lavi/lv_LV7430.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7430.webp",
 "price": 150
 },
 {
@@ -1845,8 +1845,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#e7f2b0",
-"img": "swatches/lavi/lv_LV7431.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7431.jpg",
+"img": "swatches/lavi/lv_LV7431.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7431.webp",
 "price": 150
 },
 {
@@ -1856,8 +1856,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#b3c16c",
-"img": "swatches/lavi/lv_LV7432.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7432.jpg",
+"img": "swatches/lavi/lv_LV7432.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7432.webp",
 "price": 150
 },
 {
@@ -1867,8 +1867,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#f1fe00",
-"img": "swatches/lavi/lv_LV7433.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7433.jpg",
+"img": "swatches/lavi/lv_LV7433.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7433.webp",
 "price": 150
 },
 {
@@ -1878,8 +1878,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#b1e785",
-"img": "swatches/lavi/lv_LV7473.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7473.jpg",
+"img": "swatches/lavi/lv_LV7473.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7473.webp",
 "price": 150
 },
 {
@@ -1889,8 +1889,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#aedeac",
-"img": "swatches/lavi/lv_LV7474.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7474.jpg",
+"img": "swatches/lavi/lv_LV7474.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7474.webp",
 "price": 150
 },
 {
@@ -1900,8 +1900,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#27c91e",
-"img": "swatches/lavi/lv_LV7475.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7475.jpg",
+"img": "swatches/lavi/lv_LV7475.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7475.webp",
 "price": 150
 },
 {
@@ -1911,8 +1911,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#016823",
-"img": "swatches/lavi/lv_LV7476.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7476.jpg",
+"img": "swatches/lavi/lv_LV7476.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7476.webp",
 "price": 150
 },
 {
@@ -1922,8 +1922,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#35a58d",
-"img": "swatches/lavi/lv_LV7477.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7477.jpg",
+"img": "swatches/lavi/lv_LV7477.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7477.webp",
 "price": 150
 },
 {
@@ -1933,8 +1933,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#518d67",
-"img": "swatches/lavi/lv_LV7478.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7478.jpg",
+"img": "swatches/lavi/lv_LV7478.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7478.webp",
 "price": 150
 },
 {
@@ -1944,8 +1944,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#7e9a71",
-"img": "swatches/lavi/lv_LV7479.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7479.jpg",
+"img": "swatches/lavi/lv_LV7479.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7479.webp",
 "price": 150
 },
 {
@@ -1955,8 +1955,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#4f8338",
-"img": "swatches/lavi/lv_LV7480.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7480.jpg",
+"img": "swatches/lavi/lv_LV7480.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7480.webp",
 "price": 150
 },
 {
@@ -1966,8 +1966,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#2f6e63",
-"img": "swatches/lavi/lv_LV7481.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7481.jpg",
+"img": "swatches/lavi/lv_LV7481.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7481.webp",
 "price": 150
 },
 {
@@ -1977,8 +1977,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#1d4da2",
-"img": "swatches/lavi/lv_LV7623.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7623.jpg",
+"img": "swatches/lavi/lv_LV7623.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7623.webp",
 "price": 150
 },
 {
@@ -1988,8 +1988,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#bcf8ff",
-"img": "swatches/lavi/lv_LV7624.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7624.jpg",
+"img": "swatches/lavi/lv_LV7624.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7624.webp",
 "price": 150
 },
 {
@@ -1999,8 +1999,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#185ddc",
-"img": "swatches/lavi/lv_LV7625.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7625.jpg",
+"img": "swatches/lavi/lv_LV7625.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7625.webp",
 "price": 150
 },
 {
@@ -2010,8 +2010,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#7ba1c8",
-"img": "swatches/lavi/lv_LV7626.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7626.jpg",
+"img": "swatches/lavi/lv_LV7626.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7626.webp",
 "price": 150
 },
 {
@@ -2021,8 +2021,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#071f5d",
-"img": "swatches/lavi/lv_LV7627.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7627.jpg",
+"img": "swatches/lavi/lv_LV7627.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7627.webp",
 "price": 150
 },
 {
@@ -2032,8 +2032,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#051069",
-"img": "swatches/lavi/lv_LV7628.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7628.jpg",
+"img": "swatches/lavi/lv_LV7628.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7628.webp",
 "price": 150
 },
 {
@@ -2043,8 +2043,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#d5fdff",
-"img": "swatches/lavi/lv_LV7629.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7629.jpg",
+"img": "swatches/lavi/lv_LV7629.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7629.webp",
 "price": 150
 },
 {
@@ -2054,8 +2054,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#1ba8a0",
-"img": "swatches/lavi/lv_LV7630.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7630.jpg",
+"img": "swatches/lavi/lv_LV7630.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7630.webp",
 "price": 150
 },
 {
@@ -2065,8 +2065,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#060d2a",
-"img": "swatches/lavi/lv_LV7631.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7631.jpg",
+"img": "swatches/lavi/lv_LV7631.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7631.webp",
 "price": 150
 },
 {
@@ -2076,8 +2076,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#365663",
-"img": "swatches/lavi/lv_LV7632.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7632.jpg",
+"img": "swatches/lavi/lv_LV7632.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7632.webp",
 "price": 150
 },
 {
@@ -2087,8 +2087,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#4f52c7",
-"img": "swatches/lavi/lv_LV7673.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7673.jpg",
+"img": "swatches/lavi/lv_LV7673.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7673.webp",
 "price": 150
 },
 {
@@ -2098,8 +2098,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#c4baf6",
-"img": "swatches/lavi/lv_LV7674.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7674.jpg",
+"img": "swatches/lavi/lv_LV7674.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7674.webp",
 "price": 150
 },
 {
@@ -2109,8 +2109,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#5e2b1a",
-"img": "swatches/lavi/lv_LV7724.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7724.jpg",
+"img": "swatches/lavi/lv_LV7724.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7724.webp",
 "price": 150
 },
 {
@@ -2120,8 +2120,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#80684e",
-"img": "swatches/lavi/lv_LV7725.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7725.jpg",
+"img": "swatches/lavi/lv_LV7725.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7725.webp",
 "price": 150
 },
 {
@@ -2131,8 +2131,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "素色",
 "hex": "#807469",
-"img": "swatches/lavi/lv_LV7726.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV7726.jpg",
+"img": "swatches/lavi/lv_LV7726.webp",
+"thumb": "swatches/lavi/thumb/lv_LV7726.webp",
 "price": 150
 },
 {
@@ -2142,8 +2142,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "ZENTEX 抗指紋",
 "hex": "#fefefe",
-"img": "swatches/lavi/lv_ZE7232U.jpg",
-"thumb": "swatches/lavi/thumb/lv_ZE7232U.jpg",
+"img": "swatches/lavi/lv_ZE7232U.webp",
+"thumb": "swatches/lavi/thumb/lv_ZE7232U.webp",
 "price": 150
 },
 {
@@ -2153,8 +2153,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "ZENTEX 抗指紋",
 "hex": "#fdfef6",
-"img": "swatches/lavi/lv_ZE7233U.jpg",
-"thumb": "swatches/lavi/thumb/lv_ZE7233U.jpg",
+"img": "swatches/lavi/lv_ZE7233U.webp",
+"thumb": "swatches/lavi/thumb/lv_ZE7233U.webp",
 "price": 150
 },
 {
@@ -2164,8 +2164,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "ZENTEX 抗指紋",
 "hex": "#fef7e4",
-"img": "swatches/lavi/lv_ZE7234U.jpg",
-"thumb": "swatches/lavi/thumb/lv_ZE7234U.jpg",
+"img": "swatches/lavi/lv_ZE7234U.webp",
+"thumb": "swatches/lavi/thumb/lv_ZE7234U.webp",
 "price": 150
 },
 {
@@ -2175,8 +2175,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "ZENTEX 抗指紋",
 "hex": "#abb5b0",
-"img": "swatches/lavi/lv_ZE7290U.jpg",
-"thumb": "swatches/lavi/thumb/lv_ZE7290U.jpg",
+"img": "swatches/lavi/lv_ZE7290U.webp",
+"thumb": "swatches/lavi/thumb/lv_ZE7290U.webp",
 "price": 150
 },
 {
@@ -2186,8 +2186,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "ZENTEX 抗指紋",
 "hex": "#141414",
-"img": "swatches/lavi/lv_ZE7291U.jpg",
-"thumb": "swatches/lavi/thumb/lv_ZE7291U.jpg",
+"img": "swatches/lavi/lv_ZE7291U.webp",
+"thumb": "swatches/lavi/thumb/lv_ZE7291U.webp",
 "price": 150
 },
 {
@@ -2197,8 +2197,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "ZENTEX 抗指紋",
 "hex": "#50252b",
-"img": "swatches/lavi/lv_ZE7336U.jpg",
-"thumb": "swatches/lavi/thumb/lv_ZE7336U.jpg",
+"img": "swatches/lavi/lv_ZE7336U.webp",
+"thumb": "swatches/lavi/thumb/lv_ZE7336U.webp",
 "price": 150
 },
 {
@@ -2208,8 +2208,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "ZENTEX 抗指紋",
 "hex": "#043347",
-"img": "swatches/lavi/lv_ZE7633U.jpg",
-"thumb": "swatches/lavi/thumb/lv_ZE7633U.jpg",
+"img": "swatches/lavi/lv_ZE7633U.webp",
+"thumb": "swatches/lavi/thumb/lv_ZE7633U.webp",
 "price": 150
 },
 {
@@ -2219,8 +2219,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#ededed",
-"img": "swatches/lavi/lv_LV104.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV104.jpg",
+"img": "swatches/lavi/lv_LV104.webp",
+"thumb": "swatches/lavi/thumb/lv_LV104.webp",
 "price": 150
 },
 {
@@ -2230,8 +2230,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#cecece",
-"img": "swatches/lavi/lv_LV105.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV105.jpg",
+"img": "swatches/lavi/lv_LV105.webp",
+"thumb": "swatches/lavi/thumb/lv_LV105.webp",
 "price": 150
 },
 {
@@ -2241,8 +2241,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#bcb291",
-"img": "swatches/lavi/lv_LV106.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV106.jpg",
+"img": "swatches/lavi/lv_LV106.webp",
+"thumb": "swatches/lavi/thumb/lv_LV106.webp",
 "price": 150
 },
 {
@@ -2252,8 +2252,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#cab291",
-"img": "swatches/lavi/lv_LV144.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV144.jpg",
+"img": "swatches/lavi/lv_LV144.webp",
+"thumb": "swatches/lavi/thumb/lv_LV144.webp",
 "price": 150
 },
 {
@@ -2263,8 +2263,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#b1b1b1",
-"img": "swatches/lavi/lv_LV145.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV145.jpg",
+"img": "swatches/lavi/lv_LV145.webp",
+"thumb": "swatches/lavi/thumb/lv_LV145.webp",
 "price": 150
 },
 {
@@ -2274,8 +2274,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#ded4b7",
-"img": "swatches/lavi/lv_LV311.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV311.jpg",
+"img": "swatches/lavi/lv_LV311.webp",
+"thumb": "swatches/lavi/thumb/lv_LV311.webp",
 "price": 150
 },
 {
@@ -2285,8 +2285,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#6e5b4a",
-"img": "swatches/lavi/lv_LV333.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV333.jpg",
+"img": "swatches/lavi/lv_LV333.webp",
+"thumb": "swatches/lavi/thumb/lv_LV333.webp",
 "price": 150
 },
 {
@@ -2296,8 +2296,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#997650",
-"img": "swatches/lavi/lv_LV334.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV334.jpg",
+"img": "swatches/lavi/lv_LV334.webp",
+"thumb": "swatches/lavi/thumb/lv_LV334.webp",
 "price": 150
 },
 {
@@ -2307,8 +2307,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#ccccc6",
-"img": "swatches/lavi/lv_LV335.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV335.jpg",
+"img": "swatches/lavi/lv_LV335.webp",
+"thumb": "swatches/lavi/thumb/lv_LV335.webp",
 "price": 150
 },
 {
@@ -2318,8 +2318,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#c6c0a8",
-"img": "swatches/lavi/lv_LV336.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV336.jpg",
+"img": "swatches/lavi/lv_LV336.webp",
+"thumb": "swatches/lavi/thumb/lv_LV336.webp",
 "price": 150
 },
 {
@@ -2329,8 +2329,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#9b9c97",
-"img": "swatches/lavi/lv_LV337.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV337.jpg",
+"img": "swatches/lavi/lv_LV337.webp",
+"thumb": "swatches/lavi/thumb/lv_LV337.webp",
 "price": 150
 },
 {
@@ -2340,8 +2340,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#252722",
-"img": "swatches/lavi/lv_LV338.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV338.jpg",
+"img": "swatches/lavi/lv_LV338.webp",
+"thumb": "swatches/lavi/thumb/lv_LV338.webp",
 "price": 150
 },
 {
@@ -2351,8 +2351,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "MetaLex 金屬板",
 "hex": "#212121",
-"img": "swatches/lavi/lv_LV339.jpg",
-"thumb": "swatches/lavi/thumb/lv_LV339.jpg",
+"img": "swatches/lavi/lv_LV339.webp",
+"thumb": "swatches/lavi/thumb/lv_LV339.webp",
 "price": 150
 },
 {
@@ -2362,8 +2362,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "FunMagnet 磁性板",
 "hex": "#efefef",
-"img": "swatches/lavi/lv_FM1050.jpg",
-"thumb": "swatches/lavi/thumb/lv_FM1050.jpg",
+"img": "swatches/lavi/lv_FM1050.webp",
+"thumb": "swatches/lavi/thumb/lv_FM1050.webp",
 "price": 150
 },
 {
@@ -2373,8 +2373,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "FunMagnet 磁性板",
 "hex": "#dfded4",
-"img": "swatches/lavi/lv_FM2051.jpg",
-"thumb": "swatches/lavi/thumb/lv_FM2051.jpg",
+"img": "swatches/lavi/lv_FM2051.webp",
+"thumb": "swatches/lavi/thumb/lv_FM2051.webp",
 "price": 150
 },
 {
@@ -2384,8 +2384,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "FunMagnet 磁性板",
 "hex": "#ffffff",
-"img": "swatches/lavi/lv_FM7224.jpg",
-"thumb": "swatches/lavi/thumb/lv_FM7224.jpg",
+"img": "swatches/lavi/lv_FM7224.webp",
+"thumb": "swatches/lavi/thumb/lv_FM7224.webp",
 "price": 150
 },
 {
@@ -2395,8 +2395,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "FunMagnet 磁性板",
 "hex": "#fefef6",
-"img": "swatches/lavi/lv_FM7230.jpg",
-"thumb": "swatches/lavi/thumb/lv_FM7230.jpg",
+"img": "swatches/lavi/lv_FM7230.webp",
+"thumb": "swatches/lavi/thumb/lv_FM7230.webp",
 "price": 150
 },
 {
@@ -2406,8 +2406,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "FunMagnet 磁性板",
 "hex": "#151515",
-"img": "swatches/lavi/lv_FM7275.jpg",
-"thumb": "swatches/lavi/thumb/lv_FM7275.jpg",
+"img": "swatches/lavi/lv_FM7275.webp",
+"thumb": "swatches/lavi/thumb/lv_FM7275.webp",
 "price": 150
 },
 {
@@ -2417,8 +2417,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "FunMagnet 磁性板",
 "hex": "#d7d6d2",
-"img": "swatches/lavi/lv_FM7286D.jpg",
-"thumb": "swatches/lavi/thumb/lv_FM7286D.jpg",
+"img": "swatches/lavi/lv_FM7286D.webp",
+"thumb": "swatches/lavi/thumb/lv_FM7286D.webp",
 "price": 150
 },
 {
@@ -2428,8 +2428,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "FunMagnet 磁性板",
 "hex": "#2f6e63",
-"img": "swatches/lavi/lv_FM7481.jpg",
-"thumb": "swatches/lavi/thumb/lv_FM7481.jpg",
+"img": "swatches/lavi/lv_FM7481.webp",
+"thumb": "swatches/lavi/thumb/lv_FM7481.webp",
 "price": 150
 },
 {
@@ -2439,8 +2439,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "Fantasy 幻彩板",
 "hex": "#e6e6e5",
-"img": "swatches/lavi/lv_FA0001.jpg",
-"thumb": "swatches/lavi/thumb/lv_FA0001.jpg",
+"img": "swatches/lavi/lv_FA0001.webp",
+"thumb": "swatches/lavi/thumb/lv_FA0001.webp",
 "price": 150
 },
 {
@@ -2450,8 +2450,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "Fantasy 幻彩板",
 "hex": "#f5f5f3",
-"img": "swatches/lavi/lv_FA0004.jpg",
-"thumb": "swatches/lavi/thumb/lv_FA0004.jpg",
+"img": "swatches/lavi/lv_FA0004.webp",
+"thumb": "swatches/lavi/thumb/lv_FA0004.webp",
 "price": 150
 },
 {
@@ -2461,8 +2461,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "Fantasy 幻彩板",
 "hex": "#dadada",
-"img": "swatches/lavi/lv_FA0007.jpg",
-"thumb": "swatches/lavi/thumb/lv_FA0007.jpg",
+"img": "swatches/lavi/lv_FA0007.webp",
+"thumb": "swatches/lavi/thumb/lv_FA0007.webp",
 "price": 150
 },
 {
@@ -2472,8 +2472,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "Fantasy 幻彩板",
 "hex": "#abacac",
-"img": "swatches/lavi/lv_FA0010.jpg",
-"thumb": "swatches/lavi/thumb/lv_FA0010.jpg",
+"img": "swatches/lavi/lv_FA0010.webp",
+"thumb": "swatches/lavi/thumb/lv_FA0010.webp",
 "price": 150
 },
 {
@@ -2483,8 +2483,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "Fantasy 幻彩板",
 "hex": "#515252",
-"img": "swatches/lavi/lv_FA0013.jpg",
-"thumb": "swatches/lavi/thumb/lv_FA0013.jpg",
+"img": "swatches/lavi/lv_FA0013.webp",
+"thumb": "swatches/lavi/thumb/lv_FA0013.webp",
 "price": 150
 },
 {
@@ -2494,8 +2494,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "Fantasy 幻彩板",
 "hex": "#8696a3",
-"img": "swatches/lavi/lv_FA0016.jpg",
-"thumb": "swatches/lavi/thumb/lv_FA0016.jpg",
+"img": "swatches/lavi/lv_FA0016.webp",
+"thumb": "swatches/lavi/thumb/lv_FA0016.webp",
 "price": 150
 },
 {
@@ -2505,8 +2505,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "Fantasy 幻彩板",
 "hex": "#b4b59e",
-"img": "swatches/lavi/lv_FA0019.jpg",
-"thumb": "swatches/lavi/thumb/lv_FA0019.jpg",
+"img": "swatches/lavi/lv_FA0019.webp",
+"thumb": "swatches/lavi/thumb/lv_FA0019.webp",
 "price": 150
 },
 {
@@ -2516,8 +2516,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "Fantasy 幻彩板",
 "hex": "#2c4d42",
-"img": "swatches/lavi/lv_FA0022.jpg",
-"thumb": "swatches/lavi/thumb/lv_FA0022.jpg",
+"img": "swatches/lavi/lv_FA0022.webp",
+"thumb": "swatches/lavi/thumb/lv_FA0022.webp",
 "price": 150
 },
 {
@@ -2527,8 +2527,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "Fantasy 幻彩板",
 "hex": "#887a72",
-"img": "swatches/lavi/lv_FA0025.jpg",
-"thumb": "swatches/lavi/thumb/lv_FA0025.jpg",
+"img": "swatches/lavi/lv_FA0025.webp",
+"thumb": "swatches/lavi/thumb/lv_FA0025.webp",
 "price": 150
 },
 {
@@ -2538,8 +2538,8 @@ window.SWATCHES = (window.SWATCHES || []).concat([
 "brand": "樂維 LAVI",
 "series": "Fantasy 幻彩板",
 "hex": "#f1f1f1",
-"img": "swatches/lavi/lv_FA0027.jpg",
-"thumb": "swatches/lavi/thumb/lv_FA0027.jpg",
+"img": "swatches/lavi/lv_FA0027.webp",
+"thumb": "swatches/lavi/thumb/lv_FA0027.webp",
 "price": 150
 }
 ]);
