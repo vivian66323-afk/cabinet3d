@@ -1,0 +1,9 @@
+{
+  "name": "cabinet3d",
+  "version": "1.0.0",
+  "private": true,
+  "description": "系統櫃 3D 設計平台（純靜態網站，部署於 GitHub Pages）",
+  "scripts": {
+    "test:dxf": "node tests/dxf/run.js"
+  }
+}
