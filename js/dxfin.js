@@ -39,6 +39,10 @@
     if (!enc) {
       enc = 'big5';
       warnings.push(m ? `不認得的字碼頁 ${m[1].trim()}，已改以 Big5 解碼` : '檔案不是 UTF-8 也沒有標示字碼頁（$DWGCODEPAGE），已以 Big5 解碼；若中文圖層名或文字是亂碼，請在 CAD 另存為 AutoCAD 2007 以後版本的 DXF');
+    } else if (/^windows-125/.test(enc)) {
+      // 標成單位元組西歐字碼頁，但內容有成對的高位元組（Big5／GBK 的雙位元組字）：多半是字碼頁標錯，試著用 Big5
+      let pairs = 0; for (let i = 0; i + 1 < u8.length; i++) if (u8[i] >= 0x81 && u8[i + 1] >= 0x40) { pairs++; i++; }
+      if (pairs) { const t = new TextDecoder('big5').decode(u8); if (!/\uFFFD/.test(t)) { enc = 'big5'; warnings.push(`字碼頁標示為 ${m[1].trim()} 但內容像是 Big5，已以 Big5 解碼`); } }
     } else if (enc !== 'utf-8') warnings.push(`檔案以 ${CODEPAGE_NAMES[enc] || enc} 編碼，已轉換`);
     const dec = decoderOf(enc);
     if (!dec) { warnings.push(`這個瀏覽器不支援 ${enc} 解碼，中文可能顯示為亂碼`); return { text: new TextDecoder('utf-8').decode(u8), encoding: 'utf-8', warnings }; }
