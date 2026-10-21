@@ -1,2 +1,5 @@
 .claude/
 2020-*名片*.png
+node_modules/
+test-results/
+playwright-report/
