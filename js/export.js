@@ -503,7 +503,8 @@ ${tris}</mesh></geometry>`);
       const cab = r.cab;
       const pg = Dr().Page('landscape', 200);
       const box = Dr().frame(pg, (r.floor ? r.floor + ' ' : '') + '三視圖　' + P().fullCode(cab), info({ page: pi, pages: q.rows.length }));
-      const dep = cab.kind === 'corner' ? cab.w : cab.d;
+      // 版面用的深度要和俯視／側視實際畫的一致：轉角櫃為 w，L 形／ㄇ 形桌面為 l2（Model.footDepth），否則俯視圖會壓到正視圖
+      const dep = window.Model.footDepth(cab);
       const totalH = cab.y + cab.h + (cab.top && cab.top !== 'none' ? 40 : 0);
       // 版面：左側 正視(下) + 俯視(上)，右側 側視；右上等角圖、右下規格
       const areaW = 175, areaH = box.y1 - box.y0 - 6;
