@@ -232,4 +232,33 @@ test.describe('介面修正', () => {
     expect(await hist(), '不可多出一筆復原紀錄').toBe(h1);
     expect(errors.pageErrors).toEqual([]);
   });
+
+  test('#9 天花編輯／迴路指派中刪除或重建空間：編輯模式結束、掣點清掉、指派的迴路 id 不殘留', async ({ page }) => {
+    await H.loadSample(page);
+    await page.evaluate(() => { const C = window.Ceiling; window.App.mutate('放設備', x => { C.ensure(x.room); C.addFixture(x.room, 'dl_small', [0, 0]); C.addOutlet(x.room, 'socket', 0, 0, 300); }, 'room'); window.App.select(null); });
+    // 進入編輯並新增一條迴路（會進入指派模式，掣點＝可指派的設備）
+    await page.click('#tab-props [data-a="ceil-edit"]');
+    await page.click('#tab-props [data-a="ckt-add"]');
+    const mode = () => page.evaluate(() => ({ edit: window.Viewer.ceilEdit, ckt: window.Viewer.cktAssign, grips: (() => { let n = 0; window.Viewer.getCabGroup().parent.traverse(o => { if (o.userData && o.userData.cgrip) n++; }); return n; })() }));
+    let m = await mode();
+    expect(m.edit).toBe(true); expect(m.ckt).toBeTruthy(); expect(m.grips).toBeGreaterThan(0);
+    // 刪除空間
+    await page.click('#tab-props [data-a="room-del"]');
+    await page.locator('.modal .mfoot button', { hasText: '確定' }).click();
+    await expect.poll(() => page.evaluate(() => !!window.App.state.room)).toBe(false);
+    await expect.poll(mode).toEqual({ edit: false, ckt: null, grips: 0 });
+    // 在 3D 視窗點一下（原本掣點的位置）不可拋錯
+    const box = await page.locator('#viewport canvas').boundingBox();
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+    // 重建空間：編輯模式仍是關的
+    await page.evaluate(() => window.App.setRoom(window.Model.rectRoom(4000, 3000, 2800, 120)));
+    await page.evaluate(() => { const C = window.Ceiling; window.App.mutate('放設備', x => { C.ensure(x.room); C.addFixture(x.room, 'dl_small', [0, 0]); }, 'room'); });
+    await page.click('#tab-props [data-a="ceil-edit"]');
+    await page.click('#tab-props [data-a="ckt-add"]');
+    m = await mode(); expect(m.edit).toBe(true); expect(m.ckt).toBeTruthy();
+    await page.evaluate(() => window.App.setRoom(window.Model.rectRoom(3000, 3000, 2800, 120)));
+    await expect.poll(mode).toEqual({ edit: false, ckt: null, grips: 0 });
+    await expect(page.locator('#tab-props [data-a="ceil-edit"]')).toContainText('編輯（拖曳調整）');
+    expect(errors.pageErrors).toEqual([]);
+  });
 });

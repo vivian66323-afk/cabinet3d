@@ -35,7 +35,8 @@ function makeSandbox() {
   };
   Object.assign(win, { localStorage: sb.localStorage, sessionStorage: sb.sessionStorage, document: sb.document, addEventListener() { }, matchMedia: sb.matchMedia, location: { href: 'http://localhost/index.html' } });
   // 3D 檢視器與介面：記錄呼叫即可
-  win.Viewer = { rebuildAll: () => calls.rebuild.push('all'), rebuildRoom: () => calls.rebuild.push('room'), rebuildUnderlay: () => calls.rebuild.push('underlay'), rebuildCabinet: id => calls.rebuild.push(id), checkOverlaps() { }, refreshGaps() { }, updateSelection() { }, zoomExtents() { }, setView() { }, init() { }, getCabGroup: () => ({ children: [] }) };
+  win.Viewer = { rebuildAll: () => calls.rebuild.push('all'), rebuildRoom: () => calls.rebuild.push('room'), rebuildUnderlay: () => calls.rebuild.push('underlay'), rebuildCabinet: id => calls.rebuild.push(id), checkOverlaps() { }, refreshGaps() { }, updateSelection() { }, zoomExtents() { }, setView() { }, init() { }, getCabGroup: () => ({ children: [] }),
+    ceilEdit: false, ceilSel: null, cktAssign: null, setCeilEdit(on) { this.ceilEdit = !!on; this.ceilSel = null; } };
   win.UI = { init() { }, refresh() { }, showProps() { }, alert: (t, m) => calls.alert.push([t, m]), syncToolbar() { }, matOf: () => null };
   vm.createContext(sb);
   // 讓 window.X 與全域 X 同步（原始碼有時直接用 App／THREE 等全域名）
@@ -121,6 +122,21 @@ const CASES = [
     t.ok(!threw, '不可拋出例外：' + (threw && threw.message));
     t.eq(App.sel, null, '選取應被清掉');
     t.eq(App.state.floors[0].cabinets.length, 1, '別層的櫃體不可被誤刪');
+  }],
+  ['app:exitCeilEdit', '天花編輯／迴路指派模式在空間重建、刪除樓層、切換樓層、載入或開新專案時要結束，不能留著指向舊空間的迴路 id', (t, sb) => {
+    const { App, Model, Viewer } = sb.window;
+    const enter = () => { Viewer.ceilEdit = true; Viewer.ceilSel = 'x'; Viewer.cktAssign = 'ck1'; };
+    const off = why => { t.ok(Viewer.ceilEdit === false && Viewer.cktAssign === null && Viewer.ceilSel === null, why + '：應已結束編輯與指派（ceilEdit=' + Viewer.ceilEdit + '、cktAssign=' + Viewer.cktAssign + '）'); };
+    App.newProject();
+    enter(); App.setRoom(Model.rectRoom(4000, 3000, 2800, 120)); off('重建空間');
+    enter(); App.addFloor(); off('新增樓層（切換到新樓層）');
+    enter(); App.switchFloor(0); off('切換樓層');
+    enter(); App.deleteFloor(1); off('刪除樓層');
+    enter(); App.loadState(JSON.parse(App.projectJSON())); off('載入專案');
+    enter(); App.newProject(); off('開新專案');
+    // 同一層、沒切換：不該被打斷
+    App.setRoom(Model.rectRoom(4000, 3000, 2800, 120)); enter(); App.switchFloor(0);
+    t.ok(Viewer.ceilEdit === true && Viewer.cktAssign === 'ck1', '點目前樓層不切換時，編輯模式要維持');
   }],
   ['app:normalize-roundtrip', '存檔→載入（normalize）不會遺失樓層、底圖、天花與電路資料', (t, sb) => {
     const { App, Model, Ceiling } = sb.window;
