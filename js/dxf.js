@@ -664,9 +664,11 @@
             const hinge = i0, swing = [hinge[0] + wi.nIn[0] * o.width, hinge[1] + wi.nIn[1] * o.width];
             const Hp = T(hinge), Sp = T(swing);
             doc.line(Hp[0], Hp[1], Sp[0], Sp[1], 'A-OPEN');
-            const a0 = Math.atan2(Sp[1] - Hp[1], Sp[0] - Hp[0]) * 180 / Math.PI;
+            let a0 = Math.atan2(Sp[1] - Hp[1], Sp[0] - Hp[0]) * 180 / Math.PI;
             const Ip = T(i1);
-            const a1 = Math.atan2(Ip[1] - Hp[1], Ip[0] - Hp[0]) * 180 / Math.PI;
+            let a1 = Math.atan2(Ip[1] - Hp[1], Ip[0] - Hp[0]) * 180 / Math.PI;
+            // DXF 的 ARC 一律從 a0 逆時針畫到 a1：空間頂點若是順時針畫的，門扇→門框的方向會是順時針，要對調起訖角才不會畫成 270° 的大弧
+            if (((a1 - a0) % 360 + 360) % 360 > 180) { const tmp = a0; a0 = a1; a1 = tmp; }
             doc.arc(Hp[0], Hp[1], o.width, a0, a1, 'A-OPEN-SYM', 'DASHED');
           }
           if (opt.labels !== false) {
