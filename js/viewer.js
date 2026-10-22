@@ -1395,7 +1395,7 @@
   // 鎖點追蹤：起點（封閉）> 端點 > 中點 > 軸向（紅/綠）＋ 與已畫點對齊的追蹤線
   function inferPoint(raw, from) {
     const cr = renderer.domElement.getBoundingClientRect();
-    const DY = drawY();
+    const DY = drawY(raw.x, raw.z);
     const scr = (x, z) => { const q = new THREE.Vector3(x, DY, z).project(camera); return [(q.x + 1) / 2 * cr.width, (1 - q.y) / 2 * cr.height]; };
     const ms = [(mouse.x + 1) / 2 * cr.width, (1 - mouse.y) / 2 * cr.height];
     const near = (x, z, px) => { const q = scr(x, z); return (q[0] - ms[0]) ** 2 + (q[1] - ms[1]) ** 2 < px * px; };
@@ -1449,7 +1449,7 @@
   function redrawLine() {
     if (draw.line) { helperGroup.remove(draw.line); draw.line = null; }
     if (draw.guides) { helperGroup.remove(draw.guides); draw.guides = null; }
-    const LY = drawY() + 5;
+    const LY = (draw.cursor ? drawY(draw.cursor[0], draw.cursor[1]) : drawY()) - (SURF_TARGET.test(V.lineTarget || '') ? 5 : -5);
     const pts = draw.pts.map(p => new THREE.Vector3(p[0], LY, p[1]));
     draw.line = new THREE.Group();
     // 已完成的線段：黑色；目前這一段：依軸向上色
@@ -1477,23 +1477,33 @@
     if (App.ui && App.ui.syncLineInput) App.ui.syncLineInput();
   }
   // 畫線的工作高度：畫天花造型／燈具／空調時在天花高度（牆的上緣），畫空間與插座在地面
-  function drawY() {
+  // 畫天花本身（降板、高區、包樑）＝平釘天花高度；裝在天花上的設備＝游標所在處的天花下緣（降板區內用降板高度）
+  const SURF_TARGET = /^(fx:|row:|grid:|strip|track|supply|ret|acsys)/;
+  function drawY(x, z) {
     const t = V.lineTarget, r = App.state && App.state.room;
     if (V.tool !== 'line' || !t || t === 'room' || /^ol:/.test(t) || !r || !window.Ceiling) return 0;
-    return window.Ceiling.ensure(r).h;
+    const C = window.Ceiling;
+    if (SURF_TARGET.test(t) && x != null) return C.heightAt(r, x, z);
+    return C.ensure(r).h;
   }
   V.drawY = drawY;
+  // 游標射線與「天花下緣」的交點：先交平釘高度，再依該處的天花高度修正（最多 3 次）
+  function drawPoint() {
+    let y = drawY(), g = groundPoint(y); if (!g) return null;
+    if (SURF_TARGET.test(V.lineTarget || '')) for (let i = 0; i < 3; i++) { const y2 = drawY(g.x, g.z); if (Math.abs(y2 - y) < 1) break; const g2 = groundPoint(y2); if (!g2) break; y = y2; g = g2; }
+    return g;
+  }
   function lineMove() {
-    const g = groundPoint(drawY()); if (!g) { V.snapMark = null; return; }
+    const g = drawPoint(); if (!g) { V.snapMark = null; return; }
     const r = inferPoint(g, draw.pts[draw.pts.length - 1]);
     draw.cursor = r.p; draw.snap = r.snap; draw.axis = r.axis; draw.cursorGuides = r.guides; draw.last = r;
     redrawLine();
     const type = r.close ? '起點' : r.snap.startsWith('端點') ? '端點' : r.snap.startsWith('中點') ? '中點' : r.axis === 'X' ? '紅軸' : r.axis === 'Z' ? '綠軸' : r.guides && r.guides.length ? '對齊' : '地面';
-    V.snapMark = { p: new THREE.Vector3(r.p[0], drawY(), r.p[1]), type, tip: r.snap || '' };
+    V.snapMark = { p: new THREE.Vector3(r.p[0], drawY(r.p[0], r.p[1]), r.p[1]), type, tip: r.snap || '' };
     App.status(`畫線：${draw.pts.length ? '點擊下一點' : '點擊起點'}　${r.snap ? '鎖點【' + r.snap + '】' : ''}${draw.lock ? '（Shift 鎖定）' : ''}　可直接打數字：長度 或 長度,角度 再按 Enter；Backspace 退回上一點；按住 Shift 鎖定軸向；點回起點、雙擊或空白時按 Enter 完成`);
   }
   function lineClick() {
-    const g = groundPoint(drawY()); if (!g) return;
+    const g = drawPoint(); if (!g) return;
     const r = inferPoint(g, draw.pts[draw.pts.length - 1]);
     if (r.close) { finishLine(); return; }
     draw.pts.push(r.p);
