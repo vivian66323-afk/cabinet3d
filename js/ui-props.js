@@ -503,7 +503,7 @@
     if (a === 'pick-paint-wall') { UI.pickPaint(+b.dataset.i); return; }
     if (a === 'paint-wall-clear') { const wi0 = +b.dataset.i; App.mutate('牆面同整體', x => { delete x.room.walls[wi0].color; delete x.room.walls[wi0].paint; }, 'room'); return; }
     if (a === 'room-rect') { UI.roomDialog(); return; }
-    if (a.startsWith('ul-')) { window.Underlay.click(a); return; }
+    if (a && a.startsWith('ul-')) { window.Underlay.click(a); return; }   // 門片列／層板／門窗的按鈕只有 data-ra／data-sa／data-oa，沒有 data-a
     if (a === 'room-line') { UI.action('line'); return; }
     if (a === 'room-del') { if (await UI.confirm('刪除空間', '刪除牆面與門窗（櫃體保留）？')) { App.sel = null; App.mutate('刪除空間', x => { x.room = null; }, 'room'); } return; }
     if (a === 'wall') { App.select({ type: 'wall', index: +b.dataset.i }); return; }
