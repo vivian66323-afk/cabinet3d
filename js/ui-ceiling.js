@@ -39,7 +39,7 @@
     <div class="kv"><label>類型</label><select data-key="ol-type" data-f="ol-type">${C.OUTLET_GROUPS.map(([gn, l]) => `<optgroup label="${gn}">${l.map(k2 => `<option value="${k2}"${UI.olType === k2 ? ' selected' : ''}>${C.OUTLETS[k2].name}</option>`).join('')}</optgroup>`).join('')}</select>
       <label>高度</label><div class="inline">${num('ol-h', UI.olH != null ? UI.olH : C.OUTLETS[UI.olType].h, 'step="10" min="0" max="2400"')}<span class="unit">mm（H=${Math.round((UI.olH != null ? UI.olH : C.OUTLETS[UI.olType].h) / 10)}）</span></div></div>
     <div class="btn-row"><button class="btn small" data-a="ol-place">${icon('plus')}點牆邊放置</button><button class="btn small" data-a="ol-undo">退一個</button></div>
-    ${(() => { const rows = C.counts(r, 'power'); return rows.length ? `<div class="list" style="margin-top:6px">${rows.map(x => `<div class="lrow ceil-row"><span>${esc(x.name)}</span><span class="muted">${x.qty} ${x.unit}</span><span></span><button class="icon-btn del" data-a="ol-clear" data-t="${x.t}" title="全部刪除">${icon('x')}</button></div>`).join('')}</div>` : ''; })()}
+    ${(() => { const rows = C.counts(r, 'power'); return rows.length ? `<div class="list" style="margin-top:6px">${rows.map(x => `<div class="lrow ceil-row"><span>${esc(x.name)}</span><span class="muted">${x.qty} ${x.unit}</span><span></span><button class="icon-btn del" data-a="ol-clear" data-t="${x.t}" data-k="${x.kind}" title="全部刪除">${icon('x')}</button></div>`).join('')}</div>` : ''; })()}
     <div class="sec-title" style="margin-top:10px">迴路 <small>出圖時依迴路顏色區分</small></div>
     <div class="btn-row"><button class="btn small" data-a="ckt-auto">${icon('snap')}自動分迴路</button><select data-key="ckt-newtype" data-f="ckt-newtype" style="width:auto">${Object.entries(C.CKT_TYPES).map(([k2, d]) => `<option value="${k2}"${UI.cktNewType === k2 ? ' selected' : ''}>${k2} ${d.name}</option>`).join('')}</select><button class="btn small" data-a="ckt-add">${icon('plus')}新增迴路</button></div>
     ${(r.circuits || []).length ? `<div class="btn-row"><select data-key="ckt-cur" data-f="ckt-cur" style="width:auto">${r.circuits.map(ck => `<option value="${ck.id}"${v.cktAssign === ck.id ? ' selected' : ''}>${esc(ck.code + ' ' + ck.name)}</option>`).join('')}</select><button class="btn small${v.cktAssign ? ' primary' : ''}" data-a="ckt-assign">${icon('select')}${v.cktAssign ? '結束指派' : '指派模式（點設備）'}</button></div>
@@ -142,7 +142,13 @@
     if (a === 'ac-del') { const i0 = +b.dataset.i; App.mutate('刪除冷氣', x => { x.room.acs.splice(i0, 1); }, 'room'); return true; }
     if (a === 'ol-place') { UI.startCeilDraw('ol:' + UI.olType); return true; }
     if (a === 'ol-undo') { if (!(App.state.room.outlets || []).length) { App.toast('沒有可刪除的插座'); return true; } App.mutate('刪除最後一個插座', x => { x.room.outlets.pop(); }, 'room'); return true; }
-    if (a === 'ol-clear') { const t0 = b.dataset.t; if (!(await UI.confirm('全部刪除', '刪除這個空間所有此類插座？（可 Ctrl+Z 復原）'))) return true; App.mutate('刪除插座', x => { x.room.outlets = x.room.outlets.filter(o => o.type !== t0); }, 'room'); return true; }
+    if (a === 'ol-clear') {   // 電路／弱電清單除了牆面插座（outlet），也有天花弱電設備（fix：偵煙、灑水頭、攝影機、喇叭、排風扇、暖風機、緊急照明），存在 room.ceiling.fixtures
+      const t0 = b.dataset.t, isFix = b.dataset.k === 'fix';
+      if (!(await UI.confirm('全部刪除', `刪除這個空間所有此類${isFix ? '設備' : '插座'}？（可 Ctrl+Z 復原）`))) return true;
+      if (isFix) App.mutate('刪除設備', x => { const c = window.Ceiling.ensure(x.room); c.fixtures = c.fixtures.filter(f => f.type !== t0); }, 'room');
+      else App.mutate('刪除插座', x => { x.room.outlets = x.room.outlets.filter(o => o.type !== t0); }, 'room');
+      return true;
+    }
     if (a === 'fx-row') { UI.startCeilDraw('row:' + UI.fxType); return true; }
     if (a === 'fx-grid') { UI.startCeilDraw('grid:' + UI.fxType); return true; }
     if (a === 'fx-undo') { if (!App.state.room.ceiling || !App.state.room.ceiling.fixtures.length) { App.toast('沒有可刪除的設備'); return true; } App.mutate('刪除最後一個設備', x => { x.room.ceiling.fixtures.pop(); }, 'room'); return true; }

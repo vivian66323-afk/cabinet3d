@@ -71,4 +71,24 @@ test.describe('介面修正', () => {
     expect(await page.evaluate(() => [window.App.state.floor, !!window.App.selectedCab()])).toEqual([0, true]);
     expect(errors.pageErrors).toEqual([]);
   });
+
+  test('#3 電路／弱電清單的「全部刪除」對天花弱電設備（偵煙等）也有效，且不會誤刪插座', async ({ page }) => {
+    await H.loadSample(page);
+    await page.evaluate(() => {
+      const C = window.Ceiling;
+      window.App.mutate('放設備', x => { C.ensure(x.room); C.addFixture(x.room, 'smoke', [0, 0]); C.addFixture(x.room, 'smoke', [500, 0]); C.addFixture(x.room, 'cam', [0, 500]); C.addOutlet(x.room, 'socket', 0, 0, 300); }, 'room');
+      window.App.select(null);
+    });
+    const counts = () => page.evaluate(() => ({ smoke: window.App.state.room.ceiling.fixtures.filter(f => f.type === 'smoke').length, cam: window.App.state.room.ceiling.fixtures.filter(f => f.type === 'cam').length, outlets: window.App.state.room.outlets.length }));
+    expect(await counts()).toEqual({ smoke: 2, cam: 1, outlets: 1 });
+    const clear = async t => {
+      await page.click(`#tab-props [data-a="ol-clear"][data-t="${t}"]`);
+      await page.locator('.modal .mfoot button', { hasText: '確定' }).click();
+    };
+    await clear('smoke');
+    await expect.poll(counts).toEqual({ smoke: 0, cam: 1, outlets: 1 });
+    await clear('socket');
+    await expect.poll(counts).toEqual({ smoke: 0, cam: 1, outlets: 0 });
+    expect(errors.pageErrors).toEqual([]);
+  });
 });
