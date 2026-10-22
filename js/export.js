@@ -585,7 +585,8 @@ ${tris}</mesh></geometry>`);
     const pages = [];
     const floors = App.floorList(), multi = floors.length > 1;
     const extraOf = r => { if (!r || !r.ceiling || !r.ceiling.on || !window.Ceiling) return 0; const C = window.Ceiling; return 1 + (C.counts(r, 'light').length ? 1 : 0) + (C.counts(r, 'hvac').length ? 1 : 0) + (C.counts(r, 'power').length ? 1 : 0) + ((r.circuits || []).length ? 1 : 0); };
-    const total = floors.reduce((a, f) => a + 1 + (f.room ? f.room.points.length + extraOf(f.room) : 0), 0);
+    // 沒有空間也沒有櫃體的樓層不會出圖（下方迴圈會跳過），總頁數也不能算進去，否則標題欄的「頁次 x / y」會多 1
+    const total = floors.reduce((a, f) => a + (!f.room && !(f.cabinets || []).length ? 0 : 1 + (f.room ? f.room.points.length + extraOf(f.room) : 0)), 0);
     let pno = 0;
     for (const fl of floors) {
     if (!fl.room && !(fl.cabinets || []).length) continue;
