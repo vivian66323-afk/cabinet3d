@@ -302,4 +302,24 @@ test.describe('介面修正', () => {
     await expect.poll(() => page.evaluate(i => { const c = window.Viewer.getCamera(), s = window.App.state.scenes[i].cam; return c.pos.join() === s.pos.join() && c.target.join() === s.target.join(); }, idx)).toBe(true);
     expect(errors.pageErrors).toEqual([]);
   });
+
+  test('#12 場景名稱欄位在仍有焦點時觸發 change（程式派發）：重繪不可拋 innerHTML 例外，名稱要存到', async ({ page }) => {
+    await H.loadSample(page);
+    await page.click('.tab[data-tab="scenes"]');
+    const inp = page.locator('#tab-scenes input[data-sf="name"]').first();
+    await inp.fill('夜景一'); await inp.dispatchEvent('change');
+    await expect.poll(() => page.evaluate(() => window.App.state.scenes[0].name)).toBe('夜景一');
+    // 按 Enter 也會在焦點還在欄位上時發 change
+    const inp2 = page.locator('#tab-scenes input[data-sf="name"]').first();
+    await inp2.fill('夜景二'); await inp2.press('Enter');
+    await expect.poll(() => page.evaluate(() => window.App.state.scenes[0].name)).toBe('夜景二');
+    // 屬性面板的欄位同樣情況
+    await page.click('.tab[data-tab="props"]');
+    await page.evaluate(() => window.App.select(null));
+    const cl = page.locator('#tab-props input[data-f="client"]');
+    await cl.fill('王小姐'); await cl.dispatchEvent('change');
+    await expect.poll(() => page.evaluate(() => window.App.state.client)).toBe('王小姐');
+    expect(errors.pageErrors, '頁面例外').toEqual([]);
+    expect(errors.console, 'console.error').toEqual([]);
+  });
 });

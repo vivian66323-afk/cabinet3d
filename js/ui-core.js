@@ -199,6 +199,10 @@
     const a = document.activeElement;
     const key = a && el.contains(a) && a.dataset ? a.dataset.key : null;
     const scroll = el.scrollTop;
+    // 重繪前先讓焦點離開：若焦點還在面板裡的欄位上（例如程式派發的 change、或別處觸發的 refresh），
+    // 直接換 innerHTML 會在移除節點時觸發 blur→change→巢狀重繪，外層的 innerHTML 就會拋
+    // 「The node to be removed is no longer a child of this node」；先 blur 讓那個 change 在重繪前跑完
+    if (key && a.blur) a.blur();
     fn();
     el.scrollTop = scroll;
     if (key) { const n = el.querySelector(`[data-key="${key}"]`); if (n) n.focus(); }
