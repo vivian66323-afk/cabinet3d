@@ -53,7 +53,7 @@
   }
   UI.startCeilDraw = function (kind) {
     if (!App.state.room) { App.toast('請先建立空間'); return; }
-    V().lineTarget = kind; UI.action('line');
+    V().lineTarget = kind; if (!/^ol:/.test(kind)) V().ceilGhostAuto(); UI.action('line');
     const nm = k2 => (window.Ceiling.FIX[k2] || {}).name || '';
     App.toast(kind === 'acsys' ? '先點室內機位置（天花內），再點室外機位置（陽台／外牆）' : /^ol:/.test(kind) ? `在牆邊點擊放置「${window.Ceiling.OUTLETS[kind.slice(3)].name}」，可連續點；按「取消」或 Esc 結束` : /^fx:/.test(kind) ? `點天花位置放置「${nm(kind.slice(3))}」，可連續點；按「取消」或 Esc 結束` : /^row:/.test(kind) ? `點「${nm(kind.slice(4))}」一排的起點與終點` : /^grid:/.test(kind) ? `點矩形區域的兩個對角，排「${nm(kind.slice(5))}」矩陣` : ({ zone: '在平面上點降板區各轉角，點回起點完成', raise: '點灑水頭下高區各轉角，點回起點完成', beam: '點樑的起點與終點', strip: '點鋁槽燈的起點與終點', track: '點軌道的起點與終點', supply: '點線型出風口的起點與終點', ret: '點回風口的起點與終點' }[kind]));
   };
@@ -109,6 +109,44 @@
     App.status(`已放置 ${C.FIX[type].name} ${n} 個；繼續點擊放置，按「取消」或 Esc 結束`);
   };
   UI._ceilingSection = ceilingSection;
+  // 3D 點到天花時的屬性面板：上方是點到的那一塊（降板區／燈具／鋁槽燈），下方接整體天花設定
+  UI._ceilSelPanel = function (s) {
+    const r = App.state.room, C = window.Ceiling; if (!r || !C) return '';
+    const c = C.ensure(r);
+    const kel = (cur, d) => `<select data-key="cselk" data-f="cselk">${[2700, 3000, 4000, 6500].map(k => `<option value="${k}"${+(cur || d) === k ? ' selected' : ''}>${k}K</option>`).join('')}</select>`;
+    const btns = `<div class="btn-row"><button class="btn small danger" data-a="csel-del">${icon('x')}刪除（Delete）</button><button class="btn small" data-a="csel-all">選整片天花</button><button class="btn small" data-a="csel-none">取消選取</button></div>`;
+    let head = '';
+    if (s.kind === 'zone') {
+      const i = c.zones.findIndex(q => q.id === s.id), z = c.zones[i];
+      if (z) {
+        const xs = z.pts.map(p => p[0]), zs = z.pts.map(p => p[1]), area = Math.abs(M().polyArea(z.pts)) / 1e6;
+        head = `<div class="sec"><div class="sec-title">${C.KINDS[z.kind] || '天花區域'} <small>已選取</small></div><div class="kv">
+          <label>範圍</label><span>${Math.round(Math.max(...xs) - Math.min(...xs))} × ${Math.round(Math.max(...zs) - Math.min(...zs))} mm　${area.toFixed(2)} m²（${(area / 3.3058).toFixed(2)} 坪）</span>
+          ${z.kind === 'box' ? '<label>高度</label><span class="muted">開口到樓板</span>' : `<label>高度</label><div class="inline">${num('zh' + i, z.h, 'step="10" min="2000" max="6000"')}<span class="unit">mm（基本高 ${c.h}，${z.h < c.h ? '降 ' + (c.h - z.h) : z.h > c.h ? '高 ' + (z.h - c.h) : '同高'}）</span></div>
+          <label>間接光</label><label class="inline"><input type="checkbox" data-key="zc${i}" data-f="zc${i}"${z.cove ? ' checked' : ''} style="width:auto"> 沿邊緣做燈槽</label>
+          ${z.cove ? `<label>色溫</label>${kel(z.kelvin, 2700)}` : ''}`}
+        </div>${btns}<p class="muted" style="font-size:11.5px;margin:4px 0 0">要改形狀：按下方「編輯（拖曳調整）」拖綠色頂點。</p></div>`;
+      }
+    } else if (s.kind === 'st') {
+      const st = c.strips.find(q => q.id === s.id);
+      if (st) { const nm = (C.LINES[st.kind || 'alu'] || {}).name || '鋁槽燈', L = Math.hypot(st.x2 - st.x1, st.z2 - st.z1);
+        head = `<div class="sec"><div class="sec-title">${esc(nm)} <small>已選取</small></div><div class="kv">
+          <label>長度</label><span>${Math.round(L)} mm（${(L / 303).toFixed(1)} 尺）</span>
+          <label>高度</label><span>${Math.round(C.heightAt(r, (st.x1 + st.x2) / 2, (st.z1 + st.z2) / 2))} mm（跟著所在天花）</span>
+          ${st.kind === 'supply' || st.kind === 'ret' ? '' : `<label>色溫</label>${kel(st.kelvin, 3000)}`}
+        </div>${btns}</div>`; }
+    } else if (s.kind === 'fx') {
+      const f = c.fixtures.find(q => q.id === s.id);
+      if (f) { const d = C.FIX[f.type] || {};
+        head = `<div class="sec"><div class="sec-title">${esc(d.name || f.type)} <small>已選取</small></div><div class="kv">
+          <label>位置</label><span>x ${Math.round(f.x)}　z ${Math.round(f.z)}</span>
+          <label>高度</label><span>${Math.round(C.heightAt(r, f.x, f.z))} mm（跟著所在天花）</span>
+          ${d.group === 'light' ? `<label>色溫</label>${kel(f.kelvin, 3000)}` : ''}
+          ${f.ckt ? `<label>迴路</label><span>${esc((C.cktOf(r, f.ckt) || {}).code || '')}</span>` : ''}
+        </div>${btns}<p class="muted" style="font-size:11.5px;margin:4px 0 0">要移動：按下方「編輯（拖曳調整）」拖橘色圓點。</p></div>`; }
+    }
+    return head + ceilingSection(r);
+  };
 
   // 屬性面板欄位變更（天花／燈具／冷氣／插座／迴路）；回傳 true 表示已處理
   UI._onCeilingChange = function (t, val) {
@@ -122,7 +160,8 @@
     if (t.dataset.f === 'ceil-on') { App.mutate('天花板顯示', x => { window.Ceiling.ensure(x.room).on = !!val; }, 'room'); return true; }
     if (t.dataset.f === 'ceil-h') { const v = Math.max(2000, Math.min(6000, Math.round(+val || 2600))); App.mutate('天花基本高', x => { window.Ceiling.ensure(x.room).h = v; }, 'room'); return true; }
     if (t.dataset.f === 'ceil-mold') { App.mutate('線板', x => { window.Ceiling.ensure(x.room).molding = String(val); }, 'room'); return true; }
-    if (t.dataset.f === 'ceil-mode') { V().ceilMode = String(val); UI.refresh(); return true; }
+    if (t.dataset.f === 'ceil-mode') { V().ceilMode = String(val); UI.syncToolbar(); UI.refresh(); return true; }
+    if (t.dataset.f === 'cselk') { const s = App.sel; App.mutate('色溫', x => { const c = x.room.ceiling, o = s.kind === 'zone' ? c.zones.find(q => q.id === s.id) : s.kind === 'st' ? c.strips.find(q => q.id === s.id) : c.fixtures.find(q => q.id === s.id); if (o) o.kelvin = +val; }, 'room'); return true; }
     { const mz = /^zh(\d+)$/.exec(t.dataset.f || ''); if (mz) { const v = Math.max(2000, Math.min(6000, Math.round(+val || 2500))); App.mutate('天花區域高度', x => { x.room.ceiling.zones[+mz[1]].h = v; }, 'room'); return true; } }
     { const mc = /^zc(\d+)$/.exec(t.dataset.f || ''); if (mc) { App.mutate('間接光', x => { x.room.ceiling.zones[+mc[1]].cove = !!val; }, 'room'); return true; } }
     { const ms = /^sk(\d+)$/.exec(t.dataset.f || ''); if (ms) { App.mutate('鋁槽燈色溫', x => { x.room.ceiling.strips[+ms[1]].kelvin = +val; }, 'room'); return true; } }
@@ -138,7 +177,7 @@
     if (a === 'ceil-track' || a === 'ceil-supply' || a === 'ceil-ret') { UI.startCeilDraw(a.slice(5)); return true; }
     if (a === 'fx-place') { UI.startCeilDraw('fx:' + UI.fxType); return true; }
     if (a === 'ceil-lookup') { V().lookUpCeiling(); return true; }
-    if (a === 'ceil-edit') { V().cktAssign = null; V().setCeilEdit(!V().ceilEdit); UI.refresh(); return true; }
+    if (a === 'ceil-edit') { V().cktAssign = null; V().setCeilEdit(!V().ceilEdit); if (V().ceilEdit) V().ceilGhostAuto(); UI.refresh(); return true; }
     if (a === 'ckt-auto') { const has = (App.state.room.circuits || []).length; if (has && !(await UI.confirm('自動分迴路', '會清除目前的迴路設定重新分配，確定？（可 Ctrl+Z 復原）'))) return true; let n = 0; App.mutate('自動分迴路', x => { n = window.Ceiling.autoCircuits(x.room); }, 'room'); App.toast(n ? `已分成 ${n} 個迴路` : '目前沒有需要配電的設備'); return true; }
     if (a === 'ckt-add') { let ck = null; App.mutate('新增迴路', x => { ck = window.Ceiling.addCircuit(x.room, UI.cktNewType || 'C'); }, 'room'); if (ck) { V().cktAssign = ck.id; V().ceilEdit = true; V().ceilSel = null; V().updateCeilGrips(); UI.refresh(); App.toast(`已新增 ${ck.code}，點畫面上的設備指派`); } return true; }
     if (a === 'ckt-assign') { const v2 = V(); if (v2.cktAssign) { v2.cktAssign = null; v2.setCeilEdit(false); } else { const sel = document.querySelector('[data-f="ckt-cur"]'); v2.cktAssign = sel ? sel.value : null; v2.ceilEdit = true; v2.ceilSel = null; v2.updateCeilGrips(); App.status('迴路指派：點設備圓點指派到選定迴路'); } UI.refresh(); return true; }
@@ -160,6 +199,9 @@
     if (a === 'fx-undo') { if (!App.state.room.ceiling || !App.state.room.ceiling.fixtures.length) { App.toast('沒有可刪除的設備'); return true; } App.mutate('刪除最後一個設備', x => { x.room.ceiling.fixtures.pop(); }, 'room'); return true; }
     if (a === 'fx-clear') { const t0 = b.dataset.t, k0 = b.dataset.k; if (!(await UI.confirm('全部刪除', '刪除這個空間所有此類設備？（可 Ctrl+Z 復原）'))) return true; App.mutate('刪除設備', x => { const c = x.room.ceiling; if (k0 === 'fix') c.fixtures = c.fixtures.filter(f => f.type !== t0); else c.strips = c.strips.filter(st => (st.kind || 'alu') !== (t0 === 'spot' ? 'track' : t0)); }, 'room'); return true; }
     if (a === 'ceil-box') { let n = 0; App.mutate('自動窗簾盒', x => { n = window.Ceiling.addCurtainBoxes(x.room); }, 'room'); App.toast(n ? `已在 ${n} 面有窗的牆加窗簾盒（深 180）` : '沒有新增：每面有窗的牆已有窗簾盒，或此空間沒有窗'); return true; }
+    if (a === 'csel-del') { App.deleteSelected(); return true; }
+    if (a === 'csel-all') { App.select({ type: 'ceil', kind: 'base' }); return true; }
+    if (a === 'csel-none') { App.select(null); return true; }
     if (a === 'ceil-zdel') { const i0 = +b.dataset.i; App.mutate('刪除天花區域', x => { x.room.ceiling.zones.splice(i0, 1); }, 'room'); return true; }
     if (a === 'ceil-sdel') { const i0 = +b.dataset.i; App.mutate('刪除鋁槽燈', x => { x.room.ceiling.strips.splice(i0, 1); }, 'room'); return true; }
     return false;

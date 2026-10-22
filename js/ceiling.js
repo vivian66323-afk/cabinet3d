@@ -126,8 +126,10 @@
       }
     };
     const holes = c.zones.filter(z => z.pts && z.pts.length >= 3).map(z => z.pts);
-    slab(room.points, holes, c.h);
-    c.zones.forEach(zn => {
+    // 點選標記：該段建出的物件都掛上 userData.ceilPick，3D 點選時用來找回是哪一塊天花／哪個設備
+    const tag = (pk, fn) => { const k0 = g.children.length; fn(); for (let i = k0; i < g.children.length; i++) g.children[i].userData.ceilPick = pk; };
+    tag({ kind: 'base' }, () => slab(room.points, holes, c.h));
+    c.zones.forEach(zn => tag({ kind: 'zone', id: zn.id }, () => {
       if (!zn.pts || zn.pts.length < 3) return;
       const n = zn.pts.length;
       if (zn.kind === 'box') {   // 窗簾盒：開口到樓板，內側封板由基本高往上到牆高
@@ -144,7 +146,7 @@
         slab(zn.pts, null, zn.h);
         for (let i = 0; i < n; i++) fascia(zn.pts[i], zn.pts[(i + 1) % n], Math.min(zn.h, c.h), Math.max(zn.h, c.h));
       }
-    });
+    }));
     // 線板（沿牆內面，基本高處）
     if (c.molding && c.molding !== 'none') {
       const size = { flat: 50, cove: 60, crown: 80 }[c.molding] || 50, mMat = new THREE.MeshStandardMaterial({ color: white ? 0xf2f2f0 : 0xf7f6f2, roughness: 0.9 });
@@ -159,7 +161,7 @@
     // 鋁槽燈
     const alu = sMat('frameSilver');
     const black = sMat('frameBlack'), grille = new THREE.MeshStandardMaterial({ color: 0x3a3d42, roughness: 0.8 });
-    c.strips.forEach(st => {
+    c.strips.forEach(st => tag({ kind: 'st', id: st.id }, () => {
       const L = Math.hypot(st.x2 - st.x1, st.z2 - st.z1); if (L < 50) return;
       const mx = (st.x1 + st.x2) / 2, mz = (st.z1 + st.z2) / 2, y = C.heightAt(room, mx, mz), w = st.w || 30, rot = -Math.atan2(st.z2 - st.z1, st.x2 - st.x1), col = KEL[st.kelvin] || KEL[3000];
       if (st.kind === 'track') {   // 軌道 + 投射燈頭
@@ -180,9 +182,9 @@
       const ch = addBox(g, L, 14, w, mx, y + 6, mz, alu, false); ch.rotation.y = rot;
       const em = addBox(g, L - 4, 4, w - 8, mx, y - 2, mz, new THREE.MeshBasicMaterial({ color: col }), false); em.rotation.y = rot;
       if (lampsOn) { const cnt = Math.max(1, Math.round(L / 1000)); for (let k = 0; k < cnt; k++) { const t = (k + 0.5) / cnt; lights.push([st.x1 + (st.x2 - st.x1) * t, y - 30, st.z1 + (st.z2 - st.z1) * t, col, 450000]); } }
-    });
+    }));
     // 點狀設備
-    c.fixtures.forEach(f => {
+    c.fixtures.forEach(f => tag({ kind: 'fx', id: f.id }, () => {
       const y = C.heightAt(room, f.x, f.z), T = f.type;
       if (T === 'dl_big' || T === 'dl_small') {
         const r = T === 'dl_big' ? 60 : 45;
@@ -207,7 +209,7 @@
       } else if (T === 'ac') {   // 室內機藏在天花內，只在天花下畫出檢修口輪廓
         const a = addBox(g, 1000, 6, 600, f.x, y - 3, f.z, paintMat, true); a.rotation.y = (f.rot || 0) * Math.PI / 180;
       }
-    });
+    }));
     lights.slice(0, 24).forEach(([x, y, z, col, I]) => { const pl = new THREE.PointLight(col, I, 0, 2); pl.position.set(x, y, z); g.add(pl); });
     return g;
   };
@@ -255,6 +257,21 @@
   };
 
   /* ---------- 拖曳掣點（編輯模式）：回傳 [{key, x, y, z, color, small, apply(room,x,z,st), remove(room)}] ---------- */
+  // 對齊參考點：畫／拖天花物件時，可吸附或沿 X／Y 延伸對齊的既有點。skip(key) 為 true 的略過（拖曳中的自己）
+  // alignOnly：只做延伸對齊，不直接吸附到該點（避免燈具疊在同一位置）
+  C.snapRefs = function (room, skip) {
+    const c = C.ensure(room), out = [], add = (key, x, z, name, alignOnly) => { if (!(skip && skip(key))) out.push({ q: [x, z], name, key, alignOnly }); };
+    c.fixtures.forEach(f => add('fx:' + f.id, f.x, f.z, (C.FIX[f.type] || {}).name || '燈具', true));
+    c.zones.forEach(zn => { if (!zn.pts) return; const n = zn.pts.length;
+      zn.pts.forEach((p, i) => { const q = zn.pts[(i + 1) % n]; add(`zv:${zn.id}:${i}`, p[0], p[1], (C.KINDS[zn.kind] || '天花') + '頂點'); add(`zm:${zn.id}:${i}`, (p[0] + q[0]) / 2, (p[1] + q[1]) / 2, (C.KINDS[zn.kind] || '天花') + '邊中點'); });
+      if (n >= 3 && zn.kind !== 'box') { const xs = zn.pts.map(p => p[0]), zs = zn.pts.map(p => p[1]); add('zc:' + zn.id, (Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...zs) + Math.max(...zs)) / 2, (C.KINDS[zn.kind] || '天花') + '中心', true); } });
+    c.strips.forEach(st => { const nm = (C.LINES[st.kind || 'alu'] || {}).name || '鋁槽燈'; add(`st:${st.id}:1`, st.x1, st.z1, nm + '端點'); add(`st:${st.id}:2`, st.x2, st.z2, nm + '端點'); add(`st:${st.id}:m`, (st.x1 + st.x2) / 2, (st.z1 + st.z2) / 2, nm + '中點'); });
+    (room.acs || []).forEach(ac => add(`ac:${ac.id}:in`, ac.ix, ac.iz, (ac.name || '冷氣') + '室內機', true));
+    const n = room.points.length;
+    room.points.forEach((p, i) => { const q = room.points[(i + 1) % n]; add('wm:' + i, (p[0] + q[0]) / 2, (p[1] + q[1]) / 2, '牆中點'); });
+    { const xs = room.points.map(p => p[0]), zs = room.points.map(p => p[1]); add('rc', (Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...zs) + Math.max(...zs)) / 2, '空間中心', true); }
+    return out;
+  };
   C.grips = function (room, opts = {}) {
     if (opts.ckt) {   // 迴路指派模式：只列可通電設備，顏色＝所屬迴路
       return C.cktItems(room).map(it => { const ck = C.cktOf(room, it.obj.ckt); const y = /^ol:/.test(it.key) ? (it.obj.h || 10) : /^ac:/.test(it.key) ? C.ensure(room).h : /^zv:/.test(it.key) ? it.obj.h : C.heightAt(room, it.x, it.z);

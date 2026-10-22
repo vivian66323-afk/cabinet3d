@@ -30,6 +30,7 @@
     withFocus(el, () => {
       if (s && s.type === 'cab' && App.selectedCab()) el.innerHTML = cabPanel(App.selectedCab());
       else if (s && s.type === 'wall' && App.state.room) el.innerHTML = wallPanel(s.index);
+      else if (s && s.type === 'ceil' && App.state.room) el.innerHTML = UI._ceilSelPanel(s);
       else el.innerHTML = projectPanel();
     });
     UI.syncToolbar();

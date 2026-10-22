@@ -16,7 +16,7 @@
     [{ act: 'rect', i: 'rect', k: 'R', t: '矩形空間：輸入寬/深/高（R）' }, { tool: 'line', i: 'line', k: 'L', t: '自由繪製多線段空間（L）' }, { act: 'underlay', i: 'image', txt: '底圖', t: '匯入平面圖：JPG／PNG／PDF 當底圖描牆線；DXF（CAD）可自動建立空間' }, { tool: 'tape', i: 'tape', k: 'T', t: '捲尺量測（T）' }],
     [{ tool: 'orbit', i: 'orbit', k: 'O', t: '環轉（O）｜任何時候可用滑鼠中鍵' }, { tool: 'pan', i: 'pan', k: 'H', t: '平移（H）｜Shift+中鍵 或 右鍵' }, { tool: 'zoom', i: 'zoom', k: 'Z', t: '縮放（Z）｜滾輪' }, { act: 'extents', i: 'extents', k: '', t: '充滿視窗（Shift+Z）' }],
     [{ act: 'view:iso', txt: '等角', t: '等角視圖' }, { act: 'view:top', txt: '上', t: '上視圖' }, { act: 'view:front', txt: '前', t: '前視圖' }, { act: 'view:right', txt: '右', t: '右視圖' }, { act: 'view:back', txt: '後', t: '後視圖' }, { act: 'view:left', txt: '左', t: '左視圖' }, { act: 'persp', txt: '透視', t: '切換透視／平行投影' }],
-    [{ act: 'walls', i: 'walls', txt: '牆:自動', t: '牆面顯示：自動隱藏靠近鏡頭的牆／顯示／隱藏' }, { act: 'render', i: 'render', txt: '材質', t: '顯示樣式：材質／白模／X光' }, { act: 'open', i: 'open', t: '全部開門預覽（Shift＋快按兩下櫃體可單獨開關）' }, { act: 'dims', i: 'dims', t: '顯示牆長標註' }],
+    [{ act: 'walls', i: 'walls', txt: '牆:自動', t: '牆面顯示：自動隱藏靠近鏡頭的牆／顯示／隱藏' }, { act: 'ceilmode', txt: '天花:自動', t: '天花顯示：自動（鏡頭在天花下方才顯示）／半透明（從上面也看得到）／隱藏' }, { act: 'ceilup', txt: '仰視天花', t: '鏡頭放到室內往上看天花' }, { act: 'render', i: 'render', txt: '材質', t: '顯示樣式：材質／白模／X光' }, { act: 'open', i: 'open', t: '全部開門預覽（Shift＋快按兩下櫃體可單獨開關）' }, { act: 'dims', i: 'dims', t: '顯示牆長標註' }],
     [{ act: 'undo', i: 'undo', t: '復原（Ctrl+Z）' }, { act: 'redo', i: 'redo', t: '重做（Ctrl+Y）' }, { act: 'help', i: 'help', t: '操作說明' }]
   ];
 
@@ -46,6 +46,7 @@
       if (label) { const l = b.querySelector('[data-lbl]'); if (l) l.textContent = label; }
     };
     set('lamps', v.lampsOn !== false, v.lampsOn !== false ? '燈光' : '燈光:關');
+    set('ceilmode', v.ceilMode !== 'auto', { auto: '天花:自動', ghost: '天花:半透明', hide: '天花:隱藏' }[v.ceilMode]);
     set('walls', v.wallMode !== 'show', { auto: '牆:自動', show: '牆:顯示', hide: '牆:隱藏' }[v.wallMode]);
     set('render', App.renderMode, { '': '材質', white: '白模', xray: 'X光' }[App.renderMode || '']);
     set('open', v.isOpenAll && v.isOpenAll());
@@ -73,6 +74,8 @@
       case 'dup': App.duplicateSelected(); break;
       case 'extents': v.zoomExtents(); break;
       case 'persp': v.setProjection(!v.isOrtho()); break;
+      case 'ceilmode': v.ceilMode = { auto: 'ghost', ghost: 'hide', hide: 'auto' }[v.ceilMode] || 'auto'; UI.syncToolbar(); if (App.sel && App.sel.type === 'ceil' && v.ceilMode === 'hide') App.select(null); else UI.refresh(); App.status({ auto: '天花：鏡頭在天花下方才顯示', ghost: '天花：半透明，從上方也看得到天花配置（可直接點選）', hide: '天花：隱藏' }[v.ceilMode]); break;
+      case 'ceilup': v.lookUpCeiling(); UI.syncToolbar(); break;
       case 'walls': v.wallMode = { auto: 'show', show: 'hide', hide: 'auto' }[v.wallMode]; UI.syncToolbar(); break;
       case 'render': { const next = { '': 'white', white: 'xray', xray: 'shaded' }[App.renderMode || '']; v.setRenderMode(next); UI.syncToolbar(); break; }
       case 'open': v.toggleOpenAll(); UI.syncToolbar(); break;
