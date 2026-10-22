@@ -91,4 +91,25 @@ test.describe('介面修正', () => {
     await expect.poll(counts).toEqual({ smoke: 0, cam: 1, outlets: 0 });
     expect(errors.pageErrors).toEqual([]);
   });
+
+  test('#4 樓層列雙擊可重新命名（不論雙擊的是目前樓層或別的樓層）', async ({ page }) => {
+    await H.loadSample(page);
+    await page.evaluate(() => window.App.addFloor());   // 兩層，目前在 2F
+    const rename = async (i, name) => {
+      await page.dblclick(`#floorBar [data-fl="${i}"]`);
+      const modal = page.locator('.modal', { has: page.locator('h3', { hasText: '樓層名稱' }) });
+      await expect(modal, '雙擊後要跳出樓層名稱對話框').toBeVisible({ timeout: 3000 });
+      await modal.locator('input[name="n"]').fill(name);
+      await modal.locator('.mfoot button', { hasText: '確定' }).click();
+      await expect(modal).toBeHidden();
+    };
+    await rename(1, '二樓');   // 目前樓層
+    await expect.poll(() => page.evaluate(() => window.App.state.floors[1].name)).toBe('二樓');
+    await rename(0, 'B1');     // 別的樓層：第一下會切換過去，第二下仍要能觸發雙擊
+    await expect.poll(() => page.evaluate(() => window.App.state.floors[0].name)).toBe('B1');
+    expect(await page.evaluate(() => window.App.state.floor)).toBe(0);
+    await expect(page.locator('#floorBar [data-fl="0"]')).toHaveText('B1');
+    await expect(page.locator('#floorBar [data-fl="1"]')).toHaveText('二樓');
+    expect(errors.pageErrors).toEqual([]);
+  });
 });

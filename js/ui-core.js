@@ -164,9 +164,16 @@
   };
 
   /* ---------- 樓層列 ---------- */
+  // 樓層數沒變時只更新既有按鈕的文字與樣式，不重建節點：雙擊的第一下會切換樓層並 refresh，
+  // 若每次都把整列 innerHTML 重排，第二下點到的是新節點，瀏覽器就不會發 dblclick，「雙擊重新命名」永遠觸發不了
   UI.renderFloors = function () {
     const st = App.state, el = $('#floorBar');
     if (!el || !st.floors) return;
+    const btns = [...el.querySelectorAll('.fl:not(.add)')];
+    if (btns.length === st.floors.length && el.querySelector('.fl.add')) {
+      btns.forEach((b, i) => { const n = esc(st.floors[i].name); if (b.innerHTML !== n) b.innerHTML = n; b.classList.toggle('on', i === st.floor); });
+      return;
+    }
     el.innerHTML = st.floors.map((f, i) => `<button class="fl${i === st.floor ? ' on' : ''}" data-fl="${i}" title="點選切換；雙擊重新命名">${esc(f.name)}</button>`).join('') +
       `<button class="fl add" data-fl="add" title="新增樓層（沿用目前樓層的空間外框）">＋ 樓層</button>`;
   };
@@ -175,7 +182,8 @@
     el.addEventListener('pointerdown', e => e.stopPropagation());
     el.addEventListener('click', e => {
       const b = e.target.closest('[data-fl]'); if (!b) return;
-      if (b.dataset.fl === 'add') App.addFloor(); else App.switchFloor(+b.dataset.fl);
+      if (b.dataset.fl === 'add') App.addFloor();
+      else if (+b.dataset.fl !== App.state.floor) App.switchFloor(+b.dataset.fl);   // 點目前樓層不動作（雙擊改名時不必重畫、縮放與提示）
     });
     el.addEventListener('dblclick', async e => {
       const b = e.target.closest('[data-fl]'); if (!b || b.dataset.fl === 'add') return;
