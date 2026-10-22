@@ -271,7 +271,8 @@
     { // 把手：IKEA 等有單價的把手依門片／抽屜數計算
       const hd = cab.handle && D.HANDLE_BY_ID[cab.handle];
       if (hd && hd.price) {
-        const n = (cab.fronts || []).reduce((s2, r) => s2 + ({ L: 1, R: 1, G: 1, F: 1, P: 2, GP: 2, D: 1 }[r.t] || 0), 0);
+        // 每片門一支把手：折疊門一列是 4 片（與 3D 建模、拆料清單一致）
+        const n = (cab.fronts || []).reduce((s2, r) => s2 + ({ L: 1, R: 1, G: 1, F: 4, P: 2, GP: 2, D: 1 }[r.t] || 0), 0);
         if (n) add(`把手 ${hd.series || hd.name} ×${n}`, n * hd.price, { qty: n, unit: hd.price });
       }
     }

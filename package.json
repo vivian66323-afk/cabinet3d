@@ -7,7 +7,8 @@
     "test": "playwright test",
     "images:check": "node tools/check-images.js",
     "images:optimize": "node tools/optimize-images.js --update-refs",
-    "test:dxf": "node tests/dxf/run.js"
+    "test:dxf": "node tests/dxf/run.js",
+    "test:unit": "node tests/unit/run.js"
   },
   "devDependencies": {
     "@playwright/test": "1.56.1",

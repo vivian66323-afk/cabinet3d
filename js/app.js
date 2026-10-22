@@ -195,6 +195,8 @@
     if (!s) return;
     if (s.type === 'cab') {
       const cab = App.selectedCab();
+      // 選取的櫃體不在目前樓層（例如在報價分頁點到別層的列）：清掉選取即可，不能讀 null 的 locked 而拋錯
+      if (!cab) { App.sel = null; window.Viewer.updateSelection(); App.ui.showProps(false); return; }
       if (cab.locked) { App.toast(window.Model.cabName(cab) + ' 已鎖定，請先解鎖再刪除'); return; }
       App.sel = null;
       App.mutate('刪除 ' + window.Model.cabName(cab), st => { st.cabinets = st.cabinets.filter(c => c.id !== cab.id); }, [cab.id]);
@@ -329,8 +331,9 @@
     App.syncFloor();
     const n = st.floors.length + 1;
     const cur = st.room;
-    // 新樓層沿用目前樓層的空間外框（不含門窗、不含櫃體）
-    const room = cur ? { ...JSON.parse(JSON.stringify(cur)), walls: cur.walls.map(() => ({ id: window.Model.uid('w'), locked: false, openings: [] })) } : null;
+    // 新樓層沿用目前樓層的空間外框（不含門窗、不含櫃體）；天花造型／燈具／插座／冷氣／迴路屬於該層的工程內容，不能跟著複製，否則報價會把這些項目再算一次
+    const room = cur ? { ...JSON.parse(JSON.stringify(cur)), walls: cur.walls.map(() => ({ id: window.Model.uid('w'), locked: false, openings: [] })), outlets: [], acs: [], circuits: [] } : null;
+    if (room && room.ceiling) room.ceiling = { ...room.ceiling, zones: [], strips: [], fixtures: [] };   // 只留天花基本設定（是否做天花、基本高、顏色、線板）
     App.mutate('新增樓層 ' + n + 'F', s2 => { s2.floors.push({ id: window.Model.uid('f'), name: n + 'F', room, cabinets: [] }); });
     App.switchFloor(st.floors.length - 1);
   };
@@ -342,13 +345,15 @@
     const st = App.state;
     if (st.floors.length <= 1) { App.toast('至少要保留一個樓層'); return; }
     App.syncFloor();
+    App.sel = null;   // 先清掉選取：刪除後目前樓層會換，舊的選取（櫃體／牆面）已不存在
     App.mutate('刪除樓層 ' + st.floors[i].name, s2 => {
       s2.floors.splice(i, 1);
       s2.floor = Math.min(s2.floor > i ? s2.floor - 1 : s2.floor, s2.floors.length - 1);
-      s2.room = s2.floors[s2.floor].room || null; s2.cabinets = s2.floors[s2.floor].cabinets || [];
+      const f = s2.floors[s2.floor];
+      // room／cabinets／underlay 三者都要換成新目前樓層的，否則被刪樓層的底圖會留在畫面上，存檔時還會蓋掉這一層自己的底圖
+      s2.room = f.room || null; s2.cabinets = f.cabinets || []; s2.underlay = f.underlay || null;
       s2.scenes.forEach(sc => { if (sc.floor === i) sc.floor = null; else if (sc.floor > i) sc.floor--; });
     }, 'all');
-    App.sel = null;
   };
   // 全部樓層（目前樓層已同步）
   App.floorList = function () { App.syncFloor(); return App.state.floors; };

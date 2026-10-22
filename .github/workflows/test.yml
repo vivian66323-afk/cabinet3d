@@ -33,6 +33,12 @@ jobs:
       - name: 安裝 Chromium
         run: npx playwright install --with-deps chromium
 
+      - name: Node 單元測試（報價／樓層／DXF 輸出）
+        run: npm run test:unit
+
+      - name: DXF 匯入測試
+        run: npm run test:dxf
+
       - name: 執行測試
         run: npm test
 

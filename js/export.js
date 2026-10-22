@@ -108,13 +108,19 @@
     const IMG_W = 1200, IMG_H = 640;
     const noOf = new Map();
     q.rows.forEach((r, i) => (r.ids || []).forEach(id => noOf.set(id, i + 1)));
+    /* 3D 圖用第一個場景；場景有所屬樓層時先切到該樓層再畫（和「所有場景渲染圖」一樣），畫完切回來。
+       圓圈只標圖中那一層的櫃體：其他樓層的櫃體不在圖裡，標上去會落在空白處、對不到東西。 */
+    const scn = st.scenes[0];
+    const prevFloor = st.floor;
+    if (scn && scn.floor != null && scn.floor !== st.floor && st.floors[scn.floor]) App.showFloor(scn.floor);
     const marks = [];
-    P().floorsOf(st).forEach(fl => (fl.cabinets || []).forEach(c2 => {
+    App.state.cabinets.forEach(c2 => {
       const n = noOf.get(c2.id); if (!n) return;
       const hh = c2.kind === 'desk' ? c2.thick : c2.h;
-      marks.push({ n, p: new window.THREE.Vector3(c2.x, (c2.y || 0) + hh / 2, c2.z) });
-    }));
-    const img = V.renderImage(IMG_W, IMG_H, st.scenes[0] || { cam: V.overviewCam(), light: 'day', bg: '#ffffff', wallMode: 'auto' }, marks);
+      marks.push({ n, id: c2.id, p: new window.THREE.Vector3(c2.x, (c2.y || 0) + hh / 2, c2.z) });
+    });
+    const img = V.renderImage(IMG_W, IMG_H, scn || { cam: V.overviewCam(), light: 'day', bg: '#ffffff', wallMode: 'auto' }, marks);
+    if (App.state.floor !== prevFloor) { App.showFloor(prevFloor); App.ui.refresh(); }
     // 型號欄加寬到 42mm（22→64）：新命名含尺寸與門片，90% 的名稱超過原本的 35mm
     const COL_CODE = 22, COL_CODE_W = 42, COL_SPEC = 66, COL_SPEC_W = 68;
     const cols = [[14, '項次', 'center'], [COL_CODE, '型號'], [COL_SPEC, '品名規格'], [126, '數量', 'right'], [150, '單價', 'right'], [184, '複價', 'right']];
@@ -287,6 +293,8 @@
     const countLeaf = (lwmm, rhmm, hinge, n, glass) => {
       if (glass || handleType === 'bar') { handles += n; return; }
       if (handleType === 'knob') { knobs += n; return; }
+      // IKEA 把手／門鈕：有單價與型號，依門片數列出（報價單已依此計費）
+      if (hd.type === 'ikea') { addH(hd.name, hd.kind === 'knob' ? '' : (hd.len || ''), n, hd.kind === 'knob' ? '顆' : '支', `IKEA 貨號 ${hd.id.replace(/^ik:/, '')}，單價 ${hd.price} 元（報價已含）`); return; }
       if (hd.type === 'j') addH(hd.name + '（鋁擠）', Math.round(edgeLen(lwmm, rhmm, hinge)), n, '支', '依門片邊長裁切');
       else if (hd.type === 'bev') addH(hd.name, Math.round(edgeLen(lwmm, rhmm, hinge)), n, '處', '門片 45° 斜邊加工');
       else if (hd.type === 'inset') addH(hd.name, '', n, '個', '門片開槽嵌入');
@@ -501,7 +509,8 @@ ${tris}</mesh></geometry>`);
       const cab = r.cab;
       const pg = Dr().Page('landscape', 200);
       const box = Dr().frame(pg, (r.floor ? r.floor + ' ' : '') + '三視圖　' + P().fullCode(cab), info({ page: pi, pages: q.rows.length }));
-      const dep = cab.kind === 'corner' ? cab.w : cab.d;
+      // 版面用的深度要和俯視／側視實際畫的一致：轉角櫃為 w，L 形／ㄇ 形桌面為 l2（Model.footDepth），否則俯視圖會壓到正視圖
+      const dep = window.Model.footDepth(cab);
       const totalH = cab.y + cab.h + (cab.top && cab.top !== 'none' ? 40 : 0);
       // 版面：左側 正視(下) + 俯視(上)，右側 側視；右上等角圖、右下規格
       const areaW = 175, areaH = box.y1 - box.y0 - 6;
@@ -583,7 +592,8 @@ ${tris}</mesh></geometry>`);
     const pages = [];
     const floors = App.floorList(), multi = floors.length > 1;
     const extraOf = r => { if (!r || !r.ceiling || !r.ceiling.on || !window.Ceiling) return 0; const C = window.Ceiling; return 1 + (C.counts(r, 'light').length ? 1 : 0) + (C.counts(r, 'hvac').length ? 1 : 0) + (C.counts(r, 'power').length ? 1 : 0) + ((r.circuits || []).length ? 1 : 0); };
-    const total = floors.reduce((a, f) => a + 1 + (f.room ? f.room.points.length + extraOf(f.room) : 0), 0);
+    // 沒有空間也沒有櫃體的樓層不會出圖（下方迴圈會跳過），總頁數也不能算進去，否則標題欄的「頁次 x / y」會多 1
+    const total = floors.reduce((a, f) => a + (!f.room && !(f.cabinets || []).length ? 0 : 1 + (f.room ? f.room.points.length + extraOf(f.room) : 0)), 0);
     let pno = 0;
     for (const fl of floors) {
     if (!fl.room && !(fl.cabinets || []).length) continue;

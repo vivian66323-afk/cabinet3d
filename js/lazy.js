@@ -21,7 +21,7 @@
     'js/catalog-lamps.js': '20261022a',
     'js/catalog-floors.js': '20261022a',
     'js/catalog-paint.js': '20261018b',
-    'js/dxf.js': '20261022a',
+    'js/dxf.js': '20261022b',
     'js/dxfin.js': '20261022a',
     'js/airender.js': '20261007x',
     'js/swatchadmin.js': '20261007x'
