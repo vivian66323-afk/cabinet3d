@@ -329,8 +329,9 @@
     App.syncFloor();
     const n = st.floors.length + 1;
     const cur = st.room;
-    // 新樓層沿用目前樓層的空間外框（不含門窗、不含櫃體）
-    const room = cur ? { ...JSON.parse(JSON.stringify(cur)), walls: cur.walls.map(() => ({ id: window.Model.uid('w'), locked: false, openings: [] })) } : null;
+    // 新樓層沿用目前樓層的空間外框（不含門窗、不含櫃體）；天花造型／燈具／插座／冷氣／迴路屬於該層的工程內容，不能跟著複製，否則報價會把這些項目再算一次
+    const room = cur ? { ...JSON.parse(JSON.stringify(cur)), walls: cur.walls.map(() => ({ id: window.Model.uid('w'), locked: false, openings: [] })), outlets: [], acs: [], circuits: [] } : null;
+    if (room && room.ceiling) room.ceiling = { ...room.ceiling, zones: [], strips: [], fixtures: [] };   // 只留天花基本設定（是否做天花、基本高、顏色、線板）
     App.mutate('新增樓層 ' + n + 'F', s2 => { s2.floors.push({ id: window.Model.uid('f'), name: n + 'F', room, cabinets: [] }); });
     App.switchFloor(st.floors.length - 1);
   };
