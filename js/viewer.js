@@ -1395,7 +1395,8 @@
   // 鎖點追蹤：起點（封閉）> 端點 > 中點 > 軸向（紅/綠）＋ 與已畫點對齊的追蹤線
   function inferPoint(raw, from) {
     const cr = renderer.domElement.getBoundingClientRect();
-    const scr = (x, z) => { const q = new THREE.Vector3(x, 0, z).project(camera); return [(q.x + 1) / 2 * cr.width, (1 - q.y) / 2 * cr.height]; };
+    const DY = drawY();
+    const scr = (x, z) => { const q = new THREE.Vector3(x, DY, z).project(camera); return [(q.x + 1) / 2 * cr.width, (1 - q.y) / 2 * cr.height]; };
     const ms = [(mouse.x + 1) / 2 * cr.width, (1 - mouse.y) / 2 * cr.height];
     const near = (x, z, px) => { const q = scr(x, z); return (q[0] - ms[0]) ** 2 + (q[1] - ms[1]) ** 2 < px * px; };
     const pts = draw.pts;
@@ -1411,7 +1412,7 @@
       if (near(r.q[0], r.q[1], 11)) return { p: [r.q[0], r.q[1]], snap: '端點（' + r.name + '）', guides: [] };
     }
     // 2b. 底圖線段端點／中點（向量 PDF／DXF 轉成的底圖）
-    { const us = underlaySnap(raw, 11); if (us) return { p: us.p, snap: us.t + '（底圖）', guides: [] }; }
+    { const us = underlaySnap(DY ? (groundPoint(0) || raw) : raw, 11); if (us) return { p: us.p, snap: us.t + '（底圖）', guides: [] }; }   // 底圖在地面：以地面位置比對
     // 3. 中點（已畫線段）
     for (let i = 0; i + 1 < pts.length; i++) {
       const mx = (pts[i][0] + pts[i + 1][0]) / 2, mz = (pts[i][1] + pts[i + 1][1]) / 2;
@@ -1448,7 +1449,8 @@
   function redrawLine() {
     if (draw.line) { helperGroup.remove(draw.line); draw.line = null; }
     if (draw.guides) { helperGroup.remove(draw.guides); draw.guides = null; }
-    const pts = draw.pts.map(p => new THREE.Vector3(p[0], 5, p[1]));
+    const LY = drawY() + 5;
+    const pts = draw.pts.map(p => new THREE.Vector3(p[0], LY, p[1]));
     draw.line = new THREE.Group();
     // 已完成的線段：黑色；目前這一段：依軸向上色
     if (pts.length >= 2) {
@@ -1457,7 +1459,7 @@
     }
     if (draw.cursor && pts.length) {
       const color = draw.axis === 'X' ? 0xd32f2f : draw.axis === 'Z' ? 0x2e9e44 : 0x1a1a1a;
-      const cur = new THREE.Line(new THREE.BufferGeometry().setFromPoints([pts[pts.length - 1], new THREE.Vector3(draw.cursor[0], 5, draw.cursor[1])]), new THREE.LineBasicMaterial({ color, depthTest: false }));
+      const cur = new THREE.Line(new THREE.BufferGeometry().setFromPoints([pts[pts.length - 1], new THREE.Vector3(draw.cursor[0], LY, draw.cursor[1])]), new THREE.LineBasicMaterial({ color, depthTest: false }));
       cur.renderOrder = 996; draw.line.add(cur);
     }
     helperGroup.add(draw.line);
@@ -1465,7 +1467,7 @@
     if (draw.cursor && draw.cursorGuides && draw.cursorGuides.length) {
       draw.guides = new THREE.Group();
       draw.cursorGuides.forEach(g => {
-        const a = new THREE.Vector3(g.from[0], 6, g.from[1]), b = new THREE.Vector3(draw.cursor[0], 6, draw.cursor[1]);
+        const a = new THREE.Vector3(g.from[0], LY + 1, g.from[1]), b = new THREE.Vector3(draw.cursor[0], LY + 1, draw.cursor[1]);
         const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), new THREE.LineDashedMaterial({ color: g.axis === 'X' ? 0xd32f2f : 0x2e9e44, dashSize: 60, gapSize: 45, depthTest: false }));
         l.computeLineDistances(); l.renderOrder = 995;
         draw.guides.add(l);
@@ -1474,17 +1476,24 @@
     }
     if (App.ui && App.ui.syncLineInput) App.ui.syncLineInput();
   }
+  // 畫線的工作高度：畫天花造型／燈具／空調時在天花高度（牆的上緣），畫空間與插座在地面
+  function drawY() {
+    const t = V.lineTarget, r = App.state && App.state.room;
+    if (V.tool !== 'line' || !t || t === 'room' || /^ol:/.test(t) || !r || !window.Ceiling) return 0;
+    return window.Ceiling.ensure(r).h;
+  }
+  V.drawY = drawY;
   function lineMove() {
-    const g = groundPoint(0); if (!g) { V.snapMark = null; return; }
+    const g = groundPoint(drawY()); if (!g) { V.snapMark = null; return; }
     const r = inferPoint(g, draw.pts[draw.pts.length - 1]);
     draw.cursor = r.p; draw.snap = r.snap; draw.axis = r.axis; draw.cursorGuides = r.guides; draw.last = r;
     redrawLine();
     const type = r.close ? '起點' : r.snap.startsWith('端點') ? '端點' : r.snap.startsWith('中點') ? '中點' : r.axis === 'X' ? '紅軸' : r.axis === 'Z' ? '綠軸' : r.guides && r.guides.length ? '對齊' : '地面';
-    V.snapMark = { p: new THREE.Vector3(r.p[0], 0, r.p[1]), type, tip: r.snap || '' };
+    V.snapMark = { p: new THREE.Vector3(r.p[0], drawY(), r.p[1]), type, tip: r.snap || '' };
     App.status(`畫線：${draw.pts.length ? '點擊下一點' : '點擊起點'}　${r.snap ? '鎖點【' + r.snap + '】' : ''}${draw.lock ? '（Shift 鎖定）' : ''}　可直接打數字：長度 或 長度,角度 再按 Enter；Backspace 退回上一點；按住 Shift 鎖定軸向；點回起點、雙擊或空白時按 Enter 完成`);
   }
   function lineClick() {
-    const g = groundPoint(0); if (!g) return;
+    const g = groundPoint(drawY()); if (!g) return;
     const r = inferPoint(g, draw.pts[draw.pts.length - 1]);
     if (r.close) { finishLine(); return; }
     draw.pts.push(r.p);
