@@ -117,7 +117,11 @@
       App.mutate('新增材質', s => s.pricing.materials.push({ code: 'NEW' + (s.pricing.materials.length + 1), name: '自訂材質', hex: '#c8b89a', use: 'both', cat: '訂製色', factor: 110, grain: false }));
     } else if (a === 'mdel') {
       const m = App.state.pricing.materials[+b.dataset.i];
-      if (App.state.cabinets.some(c => c.bodyColor === m.code || c.doorColor === m.code)) { App.toast('此材質仍被櫃體使用中'); return; }
+      // 要看全部樓層的櫃體、所有色板欄位（櫃身、門片、桌面／檯面、踢腳板）與新櫃體預設，不能只看目前樓層的櫃身與門片
+      const COLOR_KEYS = ['bodyColor', 'doorColor', 'topColor', 'kickColor'];
+      const usedBy = App.floorList().flatMap(f => (f.cabinets || []).some(c => COLOR_KEYS.some(k => c[k] === m.code)) ? [f.name] : []);
+      if (usedBy.length) { App.toast(`此材質仍被櫃體使用中（${usedBy.join('、')}）`); return; }
+      if (COLOR_KEYS.some(k => App.state.defaults[k] === m.code)) { App.toast('此材質仍是新櫃體預設色板，請先改預設'); return; }
       App.mutate('刪除材質', s => s.pricing.materials.splice(+b.dataset.i, 1));
     } else if (a === 'reset') {
       if (await UI.confirm('恢復預設', '預設單價、材質係數、款式係數、桌面與配件單價、設備售價都將恢復為預設值（色板維護裡的色板單價不受影響）。')) {

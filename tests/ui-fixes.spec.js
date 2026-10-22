@@ -171,4 +171,44 @@ test.describe('介面修正', () => {
     await expect.poll(() => page.evaluate(id => window.App.state.cabinets.find(c => c.id === id).note, id)).toBe('3+2');
     expect(errors.pageErrors).toEqual([]);
   });
+
+  test('#7 板材售價刪除材質：別層櫃體、桌面色、踢腳板色或新櫃體預設用到時都不能刪', async ({ page }) => {
+    await H.loadSample(page);
+    await page.click('.tab[data-tab="pricing"]');
+    await page.click('#tab-pricing [data-pa="madd"]');
+    const code = await page.evaluate(() => window.App.state.pricing.materials[window.App.state.pricing.materials.length - 1].code);
+    expect(code).toMatch(/^NEW/);
+    const has = () => page.evaluate(code => window.App.state.pricing.materials.some(m => m.code === code), code);
+    const tryDel = async () => {
+      const i = await page.evaluate(code => window.App.state.pricing.materials.findIndex(m => m.code === code), code);
+      await page.click(`#tab-pricing [data-pa="mdel"][data-i="${i}"]`);
+    };
+    const firstCab = () => page.evaluate(() => window.App.state.floors[0].cabinets[0].id);
+    const set = (patch) => page.evaluate(({ patch }) => window.App.mutate('測試', s => { Object.assign(s.floors[0].cabinets[0], patch); if (s.floor === 0) Object.assign(s.cabinets[0], patch); }), { patch });
+    // 1F 櫃體的踢腳板色用到
+    await set({ kickColor: code }); await tryDel();
+    await expect(page.locator('#toast')).toContainText('使用中');
+    expect(await has()).toBe(true);
+    await set({ kickColor: '110', topColor: code }); await tryDel();   // 桌面／檯面色
+    expect(await has()).toBe(true);
+    await set({ topColor: '407' });
+    // 切到 2F 後，1F 櫃體的門片色用到：仍不能刪
+    await page.evaluate(() => window.App.addFloor());
+    await page.click('.tab[data-tab="pricing"]');
+    await set({ doorColor: code }); await tryDel();
+    await expect(page.locator('#toast')).toContainText('1F');
+    expect(await has()).toBe(true);
+    await set({ doorColor: '110' });
+    // 新櫃體預設用到：不能刪
+    await page.evaluate(code => window.App.mutate('預設', s => { s.defaults.bodyColor = code; }), code);
+    await tryDel();
+    await expect(page.locator('#toast')).toContainText('預設');
+    expect(await has()).toBe(true);
+    await page.evaluate(() => window.App.mutate('預設', s => { s.defaults.bodyColor = '110'; }));
+    // 都沒用到：可以刪
+    await tryDel();
+    await expect.poll(has).toBe(false);
+    expect(await firstCab()).toBeTruthy();
+    expect(errors.pageErrors).toEqual([]);
+  });
 });
