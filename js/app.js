@@ -195,6 +195,8 @@
     if (!s) return;
     if (s.type === 'cab') {
       const cab = App.selectedCab();
+      // 選取的櫃體不在目前樓層（例如在報價分頁點到別層的列）：清掉選取即可，不能讀 null 的 locked 而拋錯
+      if (!cab) { App.sel = null; window.Viewer.updateSelection(); App.ui.showProps(false); return; }
       if (cab.locked) { App.toast(window.Model.cabName(cab) + ' 已鎖定，請先解鎖再刪除'); return; }
       App.sel = null;
       App.mutate('刪除 ' + window.Model.cabName(cab), st => { st.cabinets = st.cabinets.filter(c => c.id !== cab.id); }, [cab.id]);
