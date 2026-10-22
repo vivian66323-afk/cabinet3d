@@ -66,7 +66,6 @@
   const AORDER = ['lamp_pendant', 'lamp_table', 'lamp_floor', 'lamp_wall', 'lamp_ceiling', 'lamp_portable', 'sink', 'hob', 'dw', 'dryer', 'oven', 'hood', 'rack', 'rod', 'spice', 'knife', 'cup', 'util', 'basket', 'bath', 'towel', 'paper', 'mirror', 'mshelf', 'toothcup', 'soap', 'brush', 'hairdryer', 'grab', 'hook', 'bathacc', 'faucet', 'wallfaucet', 'basin', 'shower', 'showercol', 'slidebar', 'bidet', 'toilet', 'seat', 'washbasin', 'vanity', 'mirrorcab', 'showerdoor', 'urinal', 'bathtub', 'flushvalve', 'dryerfan', 'handdryer', 'bed', 'nightstand', 'sofa', 'armchair', 'coffeetable', 'sidetable', 'tvstand', 'diningtable', 'chair', 'barstool', 'studydesk', 'wardrobe', 'sofabed', 'daybed', 'footstool', 'bench', 'stool', 'bartable', 'officechair', 'dresser', 'drawers', 'bookcase', 'shelf', 'shoecab', 'kidsbed', 'bunkbed', 'cot', 'kidsdesk', 'kidstable', 'kidschair', 'highchair', 'kidsstorage', 'changingtable'];
   const HORDER = ['1', '15', '2', '21', '22', '3', '4', '5', '6', '65', '7', '75', '8'];
   const GORDER = ['desk', 'appl', 'dayday', 'daydayb', 'daydayf', 'toto', 'hcg', 'furn', 'ikea', 'muji', 'A', 'B', 'C', 'T', 'K', 'corner', 'hang', 'double', 'tri', 'filler', 'lamp'];
-  const GNAME = { A: 'A深', B: 'B深', C: 'C深', T: 'T深 電視空櫃', corner: '轉角櫃', hang: '吊櫃', double: 'C深雙開隔間櫃', tri: '三角邊櫃' };
   // 以 H/W/D 直接寫出尺寸，不用再背型號代碼
   const GROUP_SUFFIX = { K: '電器櫃', corner: '轉角櫃', hang: '吊櫃', double: '雙開隔間櫃 D360', tri: '三角邊櫃' };
   // 分組標題：高度＋深度（T 深為電視空櫃）

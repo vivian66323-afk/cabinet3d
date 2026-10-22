@@ -12,7 +12,7 @@
     const C = window.Ceiling; if (!C) return '';
     const c = C.ensure(r), v = V();
     const sel = (key, list, cur) => `<select data-key="${key}" data-f="${key}">${list.map(([k, n]) => `<option value="${k}"${String(cur) === String(k) ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
-    const C2 = C; const zones = c.zones.map((z, i) => `<div class="lrow ceil-row"><span><b>${C.KINDS[z.kind] || z.kind}</b>${z.kind === 'box' ? `　${M().wallName(z.wall != null ? z.wall : 0)}` : ''}</span>
+    const zones = c.zones.map((z, i) => `<div class="lrow ceil-row"><span><b>${C.KINDS[z.kind] || z.kind}</b>${z.kind === 'box' ? `　${M().wallName(z.wall != null ? z.wall : 0)}` : ''}</span>
       ${z.kind === 'box' ? '<span class="muted">開口到樓板</span>' : `<span class="inline">H ${num('zh' + i, z.h, 'step="10" min="2000" max="6000"')}</span>`}
       ${z.kind === 'box' ? '<span></span>' : `<label class="inline" title="沿此區邊緣做間接光燈槽"><input type="checkbox" data-key="zc${i}" data-f="zc${i}"${z.cove ? ' checked' : ''} style="width:auto"> 間接光</label>`}
       <button class="icon-btn del" data-a="ceil-zdel" data-i="${i}" title="刪除">${icon('x')}</button></div>`).join('');
@@ -40,7 +40,7 @@
     <div class="kv"><label>類型</label><select data-key="ol-type" data-f="ol-type">${C.OUTLET_GROUPS.map(([gn, l]) => `<optgroup label="${gn}">${l.map(k2 => `<option value="${k2}"${UI.olType === k2 ? ' selected' : ''}>${C.OUTLETS[k2].name}</option>`).join('')}</optgroup>`).join('')}</select>
       <label>高度</label><div class="inline">${num('ol-h', UI.olH != null ? UI.olH : C.OUTLETS[UI.olType].h, 'step="10" min="0" max="2400"')}<span class="unit">mm（H=${Math.round((UI.olH != null ? UI.olH : C.OUTLETS[UI.olType].h) / 10)}）</span></div></div>
     <div class="btn-row"><button class="btn small" data-a="ol-place">${icon('plus')}點牆邊放置</button><button class="btn small" data-a="ol-undo">退一個</button></div>
-    ${(() => { const rows = C.counts(r, 'power'); return rows.length ? `<div class="list" style="margin-top:6px">${rows.map(x => `<div class="lrow ceil-row"><span>${esc(x.name)}</span><span class="muted">${x.qty} ${x.unit}</span><span></span><button class="icon-btn del" data-a="ol-clear" data-t="${x.t}" title="全部刪除">${icon('x')}</button></div>`).join('')}</div>` : ''; })()}
+    ${(() => { const rows = C.counts(r, 'power'); return rows.length ? `<div class="list" style="margin-top:6px">${rows.map(x => `<div class="lrow ceil-row"><span>${esc(x.name)}</span><span class="muted">${x.qty} ${x.unit}</span><span></span><button class="icon-btn del" data-a="ol-clear" data-t="${x.t}" data-k="${x.kind}" title="全部刪除">${icon('x')}</button></div>`).join('')}</div>` : ''; })()}
     <div class="sec-title" style="margin-top:10px">迴路 <small>出圖時依迴路顏色區分</small></div>
     <div class="btn-row"><button class="btn small" data-a="ckt-auto">${icon('snap')}自動分迴路</button><select data-key="ckt-newtype" data-f="ckt-newtype" style="width:auto">${Object.entries(C.CKT_TYPES).map(([k2, d]) => `<option value="${k2}"${UI.cktNewType === k2 ? ' selected' : ''}>${k2} ${d.name}</option>`).join('')}</select><button class="btn small" data-a="ckt-add">${icon('plus')}新增迴路</button></div>
     ${(r.circuits || []).length ? `<div class="btn-row"><select data-key="ckt-cur" data-f="ckt-cur" style="width:auto">${r.circuits.map(ck => `<option value="${ck.id}"${v.cktAssign === ck.id ? ' selected' : ''}>${esc(ck.code + ' ' + ck.name)}</option>`).join('')}</select><button class="btn small${v.cktAssign ? ' primary' : ''}" data-a="ckt-assign">${icon('select')}${v.cktAssign ? '結束指派' : '指派模式（點設備）'}</button></div>
@@ -60,14 +60,18 @@
   UI.finishCeilDraw = async function (kind, pts) {
     const r = App.state.room, C = window.Ceiling; if (!r || !C) return;
     const c = C.ensure(r);
+    // 對話框輸入檢查：空值、0、NaN 不能寫進狀態（天花高度 2000–6000 且不超過牆高；樑寬 50–3000）
+    const hiH = r.height >= 2000 ? Math.min(6000, r.height) : 6000;
+    const checkH = (v, what) => { const n = +v; return !String(v).trim() || !isFinite(n) || n < 2000 || n > hiH ? `${what}需介於 2000–${hiH} mm` : null; };
+    const checkW = v => { const n = +v; return !String(v).trim() || !isFinite(n) || n < 50 || n > 3000 ? '樑寬需介於 50–3000 mm' : null; };
     if (kind === 'zone' || kind === 'raise') {
       const res = await UI.modal({ title: kind === 'zone' ? '降板區' : '灑水頭下高區', body: `<div class="kv"><label>高度</label><div class="inline"><input name="h" type="number" value="${kind === 'zone' ? Math.max(2000, c.h - 100) : Math.min(r.height - 20, c.h + 150)}" step="10"><span class="unit">mm（基本高 ${c.h}）</span></div>
         ${kind === 'zone' ? `<label>間接光</label><label class="inline"><input type="checkbox" name="cove" checked style="width:auto"> 沿區域邊緣做燈槽（封板內縮 10cm）</label><label>色溫</label><select name="k"><option value="2700">2700K 暖黃</option><option value="3000">3000K 暖白</option><option value="4000">4000K 自然白</option></select>` : ''}</div>`,
-        buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }] });
+        buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }], validate: d => checkH(d.h, '高度') });
       if (!res) return;
       App.mutate(kind === 'zone' ? '新增降板區' : '新增高區', x => { const z = C.addZone(x.room, kind === 'zone' ? 'drop' : 'raise', pts, +res.data.h, kind === 'zone' && res.data.cove); if (res.data.k) z.kelvin = +res.data.k; }, 'room');
     } else if (kind === 'beam') {
-      const res = await UI.modal({ title: '包樑', body: `<div class="kv"><label>樑寬</label><div class="inline"><input name="w" type="number" value="400" step="10"><span class="unit">mm</span></div><label>樑底高</label><div class="inline"><input name="h" type="number" value="${Math.max(2000, c.h - 150)}" step="10"><span class="unit">mm（基本高 ${c.h}）</span></div></div>`, buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }] });
+      const res = await UI.modal({ title: '包樑', body: `<div class="kv"><label>樑寬</label><div class="inline"><input name="w" type="number" value="400" step="10"><span class="unit">mm</span></div><label>樑底高</label><div class="inline"><input name="h" type="number" value="${Math.max(2000, c.h - 150)}" step="10"><span class="unit">mm（基本高 ${c.h}）</span></div></div>`, buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }], validate: d => checkW(d.w) || checkH(d.h, '樑底高') });
       if (!res) return;
       App.mutate('新增包樑', x => { C.addBeam(x.room, pts[0], pts[1], +res.data.w, +res.data.h); }, 'room');
     } else if (kind === 'strip') {
@@ -183,7 +187,13 @@
     if (a === 'ac-del') { const i0 = +b.dataset.i; App.mutate('刪除冷氣', x => { x.room.acs.splice(i0, 1); }, 'room'); return true; }
     if (a === 'ol-place') { UI.startCeilDraw('ol:' + UI.olType); return true; }
     if (a === 'ol-undo') { if (!(App.state.room.outlets || []).length) { App.toast('沒有可刪除的插座'); return true; } App.mutate('刪除最後一個插座', x => { x.room.outlets.pop(); }, 'room'); return true; }
-    if (a === 'ol-clear') { const t0 = b.dataset.t; if (!(await UI.confirm('全部刪除', '刪除這個空間所有此類插座？（可 Ctrl+Z 復原）'))) return true; App.mutate('刪除插座', x => { x.room.outlets = x.room.outlets.filter(o => o.type !== t0); }, 'room'); return true; }
+    if (a === 'ol-clear') {   // 電路／弱電清單除了牆面插座（outlet），也有天花弱電設備（fix：偵煙、灑水頭、攝影機、喇叭、排風扇、暖風機、緊急照明），存在 room.ceiling.fixtures
+      const t0 = b.dataset.t, isFix = b.dataset.k === 'fix';
+      if (!(await UI.confirm('全部刪除', `刪除這個空間所有此類${isFix ? '設備' : '插座'}？（可 Ctrl+Z 復原）`))) return true;
+      if (isFix) App.mutate('刪除設備', x => { const c = window.Ceiling.ensure(x.room); c.fixtures = c.fixtures.filter(f => f.type !== t0); }, 'room');
+      else App.mutate('刪除插座', x => { x.room.outlets = x.room.outlets.filter(o => o.type !== t0); }, 'room');
+      return true;
+    }
     if (a === 'fx-row') { UI.startCeilDraw('row:' + UI.fxType); return true; }
     if (a === 'fx-grid') { UI.startCeilDraw('grid:' + UI.fxType); return true; }
     if (a === 'fx-undo') { if (!App.state.room.ceiling || !App.state.room.ceiling.fixtures.length) { App.toast('沒有可刪除的設備'); return true; } App.mutate('刪除最後一個設備', x => { x.room.ceiling.fixtures.pop(); }, 'room'); return true; }

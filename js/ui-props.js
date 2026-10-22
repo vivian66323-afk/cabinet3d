@@ -36,7 +36,6 @@
     UI.syncToolbar();
   };
 
-  const matOptions = (use, cur) => App.state.pricing.materials.filter(m => m.use === use || m.use === 'both').map(m => `<option value="${m.code}"${m.code === cur ? ' selected' : ''}>${m.code}　${esc(m.name)}${m.cat !== '規格色' ? '（' + m.cat + '）' : ''}</option>`).join('');
   const styleOptions = cur => D.DOOR_STYLES.map(s => `<option value="${s.id}"${s.id === cur ? ' selected' : ''}>${s.name}</option>`).join('');
 
   function projectPanel() {
@@ -79,7 +78,7 @@
     html += `<div class="sec"><div class="sec-title">新櫃體預設 <small>之後放置的櫃體套用</small></div><div class="kv">
       <label>門板款式</label><select data-key="def-style" data-f="def-style">${styleOptions(df.doorStyle)}</select>
       <label>把手</label><select data-key="def-handle" data-f="def-handle">${handleOptions(df.handle, df.doorStyle)}</select>
-    </div><div class="btn-row"><button class="btn small" data-a="apply-all">預設色號與款式套用至所有櫃體</button></div></div>` + UI._swatchPicker(df, 'def');
+    </div><div class="btn-row"><button class="btn small" data-a="apply-all" title="只套用到目前樓層的櫃體；別層請切過去再按一次">預設色號與款式套用至本層所有櫃體</button></div></div>` + UI._swatchPicker(df, 'def');
     const q = P().quote(st);
     html += `<div class="sec"><div class="sec-title">專案</div><div class="kv">
       <label>客戶名稱</label><input data-key="client" data-f="client" value="${esc(st.client)}" placeholder="選填，顯示於報價單">
@@ -176,7 +175,6 @@
       </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">${it.designer ? '設計：' + esc(it.designer) + '　' : ''}${it.colors && it.colors.length ? '原廠顏色：' + esc(it.colors.join('／')) : ''}<br>3D 為依外型分類的近似模型；搭配右上「夜景」光照可看打光效果。</p></div>`;
     }
     if (cab.at === 'partition') {
-      const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${cur === k ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
       html += `<div class="sec"><div class="sec-title">固定牆板</div><div class="kv">
         <label>面材</label><select data-key="pcolor" data-f="pcolor"><optgroup label="牆面">${[['wall', '白牆（油漆）'], ['gray', '灰色'], ['dark', '深色'], ['wood', '木紋'], ['walnut', '胡桃木紋']].map(([k, n]) => `<option value="${k}"${(cab.pcolor || 'wall') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup><optgroup label="玻璃／鏡（固定隔屏，上下鋁框）">${M().GLASS_TYPES.map(([k, n]) => `<option value="${k}"${cab.pcolor === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup></select>
       </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">寬＝牆板長度、深＝牆板厚度、高通常＝天花高；在上方「尺寸」修改。放在門片或櫃體旁會自動吸附對齊。</p></div>`;
@@ -367,7 +365,9 @@
     const t = e.target;
     const st = App.state;
     const s = App.sel;
-    const val = t.type === 'checkbox' ? t.checked : evalNum(t.value);
+    // 只有數值欄位（.numf 文字框或 type=number）才算算式；備註、客戶名稱、樓層名稱（例如「1-2」）、色板廠商／系列這些文字欄位照原樣存
+    const isNum = t.classList.contains('numf') || t.type === 'number';
+    const val = t.type === 'checkbox' ? t.checked : isNum ? evalNum(t.value) : t.value;
     if (t.classList.contains('numf') && val !== t.value) t.value = val;
     if (t.dataset.swq) return;
     if (t.dataset.fn != null) { App.renameFloor(+t.dataset.fn, val); return; }
@@ -504,14 +504,14 @@
     if (a === 'pick-paint-wall') { UI.pickPaint(+b.dataset.i); return; }
     if (a === 'paint-wall-clear') { const wi0 = +b.dataset.i; App.mutate('牆面同整體', x => { delete x.room.walls[wi0].color; delete x.room.walls[wi0].paint; }, 'room'); return; }
     if (a === 'room-rect') { UI.roomDialog(); return; }
-    if (a.startsWith('ul-')) { window.Underlay.click(a); return; }
+    if (a && a.startsWith('ul-')) { window.Underlay.click(a); return; }   // 門片列／層板／門窗的按鈕只有 data-ra／data-sa／data-oa，沒有 data-a
     if (a === 'room-line') { UI.action('line'); return; }
-    if (a === 'room-del') { if (await UI.confirm('刪除空間', '刪除牆面與門窗（櫃體保留）？')) { App.sel = null; App.mutate('刪除空間', x => { x.room = null; }, 'room'); } return; }
+    if (a === 'room-del') { if (await UI.confirm('刪除空間', '刪除牆面與門窗（櫃體保留）？')) { App.sel = null; App.exitCeilEdit(); App.mutate('刪除空間', x => { x.room = null; }, 'room'); } return; }
     if (a === 'wall') { App.select({ type: 'wall', index: +b.dataset.i }); return; }
     if (a === 'apply-all') {
       if (!st.cabinets.length) return;
       App.mutate('套用材質', x => x.cabinets.forEach(c => { ['bodyColor', 'doorColor', 'topColor', 'kickColor', 'doorStyle'].forEach(k2 => { c[k2] = x.defaults[k2]; }); }), 'all');
-      App.toast('已套用至 ' + st.cabinets.length + ' 件櫃體'); return;
+      App.toast(`已套用至${st.floors.length > 1 ? st.floors[st.floor].name + ' ' : ' '}${st.cabinets.length} 件櫃體${st.floors.length > 1 ? '（別層不受影響）' : ''}`); return;
     }
     if (a === 'back') { App.select(null); return; }
     if (s && s.type === 'wall') {
@@ -642,13 +642,15 @@
       if (b.dataset.ra === 'down' && i < next.length - 1) [next[i + 1], next[i]] = [next[i], next[i + 1]];
       setFronts(cab, next);
     } else if (a === 'shelf-add') {
+      // 先找最大的空隙，空間不足就只提示、不進 mutate（否則會 push 一筆什麼都沒改的「加層板」復原紀錄）
+      const lo = D.BOARD, hi = cab.h - D.BOARD;
+      const ys = [lo - D.BOARD, ...cab.shelves.map(x => x.y), hi].sort((p, q) => p - q);
+      let best = [0, 0];
+      for (let i = 0; i < ys.length - 1; i++) { const gap = ys[i + 1] - (ys[i] + D.BOARD); if (gap > best[1]) best = [i, gap]; }
+      if (best[1] < 80) { App.toast('空間不足以再加層板'); return; }
+      const y = Math.round(ys[best[0]] + D.BOARD + best[1] / 2 - D.BOARD / 2);
       App.updateCab(cab.id, '加層板', c => {
-        const lo = D.BOARD, hi = c.h - D.BOARD;
-        const ys = [lo - D.BOARD, ...c.shelves.map(x => x.y), hi].sort((p, q) => p - q);
-        let best = [0, 0];
-        for (let i = 0; i < ys.length - 1; i++) { const gap = ys[i + 1] - (ys[i] + D.BOARD); if (gap > best[1]) best = [i, gap]; }
-        if (best[1] < 80) { App.toast('空間不足以再加層板'); return; }
-        c.shelves.push({ y: Math.round(ys[best[0]] + D.BOARD + best[1] / 2 - D.BOARD / 2), fixed: false });
+        c.shelves.push({ y, fixed: false });
         c.shelves.sort((p, q) => p.y - q.y);
       });
     } else if (a === 'shelf-even') {

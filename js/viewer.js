@@ -392,7 +392,7 @@
   V.rebuildRoom = function () {
     if (roomGroup) { scene.remove(roomGroup); dispose(roomGroup); roomGroup = null; }
     const st = App.state;
-    if (!st.room) return;
+    if (!st.room) { V.updateCeilGrips(); return; }   // 空間刪掉時也要把天花編輯掣點一起清掉，不能留著指向已不存在的空間
     roomGroup = M().buildRoom(st.room, { selectedWall: App.sel && App.sel.type === 'wall' ? App.sel.index : -1 });
     scene.add(roomGroup);
     updateWalls();

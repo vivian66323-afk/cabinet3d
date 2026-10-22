@@ -28,7 +28,11 @@
     const t = e.target, f = t.dataset.sf; if (!f) return;
     const i = +t.dataset.i;
     App.mutate('修改場景', s => { s.scenes[i][f] = t.value; });
-    if (f !== 'name') V().applyScene(App.state.scenes[i], false);
+    if (f === 'name') return;
+    const sc = App.state.scenes[i], st = App.state;
+    // 預覽燈光／背景／牆面顯示；場景屬於別的樓層時只套這些，不把相機跳到那個場景（畫面上是目前樓層，跳過去只會看到空景）
+    if (sc.floor != null && sc.floor !== st.floor) { V().setLight(sc.light || 'day'); V().setBackground(sc.bg || '#eef1f4'); if (sc.wallMode) V().wallMode = sc.wallMode; }
+    else V().applyScene(sc, false);
   }
   function onScenesClick(e) {
     const b = e.target.closest('[data-sc]'); if (!b) return;

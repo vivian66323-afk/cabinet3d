@@ -234,8 +234,16 @@
   };
 
   /* ---------- 空間 ---------- */
+  // 結束天花／設備編輯與迴路指派模式：空間刪除／重建、切換樓層、載入或開新專案時，
+  // 原本的掣點與指派中的迴路 id 都指向舊空間（迴路 id 是每個空間自己的），留著會把設備指派到不存在的迴路
+  App.exitCeilEdit = function () {
+    const V = window.Viewer; if (!V) return;
+    if (V.cktAssign) V.cktAssign = null;
+    if (V.ceilEdit && V.setCeilEdit) V.setCeilEdit(false);
+  };
   App.setRoom = function (room) {
     App.sel = null;
+    App.exitCeilEdit();
     App.mutate('建立空間', s => { s.room = room; }, 'room');
     window.Viewer.zoomExtents([1, 0.8, 1.15]);
   };
@@ -295,6 +303,7 @@
     App.state.name = `新專案 ${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}-${p2(d.getHours())}${p2(d.getMinutes())}`;
     App.state.owner = App.user ? App.user.name : '';
     App.sel = null;
+    App.exitCeilEdit();
     if (window.Cloud) window.Cloud.newProjectReset();
     window.Viewer.rebuildAll();
     window.Viewer.checkOverlaps();
@@ -308,6 +317,7 @@
     App.dirty = false;
     App.state = normalize(data);
     App.sel = null;
+    App.exitCeilEdit();
     window.Model.clearMatCache();
     window.Viewer.rebuildAll();
     window.Viewer.setView('iso');
@@ -324,6 +334,7 @@
     st.cabinets = st.floors[i].cabinets || [];
     st.underlay = st.floors[i].underlay || null;
     App.sel = null;
+    App.exitCeilEdit();
     window.Viewer.rebuildAll(); window.Viewer.checkOverlaps();
   };
   App.switchFloor = function (i) {
@@ -352,6 +363,7 @@
     if (st.floors.length <= 1) { App.toast('至少要保留一個樓層'); return; }
     App.syncFloor();
     App.sel = null;   // 先清掉選取：刪除後目前樓層會換，舊的選取（櫃體／牆面）已不存在
+    App.exitCeilEdit();
     App.mutate('刪除樓層 ' + st.floors[i].name, s2 => {
       s2.floors.splice(i, 1);
       s2.floor = Math.min(s2.floor > i ? s2.floor - 1 : s2.floor, s2.floors.length - 1);
