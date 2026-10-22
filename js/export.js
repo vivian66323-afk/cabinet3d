@@ -287,6 +287,8 @@
     const countLeaf = (lwmm, rhmm, hinge, n, glass) => {
       if (glass || handleType === 'bar') { handles += n; return; }
       if (handleType === 'knob') { knobs += n; return; }
+      // IKEA 把手／門鈕：有單價與型號，依門片數列出（報價單已依此計費）
+      if (hd.type === 'ikea') { addH(hd.name, hd.kind === 'knob' ? '' : (hd.len || ''), n, hd.kind === 'knob' ? '顆' : '支', `IKEA 貨號 ${hd.id.replace(/^ik:/, '')}，單價 ${hd.price} 元（報價已含）`); return; }
       if (hd.type === 'j') addH(hd.name + '（鋁擠）', Math.round(edgeLen(lwmm, rhmm, hinge)), n, '支', '依門片邊長裁切');
       else if (hd.type === 'bev') addH(hd.name, Math.round(edgeLen(lwmm, rhmm, hinge)), n, '處', '門片 45° 斜邊加工');
       else if (hd.type === 'inset') addH(hd.name, '', n, '個', '門片開槽嵌入');
