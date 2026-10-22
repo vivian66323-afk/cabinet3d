@@ -148,6 +148,7 @@
     if (animate) V.flyTo(c.pos, c.target); else { camera.position.set(...c.pos); controls.target.set(...c.target); controls.update(); }
   };
   // 仰視天花：鏡頭放到室內一側、往上看整片天花
+  V.ceilGhostAuto = function () { if (V.ceilMode === 'auto') { V.ceilMode = 'ghost'; if (window.UI && UI.syncToolbar) UI.syncToolbar(); } };
   V.lookUpCeiling = function () {
     const r = App.state && App.state.room; if (!r) return;
     const xs = r.points.map(p => p[0]), zs = r.points.map(p => p[1]);
@@ -333,14 +334,48 @@
     const g = groundPoint(cdrag.gp.y); if (!g) return;
     if (V.lastClient && Math.hypot(V.lastClient[0] - cdrag.sx[0], V.lastClient[1] - cdrag.sx[1]) < 4 && !cdrag.moved) return;
     cdrag.moved = true;
-    let x = Math.round(g.x / 10) * 10, z = Math.round(g.z / 10) * 10;
-    const us = V.underlaySnap ? V.underlaySnap(g, 10) : null; if (us) { x = us.p[0]; z = us.p[1]; }
-    cdrag.gp.apply(App.state.room, x, z, cdrag.st);
+    let x = Math.round(g.x / 10) * 10, z = Math.round(g.z / 10) * 10, tag = '';
+    const room = App.state.room, gy = cdrag.gp.y, key = cdrag.gp.key, guides = [];
+    const us = V.underlaySnap ? V.underlaySnap(g, 10) : null;
+    if (us) { x = us.p[0]; z = us.p[1]; tag = us.t + '（底圖）'; }
+    else if (window.Ceiling && !/^ol:|^ac:.*:out$/.test(key)) {
+      // 參考點：既有天花物件（略過自己）＋牆角；端點 11px 內吸附，否則 X／Y 各自 10px 內延伸對齊
+      // 略過會跟著自己動的點：同一條線型燈的端點／中點、同一塊天花的邊中點與中心
+      const kp = key.split(':'), self = k => k === key || (kp[0] === 'st' && k.startsWith('st:' + kp[1] + ':')) || ((kp[0] === 'zv' || kp[0] === 'zm') && (k.startsWith('zm:' + kp[1] + ':') || k === 'zc:' + kp[1])) || (kp[0] === 'zm' && k === `zv:${kp[1]}:${+kp[2] + 1}`);   // 拖邊中點會新增頂點 i+1
+      const refs = window.Ceiling.snapRefs(room, self).concat(room.points.map(q => ({ q, name: '牆角' })));
+      const cr = renderer.domElement.getBoundingClientRect();
+      const scr = (px, pz) => { const q = new THREE.Vector3(px, gy, pz).project(camera); return [(q.x + 1) / 2 * cr.width, (1 - q.y) / 2 * cr.height]; };
+      const ms = scr(g.x, g.z);
+      const hit = refs.find(r => !r.alignOnly && (() => { const q = scr(r.q[0], r.q[1]); return Math.hypot(q[0] - ms[0], q[1] - ms[1]) < 11; })());
+      if (hit) { x = hit.q[0]; z = hit.q[1]; tag = '吸附' + hit.name; }
+      else {
+        const a1 = scr(x, z), a2 = scr(x + 1000, z), a3 = scr(x, z + 1000), pxmm = Math.max(Math.hypot(a2[0] - a1[0], a2[1] - a1[1]), Math.hypot(a3[0] - a1[0], a3[1] - a1[1])) / 1000, tol = 10 / Math.max(pxmm, 1e-6);
+        const best = ci => { let b = null; refs.forEach(r => { const d = Math.abs((ci ? z : x) - r.q[ci]); if (d < tol && (!b || d < b.d)) b = { d, r }; }); return b; };
+        const bx = best(0), bz = best(1), tags = [];
+        if (bx) { x = bx.r.q[0]; guides.push({ from: bx.r.q, axis: 'Z' }); tags.push('對齊' + bx.r.name + '（X）'); }
+        if (bz) { z = bz.r.q[1]; guides.push({ from: bz.r.q, axis: 'X' }); tags.push('對齊' + bz.r.name + '（Y）'); }
+        tag = tags.join(' · ');
+      }
+    }
+    cdrag.gp.apply(room, x, z, cdrag.st);
     V.rebuildRoom();
-    App.status(`${cdrag.gp.label || '掣點'}：X ${x}　Z ${z} mm　放開完成，Esc 取消`);
+    drawDragGuides(guides, x, z, gy);
+    App.status(`${cdrag.gp.label || '掣點'}：X ${x}　Z ${z} mm${tag ? '　' + tag : ''}　放開完成，Esc 取消`);
+  }
+  // 拖曳時的延伸對齊虛線（紅＝沿 X、綠＝沿 Y）
+  let dragGuides = null;
+  function drawDragGuides(list, x, z, y) {
+    if (dragGuides) { helperGroup.remove(dragGuides); dispose(dragGuides); dragGuides = null; }
+    if (!list || !list.length) return;
+    dragGuides = new THREE.Group();
+    list.forEach(gd => {
+      const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(gd.from[0], y - 4, gd.from[1]), new THREE.Vector3(x, y - 4, z)]), new THREE.LineDashedMaterial({ color: gd.axis === 'X' ? 0xd32f2f : 0x2e9e44, dashSize: 60, gapSize: 45, depthTest: false }));
+      l.computeLineDistances(); l.renderOrder = 995; dragGuides.add(l);
+    });
+    helperGroup.add(dragGuides);
   }
   function endCeilDrag(commit) {
-    const d = cdrag; cdrag = null; controls.enabled = true;
+    const d = cdrag; cdrag = null; controls.enabled = true; drawDragGuides(null);
     const room = App.state.room;
     if (!d.moved) { V.updateCeilGrips(); App.status(`已選取：${d.gp.label || '掣點'}　按 Delete 刪除`); return; }
     const after = JSON.stringify({ ceiling: room.ceiling, outlets: room.outlets, acs: room.acs });
@@ -360,7 +395,9 @@
     if (!st.room) return;
     roomGroup = M().buildRoom(st.room, { selectedWall: App.sel && App.sel.type === 'wall' ? App.sel.index : -1 });
     scene.add(roomGroup);
+    updateWalls();
     V.updateCeilGrips();
+    if (App.sel && App.sel.type === 'ceil') setTimeout(updateSelBox, 0);
     const box = new THREE.Box3().expandByObject(roomGroup);
     const c = box.getCenter(new THREE.Vector3());
     dir.target.position.copy(c); dir.position.set(c.x + 4000, 9000, c.z + 6000);
@@ -629,6 +666,10 @@
     if (s && s.type === 'cab') {
       const g = cabObjs.get(s.id);
       if (g) { selBox = new THREE.BoxHelper(g, 0x9b7d47); selBox.material.linewidth = 2; helperGroup.add(selBox); }
+    } else if (s && s.type === 'ceil' && roomGroup) {   // 天花：框出同一塊（降板區、燈具、鋁槽燈或整片平釘）
+      const box = new THREE.Box3();
+      roomGroup.traverse(o => { const pk = o.userData.ceilPick; if (pk && pk.kind === s.kind && pk.id === s.id && o.isMesh) box.expandByObject(o); });
+      if (!box.isEmpty()) { box.expandByScalar(15); selBox = new THREE.Box3Helper(box, 0xe0662f); helperGroup.add(selBox); }
     }
   }
   V.updateSelection = function () { updateSelBox(); V.refreshGaps(); };
@@ -737,15 +778,19 @@
     const objs = [...cabGroup.children];
     if (roomGroup) objs.push(roomGroup);
     const hits = raycaster.intersectObjects(objs, true).filter(h => h.object.isMesh && visDeep(h.object) && !(h.object.material && h.object.material.opacity < 0.2));
+    let ghostCeil = null;   // 天花半透明時，先看底下有沒有櫃體，沒有才算點到天花
     for (const h of hits) {
+      const cpk = h.object.userData.ceilPick;
+      if (cpk) { const hit = { type: 'ceil', kind: cpk.kind, id: cpk.id, point: h.point }; if (h.object.parent && h.object.parent.userData.ghostOn) { if (!ghostCeil || (/^(zone|base)$/.test(ghostCeil.kind) && /^(fx|st)$/.test(hit.kind))) ghostCeil = hit; continue; } return hit; }   // 半透明時燈具優先於天花板面
       if (h.object.userData.cabId) return { type: 'cab', id: h.object.userData.cabId, point: h.point };
+      if (ghostCeil) continue;   // 半透明天花底下只讓櫃體優先，牆與地板讓給天花
       let o = h.object, opening = null;
       while (o && o.userData.wallIndex == null && o.parent) { if (o.userData.opening) opening = { id: o.userData.opening, wall: o.userData.ofWall }; o = o.parent; }
       if (opening) return { type: 'wall', index: opening.wall, opening: opening.id, point: h.point };
       if (o && o.userData.wallIndex != null) return { type: 'wall', index: o.userData.wallIndex, point: h.point };
-      if (h.object.userData.isFloor) return { type: 'floor', point: h.point };
+      if (h.object.userData.isFloor) return ghostCeil || { type: 'floor', point: h.point };
     }
-    return null;
+    return ghostCeil;
   }
   // 鎖點（仿 SketchUp 推導）：端點 > 中點 > 邊線上 > 面上 > 地面；有起點時再做紅/綠/藍軸推導
   const SNAP_COLOR = { '端點': '#1e9e2f', '中點': '#00a3c4', '邊線上': '#d32f2f', '面上': '#1f5fd6', '地面': '#6b7280', '紅軸': '#d32f2f', '綠軸': '#1e9e2f', '藍軸': '#1f5fd6' };
@@ -859,6 +904,7 @@
       if (gs) { startGrip(gs); return; }
       const h = pick();
       if (!h || h.type === 'floor') { App.select(null); return; }
+      if (h.type === 'ceil') { App.select({ type: 'ceil', kind: h.kind, id: h.id }); return; }
       if (h.type === 'cab') {
         App.select({ type: 'cab', id: h.id });
         down.cand = h;
@@ -887,7 +933,7 @@
     if (pg0) { renderer.domElement.style.cursor = (typeof pg0 === 'object' ? (pg0.kind === 't' || pg0.kind === 'b') : pg0 === 'd') ? 'ns-resize' : 'ew-resize'; return; }
     if (t === 'select' || t === 'move' || t === 'rotate') {
       const h = pick();
-      renderer.domElement.style.cursor = h && h.type === 'cab' ? (t === 'rotate' ? 'alias' : 'move') : (h && h.type === 'wall' ? 'pointer' : 'default');
+      renderer.domElement.style.cursor = h && h.type === 'cab' ? (t === 'rotate' ? 'alias' : 'move') : (h && (h.type === 'wall' || h.type === 'ceil') ? 'pointer' : 'default');
     }
   }
   function onUp() {
@@ -1429,11 +1475,12 @@
     // 追蹤參考點：已畫的點＋既有空間牆角
     const refs = pts.map((q, i) => ({ q, name: i === 0 ? '起點' : `第 ${i + 1} 點` }));
     if (room) room.points.forEach(q => refs.push({ q, name: '牆角' }));
+    if (room && window.Ceiling && V.lineTarget && V.lineTarget !== 'room' && !/^ol:/.test(V.lineTarget)) refs.push(...window.Ceiling.snapRefs(room));   // 既有天花／燈具／鋁槽燈的點
     // 1. 起點（封閉）
     if (pts.length > 2 && near(pts[0][0], pts[0][1], 14)) return { p: pts[0].slice(), snap: '起點（封閉）', close: true, guides: [] };
     // 2. 端點（已畫的點、牆角）
     for (const r of refs) {
-      if (r.q === pts[pts.length - 1]) continue;
+      if (r.q === pts[pts.length - 1] || r.alignOnly) continue;
       if (near(r.q[0], r.q[1], 11)) return { p: [r.q[0], r.q[1]], snap: '端點（' + r.name + '）', guides: [] };
     }
     // 2b. 底圖線段端點／中點（向量 PDF／DXF 轉成的底圖）

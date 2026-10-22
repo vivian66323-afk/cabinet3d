@@ -201,6 +201,12 @@
       App.sel = null;
       App.mutate('刪除 ' + window.Model.cabName(cab), st => { st.cabinets = st.cabinets.filter(c => c.id !== cab.id); }, [cab.id]);
       window.Viewer.updateSelection();
+    } else if (s.type === 'ceil') {
+      const nm = { zone: '天花區域', st: '線型燈具', fx: '天花設備' }[s.kind];
+      if (!nm) { App.toast('整片天花不能刪除；不要天花請在屬性面板取消「做天花板」'); return; }
+      App.sel = null;
+      App.mutate('刪除' + nm, st => { const c = st.room.ceiling, key = { zone: 'zones', st: 'strips', fx: 'fixtures' }[s.kind]; c[key] = c[key].filter(q => q.id !== s.id); }, 'room');
+      window.Viewer.updateSelection(); App.ui.showProps(false);
     } else if (s.type === 'wall') App.toast('牆面無法單獨刪除，可於屬性面板刪除整個空間');
   };
   App.duplicateSelected = function () {
