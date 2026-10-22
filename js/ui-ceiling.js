@@ -59,14 +59,18 @@
   UI.finishCeilDraw = async function (kind, pts) {
     const r = App.state.room, C = window.Ceiling; if (!r || !C) return;
     const c = C.ensure(r);
+    // 對話框輸入檢查：空值、0、NaN 不能寫進狀態（天花高度 2000–6000 且不超過牆高；樑寬 50–3000）
+    const hiH = r.height >= 2000 ? Math.min(6000, r.height) : 6000;
+    const checkH = (v, what) => { const n = +v; return !String(v).trim() || !isFinite(n) || n < 2000 || n > hiH ? `${what}需介於 2000–${hiH} mm` : null; };
+    const checkW = v => { const n = +v; return !String(v).trim() || !isFinite(n) || n < 50 || n > 3000 ? '樑寬需介於 50–3000 mm' : null; };
     if (kind === 'zone' || kind === 'raise') {
       const res = await UI.modal({ title: kind === 'zone' ? '降板區' : '灑水頭下高區', body: `<div class="kv"><label>高度</label><div class="inline"><input name="h" type="number" value="${kind === 'zone' ? Math.max(2000, c.h - 100) : Math.min(r.height - 20, c.h + 150)}" step="10"><span class="unit">mm（基本高 ${c.h}）</span></div>
         ${kind === 'zone' ? `<label>間接光</label><label class="inline"><input type="checkbox" name="cove" checked style="width:auto"> 沿區域邊緣做燈槽（封板內縮 10cm）</label><label>色溫</label><select name="k"><option value="2700">2700K 暖黃</option><option value="3000">3000K 暖白</option><option value="4000">4000K 自然白</option></select>` : ''}</div>`,
-        buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }] });
+        buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }], validate: d => checkH(d.h, '高度') });
       if (!res) return;
       App.mutate(kind === 'zone' ? '新增降板區' : '新增高區', x => { const z = C.addZone(x.room, kind === 'zone' ? 'drop' : 'raise', pts, +res.data.h, kind === 'zone' && res.data.cove); if (res.data.k) z.kelvin = +res.data.k; }, 'room');
     } else if (kind === 'beam') {
-      const res = await UI.modal({ title: '包樑', body: `<div class="kv"><label>樑寬</label><div class="inline"><input name="w" type="number" value="400" step="10"><span class="unit">mm</span></div><label>樑底高</label><div class="inline"><input name="h" type="number" value="${Math.max(2000, c.h - 150)}" step="10"><span class="unit">mm（基本高 ${c.h}）</span></div></div>`, buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }] });
+      const res = await UI.modal({ title: '包樑', body: `<div class="kv"><label>樑寬</label><div class="inline"><input name="w" type="number" value="400" step="10"><span class="unit">mm</span></div><label>樑底高</label><div class="inline"><input name="h" type="number" value="${Math.max(2000, c.h - 150)}" step="10"><span class="unit">mm（基本高 ${c.h}）</span></div></div>`, buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }], validate: d => checkW(d.w) || checkH(d.h, '樑底高') });
       if (!res) return;
       App.mutate('新增包樑', x => { C.addBeam(x.room, pts[0], pts[1], +res.data.w, +res.data.h); }, 'room');
     } else if (kind === 'strip') {

@@ -112,4 +112,45 @@ test.describe('介面修正', () => {
     await expect(page.locator('#floorBar [data-fl="1"]')).toHaveText('二樓');
     expect(errors.pageErrors).toEqual([]);
   });
+
+  test('#5 降板區／包樑對話框：高度、樑寬空白或 0 會提示、不會寫進狀態；正常值才建立', async ({ page }) => {
+    await H.loadSample(page);
+    const zones = () => page.evaluate(() => (window.App.state.room.ceiling ? window.App.state.room.ceiling.zones : []).map(z => [z.kind, z.h]));
+    const modal = page.locator('.modal[role="dialog"]');
+    const submit = () => modal.locator('.mfoot button', { hasText: '建立' }).click();
+    // 降板區：不等對話框的 Promise（它要等使用者按鈕）
+    await page.evaluate(() => { window.UI.finishCeilDraw('zone', [[-500, -500], [500, -500], [500, 500], [-500, 500]]); });
+    await modal.waitFor();
+    for (const bad of ['', '0', '1500']) {
+      await modal.locator('input[name="h"]').fill(bad);
+      await submit();
+      await expect(modal.locator('.err')).not.toHaveText('');
+      await expect(modal).toBeVisible();
+      expect(await zones()).toEqual([]);
+    }
+    await modal.locator('input[name="h"]').fill('2300');
+    await submit();
+    await expect(modal).toBeHidden();
+    expect(await zones()).toEqual([['drop', 2300]]);
+    // 包樑：樑寬空白／0 也要擋
+    await page.evaluate(() => { window.UI.finishCeilDraw('beam', [[-1000, 0], [1000, 0]]); });
+    await modal.waitFor();
+    for (const bad of ['', '0']) {
+      await modal.locator('input[name="w"]').fill(bad);
+      await submit();
+      await expect(modal.locator('.err')).not.toHaveText('');
+      expect((await zones()).length).toBe(1);
+    }
+    await modal.locator('input[name="w"]').fill('400');
+    for (const bad of ['', '2400']) {   // 空白；高過牆高（範例牆高 2350）
+      await modal.locator('input[name="h"]').fill(bad);
+      await submit();
+      await expect(modal.locator('.err')).not.toHaveText('');
+    }
+    await modal.locator('input[name="h"]').fill('2200');
+    await submit();
+    await expect(modal).toBeHidden();
+    expect(await zones()).toEqual([['drop', 2300], ['beam', 2200]]);
+    expect(errors.pageErrors).toEqual([]);
+  });
 });
