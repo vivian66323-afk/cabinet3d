@@ -643,13 +643,15 @@
       if (b.dataset.ra === 'down' && i < next.length - 1) [next[i + 1], next[i]] = [next[i], next[i + 1]];
       setFronts(cab, next);
     } else if (a === 'shelf-add') {
+      // 先找最大的空隙，空間不足就只提示、不進 mutate（否則會 push 一筆什麼都沒改的「加層板」復原紀錄）
+      const lo = D.BOARD, hi = cab.h - D.BOARD;
+      const ys = [lo - D.BOARD, ...cab.shelves.map(x => x.y), hi].sort((p, q) => p - q);
+      let best = [0, 0];
+      for (let i = 0; i < ys.length - 1; i++) { const gap = ys[i + 1] - (ys[i] + D.BOARD); if (gap > best[1]) best = [i, gap]; }
+      if (best[1] < 80) { App.toast('空間不足以再加層板'); return; }
+      const y = Math.round(ys[best[0]] + D.BOARD + best[1] / 2 - D.BOARD / 2);
       App.updateCab(cab.id, '加層板', c => {
-        const lo = D.BOARD, hi = c.h - D.BOARD;
-        const ys = [lo - D.BOARD, ...c.shelves.map(x => x.y), hi].sort((p, q) => p - q);
-        let best = [0, 0];
-        for (let i = 0; i < ys.length - 1; i++) { const gap = ys[i + 1] - (ys[i] + D.BOARD); if (gap > best[1]) best = [i, gap]; }
-        if (best[1] < 80) { App.toast('空間不足以再加層板'); return; }
-        c.shelves.push({ y: Math.round(ys[best[0]] + D.BOARD + best[1] / 2 - D.BOARD / 2), fixed: false });
+        c.shelves.push({ y, fixed: false });
         c.shelves.sort((p, q) => p.y - q.y);
       });
     } else if (a === 'shelf-even') {

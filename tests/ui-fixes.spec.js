@@ -211,4 +211,25 @@ test.describe('介面修正', () => {
     expect(await firstCab()).toBeTruthy();
     expect(errors.pageErrors).toEqual([]);
   });
+
+  test('#8 「加層板」空間不足時只提示，不會多出一筆空的復原紀錄；有空間時照常加', async ({ page }) => {
+    await H.loadSample(page);
+    const id = await cabIdByCode(page, 'W900D580H720-對開72-S');
+    await selectCab(page, id);
+    const shelves = () => page.evaluate(id => window.App.state.cabinets.find(c => c.id === id).shelves.length, id);
+    const hist = () => page.evaluate(() => window.App.history.length);
+    // 有空間：加一片、復原紀錄多一筆
+    const [s0, h0] = [await shelves(), await hist()];
+    await page.click('#tab-props [data-a="shelf-add"]');
+    await expect.poll(shelves).toBe(s0 + 1);
+    expect(await hist()).toBe(h0 + 1);
+    // 塞滿層板（每 60mm 一片，空隙都小於 80）
+    await page.evaluate(id => window.App.updateCab(id, '塞滿', c => { c.shelves = []; for (let y = 60; y < c.h - 40; y += 60) c.shelves.push({ y, fixed: false }); }), id);
+    const [s1, h1] = [await shelves(), await hist()];
+    await page.click('#tab-props [data-a="shelf-add"]');
+    await expect(page.locator('#toast')).toContainText('空間不足');
+    expect(await shelves()).toBe(s1);
+    expect(await hist(), '不可多出一筆復原紀錄').toBe(h1);
+    expect(errors.pageErrors).toEqual([]);
+  });
 });
