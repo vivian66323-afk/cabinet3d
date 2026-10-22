@@ -153,4 +153,22 @@ test.describe('介面修正', () => {
     expect(await zones()).toEqual([['drop', 2300], ['beam', 2200]]);
     expect(errors.pageErrors).toEqual([]);
   });
+
+  test('#6 文字欄位不當算式：樓層名稱「1-2」、客戶名稱「2*3」照原樣存；數值欄位仍可輸入算式', async ({ page }) => {
+    await H.loadSample(page);
+    await page.evaluate(() => window.App.select(null));   // 專案面板
+    const setField = async (sel, v) => { const el = page.locator(`#tab-props ${sel}`); await el.fill(v); await el.dispatchEvent('change'); };
+    await setField('input[data-fn="0"]', '1-2');
+    await expect.poll(() => page.evaluate(() => window.App.state.floors[0].name)).toBe('1-2');
+    await setField('input[data-f="client"]', '2*3');
+    await expect.poll(() => page.evaluate(() => window.App.state.client)).toBe('2*3');
+    await setField('input[data-f="room-height"]', '2000+300');
+    await expect.poll(() => page.evaluate(() => window.App.state.room.height)).toBe(2300);
+    // 櫃體備註
+    const id = await cabIdByCode(page, 'W900D580H720-對開72-S');
+    await selectCab(page, id);
+    await setField('input[data-f="note"]', '3+2');
+    await expect.poll(() => page.evaluate(id => window.App.state.cabinets.find(c => c.id === id).note, id)).toBe('3+2');
+    expect(errors.pageErrors).toEqual([]);
+  });
 });

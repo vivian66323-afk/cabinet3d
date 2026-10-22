@@ -366,7 +366,9 @@
     const t = e.target;
     const st = App.state;
     const s = App.sel;
-    const val = t.type === 'checkbox' ? t.checked : evalNum(t.value);
+    // 只有數值欄位（.numf 文字框或 type=number）才算算式；備註、客戶名稱、樓層名稱（例如「1-2」）、色板廠商／系列這些文字欄位照原樣存
+    const isNum = t.classList.contains('numf') || t.type === 'number';
+    const val = t.type === 'checkbox' ? t.checked : isNum ? evalNum(t.value) : t.value;
     if (t.classList.contains('numf') && val !== t.value) t.value = val;
     if (t.dataset.swq) return;
     if (t.dataset.fn != null) { App.renameFloor(+t.dataset.fn, val); return; }
