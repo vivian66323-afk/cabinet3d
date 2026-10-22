@@ -22,7 +22,8 @@
       <label>基本高</label><div class="inline">${num('ceil-h', c.h, 'step="10" min="2000" max="6000"')}<span class="unit">mm（平釘，牆高 ${r.height}）</span></div>
       <label>顏色</label><div class="inline"><span class="floor-chip" style="background:${c.color || '#f4f3ef'}"></span><span class="pick-name">${c.paint ? esc(c.paint.code + ' ' + c.paint.name) : '白色（預設）'}</span><button class="btn small" data-a="pick-paint-ceil">${icon('image')}選擇塗料</button></div>
       <label>線板</label>${sel('ceil-mold', C.MOLDINGS, c.molding || 'none')}
-      <label>3D 顯示</label>${sel('ceil-mode', [['auto', '自動（相機在天花下方顯示）'], ['hide', '永遠隱藏']], v.ceilMode || 'auto')}
+      <label>3D 顯示</label>${sel('ceil-mode', [['auto', '自動（相機在天花下方顯示）'], ['ghost', '從上方半透明（看天花配置）'], ['hide', '永遠隱藏']], v.ceilMode || 'auto')}
+      <label></label><div class="inline"><button class="btn small" data-a="ceil-lookup">${icon('orbit')}仰視天花</button><span class="unit">鏡頭放到室內往上看</span></div>
     </div>
     <div class="btn-row"><button class="btn small${v.ceilEdit ? ' primary' : ''}" data-a="ceil-edit">${icon('move')}${v.ceilEdit ? '結束編輯' : '編輯（拖曳調整）'}</button>${v.ceilEdit && v.ceilSel ? `<button class="btn small danger" data-a="ceil-delsel">${icon('delete')}刪除選取</button>` : ''}</div>
     ${v.ceilEdit ? '<p class="muted" style="font-size:11.5px;margin:4px 0 0">拖曳掣點：橘＝燈具、綠＝天花頂點、淺綠＝邊中點（拖曳新增頂點）、藍＝線型端點、紅＝冷氣室內／室外機、棕＝冷媒管轉折、淺棕＝管線中點（拖曳新增轉折）、桃紅＝插座。點一下選取後按 Delete 刪除。上視圖最好操作。</p>' : ''}
@@ -132,6 +133,7 @@
     if (a === 'ceil-strip') { UI.startCeilDraw('strip'); return true; }
     if (a === 'ceil-track' || a === 'ceil-supply' || a === 'ceil-ret') { UI.startCeilDraw(a.slice(5)); return true; }
     if (a === 'fx-place') { UI.startCeilDraw('fx:' + UI.fxType); return true; }
+    if (a === 'ceil-lookup') { V().lookUpCeiling(); return true; }
     if (a === 'ceil-edit') { V().cktAssign = null; V().setCeilEdit(!V().ceilEdit); UI.refresh(); return true; }
     if (a === 'ckt-auto') { const has = (App.state.room.circuits || []).length; if (has && !(await UI.confirm('自動分迴路', '會清除目前的迴路設定重新分配，確定？（可 Ctrl+Z 復原）'))) return true; let n = 0; App.mutate('自動分迴路', x => { n = window.Ceiling.autoCircuits(x.room); }, 'room'); App.toast(n ? `已分成 ${n} 個迴路` : '目前沒有需要配電的設備'); return true; }
     if (a === 'ckt-add') { let ck = null; App.mutate('新增迴路', x => { ck = window.Ceiling.addCircuit(x.room, UI.cktNewType || 'C'); }, 'room'); if (ck) { V().cktAssign = ck.id; V().ceilEdit = true; V().ceilSel = null; V().updateCeilGrips(); UI.refresh(); App.toast(`已新增 ${ck.code}，點畫面上的設備指派`); } return true; }

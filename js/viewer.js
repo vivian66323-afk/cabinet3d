@@ -147,6 +147,19 @@
     if (camera === ortho && c.zoom) { ortho.zoom = c.zoom; ortho.updateProjectionMatrix(); }
     if (animate) V.flyTo(c.pos, c.target); else { camera.position.set(...c.pos); controls.target.set(...c.target); controls.update(); }
   };
+  // 仰視天花：鏡頭放到室內一側、往上看整片天花
+  V.lookUpCeiling = function () {
+    const r = App.state && App.state.room; if (!r) return;
+    const xs = r.points.map(p => p[0]), zs = r.points.map(p => p[1]);
+    const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cz = (Math.min(...zs) + Math.max(...zs)) / 2, depth = Math.max(...zs) - Math.min(...zs), width = Math.max(...xs) - Math.min(...xs);
+    const h = window.Ceiling ? window.Ceiling.ensure(r).h : r.height;
+    const deep = depth >= width;   // 沿長邊方向往前看
+    const pos = deep ? [cx, 1100, Math.max(...zs) - depth * 0.08] : [Math.max(...xs) - width * 0.08, 1100, cz];
+    const target = deep ? [cx, h, cz - depth * 0.12] : [cx - width * 0.12, h, cz];
+    if (V.ceilMode === 'hide') V.ceilMode = 'auto';
+    V.setCamera({ pos, target, ortho: false });
+    App.status('仰視天花：中鍵／環轉工具可轉動視角，滾輪縮放');
+  };
   V.setProjection = function (isOrtho) {
     const pos = camera.position.clone(), tgt = controls.target.clone();
     if (isOrtho && camera !== ortho) {
@@ -262,7 +275,19 @@
     });
     roomGroup.children.forEach(m => { if (m.userData.ofWall != null) m.visible = !hidden.has(m.userData.ofWall); });
     // 天花板：相機高於天花、上視圖或牆面全隱藏時隱藏
-    roomGroup.children.forEach(m => { if (m.userData.ceilGroup) m.visible = V.ceilMode !== 'hide' && V.wallMode !== 'hide' && !topView && cp.y < m.userData.h + 80; });
+    roomGroup.children.forEach(m => {
+      if (!m.userData.ceilGroup) return;
+      const below = !topView && cp.y < m.userData.h + 80, ghost = V.ceilMode === 'ghost' && !below;
+      m.visible = V.ceilMode !== 'hide' && (V.wallMode !== 'hide' || V.ceilMode === 'ghost') && (below || ghost);
+      if (!m.visible || m.userData.ghostOn === ghost) return;
+      m.userData.ghostOn = ghost;
+      m.traverse(o => {   // 從上方半透明：天花本體淡化，燈具發光面保留
+        if (!o.isMesh || !o.material) return;
+        if (!o.userData.ownMat) { o.material = o.material.clone(); o.userData.ownMat = true; o.userData.op0 = o.material.opacity; o.userData.tr0 = o.material.transparent; o.userData.dw0 = o.material.depthWrite; }
+        const lens = o.material.isMeshBasicMaterial;
+        o.material.transparent = ghost ? true : o.userData.tr0; o.material.opacity = ghost ? (lens ? 0.95 : 0.2) : o.userData.op0; o.material.depthWrite = ghost ? false : o.userData.dw0; o.material.needsUpdate = true;
+      });
+    });
   }
 
   /* ---------- 場景同步 ---------- */
