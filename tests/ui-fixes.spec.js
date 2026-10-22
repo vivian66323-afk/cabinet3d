@@ -276,4 +276,30 @@ test.describe('介面修正', () => {
     expect(colors.f2, '別層不受影響').toEqual(['110']);
     expect(errors.pageErrors).toEqual([]);
   });
+
+  test('#11 場景分頁改別層場景的燈光／背景：套燈光與背景，但相機不跳到那個場景', async ({ page }) => {
+    await H.loadSample(page);   // 範例有 2 個 1F 場景
+    await page.evaluate(() => window.App.addFloor());   // 到 2F
+    await page.click('.tab[data-tab="scenes"]');
+    const cam = () => page.evaluate(() => JSON.stringify(window.Viewer.getCamera()));
+    const sceneCam = await page.evaluate(() => JSON.stringify({ ...window.App.state.scenes[0].cam, zoom: window.Viewer.getCamera().zoom }));
+    const before = await cam();
+    expect(before).not.toBe(sceneCam);
+    const sel = page.locator('#tab-scenes select[data-sf="light"]').first();
+    const cur = await sel.inputValue();
+    const other = await sel.evaluate((s, cur) => [...s.options].map(o => o.value).find(v => v !== cur), cur);
+    await sel.selectOption(other);
+    await expect.poll(() => page.evaluate(() => [window.App.state.scenes[0].light, window.Viewer.getLight()])).toEqual([other, other]);
+    expect(await cam(), '相機不可跳到別層場景').toBe(before);
+    // 目前樓層的場景：改燈光仍會把視角帶到該場景（預覽）
+    await page.locator('#tab-scenes [data-sc="add"]').click();
+    await page.evaluate(() => window.Viewer.setView('top'));
+    const idx = await page.evaluate(() => window.App.state.scenes.length - 1);
+    const sel2 = page.locator(`#tab-scenes select[data-sf="light"][data-i="${idx}"]`);
+    const cur2 = await sel2.inputValue();
+    const other2 = await sel2.evaluate((s, cur) => [...s.options].map(o => o.value).find(v => v !== cur), cur2);
+    await sel2.selectOption(other2);
+    await expect.poll(() => page.evaluate(i => { const c = window.Viewer.getCamera(), s = window.App.state.scenes[i].cam; return c.pos.join() === s.pos.join() && c.target.join() === s.target.join(); }, idx)).toBe(true);
+    expect(errors.pageErrors).toEqual([]);
+  });
 });
