@@ -342,13 +342,15 @@
     const st = App.state;
     if (st.floors.length <= 1) { App.toast('至少要保留一個樓層'); return; }
     App.syncFloor();
+    App.sel = null;   // 先清掉選取：刪除後目前樓層會換，舊的選取（櫃體／牆面）已不存在
     App.mutate('刪除樓層 ' + st.floors[i].name, s2 => {
       s2.floors.splice(i, 1);
       s2.floor = Math.min(s2.floor > i ? s2.floor - 1 : s2.floor, s2.floors.length - 1);
-      s2.room = s2.floors[s2.floor].room || null; s2.cabinets = s2.floors[s2.floor].cabinets || [];
+      const f = s2.floors[s2.floor];
+      // room／cabinets／underlay 三者都要換成新目前樓層的，否則被刪樓層的底圖會留在畫面上，存檔時還會蓋掉這一層自己的底圖
+      s2.room = f.room || null; s2.cabinets = f.cabinets || []; s2.underlay = f.underlay || null;
       s2.scenes.forEach(sc => { if (sc.floor === i) sc.floor = null; else if (sc.floor > i) sc.floor--; });
     }, 'all');
-    App.sel = null;
   };
   // 全部樓層（目前樓層已同步）
   App.floorList = function () { App.syncFloor(); return App.state.floors; };
