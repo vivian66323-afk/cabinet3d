@@ -39,6 +39,9 @@
     const r = e.target.closest('[data-q]'); if (!r) return;
     const q = P().quote(App.state);
     const id = q.rows[+r.dataset.q].ids[0];
+    // 報價表列出全部樓層：點到別層的櫃體要先切到那一層，否則選取框畫不出來、屬性面板也對不上
+    const fi = App.floorList().findIndex(f => (f.cabinets || []).some(c => c.id === id));
+    if (fi >= 0 && fi !== App.state.floor) App.switchFloor(fi);
     App.select({ type: 'cab', id });
     UI.showTab('quote');
   }

@@ -52,4 +52,23 @@ test.describe('介面修正', () => {
     expect(errors.pageErrors, '頁面例外').toEqual([]);
     expect(errors.console, 'console.error').toEqual([]);
   });
+
+  test('#2 報價分頁點到別層櫃體的列：先切到那一層再選取，選取的櫃體要在目前樓層', async ({ page }) => {
+    await H.loadSample(page);
+    await page.evaluate(() => window.App.addFloor());   // 新增並切到 2F（沒有櫃體）
+    expect(await page.evaluate(() => window.App.state.floor)).toBe(1);
+    await page.click('.tab[data-tab="quote"]');
+    const row = page.locator('#tab-quote tr.qrow').first();
+    await row.waitFor();
+    await row.click();
+    await expect.poll(() => page.evaluate(() => window.App.state.floor)).toBe(0);
+    const st = await page.evaluate(() => ({ sel: window.App.sel, cab: !!window.App.selectedCab(), tab: window.UI.curTab }));
+    expect(st.sel && st.sel.type).toBe('cab');
+    expect(st.cab, '選取的櫃體要在目前樓層').toBe(true);
+    expect(st.tab).toBe('quote');
+    // 同一層的列：不切換樓層、照常選取
+    await page.locator('#tab-quote tr.qrow').nth(1).click();
+    expect(await page.evaluate(() => [window.App.state.floor, !!window.App.selectedCab()])).toEqual([0, true]);
+    expect(errors.pageErrors).toEqual([]);
+  });
 });
