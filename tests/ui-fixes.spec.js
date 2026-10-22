@@ -261,4 +261,19 @@ test.describe('介面修正', () => {
     await expect(page.locator('#tab-props [data-a="ceil-edit"]')).toContainText('編輯（拖曳調整）');
     expect(errors.pageErrors).toEqual([]);
   });
+
+  test('#10 「套用至本層所有櫃體」只改目前樓層，按鈕與提示要說清楚', async ({ page }) => {
+    await H.loadSample(page);
+    await page.evaluate(() => window.App.mutate('預設', s => { s.defaults.bodyColor = '407'; }));
+    await page.evaluate(() => window.App.addFloor());   // 2F：放一個櫃體
+    await page.evaluate(() => { const c = window.Model.createCabinet('W450D580H320-左開32-S', { ...window.App.state.defaults, bodyColor: '110' }); window.App.addCabinet(c); window.App.switchFloor(0); window.App.select(null); });
+    const btn = page.locator('#tab-props [data-a="apply-all"]');
+    await expect(btn).toContainText('本層');
+    await btn.click();
+    await expect(page.locator('#toast')).toContainText('1F');
+    const colors = await page.evaluate(() => ({ f1: [...new Set(window.App.state.floors[0].cabinets.map(c => c.bodyColor))], f2: window.App.state.floors[1].cabinets.map(c => c.bodyColor) }));
+    expect(colors.f1).toEqual(['407']);
+    expect(colors.f2, '別層不受影響').toEqual(['110']);
+    expect(errors.pageErrors).toEqual([]);
+  });
 });

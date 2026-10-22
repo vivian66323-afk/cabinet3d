@@ -78,7 +78,7 @@
     html += `<div class="sec"><div class="sec-title">新櫃體預設 <small>之後放置的櫃體套用</small></div><div class="kv">
       <label>門板款式</label><select data-key="def-style" data-f="def-style">${styleOptions(df.doorStyle)}</select>
       <label>把手</label><select data-key="def-handle" data-f="def-handle">${handleOptions(df.handle, df.doorStyle)}</select>
-    </div><div class="btn-row"><button class="btn small" data-a="apply-all">預設色號與款式套用至所有櫃體</button></div></div>` + UI._swatchPicker(df, 'def');
+    </div><div class="btn-row"><button class="btn small" data-a="apply-all" title="只套用到目前樓層的櫃體；別層請切過去再按一次">預設色號與款式套用至本層所有櫃體</button></div></div>` + UI._swatchPicker(df, 'def');
     const q = P().quote(st);
     html += `<div class="sec"><div class="sec-title">專案</div><div class="kv">
       <label>客戶名稱</label><input data-key="client" data-f="client" value="${esc(st.client)}" placeholder="選填，顯示於報價單">
@@ -512,7 +512,7 @@
     if (a === 'apply-all') {
       if (!st.cabinets.length) return;
       App.mutate('套用材質', x => x.cabinets.forEach(c => { ['bodyColor', 'doorColor', 'topColor', 'kickColor', 'doorStyle'].forEach(k2 => { c[k2] = x.defaults[k2]; }); }), 'all');
-      App.toast('已套用至 ' + st.cabinets.length + ' 件櫃體'); return;
+      App.toast(`已套用至${st.floors.length > 1 ? st.floors[st.floor].name + ' ' : ' '}${st.cabinets.length} 件櫃體${st.floors.length > 1 ? '（別層不受影響）' : ''}`); return;
     }
     if (a === 'back') { App.select(null); return; }
     if (s && s.type === 'wall') {
