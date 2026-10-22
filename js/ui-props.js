@@ -35,7 +35,6 @@
     UI.syncToolbar();
   };
 
-  const matOptions = (use, cur) => App.state.pricing.materials.filter(m => m.use === use || m.use === 'both').map(m => `<option value="${m.code}"${m.code === cur ? ' selected' : ''}>${m.code}　${esc(m.name)}${m.cat !== '規格色' ? '（' + m.cat + '）' : ''}</option>`).join('');
   const styleOptions = cur => D.DOOR_STYLES.map(s => `<option value="${s.id}"${s.id === cur ? ' selected' : ''}>${s.name}</option>`).join('');
 
   function projectPanel() {
@@ -175,7 +174,6 @@
       </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">${it.designer ? '設計：' + esc(it.designer) + '　' : ''}${it.colors && it.colors.length ? '原廠顏色：' + esc(it.colors.join('／')) : ''}<br>3D 為依外型分類的近似模型；搭配右上「夜景」光照可看打光效果。</p></div>`;
     }
     if (cab.at === 'partition') {
-      const sel = (f, list, cur) => `<select data-key="${f}" data-f="${f}">${list.map(([k, n]) => `<option value="${k}"${cur === k ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
       html += `<div class="sec"><div class="sec-title">固定牆板</div><div class="kv">
         <label>面材</label><select data-key="pcolor" data-f="pcolor"><optgroup label="牆面">${[['wall', '白牆（油漆）'], ['gray', '灰色'], ['dark', '深色'], ['wood', '木紋'], ['walnut', '胡桃木紋']].map(([k, n]) => `<option value="${k}"${(cab.pcolor || 'wall') === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup><optgroup label="玻璃／鏡（固定隔屏，上下鋁框）">${M().GLASS_TYPES.map(([k, n]) => `<option value="${k}"${cab.pcolor === k ? ' selected' : ''}>${n}</option>`).join('')}</optgroup></select>
       </div><p class="muted" style="font-size:11.5px;margin:6px 0 0">寬＝牆板長度、深＝牆板厚度、高通常＝天花高；在上方「尺寸」修改。放在門片或櫃體旁會自動吸附對齊。</p></div>`;

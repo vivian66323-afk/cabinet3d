@@ -12,7 +12,7 @@
     const C = window.Ceiling; if (!C) return '';
     const c = C.ensure(r), v = V();
     const sel = (key, list, cur) => `<select data-key="${key}" data-f="${key}">${list.map(([k, n]) => `<option value="${k}"${String(cur) === String(k) ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
-    const C2 = C; const zones = c.zones.map((z, i) => `<div class="lrow ceil-row"><span><b>${C.KINDS[z.kind] || z.kind}</b>${z.kind === 'box' ? `　${M().wallName(z.wall != null ? z.wall : 0)}` : ''}</span>
+    const zones = c.zones.map((z, i) => `<div class="lrow ceil-row"><span><b>${C.KINDS[z.kind] || z.kind}</b>${z.kind === 'box' ? `　${M().wallName(z.wall != null ? z.wall : 0)}` : ''}</span>
       ${z.kind === 'box' ? '<span class="muted">開口到樓板</span>' : `<span class="inline">H ${num('zh' + i, z.h, 'step="10" min="2000" max="6000"')}</span>`}
       ${z.kind === 'box' ? '<span></span>' : `<label class="inline" title="沿此區邊緣做間接光燈槽"><input type="checkbox" data-key="zc${i}" data-f="zc${i}"${z.cove ? ' checked' : ''} style="width:auto"> 間接光</label>`}
       <button class="icon-btn del" data-a="ceil-zdel" data-i="${i}" title="刪除">${icon('x')}</button></div>`).join('');
