@@ -108,13 +108,19 @@
     const IMG_W = 1200, IMG_H = 640;
     const noOf = new Map();
     q.rows.forEach((r, i) => (r.ids || []).forEach(id => noOf.set(id, i + 1)));
+    /* 3D 圖用第一個場景；場景有所屬樓層時先切到該樓層再畫（和「所有場景渲染圖」一樣），畫完切回來。
+       圓圈只標圖中那一層的櫃體：其他樓層的櫃體不在圖裡，標上去會落在空白處、對不到東西。 */
+    const scn = st.scenes[0];
+    const prevFloor = st.floor;
+    if (scn && scn.floor != null && scn.floor !== st.floor && st.floors[scn.floor]) App.showFloor(scn.floor);
     const marks = [];
-    P().floorsOf(st).forEach(fl => (fl.cabinets || []).forEach(c2 => {
+    App.state.cabinets.forEach(c2 => {
       const n = noOf.get(c2.id); if (!n) return;
       const hh = c2.kind === 'desk' ? c2.thick : c2.h;
-      marks.push({ n, p: new window.THREE.Vector3(c2.x, (c2.y || 0) + hh / 2, c2.z) });
-    }));
-    const img = V.renderImage(IMG_W, IMG_H, st.scenes[0] || { cam: V.overviewCam(), light: 'day', bg: '#ffffff', wallMode: 'auto' }, marks);
+      marks.push({ n, id: c2.id, p: new window.THREE.Vector3(c2.x, (c2.y || 0) + hh / 2, c2.z) });
+    });
+    const img = V.renderImage(IMG_W, IMG_H, scn || { cam: V.overviewCam(), light: 'day', bg: '#ffffff', wallMode: 'auto' }, marks);
+    if (App.state.floor !== prevFloor) { App.showFloor(prevFloor); App.ui.refresh(); }
     // 型號欄加寬到 42mm（22→64）：新命名含尺寸與門片，90% 的名稱超過原本的 35mm
     const COL_CODE = 22, COL_CODE_W = 42, COL_SPEC = 66, COL_SPEC_W = 68;
     const cols = [[14, '項次', 'center'], [COL_CODE, '型號'], [COL_SPEC, '品名規格'], [126, '數量', 'right'], [150, '單價', 'right'], [184, '複價', 'right']];
