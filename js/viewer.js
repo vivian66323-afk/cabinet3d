@@ -147,6 +147,19 @@
     if (camera === ortho && c.zoom) { ortho.zoom = c.zoom; ortho.updateProjectionMatrix(); }
     if (animate) V.flyTo(c.pos, c.target); else { camera.position.set(...c.pos); controls.target.set(...c.target); controls.update(); }
   };
+  // 仰視天花：鏡頭放到室內一側、往上看整片天花
+  V.lookUpCeiling = function () {
+    const r = App.state && App.state.room; if (!r) return;
+    const xs = r.points.map(p => p[0]), zs = r.points.map(p => p[1]);
+    const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cz = (Math.min(...zs) + Math.max(...zs)) / 2, depth = Math.max(...zs) - Math.min(...zs), width = Math.max(...xs) - Math.min(...xs);
+    const h = window.Ceiling ? window.Ceiling.ensure(r).h : r.height;
+    const deep = depth >= width;   // 沿長邊方向往前看
+    const pos = deep ? [cx, 1100, Math.max(...zs) - depth * 0.08] : [Math.max(...xs) - width * 0.08, 1100, cz];
+    const target = deep ? [cx, h, cz - depth * 0.12] : [cx - width * 0.12, h, cz];
+    if (V.ceilMode === 'hide') V.ceilMode = 'auto';
+    V.setCamera({ pos, target, ortho: false });
+    App.status('仰視天花：中鍵／環轉工具可轉動視角，滾輪縮放');
+  };
   V.setProjection = function (isOrtho) {
     const pos = camera.position.clone(), tgt = controls.target.clone();
     if (isOrtho && camera !== ortho) {
@@ -262,7 +275,19 @@
     });
     roomGroup.children.forEach(m => { if (m.userData.ofWall != null) m.visible = !hidden.has(m.userData.ofWall); });
     // 天花板：相機高於天花、上視圖或牆面全隱藏時隱藏
-    roomGroup.children.forEach(m => { if (m.userData.ceilGroup) m.visible = V.ceilMode !== 'hide' && V.wallMode !== 'hide' && !topView && cp.y < m.userData.h + 80; });
+    roomGroup.children.forEach(m => {
+      if (!m.userData.ceilGroup) return;
+      const below = !topView && cp.y < m.userData.h + 80, ghost = V.ceilMode === 'ghost' && !below;
+      m.visible = V.ceilMode !== 'hide' && (V.wallMode !== 'hide' || V.ceilMode === 'ghost') && (below || ghost);
+      if (!m.visible || m.userData.ghostOn === ghost) return;
+      m.userData.ghostOn = ghost;
+      m.traverse(o => {   // 從上方半透明：天花本體淡化，燈具發光面保留
+        if (!o.isMesh || !o.material) return;
+        if (!o.userData.ownMat) { o.material = o.material.clone(); o.userData.ownMat = true; o.userData.op0 = o.material.opacity; o.userData.tr0 = o.material.transparent; o.userData.dw0 = o.material.depthWrite; }
+        const lens = o.material.isMeshBasicMaterial;
+        o.material.transparent = ghost ? true : o.userData.tr0; o.material.opacity = ghost ? (lens ? 0.95 : 0.2) : o.userData.op0; o.material.depthWrite = ghost ? false : o.userData.dw0; o.material.needsUpdate = true;
+      });
+    });
   }
 
   /* ---------- 場景同步 ---------- */
@@ -1395,7 +1420,8 @@
   // 鎖點追蹤：起點（封閉）> 端點 > 中點 > 軸向（紅/綠）＋ 與已畫點對齊的追蹤線
   function inferPoint(raw, from) {
     const cr = renderer.domElement.getBoundingClientRect();
-    const scr = (x, z) => { const q = new THREE.Vector3(x, 0, z).project(camera); return [(q.x + 1) / 2 * cr.width, (1 - q.y) / 2 * cr.height]; };
+    const DY = drawY(raw.x, raw.z);
+    const scr = (x, z) => { const q = new THREE.Vector3(x, DY, z).project(camera); return [(q.x + 1) / 2 * cr.width, (1 - q.y) / 2 * cr.height]; };
     const ms = [(mouse.x + 1) / 2 * cr.width, (1 - mouse.y) / 2 * cr.height];
     const near = (x, z, px) => { const q = scr(x, z); return (q[0] - ms[0]) ** 2 + (q[1] - ms[1]) ** 2 < px * px; };
     const pts = draw.pts;
@@ -1411,7 +1437,7 @@
       if (near(r.q[0], r.q[1], 11)) return { p: [r.q[0], r.q[1]], snap: '端點（' + r.name + '）', guides: [] };
     }
     // 2b. 底圖線段端點／中點（向量 PDF／DXF 轉成的底圖）
-    { const us = underlaySnap(raw, 11); if (us) return { p: us.p, snap: us.t + '（底圖）', guides: [] }; }
+    { const us = underlaySnap(DY ? (groundPoint(0) || raw) : raw, 11); if (us) return { p: us.p, snap: us.t + '（底圖）', guides: [] }; }   // 底圖在地面：以地面位置比對
     // 3. 中點（已畫線段）
     for (let i = 0; i + 1 < pts.length; i++) {
       const mx = (pts[i][0] + pts[i + 1][0]) / 2, mz = (pts[i][1] + pts[i + 1][1]) / 2;
@@ -1448,7 +1474,8 @@
   function redrawLine() {
     if (draw.line) { helperGroup.remove(draw.line); draw.line = null; }
     if (draw.guides) { helperGroup.remove(draw.guides); draw.guides = null; }
-    const pts = draw.pts.map(p => new THREE.Vector3(p[0], 5, p[1]));
+    const LY = (draw.cursor ? drawY(draw.cursor[0], draw.cursor[1]) : drawY()) - (SURF_TARGET.test(V.lineTarget || '') ? 5 : -5);
+    const pts = draw.pts.map(p => new THREE.Vector3(p[0], LY, p[1]));
     draw.line = new THREE.Group();
     // 已完成的線段：黑色；目前這一段：依軸向上色
     if (pts.length >= 2) {
@@ -1457,7 +1484,7 @@
     }
     if (draw.cursor && pts.length) {
       const color = draw.axis === 'X' ? 0xd32f2f : draw.axis === 'Z' ? 0x2e9e44 : 0x1a1a1a;
-      const cur = new THREE.Line(new THREE.BufferGeometry().setFromPoints([pts[pts.length - 1], new THREE.Vector3(draw.cursor[0], 5, draw.cursor[1])]), new THREE.LineBasicMaterial({ color, depthTest: false }));
+      const cur = new THREE.Line(new THREE.BufferGeometry().setFromPoints([pts[pts.length - 1], new THREE.Vector3(draw.cursor[0], LY, draw.cursor[1])]), new THREE.LineBasicMaterial({ color, depthTest: false }));
       cur.renderOrder = 996; draw.line.add(cur);
     }
     helperGroup.add(draw.line);
@@ -1465,7 +1492,7 @@
     if (draw.cursor && draw.cursorGuides && draw.cursorGuides.length) {
       draw.guides = new THREE.Group();
       draw.cursorGuides.forEach(g => {
-        const a = new THREE.Vector3(g.from[0], 6, g.from[1]), b = new THREE.Vector3(draw.cursor[0], 6, draw.cursor[1]);
+        const a = new THREE.Vector3(g.from[0], LY + 1, g.from[1]), b = new THREE.Vector3(draw.cursor[0], LY + 1, draw.cursor[1]);
         const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), new THREE.LineDashedMaterial({ color: g.axis === 'X' ? 0xd32f2f : 0x2e9e44, dashSize: 60, gapSize: 45, depthTest: false }));
         l.computeLineDistances(); l.renderOrder = 995;
         draw.guides.add(l);
@@ -1474,17 +1501,34 @@
     }
     if (App.ui && App.ui.syncLineInput) App.ui.syncLineInput();
   }
+  // 畫線的工作高度：畫天花造型／燈具／空調時在天花高度（牆的上緣），畫空間與插座在地面
+  // 畫天花本身（降板、高區、包樑）＝平釘天花高度；裝在天花上的設備＝游標所在處的天花下緣（降板區內用降板高度）
+  const SURF_TARGET = /^(fx:|row:|grid:|strip|track|supply|ret|acsys)/;
+  function drawY(x, z) {
+    const t = V.lineTarget, r = App.state && App.state.room;
+    if (V.tool !== 'line' || !t || t === 'room' || /^ol:/.test(t) || !r || !window.Ceiling) return 0;
+    const C = window.Ceiling;
+    if (SURF_TARGET.test(t) && x != null) return C.heightAt(r, x, z);
+    return C.ensure(r).h;
+  }
+  V.drawY = drawY;
+  // 游標射線與「天花下緣」的交點：先交平釘高度，再依該處的天花高度修正（最多 3 次）
+  function drawPoint() {
+    let y = drawY(), g = groundPoint(y); if (!g) return null;
+    if (SURF_TARGET.test(V.lineTarget || '')) for (let i = 0; i < 3; i++) { const y2 = drawY(g.x, g.z); if (Math.abs(y2 - y) < 1) break; const g2 = groundPoint(y2); if (!g2) break; y = y2; g = g2; }
+    return g;
+  }
   function lineMove() {
-    const g = groundPoint(0); if (!g) { V.snapMark = null; return; }
+    const g = drawPoint(); if (!g) { V.snapMark = null; return; }
     const r = inferPoint(g, draw.pts[draw.pts.length - 1]);
     draw.cursor = r.p; draw.snap = r.snap; draw.axis = r.axis; draw.cursorGuides = r.guides; draw.last = r;
     redrawLine();
     const type = r.close ? '起點' : r.snap.startsWith('端點') ? '端點' : r.snap.startsWith('中點') ? '中點' : r.axis === 'X' ? '紅軸' : r.axis === 'Z' ? '綠軸' : r.guides && r.guides.length ? '對齊' : '地面';
-    V.snapMark = { p: new THREE.Vector3(r.p[0], 0, r.p[1]), type, tip: r.snap || '' };
+    V.snapMark = { p: new THREE.Vector3(r.p[0], drawY(r.p[0], r.p[1]), r.p[1]), type, tip: r.snap || '' };
     App.status(`畫線：${draw.pts.length ? '點擊下一點' : '點擊起點'}　${r.snap ? '鎖點【' + r.snap + '】' : ''}${draw.lock ? '（Shift 鎖定）' : ''}　可直接打數字：長度 或 長度,角度 再按 Enter；Backspace 退回上一點；按住 Shift 鎖定軸向；點回起點、雙擊或空白時按 Enter 完成`);
   }
   function lineClick() {
-    const g = groundPoint(0); if (!g) return;
+    const g = drawPoint(); if (!g) return;
     const r = inferPoint(g, draw.pts[draw.pts.length - 1]);
     if (r.close) { finishLine(); return; }
     draw.pts.push(r.p);
