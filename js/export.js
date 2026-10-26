@@ -542,7 +542,7 @@ ${tris}</mesh></geometry>`);
       pg.text(sx, frontBase - f(totalH) - 3, '右側視圖', { size: 8, bold: true });
       Dr().dim(pg, sx, frontBase, sx + f(dep), frontBase, dep + '', 7);
       cab.shelves.slice().sort((a, b) => a.y - b.y).forEach(sh => {
-        pg.text(sx + f(dep) + 3.5, frontBase - f(cab.y + sh.y + 9) + 1, `${Math.round(sh.y)}${sh.fixed ? ' 固' : ''}`, { size: 5, color: '#69727d' });
+        pg.text(sx + f(dep) + 3.5, frontBase - f(cab.y + sh.y + 9) + 1, `${Dr().cm(sh.y)}${sh.fixed ? ' 固' : ''}`, { size: 5, color: '#69727d' });
       });
       // 等角圖
       const iso = window.Viewer.renderCabinetIso(cab, 640);
@@ -577,7 +577,7 @@ ${tris}</mesh></geometry>`);
       rowsSpec.forEach(([k2, v]) => { pg.line(tx, ty + 1.8, tx + 84, ty + 1.8, 0.1, '#d5d9de'); pg.text(tx, ty, k2, { size: 7, color: '#69727d' }); pg.text(tx + 16, ty, v, { size: 7.2, maxW: 68 }); ty += 5.4; });
       pg.text(tx, ty + 1, '色板', { size: 7.5, bold: true });
       Dr().legend(pg, tx, ty + 3, Dr().cabParts(cab), { maxW: 70 });
-      pg.text(box.x0 + 18, box.y1 - 2, `比例 1:${s}　單位 mm　層板高度＝距櫃體底部`, { size: 6.5, color: '#69727d' });
+      pg.text(box.x0 + 18, box.y1 - 2, `比例 1:${s}　尺寸單位 cm　層板高度＝距櫃體底部`, { size: 6.5, color: '#69727d' });
       // 比例寫回標題欄
       Dr().frame(pg, (r.floor ? r.floor + ' ' : '') + '三視圖　' + P().fullCode(cab), info({ page: pi, pages: q.rows.length, scale: '1:' + s }));
       pages.push(pg);
@@ -642,7 +642,7 @@ ${tris}</mesh></geometry>`);
       legendFor(pg, res.cabs, box.x1 - 50, box.y0 + 44);
       // 索引小圖
       keyPlan(pg, st, i, box.x1 - 40, box.y0 + 2, 34);
-      pg.text(box.x0 + 2, box.y1 - 2, `從室內面向 W${i + 1} 觀看　比例 1:${res.s}　單位 mm　${res.count ? res.count + ' 件櫃體' : '此牆面無靠牆櫃體'}`, { size: 6.5, color: '#69727d' });
+      pg.text(box.x0 + 2, box.y1 - 2, `從室內面向 W${i + 1} 觀看　比例 1:${res.s}　單位 cm　${res.count ? res.count + ' 件櫃體' : '此牆面無靠牆櫃體'}`, { size: 6.5, color: '#69727d' });
       Dr().frame(pg, title, info({ page: pno, pages: total, scale: '1:' + res.s }));
       pages.push(pg);
     }

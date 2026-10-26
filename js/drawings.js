@@ -170,9 +170,9 @@
     cell(0, 0, '案名', 'PROJECT', [info.project, info.client].filter(Boolean).join(' ')); cell(0, 1, '案號', 'PROJECT NO', info.projectNo || '');
     cell(1, 0, '圖名', 'DRAWING TITLE', title, 9); cell(1, 1, '圖號', 'DRAWING NO', `${no}${info.pages > 1 ? `（${info.page}/${info.pages}）` : ''}`);
     cell(2, 0, '設計', 'DESIGNED', info.designer || ''); cell(2, 1, '繪圖', 'DRAWN', info.drawn || info.designer || '');
-    cell(3, 0, '比例', 'SCALE', sc); cell(3, 1, '單位', 'UNIT', '公釐 ( mm )', 8.5);
+    cell(3, 0, '比例', 'SCALE', sc); cell(3, 1, '單位', 'UNIT', '公分 ( cm )', 9.5);
     cell(4, 0, '提交日', 'DRAWN DATE', info.date || ''); cell(4, 1, '修正日', 'REVISIONS DATE', info.rev || '');
-    cell(5, 0, '簽名', 'SIGN IN', ''); cell(5, 1, '核准', 'APPROVED BY', '');
+    cell(5, 0, '簽名', 'SIGN', ''); cell(5, 1, '核准', 'APPROVED BY', '');
     txt(cols[6] + 0.6 * u, y0 + 2.4 * u, '修正內容  DESCRIPTION', 5.6);
     ['a.本圖面均有著作權權利', 'b.圖面標註尺寸僅供參考施做均以現場放樣檢討之.', 'c.圖面標註尺寸,材料及文字敘述因版本不同之差異,', '   均以出圖章簽認日期之最後日期為依據 .', 'd.電腦圖檔除由合約訂定外 均不得以任何方式外流.']
       .forEach((t, i) => txt(cols[7] + 1.2 * u, y0 + (4.2 + i * 4.1) * u, t, 6.6, { maxW: Rr - cols[7] - 1.5 * u }));
@@ -195,8 +195,11 @@
     pg.text(x + 2 * r + tw + 4 * z, cy + 3.4 * z, 'S=' + String(scale).replace('1:', '1/'), { size: 7 * z, align: 'right', color: '#000' });
   };
 
-  // 尺寸標註（x,y 為 mm 紙面座標）
+  // 出圖標註單位：公分（內部尺寸仍是 mm，這裡換算；去掉多餘的 .0）
+  Dr.cm = v => { const r = Math.round(v) / 10; return String(Number.isInteger(r) ? r : r.toFixed(1)); };
+  // 尺寸標註（x,y 為 mm 紙面座標；text 為純數字時視為 mm，標註成公分）
   Dr.dim = function (pg, x1, y1, x2, y2, text, off = 6, o = {}) {
+    if (/^-?\d+(\.\d+)?$/.test(String(text))) text = Dr.cm(+text);
     const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy); if (L < 0.3) return;
     const nx = -dy / L * off, ny = dx / L * off;
     const a1 = [x1 + nx, y1 + ny], a2 = [x2 + nx, y2 + ny];
@@ -602,13 +605,13 @@
       }
       Dr.tagLines(pg, C[0], C[1] + (c.hanging && under ? 5.2 : 0), lines, maxW);
     });
-    if (CEIL) { if (room && window.Ceiling) window.Ceiling.drawLegend(pg, room, box.x1 - 50, box.y0 + 4, LAYER); pg.text(box.x0 + 2, box.y1 - 3, `${{ ceiling: '天花板配置圖', lights: '燈具配置圖', hvac: '空調配置圖', power: '插座配置圖' }[LAYER]}　比例 1:${s}　單位 mm${LAYER === 'ceiling' ? '（標註高度 cm）' : ''}`, { size: 6.5, color: '#69727d' }); return s; }
+    if (CEIL) { if (room && window.Ceiling) window.Ceiling.drawLegend(pg, room, box.x1 - 50, box.y0 + 4, LAYER); pg.text(box.x0 + 2, box.y1 - 3, `${{ ceiling: '天花板配置圖', lights: '燈具配置圖', hvac: '空調配置圖', power: '插座配置圖' }[LAYER]}　比例 1:${s}　單位 cm`, { size: 6.5, color: '#69727d' }); return s; }
     // 圖例
     const lx = box.x0 + 2, ly = box.y1 - 12;
     pg.rect(lx, ly, 6, 3.5, { fill: '#ffffff', w: 0.3, color: Dr.PEN.ink }); pg.text(lx + 8, ly + 3, '地櫃 / 高櫃', { size: 6.5 });
     pg.rect(lx + 44, ly, 6, 3.5, { w: 0.3, color: Dr.PEN.mid, dash: [1.2, 0.8] }); pg.line(lx + 44, ly, lx + 50, ly + 3.5, 0.15, Dr.PEN.grey); pg.line(lx + 44, ly + 3.5, lx + 50, ly, 0.15, Dr.PEN.grey); pg.text(lx + 52, ly + 3, '吊櫃（虛線）', { size: 6.5 });
     pg.rect(lx + 76, ly, 6, 3.5, { fill: Dr.PEN.wallLock, w: 0.25 }); pg.text(lx + 84, ly + 3, '已鎖定牆面', { size: 6.5 });
-    pg.text(lx, ly + 9, `比例 1:${s}　單位 mm${room ? '　地板：' + M().floorDef(room).name : ''}`, { size: 6.5, color: '#69727d' });
+    pg.text(lx, ly + 9, `比例 1:${s}　單位 cm${room ? '　地板：' + M().floorDef(room).name : ''}`, { size: 6.5, color: '#69727d' });
     return s;
   };
 
@@ -653,7 +656,7 @@
       pg.rect(ox, oy, ow, oh, { w: 0.35, fill: '#ffffff' });
       if (o.type === 'window') { pg.line(ox + ow / 2, oy, ox + ow / 2, oy + oh, 0.15); pg.line(ox, oy + oh / 2, ox + ow, oy + oh / 2, 0.15); }
       else { pg.line(ox, oy, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); pg.line(ox, oy + oh, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); }
-      pg.text(ox + ow / 2, oy - 1.2, `${o.type === 'door' ? '門' : '窗'} ${o.width}×${o.height}${o.sill ? ' 抬高' + o.sill : ''}`, { size: 5.5, align: 'center', color: '#69727d' });
+      pg.text(ox + ow / 2, oy - 1.2, `${o.type === 'door' ? '門' : '窗'} ${Dr.cm(o.width)}×${Dr.cm(o.height)}${o.sill ? ' 抬高' + Dr.cm(o.sill) : ''}`, { size: 5.5, align: 'center', color: '#69727d' });
     });
     const lay = c => c.hanging ? 3 : c.kind === 'appl' ? 2 : c.kind === 'desk' ? 1 : 0;
     list.sort((a, b) => lay(a.cab) - lay(b.cab));
