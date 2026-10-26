@@ -23,7 +23,7 @@
   Dr.ready = function () {
     const used = usedCodes();
     const jobs = (window.SWATCHES || []).filter(sw => sw.img && used.has(sw.code)).map(sw => load(sw.code, sw.img));
-    if (window.LOGO_DATA) jobs.push(load('__logo', window.LOGO_DATA));
+    jobs.push(load('__logo', window.LOGO_DATA || 'logo-puyu.png'));   // 圖框 Logo：預設用事務所 Logo
     return Promise.all(jobs);
   };
   // 色板庫變更後重新載入貼圖
@@ -108,6 +108,9 @@
     const g = c.getContext('2d');
     g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
     g.lineCap = 'round'; g.lineJoin = 'round';
+    // 線寬比照施工圖：所有設定的線寬 ×0.42，最細 0.07mm（主線 0.3→約 0.13mm、外框 0.5→約 0.2mm），輕重改用深淺表現
+    const lwd = Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype, 'lineWidth');
+    Object.defineProperty(g, 'lineWidth', { get() { return lwd.get.call(this); }, set(v) { lwd.set.call(this, Math.max(v * Dr.PEN.scale, Dr.PEN.min * k)); } });
     const pg = { canvas: c, g, k, wmm, hmm, orient };
     pg.mm = v => v * k;
     pg.font = (size, bold) => { g.font = `${bold ? '700 ' : ''}${size * k * 0.3528}px ${FONT}`; };
@@ -130,25 +133,61 @@
     return pg;
   };
 
-  // 圖框 + 標題欄
+  // 筆：線寬縮放與深淺（比照事務所施工圖：細黑線為主、牆體灰填、次要物件灰線）
+  Dr.PEN = { scale: 0.42, min: 0.07, ink: '#000000', mid: '#404040', grey: '#8c8c8c', light: '#bdbdbd', wall: '#8c8c8c', wallLock: '#5c5c5c', gold: '#bd9c6e' };
+  const twoLine = (pg, x, y, zh, en, val, o = {}) => {   // 標題欄格子：上方中英小標，下方內容
+    pg.text(x + 1.4, y + 2.9, zh + ' ' + en, { size: 4.6, color: '#555' });
+    pg.text(x + 1.4, y + 7.9, val, { size: o.size || 7.8, maxW: o.maxW, color: '#000' });
+  };
+  // 圖框 + 標題欄（全寬底欄：公司／案名／圖名／設計／比例／日期／附註，仿事務所圖框）
   Dr.frame = function (pg, title, info) {
-    const { wmm, hmm } = pg;
-    pg.rect(8, 8, wmm - 16, hmm - 16, { w: 0.5 });
-    const tbW = 118, tbH = 26, x0 = wmm - 8 - tbW, y0 = hmm - 8 - tbH;
-    pg.rect(x0, y0, tbW, tbH, { w: 0.4, fill: '#fff' });
-    pg.line(x0, y0 + 10, x0 + tbW, y0 + 10, 0.2);
-    pg.line(x0 + 70, y0 + 10, x0 + 70, y0 + tbH, 0.2);
-    pg.text(x0 + 3, y0 + 7, title, { size: 11, bold: true, maxW: tbW - 6 });
-    pg.text(x0 + 3, y0 + 15.5, '專案：' + (info.project || ''), { size: 7.5, maxW: 64 });
-    pg.text(x0 + 3, y0 + 20, '客戶：' + (info.client || '—'), { size: 7.5, maxW: 64 });
-    pg.text(x0 + 3, y0 + 24.3, '設計：' + (info.designer || '') + (info.org ? '（' + info.org + '）' : ''), { size: 7.5, maxW: 64 });
-    pg.text(x0 + 73, y0 + 15.5, '日期：' + info.date, { size: 7.5 });
-    pg.text(x0 + 73, y0 + 20, '比例：' + (info.scale || '—'), { size: 7.5 });
-    pg.text(x0 + 73, y0 + 24.3, `頁次：${info.page || 1} / ${info.pages || 1}`, { size: 7.5 });
-    // Logo
-    if (imgs.__logo) pg.g.drawImage(imgs.__logo, 11 * pg.k, 11 * pg.k, 9 * pg.k, 9 * pg.k);
-    pg.text(22, 17.4, '系統櫃 3D 設計平台', { size: 8, bold: true, color: '#8a6a2f' });
-    return { x0: 12, y0: 22, x1: wmm - 12, y1: y0 - 3 };
+    const { wmm, hmm } = pg, P = Dr.PEN;
+    const L = 8, T = 8, Rr = wmm - 8, B = hmm - 8, tbH = 19, y0 = B - tbH;
+    pg.rect(L, T, Rr - L, B - T, { w: 0.45, color: P.ink });
+    pg.rect(L, y0, Rr - L, tbH, { w: 0.45, color: P.ink, fill: '#fff' });
+    // 公司
+    const cw = 58;
+    let tx = L + 3;
+    if (imgs.__logo) { const im = imgs.__logo, hh = 15, ww = Math.min(24, hh * im.width / im.height); pg.g.drawImage(im, (L + 2) * pg.k, (y0 + 2 + (hh - ww * im.height / im.width) / 2) * pg.k, ww * pg.k, ww * im.height / im.width * pg.k); tx = L + 4 + ww; }
+    const org = info.org || '系統櫃 3D 設計平台', orgEn = info.orgEn || (/菩語/.test(org) ? 'Pure interior design' : '');
+    pg.text(tx, y0 + (orgEn ? 8.6 : 11), org, { size: 10.5, color: '#000', maxW: L + cw - tx - 1 });
+    if (orgEn) pg.text(tx, y0 + 13, orgEn, { size: 7.5, color: '#000', maxW: L + cw - tx - 1 });
+    if (info.contact) pg.text(tx, y0 + 16.6, info.contact, { size: 4.6, color: '#333', maxW: L + cw - tx - 1 });
+    // 欄位
+    const cols = [[L + cw, 40], [L + cw + 40, 46], [L + cw + 86, 24], [L + cw + 110, 22], [L + cw + 132, 25]];
+    cols.forEach(([x]) => pg.line(x, y0, x, B, 0.3, P.ink));
+    const notesX = L + cw + 157; pg.line(notesX, y0, notesX, B, 0.3, P.ink);
+    pg.line(L + cw, y0 + tbH / 2, notesX, y0 + tbH / 2, 0.2, P.ink);
+    const h2 = tbH / 2, no = 'ID-' + String(info.page || 1).padStart(2, '0');
+    twoLine(pg, cols[0][0], y0, '案名', 'PROJECT', info.project || '', { maxW: 37 });
+    twoLine(pg, cols[0][0], y0 + h2, '業主', 'CLIENT', info.client || '—', { maxW: 37 });
+    twoLine(pg, cols[1][0], y0, '圖名', 'DRAWING TITLE', title, { maxW: 43, size: 7.4 });
+    twoLine(pg, cols[1][0], y0 + h2, '圖號', 'DRAWING NO', `${no}　（${info.page || 1}/${info.pages || 1}）`, { maxW: 43 });
+    twoLine(pg, cols[2][0], y0, '設計', 'DESIGNED', info.designer || '', { maxW: 21 });
+    twoLine(pg, cols[2][0], y0 + h2, '繪圖', 'DRAWN', info.drawn || info.designer || '', { maxW: 21 });
+    twoLine(pg, cols[3][0], y0, '比例', 'SCALE', info.scale ? 'A4=' + info.scale : '—', { maxW: 20 });
+    twoLine(pg, cols[3][0], y0 + h2, '單位', 'UNIT', '公釐（mm）', { maxW: 20, size: 7 });
+    twoLine(pg, cols[4][0], y0, '日期', 'DRAWN DATE', info.date || '', { maxW: 23 });
+    twoLine(pg, cols[4][0], y0 + h2, '修正日', 'REVISIONS', info.rev || '', { maxW: 23 });
+    ['a.本圖面均有著作權利', 'b.圖面標註尺寸僅供參考，施作均以現場放樣檢討之', 'c.圖面標註尺寸、材料及文字敘述因版本不同之差異，', '　均以出圖章簽認日期之最新版為準', 'd.電腦圖檔除由合約訂定外，均不得以任何方式外流']
+      .forEach((t, i) => pg.text(notesX + 1.6, y0 + 3.4 + i * 3.3, t, { size: 4.6, color: '#000', maxW: Rr - notesX - 3 }));
+    // 圖名泡泡（有比例時＝第二次呼叫，畫在圖面區下方中央）
+    const box = { x0: 12, y0: 12, x1: wmm - 12, y1: y0 - 12 };
+    if (info.scale) Dr.caption(pg, wmm / 2, y0 - 4.5, 1, no, title, info.scale);
+    return box;
+  };
+  // 圖名泡泡：圓圈內上為序號、下為圖號，右側圖名加底線，下方 S=1/xx
+  Dr.caption = function (pg, cx, cy, n, no, title, scale) {
+    const g = pg.g, k = pg.k;
+    pg.font(8.5); const tw = g.measureText(title).width / k;
+    const x = cx - (tw + 9) / 2;
+    g.strokeStyle = '#000'; g.lineWidth = 0.3 * k; g.beginPath(); g.arc((x + 3.2) * k, cy * k, 3.2 * k, 0, Math.PI * 2); g.stroke();
+    pg.line(x, cy, x + 6.4, cy, 0.2, '#000');
+    pg.text(x + 3.2, cy - 0.6, String(n), { size: 6.5, align: 'center', color: '#000' });
+    pg.text(x + 3.2, cy + 2.4, no, { size: 3.6, align: 'center', color: '#000' });
+    pg.text(x + 8, cy - 0.7, title, { size: 8.5, color: '#000' });
+    pg.line(x + 6.4, cy, x + 9 + tw + 2, cy, 0.3, '#000');
+    pg.text(x + 9 + tw + 2, cy + 3.3, 'S=' + String(scale).replace('1:', '1/'), { size: 7, align: 'right', color: '#000' });
   };
 
   // 尺寸標註（x,y 為 mm 紙面座標）
@@ -156,7 +195,7 @@
     const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy); if (L < 0.3) return;
     const nx = -dy / L * off, ny = dx / L * off;
     const a1 = [x1 + nx, y1 + ny], a2 = [x2 + nx, y2 + ny];
-    const col = o.color || '#475467';
+    const col = o.color || '#1a1a1a';
     pg.line(x1 + nx * 0.15, y1 + ny * 0.15, a1[0] + nx / Math.abs(off) * 1.2, a1[1] + ny / Math.abs(off) * 1.2, 0.13, col);
     pg.line(x2 + nx * 0.15, y2 + ny * 0.15, a2[0] + nx / Math.abs(off) * 1.2, a2[1] + ny / Math.abs(off) * 1.2, 0.13, col);
     pg.line(a1[0], a1[1], a2[0], a2[1], 0.15, col);
@@ -173,6 +212,14 @@
     g.restore();
   };
 
+  // 剖面斜線（45°，灰細線＋黑外框）
+  Dr.hatch = function (pg, x, y, w, h, gap = 1.1) {
+    const g = pg.g, k = pg.k;
+    g.save(); g.beginPath(); g.rect(x * k, y * k, w * k, h * k); g.clip();
+    for (let t = -h; t < w; t += gap) pg.line(x + t, y + h, x + t + h, y, 0.12, Dr.PEN.grey);
+    g.restore();
+    pg.rect(x, y, w, h, { w: 0.45, color: Dr.PEN.ink });
+  };
   const niceScales = [5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200, 250, 300];
   Dr.fitScale = function (realW, realH, boxW, boxH) {
     const need = Math.max(realW / boxW, realH / boxH);
@@ -441,7 +488,7 @@
     };
     if (room) {
       const fl = M().floorDef(room);
-      poly(room.points, CEIL ? '#ffffff' : fl.plan, null);
+      poly(room.points, '#ffffff', null);   // 施工圖慣例：地坪留白
       if (CEIL && window.Ceiling) window.Ceiling.drawPlan(pg, room, P, poly, s, LAYER);
       if (fl.type === 'tile' && !CEIL) {
         // 磁磚格線（裁切在室內）
@@ -449,18 +496,24 @@
         g.beginPath(); room.points.forEach((p, i) => { const q = P(p[0], p[1]); i ? g.lineTo(q[0] * k, q[1] * k) : g.moveTo(q[0] * k, q[1] * k); }); g.closePath(); g.clip();
         const xs = room.points.map(p => p[0]), zs = room.points.map(p => p[1]);
         const x0 = Math.floor(Math.min(...xs) / fl.size) * fl.size, x1 = Math.max(...xs), z0 = Math.floor(Math.min(...zs) / fl.size) * fl.size, z1 = Math.max(...zs);
-        for (let x = x0; x <= x1; x += fl.size) { const a = P(x, z0), b = P(x, z1); pg.line(a[0], a[1], b[0], b[1], 0.08, '#c9c4bb'); }
-        for (let z = z0; z <= z1; z += fl.size) { const a = P(x0, z), b = P(x1, z); pg.line(a[0], a[1], b[0], b[1], 0.08, '#c9c4bb'); }
+        for (let x = x0; x <= x1; x += fl.size) { const a = P(x, z0), b = P(x, z1); pg.line(a[0], a[1], b[0], b[1], 0.08, Dr.PEN.light); }
+        for (let z = z0; z <= z1; z += fl.size) { const a = P(x0, z), b = P(x1, z); pg.line(a[0], a[1], b[0], b[1], 0.08, Dr.PEN.light); }
         g.restore();
       }
-      // 牆
+      // 牆：先全部填灰，再只描室內面與室外面輪廓（牆與轉角之間不出現接縫線），最後才畫門窗開口
+      { const T = room.thickness, n = room.points.length;
+        room.points.forEach((_, i) => {
+          const wi = M().wallInfo(room, i), prev = M().wallInfo(room, (i - 1 + n) % n), wf = room.walls[i].locked ? Dr.PEN.wallLock : Dr.PEN.wall;
+          const o = (p, t) => [p[0] + wi.nOut[0] * t, p[1] + wi.nOut[1] * t];
+          poly([wi.p, o(wi.p, T), [wi.p[0] + (wi.nOut[0] + prev.nOut[0]) * T, wi.p[1] + (wi.nOut[1] + prev.nOut[1]) * T], [wi.p[0] + prev.nOut[0] * T, wi.p[1] + prev.nOut[1] * T]], wf, null);
+          poly([wi.p, wi.q, o(wi.q, T), o(wi.p, T)], wf, null);
+        });
+        poly(room.points, null, Dr.PEN.ink, 0.35);
+        poly(room.points.map((p, j) => { const a2 = M().wallInfo(room, j), b2 = M().wallInfo(room, (j - 1 + n) % n); return [p[0] + (a2.nOut[0] + b2.nOut[0]) * T, p[1] + (a2.nOut[1] + b2.nOut[1]) * T]; }), null, Dr.PEN.ink, 0.35);
+      }
       room.points.forEach((_, i) => {
         const wi = M().wallInfo(room, i), T = room.thickness;
         const o = (p, t) => [p[0] + wi.nOut[0] * t, p[1] + wi.nOut[1] * t];
-        const prev = M().wallInfo(room, (i - 1 + room.points.length) % room.points.length);
-        const corner = [wi.p, o(wi.p, T), [wi.p[0] + wi.nOut[0] * T + prev.nOut[0] * T, wi.p[1] + wi.nOut[1] * T + prev.nOut[1] * T], [wi.p[0] + prev.nOut[0] * T, wi.p[1] + prev.nOut[1] * T]];
-        poly(corner, room.walls[i].locked ? '#9e9e9e' : '#c9c9c9', null);
-        poly([wi.p, wi.q, o(wi.q, T), o(wi.p, T)], room.walls[i].locked ? '#9e9e9e' : '#c9c9c9', '#1f2328', 0.35);
         // 門窗
         room.walls[i].openings.forEach(op => {
           const a = [wi.p[0] + wi.dir[0] * op.offset, wi.p[1] + wi.dir[1] * op.offset];
@@ -477,7 +530,7 @@
             const L2 = P(...leafEnd);
             pg.line(A[0], A[1], L2[0], L2[1], 0.35);
             const a0 = Math.atan2(L2[1] - A[1], L2[0] - A[0]), a1 = Math.atan2(Bp[1] - A[1], Bp[0] - A[0]);
-            g.strokeStyle = '#1f2328'; g.lineWidth = 0.15 * k; g.setLineDash([1 * k, 0.7 * k]);
+            g.strokeStyle = Dr.PEN.grey; g.lineWidth = 0.15 * k; g.setLineDash([1 * k, 0.7 * k]);
             g.beginPath();
             let d = a1 - a0; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
             g.arc(A[0] * k, A[1] * k, r * k, a0, a0 + d, d < 0); g.stroke(); g.setLineDash([]);
@@ -488,7 +541,7 @@
         const A = P(...wi.p), Bq = P(...wi.q);
         const sgn = (() => { const dx = Bq[0] - A[0], dy = Bq[1] - A[1]; const nx = -dy, ny = dx; const on = [wi.nOut[0], wi.nOut[1]]; return nx * on[0] + ny * on[1] > 0 ? 1 : -1; })();
         Dr.dim(pg, A[0], A[1], Bq[0], Bq[1], Math.round(wi.len) + '', sgn * offMM, { size: 7 });
-        const lab = P(wi.mid[0] + wi.nOut[0] * (T + 420 + 5.5 * s), wi.mid[1] + wi.nOut[1] * (T + 420 + 5.5 * s));
+        const lab = P(wi.mid[0] + wi.nOut[0] * (T + 420 + 7.5 * s), wi.mid[1] + wi.nOut[1] * (T + 420 + 7.5 * s));
         pg.rect(lab[0] - 3.2, lab[1] - 2.2, 6.4, 4.4, { fill: '#fff', color: '#d0342c', w: 0.25 });
         pg.text(lab[0], lab[1] + 0.1, 'W' + (i + 1), { size: 6.5, bold: true, color: '#d0342c', align: 'center', base: 'middle' });
       });
@@ -498,7 +551,7 @@
     const cabs = (CEIL ? [] : st.cabinets.slice()).sort((a, b) => lay(a) - lay(b));
     cabs.forEach(c => {
       const wp = Dr.cabWorldPoly(c);
-      if (c.hanging) poly(wp, null, '#1f5fd6', 0.3, [1.6, 1]);
+      if (c.hanging) { poly(wp, null, Dr.PEN.mid, 0.3, [1.6, 1]); const q = wp.map(p => P(...p)); pg.line(q[0][0], q[0][1], q[2][0], q[2][1], 0.15, Dr.PEN.grey, [1.6, 1]); pg.line(q[1][0], q[1][1], q[3][0], q[3][1], 0.15, Dr.PEN.grey, [1.6, 1]); }   // 吊櫃：虛線框＋交叉
       else if (c.kind === 'appl') {
         poly(wp, Dr.applFill(pg, c, s), '#1f2328', 0.3);
         if (c.at === 'sink') { const cut = (D.byCode[c.code] || {}).cut || [c.w - 30, c.d - 30]; poly([[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([a, b]) => M().toWorld(c, a * (cut[0] - 30) / 2, b * (cut[1] - 30) / 2)), '#e9ecef', '#6b7280', 0.2); }
@@ -521,7 +574,7 @@
       const ctr = wp.reduce((a, p) => [a[0] + p[0] / wp.length, a[1] + p[1] / wp.length], [0, 0]);
       const C = P(...ctr);
       const xs = wp.map(p => P(...p)[0]), maxW = Math.max(...xs) - Math.min(...xs) - 1;
-      const col = c.hanging ? '#1f5fd6' : '#1f2328', sub = { size: 4.6, color: '#3d4550' };
+      const col = c.hanging ? Dr.PEN.mid : '#000', sub = { size: 4.6, color: '#555' };
       const lines = Dr.nameLines(M().cabName(c)).map(t => ({ t, size: 5.8, bold: true, color: col }));
       if (c.kind === 'appl') lines.push({ ...sub, t: `${D.APPL_TYPES[c.at]}　${c.w}×${c.d}` });
       else if (c.kind === 'desk') lines.push({ ...sub, t: `${c.w}×${M().footDepth(c)}　${c.topColor}　${window.Pricing.deskMatName(c.deskMat)}${c.thick}` });
@@ -548,8 +601,8 @@
     // 圖例
     const lx = box.x0 + 2, ly = box.y1 - 12;
     pg.rect(lx, ly, 6, 3.5, { fill: '#e9dcc3', w: 0.25 }); pg.text(lx + 8, ly + 3, '地櫃 / 高櫃（色板貼圖）', { size: 6.5 });
-    pg.rect(lx + 44, ly, 6, 3.5, { w: 0.3, color: '#1f5fd6', dash: [1.2, 0.8] }); pg.text(lx + 52, ly + 3, '吊櫃（虛線）', { size: 6.5 });
-    pg.rect(lx + 76, ly, 6, 3.5, { fill: '#9e9e9e', w: 0.25 }); pg.text(lx + 84, ly + 3, '已鎖定牆面', { size: 6.5 });
+    pg.rect(lx + 44, ly, 6, 3.5, { w: 0.3, color: Dr.PEN.mid, dash: [1.2, 0.8] }); pg.line(lx + 44, ly, lx + 50, ly + 3.5, 0.15, Dr.PEN.grey); pg.line(lx + 44, ly + 3.5, lx + 50, ly, 0.15, Dr.PEN.grey); pg.text(lx + 52, ly + 3, '吊櫃（虛線）', { size: 6.5 });
+    pg.rect(lx + 76, ly, 6, 3.5, { fill: Dr.PEN.wallLock, w: 0.25 }); pg.text(lx + 84, ly + 3, '已鎖定牆面', { size: 6.5 });
     pg.text(lx, ly + 9, `比例 1:${s}　單位 mm${room ? '　地板：' + M().floorDef(room).name : ''}`, { size: 6.5, color: '#69727d' });
     return s;
   };
@@ -583,13 +636,16 @@
     const s = Dr.fitScale(L + 1400, H + 900, box.x1 - box.x0, box.y1 - box.y0 - 6);
     const W = L / s, Hh = H / s;
     const x0 = (box.x0 + box.x1) / 2 - W / 2, y0 = (box.y0 + box.y1) / 2 + Hh / 2;
-    pg.rect(x0, y0 - Hh, W, Hh, { w: 0.5, fill: room.walls[i].locked ? '#f1f1f1' : '#fcfbf8' });
+    pg.rect(x0, y0 - Hh, W, Hh, { w: 0.5, fill: '#ffffff' });
+    // 剖切：兩側牆與樓板以斜線表示（比照施工圖），地坪線加粗
+    { const T = Math.max(2, room.thickness / s), slab = Math.max(2, 150 / s);
+      Dr.hatch(pg, x0 - T, y0 - Hh - slab, T, Hh + slab); Dr.hatch(pg, x0 + W, y0 - Hh - slab, T, Hh + slab); Dr.hatch(pg, x0, y0 - Hh - slab, W, slab); }
     pg.line(x0 - 8, y0, x0 + W + 8, y0, 0.6);
     // 門窗
     room.walls[i].openings.forEach(o => {
       const sA = (wi.dir[0] * right[0] + wi.dir[1] * right[1]) > 0 ? o.offset : L - o.offset - o.width;
       const ox = x0 + sA / s, ow = o.width / s, oy = y0 - (o.sill + o.height) / s, oh = o.height / s;
-      pg.rect(ox, oy, ow, oh, { w: 0.35, fill: o.type === 'door' ? '#efe5d6' : '#e6f1f4' });
+      pg.rect(ox, oy, ow, oh, { w: 0.35, fill: '#ffffff' });
       if (o.type === 'window') { pg.line(ox + ow / 2, oy, ox + ow / 2, oy + oh, 0.15); pg.line(ox, oy + oh / 2, ox + ow, oy + oh / 2, 0.15); }
       else { pg.line(ox, oy, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); pg.line(ox, oy + oh, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); }
       pg.text(ox + ow / 2, oy - 1.2, `${o.type === 'door' ? '門' : '窗'} ${o.width}×${o.height}${o.sill ? ' 抬高' + o.sill : ''}`, { size: 5.5, align: 'center', color: '#69727d' });
@@ -608,7 +664,7 @@
       Dr.tagLines(pg, lx, cab.hanging ? y0 - cab.y / s + 1.4 : ly - 1.4, lines, cab.w / s - 0.6, 'top');   // 吊櫃標籤放在櫃底下方，避免和頂部尺寸線重疊
     });
     // 標註
-    Dr.dim(pg, x0, y0 - Hh, x0 + W, y0 - Hh, Math.round(L) + '', -7, { size: 7 });
+    Dr.dim(pg, x0, y0 - Hh, x0 + W, y0 - Hh, Math.round(L) + '', -7 - Math.max(2, 150 / s), { size: 7 });
     Dr.dim(pg, x0 + W, y0, x0 + W, y0 - Hh, H + '', 7, { size: 7 });
     const floor = list.filter(l => !l.cab.hanging && l.cab.kind !== 'desk' && (l.cab.kind !== 'appl' || l.cab.mount === 'floor')).sort((a, b) => a.left - b.left);
     if (floor.length) {
