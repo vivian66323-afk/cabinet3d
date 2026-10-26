@@ -103,7 +103,7 @@
   Dr.Page = function (orient = 'landscape', dpi = 200, size = 'a4') {
     const [L0, S0] = size === 'a3' ? [420, 297] : [297, 210];
     const wmm = orient === 'landscape' ? L0 : S0, hmm = orient === 'landscape' ? S0 : L0;
-    const k = dpi / 25.4;
+    const k = Math.min(dpi / 25.4, Math.sqrt(16e6 / (wmm * hmm)));   // iPad Safari 畫布上限約 1677 萬像素：A3 300dpi 會超過，自動降到約 290dpi
     const c = document.createElement('canvas');
     c.width = Math.round(wmm * k); c.height = Math.round(hmm * k);
     const g = c.getContext('2d');
