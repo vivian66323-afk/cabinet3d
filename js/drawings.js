@@ -100,8 +100,9 @@
 
   /* ---------- 頁面 ---------- */
   // A4：portrait 210x297 / landscape 297x210；px 每 mm
-  Dr.Page = function (orient = 'landscape', dpi = 200) {
-    const wmm = orient === 'landscape' ? 297 : 210, hmm = orient === 'landscape' ? 210 : 297;
+  Dr.Page = function (orient = 'landscape', dpi = 200, size = 'a4') {
+    const [L0, S0] = size === 'a3' ? [420, 297] : [297, 210];
+    const wmm = orient === 'landscape' ? L0 : S0, hmm = orient === 'landscape' ? S0 : L0;
     const k = dpi / 25.4;
     const c = document.createElement('canvas');
     c.width = Math.round(wmm * k); c.height = Math.round(hmm * k);
@@ -111,7 +112,7 @@
     // 線寬比照施工圖：所有設定的線寬 ×0.42，最細 0.07mm（主線 0.3→約 0.13mm、外框 0.5→約 0.2mm），輕重改用深淺表現
     const lwd = Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype, 'lineWidth');
     Object.defineProperty(g, 'lineWidth', { get() { return lwd.get.call(this); }, set(v) { lwd.set.call(this, Math.max(v * Dr.PEN.scale, Dr.PEN.min * k)); } });
-    const pg = { canvas: c, g, k, wmm, hmm, orient };
+    const pg = { canvas: c, g, k, wmm, hmm, orient, size };
     pg.mm = v => v * k;
     pg.font = (size, bold) => { g.font = `${bold ? '700 ' : ''}${size * k * 0.3528}px ${FONT}`; };
     pg.text = (x, y, s, o = {}) => {
@@ -135,59 +136,63 @@
 
   // 筆：線寬縮放與深淺（比照事務所施工圖：細黑線為主、牆體灰填、次要物件灰線）
   Dr.PEN = { scale: 0.42, min: 0.07, ink: '#000000', mid: '#404040', grey: '#8c8c8c', light: '#bdbdbd', wall: '#8c8c8c', wallLock: '#5c5c5c', gold: '#bd9c6e' };
-  const twoLine = (pg, x, y, zh, en, val, o = {}) => {   // 標題欄格子：上方中英小標，下方內容
-    pg.text(x + 1.4, y + 2.9, zh + ' ' + en, { size: 4.6, color: '#555' });
-    pg.text(x + 1.4, y + 7.9, val, { size: o.size || 7.8, maxW: o.maxW, color: '#000' });
-  };
-  // 圖框 + 標題欄（全寬底欄：公司／案名／圖名／設計／比例／日期／附註，仿事務所圖框）
+  // 圖框 + 標題欄：比照事務所現行圖框（A3 實測尺寸，A4 等比縮小）
+  // 由左至右：Logo 框｜公司名＋電話 Email｜案名/案號｜圖名/圖號｜設計/繪圖｜比例/單位｜提交日/修正日｜簽名/核准｜修正內容｜附註 a~d
+  Dr.FIRM = { name: '菩語國際設計', en: 'Purely interior design', tel: '03-335-8080', email: 'vivian66323@yahoo.com.tw' };
   Dr.frame = function (pg, title, info) {
-    const { wmm, hmm } = pg, P = Dr.PEN;
-    const L = 8, T = 8, Rr = wmm - 8, B = hmm - 8, tbH = 19, y0 = B - tbH;
-    pg.rect(L, T, Rr - L, B - T, { w: 0.45, color: P.ink });
-    pg.rect(L, y0, Rr - L, tbH, { w: 0.45, color: P.ink, fill: '#fff' });
-    // 公司
-    const cw = 58;
-    let tx = L + 3;
-    if (imgs.__logo) { const im = imgs.__logo, hh = 15, ww = Math.min(24, hh * im.width / im.height); pg.g.drawImage(im, (L + 2) * pg.k, (y0 + 2 + (hh - ww * im.height / im.width) / 2) * pg.k, ww * pg.k, ww * im.height / im.width * pg.k); tx = L + 4 + ww; }
-    const org = info.org || '系統櫃 3D 設計平台', orgEn = info.orgEn || (/菩語/.test(org) ? 'Pure interior design' : '');
-    pg.text(tx, y0 + (orgEn ? 8.6 : 11), org, { size: 10.5, color: '#000', maxW: L + cw - tx - 1 });
-    if (orgEn) pg.text(tx, y0 + 13, orgEn, { size: 7.5, color: '#000', maxW: L + cw - tx - 1 });
-    if (info.contact) pg.text(tx, y0 + 16.6, info.contact, { size: 4.6, color: '#333', maxW: L + cw - tx - 1 });
-    // 欄位
-    const cols = [[L + cw, 40], [L + cw + 40, 46], [L + cw + 86, 24], [L + cw + 110, 22], [L + cw + 132, 25]];
-    cols.forEach(([x]) => pg.line(x, y0, x, B, 0.3, P.ink));
-    const notesX = L + cw + 157; pg.line(notesX, y0, notesX, B, 0.3, P.ink);
-    pg.line(L + cw, y0 + tbH / 2, notesX, y0 + tbH / 2, 0.2, P.ink);
-    const h2 = tbH / 2, no = 'ID-' + String(info.page || 1).padStart(2, '0');
-    twoLine(pg, cols[0][0], y0, '案名', 'PROJECT', info.project || '', { maxW: 37 });
-    twoLine(pg, cols[0][0], y0 + h2, '業主', 'CLIENT', info.client || '—', { maxW: 37 });
-    twoLine(pg, cols[1][0], y0, '圖名', 'DRAWING TITLE', title, { maxW: 43, size: 7.4 });
-    twoLine(pg, cols[1][0], y0 + h2, '圖號', 'DRAWING NO', `${no}　（${info.page || 1}/${info.pages || 1}）`, { maxW: 43 });
-    twoLine(pg, cols[2][0], y0, '設計', 'DESIGNED', info.designer || '', { maxW: 21 });
-    twoLine(pg, cols[2][0], y0 + h2, '繪圖', 'DRAWN', info.drawn || info.designer || '', { maxW: 21 });
-    twoLine(pg, cols[3][0], y0, '比例', 'SCALE', info.scale ? 'A4=' + info.scale : '—', { maxW: 20 });
-    twoLine(pg, cols[3][0], y0 + h2, '單位', 'UNIT', '公釐（mm）', { maxW: 20, size: 7 });
-    twoLine(pg, cols[4][0], y0, '日期', 'DRAWN DATE', info.date || '', { maxW: 23 });
-    twoLine(pg, cols[4][0], y0 + h2, '修正日', 'REVISIONS', info.rev || '', { maxW: 23 });
-    ['a.本圖面均有著作權利', 'b.圖面標註尺寸僅供參考，施作均以現場放樣檢討之', 'c.圖面標註尺寸、材料及文字敘述因版本不同之差異，', '　均以出圖章簽認日期之最新版為準', 'd.電腦圖檔除由合約訂定外，均不得以任何方式外流']
-      .forEach((t, i) => pg.text(notesX + 1.6, y0 + 3.4 + i * 3.3, t, { size: 4.6, color: '#000', maxW: Rr - notesX - 3 }));
+    const { wmm, hmm } = pg, P = Dr.PEN, u = wmm / 420;   // u：以 A3 為基準的縮放
+    const L = 7.8 * u, T = 7 * u, Rr = wmm - 7.6 * u, B = hmm - 7 * u, tbH = 21.9 * u, y0 = B - tbH;
+    const X = v => L + (v - 7.8) * u;                     // A3 實測 x（mm）→ 本頁
+    const txt = (x, y, t, size, o = {}) => pg.text(x, y, t, { size: size * u, color: o.color || '#000', maxW: o.maxW, align: o.align });
+    pg.rect(L, T, Rr - L, B - T, { w: 0.6, color: P.ink });
+    pg.rect(L, y0, Rr - L, tbH, { w: 0.6, color: P.ink, fill: '#fff' });
+    // Logo 框與公司資料
+    const firm = { ...Dr.FIRM, ...(info.firm || {}) };
+    const lb = { x: X(10.9), y: y0 + 0.9 * u, w: 33.2 * u, h: tbH - 1.8 * u };
+    pg.rect(lb.x, lb.y, lb.w, lb.h, { w: 0.25, color: P.ink });
+    if (imgs.__logo) { const im = imgs.__logo, r = Math.min((lb.w - 3 * u) / im.width, (lb.h - 3 * u) / im.height), w = im.width * r, h = im.height * r; pg.g.drawImage(im, (lb.x + (lb.w - w) / 2) * pg.k, (lb.y + (lb.h - h) / 2) * pg.k, w * pg.k, h * pg.k); }
+    const cx = X(47.9), cmax = X(93.8) - cx - 1;
+    txt(cx, y0 + 7.7 * u, info.org || firm.name, 16, { maxW: cmax });
+    txt(cx, y0 + 12.8 * u, firm.en, 12.5, { maxW: cmax });
+    if (firm.tel) txt(cx, y0 + 15.9 * u, '電話 : ' + firm.tel, 6.2, { maxW: cmax });
+    if (firm.email) txt(cx, y0 + 18.6 * u, 'Email : ' + firm.email, 6.2, { maxW: cmax });
+    // 欄位格線
+    const cols = [93.8, 128.8, 163.7, 183.5, 203.6, 233.6, 253.7, 350.0].map(X), h2 = tbH / 2;
+    cols.forEach(x => pg.line(x, y0, x, B, 0.3, P.ink));
+    pg.line(cols[0], y0 + h2, cols[6], y0 + h2, 0.3, P.ink);
+    const no = 'ID-' + String(info.page || 1).padStart(2, '0');
+    const cell = (ci, row, zh, en, val, vs = 9.5) => {
+      const x = cols[ci] + 0.6 * u, y = y0 + row * h2, w = cols[ci + 1] - cols[ci] - 1.2 * u;
+      txt(x, y + 2.4 * u, zh + '  ' + en, 5.6, { maxW: w });
+      if (val) txt(x, y + 7.9 * u, val, vs, { maxW: w });
+    };
+    const sc = info.scale && info.scale !== '—' ? `${pg.size.toUpperCase()}=${String(info.scale).replace('1:', '1/')}` : '';
+    cell(0, 0, '案名', 'PROJECT', [info.project, info.client].filter(Boolean).join(' ')); cell(0, 1, '案號', 'PROJECT NO', info.projectNo || '');
+    cell(1, 0, '圖名', 'DRAWING TITLE', title, 9); cell(1, 1, '圖號', 'DRAWING NO', `${no}${info.pages > 1 ? `（${info.page}/${info.pages}）` : ''}`);
+    cell(2, 0, '設計', 'DESIGNED', info.designer || ''); cell(2, 1, '繪圖', 'DRAWN', info.drawn || info.designer || '');
+    cell(3, 0, '比例', 'SCALE', sc); cell(3, 1, '單位', 'UNIT', '公釐 ( mm )', 8.5);
+    cell(4, 0, '提交日', 'DRAWN DATE', info.date || ''); cell(4, 1, '修正日', 'REVISIONS DATE', info.rev || '');
+    cell(5, 0, '簽名', 'SIGN IN', ''); cell(5, 1, '核准', 'APPROVED BY', '');
+    txt(cols[6] + 0.6 * u, y0 + 2.4 * u, '修正內容  DESCRIPTION', 5.6);
+    ['a.本圖面均有著作權權利', 'b.圖面標註尺寸僅供參考施做均以現場放樣檢討之.', 'c.圖面標註尺寸,材料及文字敘述因版本不同之差異,', '   均以出圖章簽認日期之最後日期為依據 .', 'd.電腦圖檔除由合約訂定外 均不得以任何方式外流.']
+      .forEach((t, i) => txt(cols[7] + 1.2 * u, y0 + (4.2 + i * 4.1) * u, t, 6.6, { maxW: Rr - cols[7] - 1.5 * u }));
     // 圖名泡泡（有比例時＝第二次呼叫，畫在圖面區下方中央）
-    const box = { x0: 12, y0: 12, x1: wmm - 12, y1: y0 - 12 };
-    if (info.scale) Dr.caption(pg, wmm / 2, y0 - 4.5, 1, no, title, info.scale);
+    const box = { x0: L + 4 * u, y0: T + 4 * u, x1: Rr - 4 * u, y1: y0 - 12 * u };
+    if (info.scale && info.scale !== '—') Dr.caption(pg, wmm / 2, y0 - 8 * u, 1, no, title, info.scale, u);
     return box;
   };
   // 圖名泡泡：圓圈內上為序號、下為圖號，右側圖名加底線，下方 S=1/xx
-  Dr.caption = function (pg, cx, cy, n, no, title, scale) {
-    const g = pg.g, k = pg.k;
-    pg.font(8.5); const tw = g.measureText(title).width / k;
-    const x = cx - (tw + 9) / 2;
-    g.strokeStyle = '#000'; g.lineWidth = 0.3 * k; g.beginPath(); g.arc((x + 3.2) * k, cy * k, 3.2 * k, 0, Math.PI * 2); g.stroke();
-    pg.line(x, cy, x + 6.4, cy, 0.2, '#000');
-    pg.text(x + 3.2, cy - 0.6, String(n), { size: 6.5, align: 'center', color: '#000' });
-    pg.text(x + 3.2, cy + 2.4, no, { size: 3.6, align: 'center', color: '#000' });
-    pg.text(x + 8, cy - 0.7, title, { size: 8.5, color: '#000' });
-    pg.line(x + 6.4, cy, x + 9 + tw + 2, cy, 0.3, '#000');
-    pg.text(x + 9 + tw + 2, cy + 3.3, 'S=' + String(scale).replace('1:', '1/'), { size: 7, align: 'right', color: '#000' });
+  Dr.caption = function (pg, cx, cy, n, no, title, scale, u = 1) {
+    const g = pg.g, k = pg.k, z = u * 1.25;   // A3 上放大一些，比照事務所圖面
+    pg.font(8.5 * z); const tw = g.measureText(title).width / k;
+    const r = 3.2 * z, x = cx - (tw + 3 * r) / 2;
+    g.strokeStyle = '#000'; g.lineWidth = 0.3 * k; g.beginPath(); g.arc((x + r) * k, cy * k, r * k, 0, Math.PI * 2); g.stroke();
+    pg.line(x, cy, x + 2 * r, cy, 0.2, '#000');
+    pg.text(x + r, cy - 0.6 * z, String(n), { size: 6.5 * z, align: 'center', color: '#000' });
+    pg.text(x + r, cy + 2.4 * z, no, { size: 3.6 * z, align: 'center', color: '#000' });
+    pg.text(x + 2 * r + 1.6 * z, cy - 0.7 * z, title, { size: 8.5 * z, color: '#000' });
+    pg.line(x + 2 * r, cy, x + 2 * r + tw + 4 * z, cy, 0.3, '#000');
+    pg.text(x + 2 * r + tw + 4 * z, cy + 3.4 * z, 'S=' + String(scale).replace('1:', '1/'), { size: 7 * z, align: 'right', color: '#000' });
   };
 
   // 尺寸標註（x,y 為 mm 紙面座標）
@@ -553,18 +558,18 @@
       const wp = Dr.cabWorldPoly(c);
       if (c.hanging) { poly(wp, null, Dr.PEN.mid, 0.3, [1.6, 1]); const q = wp.map(p => P(...p)); pg.line(q[0][0], q[0][1], q[2][0], q[2][1], 0.15, Dr.PEN.grey, [1.6, 1]); pg.line(q[1][0], q[1][1], q[3][0], q[3][1], 0.15, Dr.PEN.grey, [1.6, 1]); }   // 吊櫃：虛線框＋交叉
       else if (c.kind === 'appl') {
-        poly(wp, Dr.applFill(pg, c, s), '#1f2328', 0.3);
-        if (c.at === 'sink') { const cut = (D.byCode[c.code] || {}).cut || [c.w - 30, c.d - 30]; poly([[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([a, b]) => M().toWorld(c, a * (cut[0] - 30) / 2, b * (cut[1] - 30) / 2)), '#e9ecef', '#6b7280', 0.2); }
+        poly(wp, '#ffffff', Dr.PEN.ink, 0.3);
+        if (c.at === 'sink') { const cut = (D.byCode[c.code] || {}).cut || [c.w - 30, c.d - 30]; poly([[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([a, b]) => M().toWorld(c, a * (cut[0] - 30) / 2, b * (cut[1] - 30) / 2)), '#ffffff', Dr.PEN.ink, 0.2); }
         if (c.at === 'hob') [-0.25, 0.25].forEach(kx => { const q = P(...M().toWorld(c, kx * c.w, -c.d * 0.06)); g.beginPath(); g.arc(q[0] * k, q[1] * k, 68 / s * k, 0, Math.PI * 2); g.strokeStyle = '#9aa0a6'; g.lineWidth = 0.3 * k; g.stroke(); });
       }
-      else poly(wp, Dr.fill(pg, c.kind === 'desk' || (c.top && c.top !== 'none') ? c.topColor : c.bodyColor, s), '#1f2328', 0.3);
+      else poly(wp, '#ffffff', Dr.PEN.ink, 0.3);   // 施工圖慣例：櫃體白底細線（色板留在立面與三視圖）
       if (c.kind !== 'tri') {
         const fe = Dr.cabFrontEdge(c).map(([x, z]) => {
           const r = c.rot * Math.PI / 180, cs = Math.cos(r), sn = Math.sin(r);
           return [c.x + x * cs + z * sn, c.z - x * sn + z * cs];
         });
         const A = P(...fe[0]), Bq = P(...fe[1]);
-        if (!c.hanging && c.kind !== 'appl' && c.fronts.some(r => !M().OPEN_ROW(r.t))) pg.line(A[0], A[1], Bq[0], Bq[1], 0.7, '#b98a57');
+        if (!c.hanging && c.kind !== 'appl' && c.fronts.some(r => !M().OPEN_ROW(r.t))) { const ix = (P(c.x, c.z)[0] - (A[0] + Bq[0]) / 2), iy = (P(c.x, c.z)[1] - (A[1] + Bq[1]) / 2), il = Math.hypot(ix, iy) || 1, d = Math.min(0.6, il * 0.15); pg.line(A[0] + ix / il * d, A[1] + iy / il * d, Bq[0] + ix / il * d, Bq[1] + iy / il * d, 0.25, Dr.PEN.ink); }   // 門片線：前緣內側細線
       }
     });
     // 型號標籤最後繪製，避免被吊櫃虛線覆蓋
@@ -600,7 +605,7 @@
     if (CEIL) { if (room && window.Ceiling) window.Ceiling.drawLegend(pg, room, box.x1 - 50, box.y0 + 4, LAYER); pg.text(box.x0 + 2, box.y1 - 3, `${{ ceiling: '天花板配置圖', lights: '燈具配置圖', hvac: '空調配置圖', power: '插座配置圖' }[LAYER]}　比例 1:${s}　單位 mm${LAYER === 'ceiling' ? '（標註高度 cm）' : ''}`, { size: 6.5, color: '#69727d' }); return s; }
     // 圖例
     const lx = box.x0 + 2, ly = box.y1 - 12;
-    pg.rect(lx, ly, 6, 3.5, { fill: '#e9dcc3', w: 0.25 }); pg.text(lx + 8, ly + 3, '地櫃 / 高櫃（色板貼圖）', { size: 6.5 });
+    pg.rect(lx, ly, 6, 3.5, { fill: '#ffffff', w: 0.3, color: Dr.PEN.ink }); pg.text(lx + 8, ly + 3, '地櫃 / 高櫃', { size: 6.5 });
     pg.rect(lx + 44, ly, 6, 3.5, { w: 0.3, color: Dr.PEN.mid, dash: [1.2, 0.8] }); pg.line(lx + 44, ly, lx + 50, ly + 3.5, 0.15, Dr.PEN.grey); pg.line(lx + 44, ly + 3.5, lx + 50, ly, 0.15, Dr.PEN.grey); pg.text(lx + 52, ly + 3, '吊櫃（虛線）', { size: 6.5 });
     pg.rect(lx + 76, ly, 6, 3.5, { fill: Dr.PEN.wallLock, w: 0.25 }); pg.text(lx + 84, ly + 3, '已鎖定牆面', { size: 6.5 });
     pg.text(lx, ly + 9, `比例 1:${s}　單位 mm${room ? '　地板：' + M().floorDef(room).name : ''}`, { size: 6.5, color: '#69727d' });

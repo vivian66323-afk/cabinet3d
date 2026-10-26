@@ -87,9 +87,9 @@
   function pagesToPDF(pages, name) {
     const { jsPDF } = window.jspdf;
     const first = pages[0];
-    const pdf = new jsPDF({ orientation: first.orient, unit: 'mm', format: 'a4', compress: true });
+    const pdf = new jsPDF({ orientation: first.orient, unit: 'mm', format: first.size || 'a4', compress: true });
     pages.forEach((pg, i) => {
-      if (i) pdf.addPage('a4', pg.orient);
+      if (i) pdf.addPage(pg.size || 'a4', pg.orient);
       pdf.addImage(pg.canvas.toDataURL('image/jpeg', 0.9), 'JPEG', 0, 0, pg.wmm, pg.hmm, undefined, 'FAST');
     });
     pdf.setProperties({ title: name, creator: '系統櫃 3D 設計平台', author: App.user ? App.user.name : '' });
@@ -601,7 +601,7 @@ ${tris}</mesh></geometry>`);
     const pre = multi ? fl.name + ' ' : '';
     const walls = st.room ? st.room.points.map((_, i) => i) : [];
     // 平面
-    let pg = Dr().Page('landscape', 300);
+    let pg = Dr().Page('landscape', 300, 'a3');
     let box = Dr().frame(pg, pre + '平面配置圖', info({ page: ++pno, pages: total }));
     const s = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 });
     legendFor(pg, st.cabinets, box.x1 - 50, box.y0 + 4);
@@ -609,21 +609,21 @@ ${tris}</mesh></geometry>`);
     pages.push(pg);
     // 天花板配置圖
     if (st.room && st.room.ceiling && st.room.ceiling.on) {
-      pg = Dr().Page('landscape', 300);
+      pg = Dr().Page('landscape', 300, 'a3');
       box = Dr().frame(pg, pre + '天花板配置圖', info({ page: ++pno, pages: total }));
       const s2 = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { ceiling: true });
       Dr().frame(pg, pre + '天花板配置圖', info({ page: pno, pages: total, scale: s2 ? '1:' + s2 : '—' }));
       pages.push(pg);
       for (const [layer, title, grp] of [['lights', '燈具配置圖', 'light'], ['hvac', '空調設備配置圖', 'hvac'], ['power', '插座配置圖', 'power']]) {
         if (!window.Ceiling.counts(st.room, grp).length) continue;
-        pg = Dr().Page('landscape', 300);
+        pg = Dr().Page('landscape', 300, 'a3');
         box = Dr().frame(pg, pre + title, info({ page: ++pno, pages: total }));
         const s3 = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { ceiling: true, layer });
         Dr().frame(pg, pre + title, info({ page: pno, pages: total, scale: s3 ? '1:' + s3 : '—' }));
         pages.push(pg);
       }
       if ((st.room.circuits || []).length) {   // 配電盤迴路表
-        pg = Dr().Page('landscape', 300);
+        pg = Dr().Page('landscape', 300, 'a3');
         box = Dr().frame(pg, pre + '配電盤迴路表', info({ page: ++pno, pages: total }));
         pg.text(box.x0 + 6, box.y0 + 8, pre + '配電盤迴路表', { size: 11, bold: true });
         window.Ceiling.drawCircuitTable(pg, st.room, box.x0 + 6, box.y0 + 13, Math.min(220, box.x1 - box.x0 - 12));
@@ -635,7 +635,7 @@ ${tris}</mesh></geometry>`);
     for (const i of walls) {
       App.busy(true, `繪製 ${pre}立面圖 ${i + 1} / ${walls.length}`);
       await nextFrame();
-      pg = Dr().Page('landscape', 300);
+      pg = Dr().Page('landscape', 300, 'a3');
       const title = `${pre}立面圖　${window.Model.wallName(i)}（W${i + 1}）`;
       box = Dr().frame(pg, title, info({ page: ++pno, pages: total }));
       const res = Dr().elevation(pg, st, i, { x0: box.x0 + 14, y0: box.y0 + 8, x1: box.x1 - 58, y1: box.y1 - 12 });
