@@ -15,6 +15,7 @@
     'js/swatches-egger.js': '20261022a',
     'js/swatches-solid.js': '20261022a',
     'js/swatches-quartz.js': '20261022a',
+    'js/swatches-sunlite.js': '20261105a',
     'js/catalog-ikea.js': '20261012b',
     'js/catalog-muji.js': '20261012r',
     'js/catalog-bear.js': '20261012t',
@@ -36,7 +37,7 @@
     paint: { label: '塗料色卡', files: ['js/catalog-paint.js'], after: () => window.DATA.addPack('paint') },
     swatches: {
       label: '各廠商色板', isolate: 'SWATCHES',
-      files: ['js/swatches-hemai.js', 'js/swatches-silestone.js', 'js/swatches-beihuaan.js', 'js/swatches-gindiing.js', 'js/swatches-lavi.js', 'js/swatches-formica.js', 'js/swatches-wilsonart.js', 'js/swatches-egger.js', 'js/swatches-solid.js', 'js/swatches-quartz.js'],
+      files: ['js/swatches-hemai.js', 'js/swatches-silestone.js', 'js/swatches-beihuaan.js', 'js/swatches-gindiing.js', 'js/swatches-lavi.js', 'js/swatches-formica.js', 'js/swatches-wilsonart.js', 'js/swatches-egger.js', 'js/swatches-solid.js', 'js/swatches-quartz.js', 'js/swatches-sunlite.js'],
       after: added => window.SwatchLib.addBuiltin(added)
     },
     airender: { label: '3D 渲染模組', files: ['js/airender.js'] },
