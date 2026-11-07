@@ -598,12 +598,14 @@
      ====================================================================== */
   function plan(doc, st, X0, Y0, opt) {
     opt = opt || {};
-    const p = doc.p, room = st.room;
+    const p = doc.p, rooms = window.Drawings.roomsOf(st);
     // 世界 (x,z) → 圖面 (x,y)：z 往下，所以 y = -z
     const T = ([x, z]) => [X0 + x, Y0 - z];
 
-    if (room) {
+    rooms.forEach((room, ri) => {   // 同一層全部房間畫在同一張平面
       const n = room.points.length, t = room.thickness;
+      const wtag = rooms.length > 1 ? (ri + 1) + '-' : '';
+      if (rooms.length > 1 && opt.labels !== false) { const c = T(room.points.reduce((a, q) => [a[0] + q[0] / n, a[1] + q[1] / n], [0, 0])); doc.text(c[0], c[1], p(3), room.name || '', { align: 'c', valign: 'mid' }); }
       const inner = room.points.map(q => q);
       const outer = room.points.map((q, i) => {
         // 以相鄰兩牆外法線的交會點取外輪廓（直角空間下等同平移牆厚）
@@ -696,10 +698,10 @@
           const r = p(3.2), cx = m[0] + ip[0] * p(7), cy = m[1] + ip[1] * p(7);
           doc.circle(cx, cy, r, 'A-SYMB');
           doc.line(cx - ip[0] * r, cy - ip[1] * r, m[0], m[1], 'A-SYMB');
-          doc.text(cx, cy, p(2.6), 'W' + (i + 1), { layer: 'A-SYMB', align: 'c', valign: 'mid' });
+          doc.text(cx, cy, p(2.6), wtag + 'W' + (i + 1), { layer: 'A-SYMB', align: 'c', valign: 'mid' });
         }
       }
-    }
+    });
 
     // 櫃體：先落地後吊櫃
     const cabs = (st.cabinets || []).slice().sort((a, b) => (a.hanging ? 1 : 0) - (b.hanging ? 1 : 0));
@@ -785,20 +787,23 @@
     // ---- 先列出所有要畫的視圖，順便記下各自的實際內容尺寸（模型 mm）
     const views = [];
     (project.floors || []).forEach(fl => {
-      const st = { room: fl.room, cabinets: fl.cabinets || [] };
+      const rooms = window.Drawings.roomsOf(fl);
+      const st = { room: fl.room || rooms[0] || null, rooms, cabinets: fl.cabinets || [] };
       const pre = (project.floors.length > 1 ? fl.name + ' ' : '');
-      if (!st.room && !st.cabinets.length) return;
+      if (!rooms.length && !st.cabinets.length) return;
       if (o.plan) {
         const bb = planBounds(st);
         views.push({ type: 'plan', st, bb, cw: bb.x1 - bb.x0, ch: bb.z1 - bb.z0, title: pre + '平面配置圖', code: 'P' });
       }
-      if (!st.room) return;
-      st.room.points.forEach((_, i) => {
-        const wc = window.Drawings.wallCabinets(st, i);
-        if (o.walls === 'with-cab' && !wc.list.length) return;
-        views.push({
-          type: 'elev', st, wall: i, cw: wc.wi.len, ch: st.room.height,
-          title: `${pre}立面圖　${M().wallName(i)}（W${i + 1}）`, code: 'E'
+      rooms.forEach((room, ri) => {   // 立面：每個房間每面牆
+        const rst = { ...st, room }, tag = rooms.length > 1 ? (ri + 1) + '-' : '', rpre = rooms.length > 1 ? (room.name || '') + '　' : '';
+        room.points.forEach((_, i) => {
+          const wc = window.Drawings.wallCabinets(rst, i);
+          if (o.walls === 'with-cab' && !wc.list.length) return;
+          views.push({
+            type: 'elev', st: rst, wall: i, cw: wc.wi.len, ch: room.height,
+            title: `${pre}${rpre}立面圖　${M().wallName(i)}（${tag}W${i + 1}）`, code: 'E'
+          });
         });
       });
     });
@@ -872,11 +877,11 @@
   function planBounds(st) {
     let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
     const put = ([x, z]) => { if (x < x0) x0 = x; if (x > x1) x1 = x; if (z < z0) z0 = z; if (z > z1) z1 = z; };
-    if (st.room) st.room.points.forEach((q, i) => {
+    window.Drawings.roomsOf(st).forEach(room => room.points.forEach((q, i) => {
       put(q);
-      const wi = M().wallInfo(st.room, i);
-      put([q[0] + wi.nOut[0] * st.room.thickness, q[1] + wi.nOut[1] * st.room.thickness]);
-    });
+      const wi = M().wallInfo(room, i);
+      put([q[0] + wi.nOut[0] * room.thickness, q[1] + wi.nOut[1] * room.thickness]);
+    }));
     (st.cabinets || []).forEach(c => window.Drawings.cabWorldPoly(c).forEach(put));
     if (!isFinite(x0)) { x0 = z0 = 0; x1 = z1 = 1000; }
     return { x0, x1, z0, z1 };

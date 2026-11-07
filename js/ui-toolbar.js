@@ -68,7 +68,7 @@
       case 'lamps': v.lampsOn = v.lampsOn === false; try { localStorage.setItem('cab3d.lamps', v.lampsOn ? 'on' : 'off'); } catch (e) { /* 忽略 */ } v.rebuildAll(); UI.syncToolbar(); App.toast(v.lampsOn ? '燈具光源已開啟' : '燈具光源已關閉'); break;
       case 'line':
         v.setTool('line');
-        if (App.state.room) App.toast('完成繪製後將取代目前空間（櫃體保留）');
+        if (App.state.room) App.toast(v.lineRoomMode === 'replace' ? '完成繪製後將取代目前房間（櫃體保留）' : '沿底圖牆線點各轉角，封閉後可新增為新房間；畫線會鎖到底圖的端點、中點與線上');
         break;
       case 'delete': App.deleteSelected(); break;
       case 'dup': App.duplicateSelected(); break;

@@ -294,8 +294,10 @@
 
   // 全部樓層的櫃體（目前樓層以 state.cabinets 為準）
   function floorsOf(state) {
-    if (!state.floors || !state.floors.length) return [{ name: '', cabinets: state.cabinets, room: state.room }];
-    return state.floors.map((f, i) => ({ name: f.name, cabinets: i === state.floor ? state.cabinets : (f.cabinets || []), room: i === state.floor ? state.room : f.room }));
+    // 目前樓層以 state.room／state.rooms 為準；state.rooms 若不含 state.room（外部組出來的狀態）就只算 state.room
+    const curRooms = state.rooms && state.rooms.length && (!state.room || state.rooms.includes(state.room)) ? state.rooms : (state.room ? [state.room] : []);
+    if (!state.floors || !state.floors.length) return [{ name: '', cabinets: state.cabinets, room: state.room, rooms: curRooms }];
+    return state.floors.map((f, i) => ({ name: f.name, cabinets: i === state.floor ? state.cabinets : (f.cabinets || []), room: i === state.floor ? state.room : f.room, rooms: i === state.floor ? curRooms : f.rooms }));
   }
   function quote(state) {
     const groups = new Map();
@@ -315,7 +317,12 @@
     }));
     const rows = [...groups.values()];
     const ceiling = [];
-    floors.forEach(fl => { if (window.Ceiling && fl.room) window.Ceiling.quoteLines(fl.room, state.pricing).forEach(l => ceiling.push({ ...l, floor: multi ? fl.name : '' })); });
+    // 天花／燈具／插座／迴路：每個房間各自計算（多房間時在樓層欄加房間名）
+    floors.forEach(fl => {
+      if (!window.Ceiling) return;
+      const rs = fl.rooms && fl.rooms.length ? fl.rooms : (fl.room ? [fl.room] : []);
+      rs.forEach(r => window.Ceiling.quoteLines(r, state.pricing).forEach(l => ceiling.push({ ...l, floor: [multi ? fl.name : '', rs.length > 1 ? (r.name || '') : ''].filter(Boolean).join(' ') })));
+    });
     const ceilTotal = ceiling.reduce((s, l) => s + l.amount, 0);
     const subtotal = rows.reduce((s, r) => s + r.price.total * r.qty, 0) + ceilTotal;
     const disc = Math.round(subtotal * (100 - state.pricing.discount) / 100);

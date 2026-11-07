@@ -118,11 +118,13 @@
   UI.alert = (title, msg) => UI.modal({ title, body: `<p>${esc(msg).replace(/\n/g, '<br>')}</p>`, buttons: [{ label: '確定', primary: true, value: 'ok' }] });
   UI.confirm = async (title, msg) => !!(await UI.modal({ title, body: `<p>${esc(msg).replace(/\n/g, '<br>')}</p>`, buttons: [{ label: '取消', value: null }, { label: '確定', primary: true, value: 'ok' }] }));
 
-  UI.roomDialog = async function () {
-    const r = App.state.room;
+  // mode：'add'＝新增房間（預設）、'replace'＝取代目前房間
+  UI.roomDialog = async function (mode) {
+    const r = App.state.room, rooms = App.state.rooms || [];
+    const replace = mode === 'replace' && r;
     const res = await UI.modal({
-      title: '矩形空間',
-      body: `<p>輸入空間內淨尺寸（mm）。${r ? '<br><b>將取代目前空間與門窗</b>，櫃體會保留。' : ''}</p><div class="kv">
+      title: replace ? '重建矩形房間' : rooms.length ? '新增矩形房間' : '矩形空間',
+      body: `<p>輸入空間內淨尺寸（mm）。${replace ? `<br><b>將取代目前房間「${esc(r.name || '')}」與其門窗</b>，櫃體會保留。` : rooms.length ? '<br>新房間會放在現有房間的右側，之後可點牆面調整。' : ''}</p><div class="kv">
         <label>寬（X 向）</label><input name="w" type="number" value="4000" step="10">
         <label>深（Z 向）</label><input name="d" type="number" value="3500" step="10">
         <label>高</label><input name="h" type="number" value="${r ? r.height : 2800}" step="10">
@@ -131,19 +133,31 @@
       validate: d => (+d.w < 600 || +d.d < 600) ? '寬、深至少 600 mm' : (+d.h < 1800 || +d.h > 6000) ? '高度需介於 1800–6000 mm' : (+d.t < 50 || +d.t > 400) ? '牆厚需介於 50–400 mm' : null
     });
     if (!res) return;
-    App.setRoom(M().rectRoom(+res.data.w, +res.data.d, +res.data.h, +res.data.t));
+    const room = M().rectRoom(+res.data.w, +res.data.d, +res.data.h, +res.data.t);
+    if (!replace && rooms.length) {   // 新房間放到現有房間外框右側（隔一道牆厚），不要疊在原房間上
+      let maxx = -Infinity, minz = Infinity, maxz = -Infinity;
+      rooms.forEach(rm => rm.points.forEach(([x, z]) => { maxx = Math.max(maxx, x); minz = Math.min(minz, z); maxz = Math.max(maxz, z); }));
+      const dx = Math.round(maxx + 2 * (+res.data.t) + (+res.data.w) / 2), dz = Math.round((minz + maxz) / 2);
+      room.points = room.points.map(([x, z]) => [x + dx, z + dz]);
+    }
+    App.setRoom(room, replace ? 'replace' : 'add');
   };
   UI.askHeight = async function (pts) {
+    const r = App.state.room, rooms = App.state.rooms || [];
+    const mode0 = (window.Viewer && window.Viewer.lineRoomMode) || 'add'; if (window.Viewer) window.Viewer.lineRoomMode = null;
     const res = await UI.modal({
-      title: '封閉空間',
-      body: `<p>已繪製 ${pts.length} 段牆。請輸入空間高度。${App.state.room ? '<br><b>將取代目前空間</b>，櫃體會保留。' : ''}</p><div class="kv">
-        <label>高</label><input name="h" type="number" value="${App.state.room ? App.state.room.height : 2800}" step="10">
-        <label>牆厚</label><input name="t" type="number" value="120" step="5"></div>`,
-      buttons: [{ label: '取消', value: null }, { label: '建立空間', primary: true, value: 'ok' }],
+      title: rooms.length ? '封閉房間' : '封閉空間',
+      body: `<p>已繪製 ${pts.length} 段牆。請輸入空間高度。</p><div class="kv">
+        <label>高</label><input name="h" type="number" value="${r ? r.height : 2800}" step="10">
+        <label>牆厚</label><input name="t" type="number" value="${r ? r.thickness : 120}" step="5"></div>
+        ${rooms.length ? `<div class="choice-list" style="margin-top:10px">
+          <label class="choice"><input type="radio" name="mode" value="add"${mode0 !== 'replace' ? ' checked' : ''}><span><b>新增為新房間</b><small>保留現有 ${rooms.length} 個房間；之後可在屬性面板改名</small></span></label>
+          <label class="choice"><input type="radio" name="mode" value="replace"${mode0 === 'replace' ? ' checked' : ''}><span><b>取代目前房間「${esc(r.name || '')}」</b><small>門窗與天花設定會清除，櫃體保留</small></span></label></div>` : ''}`,
+      buttons: [{ label: '取消', value: null }, { label: rooms.length ? '建立房間' : '建立空間', primary: true, value: 'ok' }],
       validate: d => (+d.h < 1800 || +d.h > 6000) ? '高度需介於 1800–6000 mm' : null
     });
     if (!res) return;
-    App.setRoom(M().createRoom(pts, +res.data.h, +res.data.t));
+    App.setRoom(M().createRoom(pts, +res.data.h, +res.data.t), res.data.mode === 'replace' ? 'replace' : 'add');
   };
   // 離開目前專案前詢問：1 不儲存直接開新專案　2 匯出專案檔（之後可匯入繼續編輯）
   UI.leaveDialog = async function (title, action = '開立新專案') {

@@ -398,8 +398,7 @@
     const THREE = window.THREE;
     const V = window.Viewer;
     const objects = [];
-    const room = V.getRoomObject();
-    if (room) objects.push({ name: 'Room', obj: room });
+    (V.getRoomObjects ? V.getRoomObjects() : [V.getRoomObject()]).filter(Boolean).forEach((g, i) => objects.push({ name: 'Room' + (i ? i + 1 : ''), obj: g }));   // 全部房間
     V.getCabGroup().children.forEach(g => {
       const cab = App.state.cabinets.find(c => c.id === g.userData.cabId);
       objects.push({ name: cab ? `${window.Model.cabName(cab)}_${cab.id}` : 'Cabinet', obj: g });
@@ -591,15 +590,18 @@ ${tris}</mesh></geometry>`);
     const st0 = App.state;
     const pages = [];
     const floors = App.floorList(), multi = floors.length > 1;
-    const extraOf = r => { if (!r || !r.ceiling || !r.ceiling.on || !window.Ceiling) return 0; const C = window.Ceiling; return 1 + (C.counts(r, 'light').length ? 1 : 0) + (C.counts(r, 'hvac').length ? 1 : 0) + (C.counts(r, 'power').length ? 1 : 0) + ((r.circuits || []).length ? 1 : 0); };
+    // 多房間：平面與天花配置圖一層一張（含全部房間）；立面每個房間每面牆一張；配電盤迴路表每個房間一張
+    const roomsOf = Dr().roomsOf;
+    const extraOf = rooms => { const C = window.Ceiling; if (!C) return 0; const on = rooms.filter(r => r.ceiling && r.ceiling.on); if (!on.length) return 0; return 1 + ['light', 'hvac', 'power'].filter(g => on.some(r => C.counts(r, g).length)).length + on.filter(r => (r.circuits || []).length).length; };
     // 沒有空間也沒有櫃體的樓層不會出圖（下方迴圈會跳過），總頁數也不能算進去，否則標題欄的「頁次 x / y」會多 1
-    const total = floors.reduce((a, f) => a + (!f.room && !(f.cabinets || []).length ? 0 : 1 + (f.room ? f.room.points.length + extraOf(f.room) : 0)), 0);
+    const total = floors.reduce((a, f) => { const rs = roomsOf(f); return a + (!rs.length && !(f.cabinets || []).length ? 0 : 1 + rs.reduce((b, r) => b + r.points.length, 0) + extraOf(rs)); }, 0);
     let pno = 0;
     for (const fl of floors) {
-    if (!fl.room && !(fl.cabinets || []).length) continue;
-    const st = { ...st0, room: fl.room, cabinets: fl.cabinets || [] };
+    const rooms = roomsOf(fl);
+    if (!rooms.length && !(fl.cabinets || []).length) continue;
+    const st = { ...st0, room: fl.room || rooms[0] || null, rooms, cabinets: fl.cabinets || [] };
     const pre = multi ? fl.name + ' ' : '';
-    const walls = st.room ? st.room.points.map((_, i) => i) : [];
+    const ceilRooms = window.Ceiling ? rooms.filter(r => r.ceiling && r.ceiling.on) : [];
     // 平面
     let pg = Dr().Page('landscape', 300, 'a3');
     let box = Dr().frame(pg, pre + '平面配置圖', info({ page: ++pno, pages: total }));
@@ -608,43 +610,49 @@ ${tris}</mesh></geometry>`);
     Dr().frame(pg, pre + '平面配置圖', info({ page: pno, pages: total, scale: s ? '1:' + s : '—' }));
     pages.push(pg);
     // 天花板配置圖
-    if (st.room && st.room.ceiling && st.room.ceiling.on) {
+    if (ceilRooms.length) {
       pg = Dr().Page('landscape', 300, 'a3');
       box = Dr().frame(pg, pre + '天花板配置圖', info({ page: ++pno, pages: total }));
       const s2 = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { ceiling: true });
       Dr().frame(pg, pre + '天花板配置圖', info({ page: pno, pages: total, scale: s2 ? '1:' + s2 : '—' }));
       pages.push(pg);
       for (const [layer, title, grp] of [['lights', '燈具配置圖', 'light'], ['hvac', '空調設備配置圖', 'hvac'], ['power', '插座配置圖', 'power']]) {
-        if (!window.Ceiling.counts(st.room, grp).length) continue;
+        if (!ceilRooms.some(r => window.Ceiling.counts(r, grp).length)) continue;
         pg = Dr().Page('landscape', 300, 'a3');
         box = Dr().frame(pg, pre + title, info({ page: ++pno, pages: total }));
         const s3 = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { ceiling: true, layer });
         Dr().frame(pg, pre + title, info({ page: pno, pages: total, scale: s3 ? '1:' + s3 : '—' }));
         pages.push(pg);
       }
-      if ((st.room.circuits || []).length) {   // 配電盤迴路表
+      for (const r of ceilRooms) {   // 配電盤迴路表（每個房間一張）
+        if (!(r.circuits || []).length) continue;
+        const ct = pre + (rooms.length > 1 ? (r.name || '') + ' ' : '') + '配電盤迴路表';
         pg = Dr().Page('landscape', 300, 'a3');
-        box = Dr().frame(pg, pre + '配電盤迴路表', info({ page: ++pno, pages: total }));
-        pg.text(box.x0 + 6, box.y0 + 8, pre + '配電盤迴路表', { size: 11, bold: true });
-        window.Ceiling.drawCircuitTable(pg, st.room, box.x0 + 6, box.y0 + 13, Math.min(220, box.x1 - box.x0 - 12));
-        Dr().frame(pg, pre + '配電盤迴路表', info({ page: pno, pages: total, scale: '—' }));
+        box = Dr().frame(pg, ct, info({ page: ++pno, pages: total }));
+        pg.text(box.x0 + 6, box.y0 + 8, ct, { size: 11, bold: true });
+        window.Ceiling.drawCircuitTable(pg, r, box.x0 + 6, box.y0 + 13, Math.min(220, box.x1 - box.x0 - 12));
+        Dr().frame(pg, ct, info({ page: pno, pages: total, scale: '—' }));
         pages.push(pg);
       }
     }
-    // 立面
-    for (const i of walls) {
-      App.busy(true, `繪製 ${pre}立面圖 ${i + 1} / ${walls.length}`);
+    // 立面：每個房間每面牆一張
+    for (let ri = 0; ri < rooms.length; ri++) {
+    const room = rooms[ri]; st.room = room;
+    const tag = rooms.length > 1 ? (ri + 1) + '-' : '', rpre = rooms.length > 1 ? (room.name || '') + '　' : '';
+    for (let i = 0; i < room.points.length; i++) {
+      App.busy(true, `繪製 ${pre}${rpre}立面圖 ${i + 1} / ${room.points.length}`);
       await nextFrame();
       pg = Dr().Page('landscape', 300, 'a3');
-      const title = `${pre}立面圖　${window.Model.wallName(i)}（W${i + 1}）`;
+      const title = `${pre}${rpre}立面圖　${window.Model.wallName(i)}（${tag}W${i + 1}）`;
       box = Dr().frame(pg, title, info({ page: ++pno, pages: total }));
       const res = Dr().elevation(pg, st, i, { x0: box.x0 + 14, y0: box.y0 + 8, x1: box.x1 - 58, y1: box.y1 - 12 });
       legendFor(pg, res.cabs, box.x1 - 50, box.y0 + 44);
       // 索引小圖
       keyPlan(pg, st, i, box.x1 - 40, box.y0 + 2, 34);
-      pg.text(box.x0 + 2, box.y1 - 2, `從室內面向 W${i + 1} 觀看　比例 1:${res.s}　單位 cm　${res.count ? res.count + ' 件櫃體' : '此牆面無靠牆櫃體'}`, { size: 6.5, color: '#69727d' });
+      pg.text(box.x0 + 2, box.y1 - 2, `從室內面向 ${tag}W${i + 1} 觀看　比例 1:${res.s}　單位 cm　${res.count ? res.count + ' 件櫃體' : '此牆面無靠牆櫃體'}`, { size: 6.5, color: '#69727d' });
       Dr().frame(pg, title, info({ page: pno, pages: total, scale: '1:' + res.s }));
       pages.push(pg);
+    }
     }
     }
     if (!pages.length) { App.ui.alert('無法匯出', '各樓層都尚未建立空間或放置櫃體。'); return; }
@@ -820,7 +828,7 @@ ${tris}</mesh></geometry>`);
 
     App.busy(true, '產生施工圖 DXF…');
     await nextFrame();
-    const floors = App.floorList().map(fl => ({ name: fl.name, room: fl.room, cabinets: fl.cabinets || [] }));
+    const floors = App.floorList().map(fl => ({ name: fl.name, room: fl.room, rooms: fl.rooms, cabinets: fl.cabinets || [] }));
     // 新專案的預設名稱是「新專案 20261004-2209」，標題欄不需要那串日期時間
     const title = String(st.name || '專案').replace(/\s*\d{8}-\d{4}\s*$/, '').trim() || st.name;
     const built = window.DXFOut.build({ name: title, client: st.client, by: (App.user && App.user.name) || '', floors }, opt);

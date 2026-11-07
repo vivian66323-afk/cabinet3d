@@ -7,7 +7,9 @@
   const deg = Math.PI / 180;
 
   let renderer, scene, persp, ortho, camera, controls, container, overlay;
-  let roomGroup = null, cabGroup, helperGroup, grid, axes, ghost = null, selBox = null;
+  let roomGroup = null, roomGroups = [], cabGroup, helperGroup, grid, axes, ghost = null, selBox = null;   // roomGroups：本樓層每個房間一個 group；roomGroup＝目前編輯中的房間
+  const allRooms = () => { const st = App.state; return st ? (st.rooms && st.rooms.length ? st.rooms : (st.room ? [st.room] : [])) : []; };
+  const roomMeshes = () => roomGroups.flatMap(g => g.children);
   const cabObjs = new Map();
   let raycaster, mouse, groundPlane;
   let hemi, dir, amb;
@@ -188,8 +190,8 @@
 
   function sceneBox() {
     const box = new THREE.Box3();
-    if (roomGroup) box.expandByObject(roomGroup);
-    if (!roomGroup && underlayGroup) box.expandByObject(underlayGroup);
+    roomGroups.forEach(g => box.expandByObject(g));
+    if (!roomGroups.length && underlayGroup) box.expandByObject(underlayGroup);
     cabGroup.children.forEach(c => box.expandByObject(c));
     if (box.isEmpty()) box.set(new THREE.Vector3(-3000, 0, -3000), new THREE.Vector3(3000, 2400, 3000));
     return box;
@@ -212,10 +214,10 @@
   }
   // 實際空間外框：房間牆體（含牆厚）＋ 所有櫃體 / 設備
   function roomBox() {
-    const room = App.state.room;
-    if (!room) return sceneBox();
-    const T = room.thickness || 0, xs = room.points.map(p => p[0]), zs = room.points.map(p => p[1]);
-    const box = new THREE.Box3(new THREE.Vector3(Math.min(...xs) - T, 0, Math.min(...zs) - T), new THREE.Vector3(Math.max(...xs) + T, room.height, Math.max(...zs) + T));
+    const rooms = allRooms();
+    if (!rooms.length) return sceneBox();
+    const box = new THREE.Box3();
+    rooms.forEach(room => { const T = room.thickness || 0, xs = room.points.map(p => p[0]), zs = room.points.map(p => p[1]); box.union(new THREE.Box3(new THREE.Vector3(Math.min(...xs) - T, 0, Math.min(...zs) - T), new THREE.Vector3(Math.max(...xs) + T, room.height, Math.max(...zs) + T))); });
     cabGroup.children.forEach(c => box.expandByObject(c));
     return box;
   }
@@ -255,11 +257,11 @@
 
   /* ---------- 牆面自動透明 ---------- */
   function updateWalls() {
-    if (!roomGroup) return;
+    if (!roomGroups.length) return;
     const cp = camera.position;
     const topView = camera.position.y - controls.target.y > 0.97 * camera.position.distanceTo(controls.target);
-    const hidden = new Set();
-    roomGroup.children.forEach(m => {
+    const hidden = new Set();   // 已淡化的牆：房間 id + 牆序號（各房間的牆序號會重複）
+    roomMeshes().forEach(m => {
       if (m.userData.wallIndex == null) return;
       const n = m.userData.nOut, mid = m.userData.mid;
       let hide = false;
@@ -269,14 +271,14 @@
         hide = (vx * n[0] + vz * n[1]) > 0;
         if (camera === ortho) { const dv = camera.getWorldDirection(new THREE.Vector3()); hide = (dv.x * n[0] + dv.z * n[1]) < -0.05; }
       }
-      if (hide) hidden.add(m.userData.wallIndex);
+      if (hide) hidden.add(m.userData.roomId + ':' + m.userData.wallIndex);
       const op = hide ? 0.1 : 1;
       if (m.material.opacity !== op) { m.material.opacity = op; m.material.depthWrite = !hide; m.material.needsUpdate = true; }
       m.children.forEach(c => { if (c.userData.wallEdge) c.visible = !hide; });
     });
-    roomGroup.children.forEach(m => { if (m.userData.ofWall != null) m.visible = !hidden.has(m.userData.ofWall); });
+    roomMeshes().forEach(m => { if (m.userData.ofWall != null) m.visible = !hidden.has(m.userData.roomId + ':' + m.userData.ofWall); });
     // 天花板：相機高於天花、上視圖或牆面全隱藏時隱藏
-    roomGroup.children.forEach(m => {
+    roomMeshes().forEach(m => {
       if (!m.userData.ceilGroup) return;
       const below = !topView && cp.y < m.userData.h + 80, ghost = V.ceilMode === 'ghost' && !below;
       m.visible = V.ceilMode !== 'hide' && (V.wallMode !== 'hide' || V.ceilMode === 'ghost') && (below || ghost);
@@ -389,16 +391,29 @@
     const gp = window.Ceiling.grips(room).find(q => q.key === V.ceilSel); if (!gp) return false;
     V.ceilSel = null; App.mutate('刪除' + (gp.label || ''), s => gp.remove(s.room), 'room'); return true;
   };
+  V.allRooms = allRooms;
+  // 點到別的房間的牆／地板：把它切換成目前編輯中的房間
+  V.activateRoom = function (id) {
+    const st = App.state; if (!id || !st.rooms || !st.room || st.room.id === id) return false;
+    const i = st.rooms.findIndex(r => r.id === id); if (i < 0) return false;
+    App.setActiveRoom(i); App.toast('切換到 ' + (st.rooms[i].name || '房間'));
+    return true;
+  };
   V.rebuildRoom = function () {
-    if (roomGroup) { scene.remove(roomGroup); dispose(roomGroup); roomGroup = null; }
+    roomGroups.forEach(g => { scene.remove(g); dispose(g); }); roomGroups = []; roomGroup = null;
     const st = App.state;
     if (!st.room) { V.updateCeilGrips(); return; }   // 空間刪掉時也要把天花編輯掣點一起清掉，不能留著指向已不存在的空間
-    roomGroup = M().buildRoom(st.room, { selectedWall: App.sel && App.sel.type === 'wall' ? App.sel.index : -1 });
-    scene.add(roomGroup);
+    allRooms().forEach(r => {
+      const active = r === st.room;
+      const g = M().buildRoom(r, { selectedWall: active && App.sel && App.sel.type === 'wall' ? App.sel.index : -1 });
+      g.userData.roomId = r.id; g.traverse(o => { o.userData.roomId = r.id; });
+      scene.add(g); roomGroups.push(g);
+      if (active) roomGroup = g;
+    });
     updateWalls();
     V.updateCeilGrips();
     if (App.sel && App.sel.type === 'ceil') setTimeout(updateSelBox, 0);
-    const box = new THREE.Box3().expandByObject(roomGroup);
+    const box = new THREE.Box3(); roomGroups.forEach(g => box.expandByObject(g));
     const c = box.getCenter(new THREE.Vector3());
     dir.target.position.copy(c); dir.position.set(c.x + 4000, 9000, c.z + 6000);
   };
@@ -742,9 +757,14 @@
       put(new THREE.Vector3((a[0] + draw.cursor[0]) / 2, 30, (a[1] + draw.cursor[1]) / 2), Math.round(len) + ' mm', 'draw');
     }
     if (App.state.room && V.showWallDims) {
-      App.state.room.points.forEach((_, i) => {
-        const wi = M().wallInfo(App.state.room, i);
-        put(new THREE.Vector3(wi.mid[0] + wi.nOut[0] * 400, 10, wi.mid[1] + wi.nOut[1] * 400), Math.round(wi.len) + '', 'dim');
+      const rooms = allRooms();
+      rooms.forEach(room => {
+        room.points.forEach((_, i) => {
+          const wi = M().wallInfo(room, i);
+          put(new THREE.Vector3(wi.mid[0] + wi.nOut[0] * 400, 10, wi.mid[1] + wi.nOut[1] * 400), Math.round(wi.len) + '', 'dim');
+        });
+        // 多房間：各房間中央標房間名（目前編輯中的房間套色）
+        if (rooms.length > 1) { const n = room.points.length, c = room.points.reduce((a, p) => [a[0] + p[0] / n, a[1] + p[1] / n], [0, 0]); put(new THREE.Vector3(c[0], 20, c[1]), room.name || '', room === App.state.room ? 'room on' : 'room'); }
       });
     }
   }
@@ -775,8 +795,7 @@
   const visDeep = o => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };   // 連同上層群組都可見（隱藏的天花不參與點選／鎖點）
   function pick() {
     raycaster.setFromCamera(mouse, camera);
-    const objs = [...cabGroup.children];
-    if (roomGroup) objs.push(roomGroup);
+    const objs = [...cabGroup.children, ...roomGroups];   // 全部房間都可點選（點到別的房間會切換成目前房間）
     const hits = raycaster.intersectObjects(objs, true).filter(h => h.object.isMesh && visDeep(h.object) && !(h.object.material && h.object.material.opacity < 0.2));
     let ghostCeil = null;   // 天花半透明時，先看底下有沒有櫃體，沒有才算點到天花
     for (const h of hits) {
@@ -786,9 +805,9 @@
       if (ghostCeil) continue;   // 半透明天花底下只讓櫃體優先，牆與地板讓給天花
       let o = h.object, opening = null;
       while (o && o.userData.wallIndex == null && o.parent) { if (o.userData.opening) opening = { id: o.userData.opening, wall: o.userData.ofWall }; o = o.parent; }
-      if (opening) return { type: 'wall', index: opening.wall, opening: opening.id, point: h.point };
-      if (o && o.userData.wallIndex != null) return { type: 'wall', index: o.userData.wallIndex, point: h.point };
-      if (h.object.userData.isFloor) return ghostCeil || { type: 'floor', point: h.point };
+      if (opening) return { type: 'wall', index: opening.wall, opening: opening.id, roomId: o && o.userData.roomId, point: h.point };
+      if (o && o.userData.wallIndex != null) return { type: 'wall', index: o.userData.wallIndex, roomId: o.userData.roomId, point: h.point };
+      if (h.object.userData.isFloor) return ghostCeil || { type: 'floor', roomId: h.object.userData.roomId, point: h.point };
     }
     return ghostCeil;
   }
@@ -798,7 +817,7 @@
   const AXES = () => AXES_V || (AXES_V = [['紅軸', new THREE.Vector3(1, 0, 0)], ['綠軸', new THREE.Vector3(0, 0, 1)], ['藍軸', new THREE.Vector3(0, 1, 0)]]);
   function pickPoint(from, lockAxis) {
     raycaster.setFromCamera(mouse, camera);
-    const objs = [...cabGroup.children]; if (roomGroup) objs.push(roomGroup);
+    const objs = [...cabGroup.children, ...roomGroups];
     const hits = raycaster.intersectObjects(objs, true).filter(h => h.object.isMesh && visDeep(h.object) && !(h.object.material && h.object.material.opacity < 0.2));
     const cr = renderer.domElement.getBoundingClientRect();
     const scr = v => { const q = v.clone().project(camera); return [(q.x + 1) / 2 * cr.width, (1 - q.y) / 2 * cr.height]; };
@@ -903,12 +922,13 @@
       const gs = pickGrip();
       if (gs) { startGrip(gs); return; }
       const h = pick();
-      if (!h || h.type === 'floor') { App.select(null); return; }
+      if (!h || h.type === 'floor') { if (h && h.roomId) V.activateRoom(h.roomId); App.select(null); return; }
       if (h.type === 'ceil') { App.select({ type: 'ceil', kind: h.kind, id: h.id }); return; }
       if (h.type === 'cab') {
         App.select({ type: 'cab', id: h.id });
         down.cand = h;
       } else if (h.type === 'wall') {
+        if (V.activateRoom(h.roomId)) { App.select({ type: 'wall', index: h.index }); return; }   // 點到別的房間：先切換成目前房間再選牆
         const cur = App.sel;
         if (h.opening && cur && cur.type === 'wall' && cur.index === h.index) { startOpeningGrip({ kind: 'm', oid: h.opening }); return; }
         App.select({ type: 'wall', index: h.index });
@@ -984,21 +1004,22 @@
     return b;
   }
   // 底圖向量端點：底圖由向量 PDF／DXF 轉成時保留線段（影像像素、相對影像中心），畫線與比例尺可鎖到端點與中點
-  let ulPts = null, ulKey = '';
+  let ulPts = null, ulSegs = null, ulKey = '';
   function underlayPoints() {
     const u = App.state && App.state.underlay;
-    if (!u || !u.visible || !u.vec || !u.vec.length) { ulPts = null; ulKey = ''; return null; }
+    if (!u || !u.visible || !u.vec || !u.vec.length) { ulPts = null; ulSegs = null; ulKey = ''; return null; }
     const key = [u.x, u.z, u.rot, u.scale, u.vec.length, u.w, u.h].join(',');
     if (key === ulKey && ulPts) return ulPts;
     const th = -(u.rot || 0) * deg, c = Math.cos(th), s = Math.sin(th), k = u.scale;
     const W = (lx, lz) => [u.x + lx * c + lz * s, u.z - lx * s + lz * c];
-    const pts = [];
+    const pts = [], segs = [];
     u.vec.forEach(sg => {
       const a = W(sg[0] * k, sg[1] * k), b = W(sg[2] * k, sg[3] * k);
+      segs.push([a[0], a[1], b[0], b[1]]);
       pts.push({ x: a[0], z: a[1], t: '端點' }, { x: b[0], z: b[1], t: '端點' });
       if (Math.hypot(b[0] - a[0], b[1] - a[1]) > 300) pts.push({ x: (a[0] + b[0]) / 2, z: (a[1] + b[1]) / 2, t: '中點' });
     });
-    ulPts = pts; ulKey = key; return pts;
+    ulPts = pts; ulSegs = segs; ulKey = key; return pts;
   }
   // 以游標附近（螢幕 px 內）最近的底圖端點回傳 { p:[x,z], type }
   function underlaySnap(g, px = 11) {
@@ -1015,7 +1036,19 @@
       const d = Math.hypot(sx - ms[0], sy - ms[1]);
       if (d < px && (!best || d < best.d || (p.t === '端點' && best.t !== '端點' && d < best.d + 3))) best = { d, p: [Math.round(p.x), Math.round(p.z)], t: p.t };
     }
-    return best;
+    if (best) return best;
+    // 沒有端點／中點可鎖時，鎖到底圖線段上（垂足）：沿著底圖的牆線描牆
+    let bl = null; const R2 = R * R;
+    for (const s of ulSegs || []) {
+      const ex = s[2] - s[0], ez = s[3] - s[1], L2 = ex * ex + ez * ez; if (L2 < 1) continue;
+      const t = ((g.x - s[0]) * ex + (g.z - s[1]) * ez) / L2; if (t < 0 || t > 1) continue;
+      const fx = s[0] + ex * t, fz = s[1] + ez * t;
+      if ((fx - g.x) ** 2 + (fz - g.z) ** 2 > R2) continue;
+      const q = new THREE.Vector3(fx, 0, fz).project(camera), sx = (q.x + 1) / 2 * cr.width, sy = (1 - q.y) / 2 * cr.height;
+      const d = Math.hypot(sx - ms[0], sy - ms[1]);
+      if (d < px * 0.8 && (!bl || d < bl.d)) bl = { d, p: [Math.round(fx), Math.round(fz)], t: '線上' };
+    }
+    return bl;
   }
   V.underlaySnap = underlaySnap;
   // 吸附輔助線（洋紅色虛線）
@@ -1067,7 +1100,7 @@
       if (cab.kind === 'corner' || (cab.kind === 'desk' && cab.shape === 'L')) {
         const ha = cab.kind === 'desk' ? M().footDepth(cab) / 2 : cab.w / 2, hb = cab.w / 2;
         let best = null;
-        room.points.forEach((v, i) => {
+        allRooms().forEach(room => room.points.forEach((v, i) => {
           const d0 = Math.hypot(px - v[0], pz - v[1]);
           if (!opts.force && d0 > cab.w * 1.2 + 1500) return;
           const a = M().wallInfo(room, i), b = M().wallInfo(room, (i - 1 + room.points.length) % room.points.length);
@@ -1082,11 +1115,11 @@
               if (!best || d0 < best.d) best = { d: d0, x: cx, z: cz, rot: r / deg, i };
             }
           });
-        });
+        }));
         if (best) return { x: Math.round(best.x), z: Math.round(best.z), rot: ((Math.round(best.rot) % 360) + 360) % 360, info: '吸附牆角' };
       }
       let bestW = null;
-      room.points.forEach((_, i) => {
+      allRooms().forEach(room => room.points.forEach((_, i) => {
         const wi = M().wallInfo(room, i);
         const t = (px - wi.p[0]) * wi.dir[0] + (pz - wi.p[1]) * wi.dir[1];
         const dist = (px - wi.p[0]) * wi.nIn[0] + (pz - wi.p[1]) * wi.nIn[1];
@@ -1096,7 +1129,7 @@
         const gap = dist - fd / 2; // 櫃背與牆面距離（負值＝穿牆）
         const inRange = opts.force || (gap > -1500 && gap <= V.wallSnapDist);
         if (inRange && (!bestW || off < bestW.off)) bestW = { off, wi, t, i };
-      });
+      }));
       if (bestW) {
         const wi = bestW.wi;
         rot = Math.round(Math.atan2(wi.nIn[0], wi.nIn[1]) / deg);
@@ -1185,13 +1218,13 @@
     return A.some(x => B.some(y => Math.min(x.y1, y.y1) - Math.max(x.y0, y.y0) > TOL && sat(x.poly, y.poly) > TOL));
   }
   function outsideRoom(cab) {
-    const room = App.state.room; if (!room) return false;
+    const rooms = allRooms(); if (!rooms.length) return false;
+    // 多房間：櫃體每個外框只要完整落在任一房間內就算在室內
+    const inside = (room, inset) => !inset.some(([x, z]) => !M().pointInPoly(x, z, room.points)) && !room.points.some(([x, z]) => M().pointInPoly(x, z, inset));   // 後者：凹角牆角點落在櫃體內
     return cabBoxes(cab).some(b => {
       const cx = b.poly.reduce((s2, p) => s2 + p[0], 0) / 4, cz = b.poly.reduce((s2, p) => s2 + p[1], 0) / 4;
       const inset = b.poly.map(([x, z]) => { const dx = cx - x, dz = cz - z, l = Math.hypot(dx, dz) || 1; return [x + dx / l * 6, z + dz / l * 6]; });
-      if (inset.some(([x, z]) => !M().pointInPoly(x, z, room.points))) return true;
-      // 凹角：牆角點落在櫃體內
-      return room.points.some(([x, z]) => M().pointInPoly(x, z, inset));
+      return !rooms.some(room => inside(room, inset));
     });
   }
   V.findOverlaps = function (extra) {
@@ -1244,22 +1277,22 @@
   /* ---------- 自由擺放：顯示離牆 X / Y 軸距離 ---------- */
   // 從櫃體外框（平面）四邊中點沿 ±X、±Z 射向牆面，取每軸最近的一面牆
   V.wallGaps = function (cab) {
-    const room = App.state.room;
-    if (!room || !cab) return [];
+    const rooms = allRooms();
+    if (!rooms.length || !cab) return [];
     const pts = cabBoxes(cab).flatMap(b => b.poly);
     const minx = Math.min(...pts.map(p => p[0])), maxx = Math.max(...pts.map(p => p[0]));
     const minz = Math.min(...pts.map(p => p[1])), maxz = Math.max(...pts.map(p => p[1]));
     const cx = (minx + maxx) / 2, cz = (minz + maxz) / 2;
     const cast = (ox, oz, dx, dz) => {
       let best = Infinity;
-      room.points.forEach((p, i) => {
+      rooms.forEach(room => room.points.forEach((p, i) => {
         const q = room.points[(i + 1) % room.points.length];
         const ex = q[0] - p[0], ez = q[1] - p[1];
         const den = dx * ez - dz * ex; if (Math.abs(den) < 1e-9) return;
         const t = ((p[0] - ox) * ez - (p[1] - oz) * ex) / den;      // 沿射線距離
         const u = ((p[0] - ox) * dz - (p[1] - oz) * dx) / den;      // 牆段參數
         if (t > -1 && u >= -1e-6 && u <= 1 + 1e-6 && t < best) best = t;
-      });
+      }));
       return best;
     };
     const res = [];
@@ -1474,7 +1507,7 @@
     const room = App.state.room;
     // 追蹤參考點：已畫的點＋既有空間牆角
     const refs = pts.map((q, i) => ({ q, name: i === 0 ? '起點' : `第 ${i + 1} 點` }));
-    if (room) room.points.forEach(q => refs.push({ q, name: '牆角' }));
+    allRooms().forEach(rm => rm.points.forEach(q => refs.push({ q, name: '牆角' })));
     if (room && window.Ceiling && V.lineTarget && V.lineTarget !== 'room' && !/^ol:/.test(V.lineTarget)) refs.push(...window.Ceiling.snapRefs(room));   // 既有天花／燈具／鋁槽燈的點
     // 1. 起點（封閉）
     if (pts.length > 2 && near(pts[0][0], pts[0][1], 14)) return { p: pts[0].slice(), snap: '起點（封閉）', close: true, guides: [] };
@@ -1570,7 +1603,7 @@
     const r = inferPoint(g, draw.pts[draw.pts.length - 1]);
     draw.cursor = r.p; draw.snap = r.snap; draw.axis = r.axis; draw.cursorGuides = r.guides; draw.last = r;
     redrawLine();
-    const type = r.close ? '起點' : r.snap.startsWith('端點') ? '端點' : r.snap.startsWith('中點') ? '中點' : r.axis === 'X' ? '紅軸' : r.axis === 'Z' ? '綠軸' : r.guides && r.guides.length ? '對齊' : '地面';
+    const type = r.close ? '起點' : r.snap.startsWith('端點') ? '端點' : r.snap.startsWith('中點') ? '中點' : r.snap.startsWith('線上') ? '邊線上' : r.axis === 'X' ? '紅軸' : r.axis === 'Z' ? '綠軸' : r.guides && r.guides.length ? '對齊' : '地面';
     V.snapMark = { p: new THREE.Vector3(r.p[0], drawY(r.p[0], r.p[1]), r.p[1]), type, tip: r.snap || '' };
     App.status(`畫線：${draw.pts.length ? '點擊下一點' : '點擊起點'}　${r.snap ? '鎖點【' + r.snap + '】' : ''}${draw.lock ? '（Shift 鎖定）' : ''}　可直接打數字：長度 或 長度,角度 再按 Enter；Backspace 退回上一點；按住 Shift 鎖定軸向；點回起點、雙擊或空白時按 Enter 完成`);
   }
@@ -1918,6 +1951,7 @@
   V.getScene = () => scene;
   V.getCabObject = id => cabObjs.get(id);
   V.getRoomObject = () => roomGroup;
+  V.getRoomObjects = () => roomGroups.slice();   // 本樓層全部房間（3D 模型匯出）
   V.getCabGroup = () => cabGroup;
   V.isMoving = () => move.active;
   window.Viewer = V;

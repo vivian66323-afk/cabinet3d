@@ -50,11 +50,23 @@
       <div class="btn-row"><button class="btn small" data-a="floor-add">${icon('plus')}新增樓層</button></div>
       <p class="muted" style="font-size:11.5px;margin:6px 0 0">新樓層會沿用目前樓層的空間外框（不含門窗與櫃體）；報價、拆料清單、平立面圖會包含全部樓層。</p></div>`;
     html += window.Underlay ? window.Underlay.panel(st) : '';
-    html += '<div class="sec"><div class="sec-title">空間 <small>模型空間由使用者自訂</small></div>';
+    const rooms = st.rooms || [];
+    html += `<div class="sec"><div class="sec-title">空間 <small>${rooms.length ? rooms.length + ' 個房間' : '模型空間由使用者自訂'}</small></div>`;
+    if (rooms.length) {
+      html += `<div class="list">${rooms.map((rm, i) => {
+        const a = Math.abs(M().polyArea(rm.points)) / 1e6, on = i === st.roomIdx;
+        return `<div class="lrow floor-row${on ? ' on' : ''}"><input data-key="rn${i}" data-f="rn${i}" value="${esc(rm.name || '')}" title="房間名稱"><span class="muted">${a.toFixed(1)} m² · ${rm.points.length} 牆</span>
+          ${on ? '<span class="muted">目前</span>' : `<button class="btn small" data-a="room-go" data-i="${i}">切換</button>`}
+          <button class="icon-btn del" data-a="room-del" data-i="${i}" title="刪除此房間">${icon('x')}</button></div>`;
+      }).join('')}</div>
+      <div class="btn-row"><button class="btn small" data-a="room-rect">${icon('rect')}新增矩形房間</button><button class="btn small" data-a="room-line">${icon('line')}繪製新房間</button></div>
+      <p class="muted" style="font-size:11.5px;margin:6px 0 0">在 3D 視窗點別的房間的地板或牆面即可切換；繪製時會鎖到底圖的牆線、端點與中點。</p>`;
+    }
     if (!r) {
-      html += `<p class="note">尚未建立空間。可輸入矩形寬／深／高，或以多線段自由繪製後封閉並輸入高度。</p>
+      html += `<p class="note">尚未建立空間。可輸入矩形寬／深／高，或以多線段自由繪製後封閉並輸入高度；也可先匯入 DXF／PDF 平面圖當底圖，沿牆線描繪各個房間。</p>
         <div class="btn-row"><button class="btn primary" data-a="room-rect">${icon('rect')}矩形空間</button><button class="btn" data-a="room-line">${icon('line')}自由繪製</button></div>`;
     } else {
+      html += `<div class="sec-title" style="margin-top:8px">目前房間：${esc(r.name || '')}</div>`;
       const area = Math.abs(M().polyArea(r.points)) / 1e6;
       let per = 0; r.points.forEach((_, i) => { per += M().wallInfo(r, i).len; });
       html += `<div class="kv">
@@ -71,7 +83,7 @@
         return `<div class="lrow" data-a="wall" data-i="${i}"><span>${M().wallName(i)}　<span class="muted">${Math.round(wi.len)} mm</span></span><span class="muted">${w.openings.length ? w.openings.length + ' 門窗' : ''}</span><span title="${w.locked ? '已鎖定' : '未鎖定'}" style="color:${w.locked ? '#5f6368' : '#b0b7bf'}">${icon(w.locked ? 'lock' : 'unlock')}</span></div>`;
       }).join('')}</div>
       <p class="muted" style="font-size:11.5px;margin:6px 0 0">點選牆面（清單或 3D 視窗）即可放置門／窗並鎖定。</p>
-      <div class="btn-row"><button class="btn small" data-a="room-rect">重建矩形</button><button class="btn small" data-a="room-line">重新繪製</button><button class="btn small danger" data-a="room-del">刪除空間</button></div>`;
+      <div class="btn-row"><button class="btn small" data-a="room-rebuild-rect">重建矩形</button><button class="btn small" data-a="room-rebuild-line">重新繪製</button><button class="btn small danger" data-a="room-del" data-i="${st.roomIdx}">刪除此房間</button></div>`;
     }
     html += '</div>';
     const df = st.defaults;
@@ -371,6 +383,7 @@
     if (t.classList.contains('numf') && val !== t.value) t.value = val;
     if (t.dataset.swq) return;
     if (t.dataset.fn != null) { App.renameFloor(+t.dataset.fn, val); return; }
+    { const mr = /^rn(\d+)$/.exec(t.dataset.f || ''); if (mr) { App.renameRoom(+mr[1], val); return; } }
     if (t.dataset.f && t.dataset.f.startsWith('ul-')) { window.Underlay.change(t.dataset.f, val); return; }
     if (t.dataset.sws) { UI.swSeries = val; UI.showProps(); return; }
     if (t.dataset.swb) { if (val === '__more') { UI.loadSwatches(); return; } UI.swBrand = val; UI.swSeries = 'all'; UI.showProps(); return; }
@@ -503,10 +516,13 @@
     if (a === 'paint-clear') { App.mutate('牆面恢復預設', x => { delete x.room.wallColor; delete x.room.wallPaint; }, 'room'); return; }
     if (a === 'pick-paint-wall') { UI.pickPaint(+b.dataset.i); return; }
     if (a === 'paint-wall-clear') { const wi0 = +b.dataset.i; App.mutate('牆面同整體', x => { delete x.room.walls[wi0].color; delete x.room.walls[wi0].paint; }, 'room'); return; }
-    if (a === 'room-rect') { UI.roomDialog(); return; }
+    if (a === 'room-rect') { UI.roomDialog('add'); return; }
+    if (a === 'room-rebuild-rect') { UI.roomDialog('replace'); return; }
+    if (a === 'room-go') { App.setActiveRoom(+b.dataset.i); return; }
     if (a && a.startsWith('ul-')) { window.Underlay.click(a); return; }   // 門片列／層板／門窗的按鈕只有 data-ra／data-sa／data-oa，沒有 data-a
-    if (a === 'room-line') { UI.action('line'); return; }
-    if (a === 'room-del') { if (await UI.confirm('刪除空間', '刪除牆面與門窗（櫃體保留）？')) { App.sel = null; App.exitCeilEdit(); App.mutate('刪除空間', x => { x.room = null; }, 'room'); } return; }
+    if (a === 'room-line') { V().lineRoomMode = 'add'; UI.action('line'); return; }
+    if (a === 'room-rebuild-line') { V().lineRoomMode = 'replace'; UI.action('line'); return; }
+    if (a === 'room-del') { const ri = b.dataset.i != null ? +b.dataset.i : st.roomIdx, rm = (st.rooms || [])[ri]; if (rm && await UI.confirm('刪除房間', `刪除「${rm.name || '房間'}」的牆面、門窗與天花設定（櫃體保留）？`)) App.deleteRoom(ri); return; }
     if (a === 'wall') { App.select({ type: 'wall', index: +b.dataset.i }); return; }
     if (a === 'apply-all') {
       if (!st.cabinets.length) return;

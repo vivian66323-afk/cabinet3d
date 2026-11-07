@@ -21,10 +21,11 @@
       name: '未命名專案',
       client: '',
       created: new Date().toISOString(),
-      room: null,
+      room: null,              // 目前編輯中的房間（＝ rooms[roomIdx] 同一個物件）
+      rooms: [], roomIdx: 0,   // 本樓層全部房間（同一層可有多個房間，各有自己的牆、門窗、天花）
       underlay: null,
       cabinets: [],
-      floors: [{ id: 'f1', name: '1F', room: null, cabinets: [] }],
+      floors: [{ id: 'f1', name: '1F', room: null, rooms: [], roomIdx: 0, cabinets: [] }],
       floor: 0,
       scenes: [],
       // 櫃身／門片／踢腳板預設 110 白，和型錄卡片的標準售價（110 白每才單價 × 總才數）用同一個色板
@@ -32,6 +33,22 @@
       pricing: window.Pricing.defaultPricing()
     };
   };
+
+  // 多房間：rooms＝該層全部房間，room＝目前編輯中的房間（rooms[roomIdx] 同一個物件）。舊專案只有 room → rooms=[room]
+  function fixRooms(rooms, room, idx) {
+    let list = Array.isArray(rooms) && rooms.length ? rooms : (room ? [room] : []);
+    list = list.filter(r => r && Array.isArray(r.points) && r.points.length >= 3);
+    list.forEach((r, i) => {
+      if (!r.id) r.id = window.Model.uid('r');
+      if (!r.name) r.name = '房間 ' + (i + 1);
+      if (!Array.isArray(r.walls) || r.walls.length !== r.points.length) r.walls = r.points.map((_, j) => (r.walls && r.walls[j]) || { id: window.Model.uid('w'), locked: false, openings: [] });
+    });
+    const k = list.length ? Math.max(0, Math.min(+idx || 0, list.length - 1)) : 0;
+    return { rooms: list, roomIdx: k, room: list[k] || null };
+  }
+  App.fixRooms = fixRooms;
+  // 把某樓層的房間／櫃體／底圖換成目前顯示的
+  function pullFloor(st, f) { Object.assign(st, fixRooms(f.rooms, f.room, f.roomIdx)); st.cabinets = f.cabinets || []; st.underlay = f.underlay || null; }
 
   function normalize(s) {
     const d = App.defaultState();
@@ -72,9 +89,10 @@
     });
     out.cabinets = fixCabs(out.cabinets);
     // 樓層：舊專案轉成 1F；目前樓層以 room/cabinets 為準
-    out.floors = (s.floors && s.floors.length ? s.floors : [{ id: 'f1', name: '1F' }]).map(f => ({ ...f, cabinets: fixCabs(f.cabinets) }));
+    out.floors = (s.floors && s.floors.length ? s.floors : [{ id: 'f1', name: '1F' }]).map(f => ({ ...f, cabinets: fixCabs(f.cabinets), ...fixRooms(f.rooms, f.room, f.roomIdx) }));
     out.floor = Math.max(0, Math.min(+s.floor || 0, out.floors.length - 1));
-    out.floors[out.floor].room = out.room;
+    Object.assign(out, fixRooms(s.rooms, s.room, s.roomIdx));
+    out.floors[out.floor].room = out.room; out.floors[out.floor].rooms = out.rooms; out.floors[out.floor].roomIdx = out.roomIdx;
     out.floors[out.floor].cabinets = out.cabinets;
     out.scenes = out.scenes || [];
     return out;
@@ -111,7 +129,7 @@
   App.syncFloor = function () {
     const st = App.state; if (!st || !st.floors) return;
     const f = st.floors[st.floor]; if (!f) return;
-    f.room = st.room; f.cabinets = st.cabinets; f.underlay = st.underlay || null;
+    f.room = st.room; f.rooms = st.rooms || (st.room ? [st.room] : []); f.roomIdx = st.roomIdx || 0; f.cabinets = st.cabinets; f.underlay = st.underlay || null;
   };
   function snapshot() { App.syncFloor(); return JSON.stringify(App.state); }
   const userKey = u => LS_STATE + '.' + (u && u.name ? u.name : '_guest');
@@ -241,11 +259,42 @@
     if (V.cktAssign) V.cktAssign = null;
     if (V.ceilEdit && V.setCeilEdit) V.setCeilEdit(false);
   };
-  App.setRoom = function (room) {
+  // 建立房間：mode 'add'＝新增為本樓層的新房間（預設）、'replace'＝取代目前編輯中的房間
+  App.setRoom = function (room, mode) {
     App.sel = null;
     App.exitCeilEdit();
-    App.mutate('建立空間', s => { s.room = room; }, 'room');
+    const st = App.state, had = (st.rooms || []).length;
+    const replace = mode === 'replace' && had > 0;
+    if (!room.id) room.id = window.Model.uid('r');
+    if (!room.name) room.name = replace ? (st.room && st.room.name) || '房間 1' : '房間 ' + (had + 1);
+    App.mutate(replace ? '重建房間 ' + room.name : had ? '新增房間 ' + room.name : '建立空間', s => {
+      if (!Array.isArray(s.rooms)) s.rooms = [];
+      if (replace) s.rooms[s.roomIdx] = room; else { s.rooms.push(room); s.roomIdx = s.rooms.length - 1; }
+      s.room = room;
+    }, 'room');
     window.Viewer.zoomExtents([1, 0.8, 1.15]);
+  };
+  // 切換目前編輯中的房間（不列入復原）：牆面／門窗／天花／插座的編輯都針對目前房間
+  App.setActiveRoom = function (i) {
+    const st = App.state; if (!st.rooms || !st.rooms[i] || i === st.roomIdx) return false;
+    App.sel = null; App.exitCeilEdit();
+    st.roomIdx = i; st.room = st.rooms[i];
+    window.Viewer.rebuildRoom(); window.Viewer.updateSelection(); App.ui.refresh(); App.save();
+    return true;
+  };
+  App.deleteRoom = function (i) {
+    const st = App.state; if (!st.rooms || !st.rooms[i]) return;
+    const name = st.rooms[i].name || '房間';
+    App.sel = null; App.exitCeilEdit();
+    App.mutate('刪除房間 ' + name, s => {
+      s.rooms.splice(i, 1);
+      s.roomIdx = s.rooms.length ? Math.min(s.roomIdx > i ? s.roomIdx - 1 : s.roomIdx, s.rooms.length - 1) : 0;
+      s.room = s.rooms[s.roomIdx] || null;
+    }, 'room');
+  };
+  App.renameRoom = function (i, name) {
+    name = String(name || '').trim(); if (!name || !App.state.rooms || !App.state.rooms[i]) return;
+    App.mutate('房間名稱', s => { s.rooms[i].name = name; });
   };
 
   /* ---------- 專案檔 ---------- */
@@ -330,9 +379,7 @@
     if (i === st.floor || !st.floors[i]) return;
     App.syncFloor();
     st.floor = i;
-    st.room = st.floors[i].room || null;
-    st.cabinets = st.floors[i].cabinets || [];
-    st.underlay = st.floors[i].underlay || null;
+    pullFloor(st, st.floors[i]);
     App.sel = null;
     App.exitCeilEdit();
     window.Viewer.rebuildAll(); window.Viewer.checkOverlaps();
@@ -347,11 +394,14 @@
     const st = App.state;
     App.syncFloor();
     const n = st.floors.length + 1;
-    const cur = st.room;
-    // 新樓層沿用目前樓層的空間外框（不含門窗、不含櫃體）；天花造型／燈具／插座／冷氣／迴路屬於該層的工程內容，不能跟著複製，否則報價會把這些項目再算一次
-    const room = cur ? { ...JSON.parse(JSON.stringify(cur)), walls: cur.walls.map(() => ({ id: window.Model.uid('w'), locked: false, openings: [] })), outlets: [], acs: [], circuits: [] } : null;
-    if (room && room.ceiling) room.ceiling = { ...room.ceiling, zones: [], strips: [], fixtures: [] };   // 只留天花基本設定（是否做天花、基本高、顏色、線板）
-    App.mutate('新增樓層 ' + n + 'F', s2 => { s2.floors.push({ id: window.Model.uid('f'), name: n + 'F', room, cabinets: [] }); });
+    // 新樓層沿用目前樓層各房間的外框（不含門窗、不含櫃體）；天花造型／燈具／插座／冷氣／迴路屬於該層的工程內容，不能跟著複製，否則報價會把這些項目再算一次
+    const rooms = (st.rooms || []).map(cur => {
+      const room = { ...JSON.parse(JSON.stringify(cur)), id: window.Model.uid('r'), walls: cur.walls.map(() => ({ id: window.Model.uid('w'), locked: false, openings: [] })), outlets: [], acs: [], circuits: [] };
+      if (room.ceiling) room.ceiling = { ...room.ceiling, zones: [], strips: [], fixtures: [] };   // 只留天花基本設定（是否做天花、基本高、顏色、線板）
+      return room;
+    });
+    const ri = Math.min(st.roomIdx || 0, Math.max(0, rooms.length - 1));
+    App.mutate('新增樓層 ' + n + 'F', s2 => { s2.floors.push({ id: window.Model.uid('f'), name: n + 'F', room: rooms[ri] || null, rooms, roomIdx: ri, cabinets: [] }); });
     App.switchFloor(st.floors.length - 1);
   };
   App.renameFloor = function (i, name) {
@@ -369,7 +419,7 @@
       s2.floor = Math.min(s2.floor > i ? s2.floor - 1 : s2.floor, s2.floors.length - 1);
       const f = s2.floors[s2.floor];
       // room／cabinets／underlay 三者都要換成新目前樓層的，否則被刪樓層的底圖會留在畫面上，存檔時還會蓋掉這一層自己的底圖
-      s2.room = f.room || null; s2.cabinets = f.cabinets || []; s2.underlay = f.underlay || null;
+      pullFloor(s2, f);
       s2.scenes.forEach(sc => { if (sc.floor === i) sc.floor = null; else if (sc.floor > i) sc.floor--; });
     }, 'all');
   };

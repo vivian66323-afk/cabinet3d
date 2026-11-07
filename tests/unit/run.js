@@ -237,7 +237,60 @@ const CASES = [
       const p = Pricing.cabinetPrice(cab, Pricing.defaultPricing());
       t.ok(Number.isFinite(p.total) && p.total >= 0, `${code} 報價為有限數（${p.total}）`);
     });
-  }]
+  }],
+  ['app:rooms-multi', '同一樓層多房間：新增／切換／改名／刪除／取代，state.room 永遠是 rooms[roomIdx] 同一個物件，存檔載入後亦然', (t, sb) => {
+    const { App, Model, Ceiling } = sb.window;
+    App.newProject();
+    App.setRoom(Model.rectRoom(4000, 3000, 2800, 120));
+    t.eq(App.state.rooms.length, 1, '第一個房間'); t.ok(App.state.room === App.state.rooms[0], 'room 是 rooms[0]'); t.eq(App.state.room.name, '房間 1', '預設名稱');
+    const b = Model.rectRoom(3000, 3000, 2800, 120); b.points = b.points.map(([x, z]) => [x + 4000, z]);
+    App.setRoom(b, 'add');
+    t.eq(App.state.rooms.length, 2, '新增第二個房間'); t.eq(App.state.roomIdx, 1, '新房間成為目前房間'); t.eq(App.state.room.name, '房間 2', '自動編號');
+    Ceiling.ensure(App.state.room); Ceiling.addFixture(App.state.room, 'dl_big', [4000, 0]);
+    App.setActiveRoom(0);
+    t.ok(App.state.room === App.state.rooms[0] && App.state.roomIdx === 0, '切換回房間 1');
+    App.renameRoom(1, '主臥');
+    t.eq(App.state.rooms[1].name, '主臥', '改名');
+    App.syncFloor(); t.eq(App.state.floors[0].rooms.length, 2, '樓層資料含兩個房間');
+    // 存檔→載入：rooms 與 room 不能變成兩份不同的物件
+    App.loadProject(JSON.parse(App.projectJSON()));
+    t.eq(App.state.rooms.length, 2, '載入後仍兩個房間'); t.ok(App.state.room === App.state.rooms[App.state.roomIdx], '載入後 room 仍是 rooms[roomIdx]');
+    t.eq(App.state.rooms[1].ceiling.fixtures.length, 1, '第二個房間的崁燈保留');
+    // 復原也一樣
+    App.mutate('牆高', x => { x.room.height = 3000; }, 'room'); App.undo();
+    t.ok(App.state.room === App.state.rooms[App.state.roomIdx] && App.state.room.height === 2800, '復原後 room 仍是 rooms[roomIdx]');
+    // 取代目前房間
+    App.setRoom(Model.rectRoom(5000, 3000, 2800, 120), 'replace');
+    t.eq(App.state.rooms.length, 2, '取代不增加房間數'); t.eq(App.state.room.name, '房間 1', '取代沿用名稱'); t.eq(App.state.rooms[0].points[1][0] - App.state.rooms[0].points[0][0], 5000, '外框已換');
+    // 刪除目前房間 → 下一個房間成為目前
+    App.deleteRoom(0);
+    t.eq(App.state.rooms.length, 1, '剩一個房間'); t.ok(App.state.room === App.state.rooms[0] && App.state.room.name === '主臥', '目前房間換成主臥');
+    App.deleteRoom(0);
+    t.ok(App.state.room === null && App.state.rooms.length === 0, '全部刪除後沒有空間');
+    // 舊專案（只有 room 沒有 rooms）
+    App.loadProject({ app: 'cab3d', version: 1, room: Model.rectRoom(4000, 3000, 2800, 120), cabinets: [] });
+    t.ok(App.state.rooms.length === 1 && App.state.room === App.state.rooms[0] && App.state.room.name, '舊專案 room → rooms=[room] 並補名稱');
+    // 新樓層沿用全部房間外框
+    App.setRoom(b, 'add'); App.addFloor();
+    t.eq(App.state.rooms.length, 2, '新樓層沿用兩個房間'); t.ok(App.state.rooms.every(r => r.walls.every(w => !w.openings.length)), '不含門窗');
+  }],
+  ['pricing+dxf:rooms-multi', '多房間：天花／燈具報價每個房間都算；DXF 立面每個房間每面牆一張、標題含房間名與 1-W1 編號', (t, sb) => {
+    const { App, Model, Ceiling, Pricing, DXFOut } = sb.window;
+    App.newProject();
+    App.setRoom(Model.rectRoom(4000, 3000, 2800, 120));
+    Ceiling.ensure(App.state.room); Ceiling.addFixture(App.state.room, 'dl_big', [0, 0]);
+    const b = Model.rectRoom(3000, 3000, 2800, 120); b.points = b.points.map(([x, z]) => [x + 4000, z]);
+    App.setRoom(b, 'add'); App.renameRoom(1, '主臥');
+    Ceiling.ensure(App.state.room); Ceiling.addFixture(App.state.room, 'dl_big', [4000, 0]); Ceiling.addFixture(App.state.room, 'dl_big', [4500, 0]);
+    const q = Pricing.quote(App.state);
+    const dl = q.ceiling.filter(l => /崁燈/.test(l.name));
+    t.eq(dl.length, 2, '兩個房間各一筆崁燈'); t.ok(dl.some(l => l.floor === '主臥'), '樓層欄標房間名（' + dl.map(l => l.floor).join('/') + '）');
+    t.eq(q.ceiling.filter(l => /^平釘天花/.test(l.name)).length, 2, '兩個房間各一筆平釘天花');
+    App.syncFloor();
+    const built = DXFOut.build({ name: 'T', client: '', by: '', floors: App.state.floors.map(f => ({ name: f.name, room: f.room, rooms: f.rooms, cabinets: f.cabinets })) }, { walls: 'all', frame: false, plan: true, ascii: false });
+    t.ok(built && built.views === 1 + 4 + 4, `平面 1 ＋ 兩房各 4 面立面 ＝ 9 個視圖（實際 ${built && built.views}）`);
+    t.ok(/主臥/.test(built.text) && /2-W1/.test(built.text), 'DXF 文字含房間名與 2-W1 編號');
+  }],
 ];
 
 /* ---------- 執行 ---------- */

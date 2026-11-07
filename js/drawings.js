@@ -474,11 +474,13 @@
     return [[-cab.w / 2, cab.d / 2], [cab.w / 2, cab.d / 2]];
   };
 
-  // 平面圖
+  // 本樓層全部房間（舊資料只有 room）
+  Dr.roomsOf = st => (st.rooms && st.rooms.length ? st.rooms : (st.room ? [st.room] : []));
+  // 平面圖（同一層的全部房間畫在同一張）
   Dr.plan = function (pg, st, box, opts = {}) {
-    const room = st.room, CEIL = !!opts.ceiling, LAYER = opts.layer || 'ceiling';
+    const rooms = Dr.roomsOf(st), CEIL = !!opts.ceiling, LAYER = opts.layer || 'ceiling';
     const pts = [];
-    if (room) room.points.forEach((_, i) => { const wi = M().wallInfo(room, i); pts.push(wi.p, [wi.p[0] + wi.nOut[0] * room.thickness, wi.p[1] + wi.nOut[1] * room.thickness]); });
+    rooms.forEach(room => room.points.forEach((_, i) => { const wi = M().wallInfo(room, i); pts.push(wi.p, [wi.p[0] + wi.nOut[0] * room.thickness, wi.p[1] + wi.nOut[1] * room.thickness]); }));
     st.cabinets.forEach(c => Dr.cabWorldPoly(c).forEach(p => pts.push(p)));
     if (!pts.length) return null;
     let minx = Infinity, maxx = -Infinity, minz = Infinity, maxz = -Infinity;
@@ -494,7 +496,8 @@
       if (fill) { g.fillStyle = fill; g.fill(); }
       if (stroke) { g.strokeStyle = stroke; g.lineWidth = w * k; g.setLineDash(dash ? dash.map(v => v * k) : []); g.stroke(); g.setLineDash([]); }
     };
-    if (room) {
+    rooms.forEach((room, ri) => {
+      const wtag = rooms.length > 1 ? (ri + 1) + '-' : '';   // 多房間：牆編號加房間序號（1-W1、2-W1…），與立面圖標題一致
       const fl = M().floorDef(room);
       poly(room.points, '#ffffff', null);   // 施工圖慣例：地坪留白
       if (CEIL && window.Ceiling) window.Ceiling.drawPlan(pg, room, P, poly, s, LAYER);
@@ -551,9 +554,10 @@
         Dr.dim(pg, A[0], A[1], Bq[0], Bq[1], Math.round(wi.len) + '', sgn * offMM, { size: 7 });
         const lab = P(wi.mid[0] + wi.nOut[0] * (T + 420 + 7.5 * s), wi.mid[1] + wi.nOut[1] * (T + 420 + 7.5 * s));
         pg.rect(lab[0] - 3.2, lab[1] - 2.2, 6.4, 4.4, { fill: '#fff', color: '#d0342c', w: 0.25 });
-        pg.text(lab[0], lab[1] + 0.1, 'W' + (i + 1), { size: 6.5, bold: true, color: '#d0342c', align: 'center', base: 'middle' });
+        pg.text(lab[0], lab[1] + 0.1, wtag + 'W' + (i + 1), { size: 6.5, bold: true, color: '#d0342c', align: 'center', base: 'middle' });
       });
-    }
+      if (rooms.length > 1 && !CEIL) { const n = room.points.length, c = room.points.reduce((a, p) => [a[0] + p[0] / n, a[1] + p[1] / n], [0, 0]), C = P(c[0], c[1]); pg.text(C[0], C[1], room.name || '', { size: 7, bold: true, color: '#1f2328', align: 'center', base: 'middle' }); }
+    });
     // 櫃體：先地櫃後吊櫃
     const lay = c => c.hanging ? 3 : c.kind === 'appl' ? 2 : c.kind === 'desk' ? 1 : 0;
     const cabs = (CEIL ? [] : st.cabinets.slice()).sort((a, b) => lay(a) - lay(b));
@@ -605,13 +609,13 @@
       }
       Dr.tagLines(pg, C[0], C[1] + (c.hanging && under ? 5.2 : 0), lines, maxW);
     });
-    if (CEIL) { if (room && window.Ceiling) window.Ceiling.drawLegend(pg, room, box.x1 - 50, box.y0 + 4, LAYER); pg.text(box.x0 + 2, box.y1 - 3, `${{ ceiling: '天花板配置圖', lights: '燈具配置圖', hvac: '空調配置圖', power: '插座配置圖' }[LAYER]}　比例 1:${s}　單位 cm`, { size: 6.5, color: '#69727d' }); return s; }
+    if (CEIL) { if (st.room && window.Ceiling) window.Ceiling.drawLegend(pg, st.room, box.x1 - 50, box.y0 + 4, LAYER); pg.text(box.x0 + 2, box.y1 - 3, `${{ ceiling: '天花板配置圖', lights: '燈具配置圖', hvac: '空調配置圖', power: '插座配置圖' }[LAYER]}　比例 1:${s}　單位 cm`, { size: 6.5, color: '#69727d' }); return s; }
     // 圖例
     const lx = box.x0 + 2, ly = box.y1 - 12;
     pg.rect(lx, ly, 6, 3.5, { fill: '#ffffff', w: 0.3, color: Dr.PEN.ink }); pg.text(lx + 8, ly + 3, '地櫃 / 高櫃', { size: 6.5 });
     pg.rect(lx + 44, ly, 6, 3.5, { w: 0.3, color: Dr.PEN.mid, dash: [1.2, 0.8] }); pg.line(lx + 44, ly, lx + 50, ly + 3.5, 0.15, Dr.PEN.grey); pg.line(lx + 44, ly + 3.5, lx + 50, ly, 0.15, Dr.PEN.grey); pg.text(lx + 52, ly + 3, '吊櫃（虛線）', { size: 6.5 });
     pg.rect(lx + 76, ly, 6, 3.5, { fill: Dr.PEN.wallLock, w: 0.25 }); pg.text(lx + 84, ly + 3, '已鎖定牆面', { size: 6.5 });
-    pg.text(lx, ly + 9, `比例 1:${s}　單位 cm${room ? '　地板：' + M().floorDef(room).name : ''}`, { size: 6.5, color: '#69727d' });
+    pg.text(lx, ly + 9, `比例 1:${s}　單位 cm${st.room ? '　地板：' + M().floorDef(st.room).name : ''}`, { size: 6.5, color: '#69727d' });
     return s;
   };
 
