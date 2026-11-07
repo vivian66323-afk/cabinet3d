@@ -291,6 +291,40 @@ const CASES = [
     t.ok(built && built.views === 1 + 4 + 4, `平面 1 ＋ 兩房各 4 面立面 ＝ 9 個視圖（實際 ${built && built.views}）`);
     t.ok(/主臥/.test(built.text) && /2-W1/.test(built.text), 'DXF 文字含房間名與 2-W1 編號');
   }],
+  ['dxfin:detect-openings', '手描房間依向量底圖辨識門窗：牆線缺口＋門弧→門、窗圖層線→窗；底圖位移／旋轉／比例不同結果相同；重複辨識不重複帶入、鎖定牆略過', (t, sb) => {
+    vm.runInContext(fs.readFileSync(path.join(ROOT, 'js/dxfin.js'), 'utf8'), sb, { filename: 'js/dxfin.js' });
+    const { Model, DxfIn } = sb.window;
+    const mk = () => Model.createRoom([[0, 0], [4000, 0], [4000, 3000], [0, 3000]], 2800, 120);
+    // 牆 1（z=0）內外線在 1000～1900 斷開＝門口，門弧鉸鏈在 (1000,0) 半徑 900；牆 2（x=4000，牆線反向由下往上畫）內外線 800～2000 斷開＋窗線＝窗；
+    // 牆 3（z=3000）窗圖層兩條平行線 1500～3000（牆線不斷）
+    const vec = [[0, 0, 1000, 0], [1900, 0, 4000, 0], [0, -120, 1000, -120], [1900, -120, 4000, -120],
+      [4000, 800, 4000, 0], [4000, 3000, 4000, 2000], [4120, 800, 4120, -120], [4120, 3120, 4120, 2000], [4000, 800, 4120, 800], [4000, 2000, 4120, 2000],
+      [4000, 3000, 0, 3000], [4000, 3120, 0, 3120], [0, 3000, 0, 0], [-120, 3000, -120, 0]];
+    const sym = { arcs: [[1000, 0, 900, 90, 1900, 0, 1000, 900]], win: [[1500, 3030, 3000, 3030], [1500, 3090, 3000, 3090], [4040, 800, 4040, 2000], [4080, 800, 4080, 2000]], oth: [] };
+    const check = (u, tag) => {
+      const room = mk(), found = DxfIn.detectRoom(room, u);
+      t.eq(found.length, 3, tag + ' 找到 3 個開口（' + found.map(f => f.i + ':' + f.op.type + f.op.width + '@' + f.op.offset).join(' ') + '）');
+      const d = found.find(f => f.op.type === 'door'), w = found.find(f => f.op.type === 'window' && f.i === 2), w2 = found.find(f => f.op.type === 'window' && f.i === 1);
+      t.ok(d && d.i === 0 && near(d.op.width, 900, 60) && near(d.op.offset, 1000, 60), tag + ' 牆 1 門寬約 900、距起點約 1000（' + JSON.stringify(d && d.op) + '）');
+      t.ok(w2 && near(w2.op.width, 1200, 60) && near(w2.op.offset, 800, 60), tag + ' 牆 2 窗寬約 1200、距起點約 800（反向牆線的缺口不能量錯；' + JSON.stringify(w2 && w2.op) + '）');
+      t.ok(w && near(w.op.width, 1500, 60) && near(w.op.offset, 1000, 60), tag + ' 牆 3 窗寬約 1500、距起點約 1000（' + JSON.stringify(w && w.op) + '）');
+      t.ok(d && d.op.style === 'single' && d.op.height === 2100 && w && w.op.style === 'slide' && w.op.sill === 900, tag + ' 預設款式單開門／橫拉窗，之後可更換');
+      return { room, found };
+    };
+    const { room, found } = check({ x: 0, z: 0, rot: 0, scale: 1, w: 5000, h: 4000, vec, sym }, '原位');
+    found.forEach(f => room.walls[f.i].openings.push(f.op));
+    t.eq(DxfIn.detectRoom(room, u0(room)).length, 0, '再辨識一次不重複帶入');
+    function u0() { return { x: 0, z: 0, rot: 0, scale: 1, w: 5000, h: 4000, vec, sym }; }
+    room.walls[0].openings = []; room.walls[0].locked = true;
+    t.eq(DxfIn.detectRoom(room, u0()).length, 0, '鎖定牆略過');
+    // 底圖放在 (500,700)、旋轉 90°、每像素 2 mm：把世界座標反算成底圖像素，辨識結果應相同
+    const u = { x: 500, z: 700, rot: 90, scale: 2, w: 5000, h: 4000 }, th = -90 * Math.PI / 180, c = Math.cos(th), sn = Math.sin(th);
+    const inv = (X, Z) => [((X - u.x) * c - (Z - u.z) * sn) / u.scale, ((X - u.x) * sn + (Z - u.z) * c) / u.scale];
+    const seg = q => { const a = inv(q[0], q[1]), b = inv(q[2], q[3]); return [a[0], a[1], b[0], b[1]]; };
+    u.vec = vec.map(seg);
+    u.sym = { arcs: sym.arcs.map(a => { const cc = inv(a[0], a[1]), p1 = inv(a[4], a[5]), p2 = inv(a[6], a[7]); return [cc[0], cc[1], a[2] / u.scale, a[3], p1[0], p1[1], p2[0], p2[1]]; }), win: sym.win.map(seg), oth: [] };
+    check(u, '位移旋轉縮放');
+  }],
 ];
 
 /* ---------- 執行 ---------- */

@@ -174,6 +174,20 @@
     V().setTool('uscale');
   };
 
+  // 依底圖辨識目前房間的門窗（門弧→門、牆線缺口／窗線→窗）帶入牆面；之後在牆面屬性的「款式」更換樣式
+  U.detect = async function (room, quiet) {
+    const st = App.state, u = st.underlay; room = room || st.room;
+    if (!room || !u || !u.vec || !u.vec.length) { if (!quiet) App.toast('需要由 PDF／DXF 轉成的向量底圖與目前房間'); return 0; }
+    if (!window.DxfIn && window.Lazy && !(await window.Lazy.ensure('dxfin', '載入 DXF 底圖模組…'))) return 0;
+    if (!window.DxfIn) return 0;
+    const found = window.DxfIn.detectRoom(room, u);
+    if (!found.length) { if (!quiet) App.toast('底圖上沒找到這個房間的門窗符號（門弧／牆線缺口／窗線）；請確認房間牆線有貼著底圖'); return 0; }
+    const nd = found.filter(f => f.op.type === 'door').length, nw = found.length - nd;
+    App.mutate('依底圖帶入門窗', s => { const r = (s.rooms || []).find(x => x.id === room.id) || s.room; found.forEach(f => { if (r && r.walls[f.i]) r.walls[f.i].openings.push(f.op); }); }, 'room');
+    App.toast(`已依底圖帶入 門 ${nd}、窗 ${nw}（${room.name || '目前房間'}）：點牆面可在「款式」更換樣式、改尺寸或刪除`);
+    return found.length;
+  };
+
   /* ---------- 屬性面板（空間區塊內） ---------- */
   U.panel = function (st) {
     const u = st.underlay, icon = UI().icon;
@@ -191,12 +205,13 @@
         <label>旋轉</label><div class="inline"><input type="number" data-f="ul-rot" value="${u.rot}" step="90" min="-360" max="360"><span class="unit">°</span><button class="btn small" data-a="ul-rot90">⟳ 90°</button></div>
         <label>透明度</label><div class="inline"><input type="range" data-f="ul-op" value="${Math.round(u.opacity * 100)}" min="10" max="100" step="5"><span class="unit">${Math.round(u.opacity * 100)}%</span></div>
       </div>
-      <div class="btn-row" style="margin-top:8px"><button class="btn small primary" data-a="ul-scale">${icon('tape')}兩點設定比例尺</button><button class="btn small" data-a="ul-toggle">${u.visible ? '隱藏' : '顯示'}</button><button class="btn small" data-a="ul-import">更換</button><button class="btn small danger" data-a="ul-del">移除</button></div>
-      <p class="muted" style="font-size:11.5px;margin:6px 0 0">描圖：按 L 自由繪製，沿底圖牆線點各轉角；可直接輸入長度。底圖只在編輯時顯示，不會出現在報價單與圖面。</p></div>`;
+      <div class="btn-row" style="margin-top:8px"><button class="btn small primary" data-a="ul-scale">${icon('tape')}兩點設定比例尺</button>${u.vec && u.vec.length && st.room ? `<button class="btn small" data-a="ul-detect" title="依底圖的門弧、牆線缺口與窗線，為目前房間帶入門窗；帶入後點牆面更換款式">${icon('door')}辨識目前房間門窗</button>` : ''}<button class="btn small" data-a="ul-toggle">${u.visible ? '隱藏' : '顯示'}</button><button class="btn small" data-a="ul-import">更換</button><button class="btn small danger" data-a="ul-del">移除</button></div>
+      <p class="muted" style="font-size:11.5px;margin:6px 0 0">描圖：按 L 自由繪製，沿底圖牆線點各轉角（會鎖到底圖端點／中點／線上）；可直接輸入長度。${u.vec && u.vec.length ? '封閉房間時可勾選「依底圖帶入門窗」，或按上方「辨識目前房間門窗」。' : ''}底圖只在編輯時顯示，不會出現在報價單與圖面。</p></div>`;
   };
   U.click = async function (a) {
     if (a === 'ul-import') { U.import(); return; }
     if (a === 'ul-scale') { U.startScale(); return; }
+    if (a === 'ul-detect') { U.detect(); return; }
     if (a === 'ul-toggle') { App.mutate('底圖顯示', s => { s.underlay.visible = !s.underlay.visible; }, 'underlay'); return; }
     if (a === 'ul-rot90') { App.mutate('底圖旋轉', s => { s.underlay.rot = ((s.underlay.rot || 0) + 90) % 360; }, 'underlay'); return; }
     if (a === 'ul-del') { if (await UI().confirm('移除底圖', '移除平面圖底圖？（空間與櫃體不受影響，可用 Ctrl+Z 復原）')) App.mutate('移除底圖', s => { s.underlay = null; }, 'underlay'); }

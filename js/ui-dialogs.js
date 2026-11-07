@@ -145,6 +145,7 @@
   UI.askHeight = async function (pts) {
     const r = App.state.room, rooms = App.state.rooms || [];
     const mode0 = (window.Viewer && window.Viewer.lineRoomMode) || 'add'; if (window.Viewer) window.Viewer.lineRoomMode = null;
+    const u = App.state.underlay, hasVec = !!(u && u.vec && u.vec.length);   // 向量底圖才能辨識門窗
     const res = await UI.modal({
       title: rooms.length ? '封閉房間' : '封閉空間',
       body: `<p>已繪製 ${pts.length} 段牆。請輸入空間高度。</p><div class="kv">
@@ -152,12 +153,14 @@
         <label>牆厚</label><input name="t" type="number" value="${r ? r.thickness : 120}" step="5"></div>
         ${rooms.length ? `<div class="choice-list" style="margin-top:10px">
           <label class="choice"><input type="radio" name="mode" value="add"${mode0 !== 'replace' ? ' checked' : ''}><span><b>新增為新房間</b><small>保留現有 ${rooms.length} 個房間；之後可在屬性面板改名</small></span></label>
-          <label class="choice"><input type="radio" name="mode" value="replace"${mode0 === 'replace' ? ' checked' : ''}><span><b>取代目前房間「${esc(r.name || '')}」</b><small>門窗與天花設定會清除，櫃體保留</small></span></label></div>` : ''}`,
+          <label class="choice"><input type="radio" name="mode" value="replace"${mode0 === 'replace' ? ' checked' : ''}><span><b>取代目前房間「${esc(r.name || '')}」</b><small>門窗與天花設定會清除，櫃體保留</small></span></label></div>` : ''}
+        ${hasVec ? `<label class="inline" style="margin-top:10px;gap:6px;align-items:flex-start"><input type="checkbox" name="det" checked style="margin-top:3px"><span>依底圖帶入門窗<br><small class="muted">門弧→門、牆線缺口／窗線→窗；帶入後點牆面可在「款式」更換樣式</small></span></label>` : ''}`,
       buttons: [{ label: '取消', value: null }, { label: rooms.length ? '建立房間' : '建立空間', primary: true, value: 'ok' }],
       validate: d => (+d.h < 1800 || +d.h > 6000) ? '高度需介於 1800–6000 mm' : null
     });
     if (!res) return;
     App.setRoom(M().createRoom(pts, +res.data.h, +res.data.t), res.data.mode === 'replace' ? 'replace' : 'add');
+    if (hasVec && res.data.det && window.Underlay) window.Underlay.detect(App.state.room, true);
   };
   // 離開目前專案前詢問：1 不儲存直接開新專案　2 匯出專案檔（之後可匯入繼續編輯）
   UI.leaveDialog = async function (title, action = '開立新專案') {
