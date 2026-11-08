@@ -757,7 +757,7 @@
         doc.text(cx + p(12), cy, p(2.8), String(v == null ? '' : v), { layer: L, align: 'l', valign: 'mid' });
       });
     });
-    doc.text(bx + p(3), by + p(bh + 2.5), p(2.6), '系統櫃 3D 設計平台', { layer: L, align: 'l', valign: 'b' });
+    doc.text(bx + p(3), by + p(bh + 2.5), p(2.6), '菩語繪圖系統', { layer: L, align: 'l', valign: 'b' });
   }
   Dx.frame = frame;
 

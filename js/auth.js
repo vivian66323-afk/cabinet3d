@@ -38,7 +38,7 @@
     el.className = 'auth-gate';
     const none = !cfg.users.length;
     el.innerHTML = `<form class="auth-card" autocomplete="on">
-        <h1>系統櫃 3D 設計平台</h1>
+        <h1>菩語繪圖系統</h1>
         <p>${none ? '尚未設定任何帳號，請先執行 tools/set-password.js。' : '請輸入帳號密碼登入'}</p>
         <label for="authUser">帳號</label><input id="authUser" name="username" autocomplete="username" required ${none ? 'disabled' : ''}>
         <label for="authPass">密碼</label><input id="authPass" name="password" type="password" autocomplete="current-password" required ${none ? 'disabled' : ''}>

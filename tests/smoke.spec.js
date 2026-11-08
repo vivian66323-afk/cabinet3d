@@ -1,8 +1,8 @@
-// 系統櫃 3D 設計平台：煙霧測試（Chromium）
+// 菩語繪圖系統：煙霧測試（Chromium）
 const { test, expect } = require('@playwright/test');
 const H = require('./helpers');
 
-test.describe('系統櫃 3D 設計平台', () => {
+test.describe('菩語繪圖系統', () => {
   let errors;
 
   test.beforeEach(async ({ context, page }) => {

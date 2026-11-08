@@ -92,7 +92,7 @@
       if (i) pdf.addPage(pg.size || 'a4', pg.orient);
       pdf.addImage(pg.canvas.toDataURL('image/jpeg', 0.9), 'JPEG', 0, 0, pg.wmm, pg.hmm, undefined, 'FAST');
     });
-    pdf.setProperties({ title: name, creator: '系統櫃 3D 設計平台', author: App.user ? App.user.name : '' });
+    pdf.setProperties({ title: name, creator: '菩語繪圖系統', author: App.user ? App.user.name : '' });
     pdf.save(name + '.pdf');
   }
 
@@ -130,7 +130,7 @@
       pages.push(pg);
       pg.rect(0, 0, 210, 4, { fill: '#8dbf1a', stroke: false });
       if (window.LOGO_DATA) await pg.image(window.LOGO_DATA, 13, 10.5, 11, 11);
-      pg.text(26, 16.2, u.org || '系統櫃 3D 設計平台', { size: 11, bold: true, color: '#8a6a2f' });
+      pg.text(26, 16.2, u.org || '菩語繪圖系統', { size: 11, bold: true, color: '#8a6a2f' });
       pg.text(26, 20.6, `設計師 ${u.name || ''}${u.tel ? '　電話 ' + u.tel : ''}`, { size: 7.5, color: '#69727d' });
       pg.text(196, 18, '報　價　單', { size: 18, bold: true, align: 'right' });
       pg.line(14, 25, 196, 25, 0.5);
@@ -455,7 +455,7 @@ ${tris}</mesh></geometry>`);
     const mlist = [...mats.values()];
     const xml = `<?xml version="1.0" encoding="utf-8"?>
 <COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
-<asset><contributor><authoring_tool>系統櫃 3D 設計平台</authoring_tool><author>${esc(App.user ? App.user.name : '')}</author></contributor><created>${new Date().toISOString()}</created><modified>${new Date().toISOString()}</modified><unit name="millimeter" meter="0.001"/><up_axis>Y_UP</up_axis></asset>
+<asset><contributor><authoring_tool>菩語繪圖系統</authoring_tool><author>${esc(App.user ? App.user.name : '')}</author></contributor><created>${new Date().toISOString()}</created><modified>${new Date().toISOString()}</modified><unit name="millimeter" meter="0.001"/><up_axis>Y_UP</up_axis></asset>
 <library_effects>${mlist.map(m => `<effect id="${m.id}-fx"><profile_COMMON><technique sid="common"><lambert><diffuse><color>${m.color.map(x => x.toFixed(4)).join(' ')} 1</color></diffuse>${m.alpha < 1 ? `<transparent opaque="A_ONE"><color>0 0 0 ${m.alpha.toFixed(3)}</color></transparent><transparency><float>1</float></transparency>` : ''}</lambert></technique></profile_COMMON></effect>`).join('')}</library_effects>
 <library_materials>${mlist.map(m => `<material id="${m.id}" name="${m.name}"><instance_effect url="#${m.id}-fx"/></material>`).join('')}</library_materials>
 <library_geometries>${geos.join('\n')}</library_geometries>
