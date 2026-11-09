@@ -147,8 +147,7 @@
       case 'ArrowDown': App.nudge(0, e.shiftKey ? 100 : 10); e.preventDefault(); break;
     }
   }
-  /* ---------- 畫牆線：跟著滑鼠的數據輸入框 ---------- */
-  let lineMouse = null;
+  /* ---------- 畫牆線：數據輸入框（固定停在 3D 區底部正中央，不跟著滑鼠，免得壓到要點的下一個點） ---------- */
   function initLineInput() {
     const vp = $('#viewport');
     const wrap = document.createElement('div');
@@ -159,11 +158,6 @@
     const inp = $('#lineInput');
     // 點輸入框不要變成在 3D 畫面上點一下
     ['mousedown', 'pointerdown', 'click', 'dblclick'].forEach(t => wrap.addEventListener(t, e => e.stopPropagation()));
-    vp.addEventListener('mousemove', e => {
-      const r = vp.getBoundingClientRect();
-      lineMouse = { x: e.clientX - r.left, y: e.clientY - r.top };
-      placeLineInput();
-    });
     inp.addEventListener('keydown', e => {
       const v = V();
       e.stopPropagation();
@@ -185,16 +179,6 @@
       }
     });
   }
-  function placeLineInput() {
-    const wrap = $('#lineInputWrap'); if (!wrap || wrap.hidden) return;
-    const vp = $('#viewport');
-    const m = lineMouse || { x: vp.clientWidth / 2, y: vp.clientHeight / 2 };
-    const w = wrap.offsetWidth || 220, h = wrap.offsetHeight || 50;
-    // 只在滑鼠正下方或正上方擺放（左右可平移），保證不會蓋住游標、擋到點擊
-    const x = Math.max(6, Math.min(m.x + 18, vp.clientWidth - w - 6));
-    const y = m.y + 22 + h <= vp.clientHeight - 6 ? m.y + 22 : m.y - h - 22;
-    wrap.style.left = x + 'px'; wrap.style.top = Math.max(6, y) + 'px';
-  }
   UI.syncLineInput = () => syncLineInput();
   function syncLineInput() {
     const wrap = $('#lineInputWrap'); if (!wrap) return;
@@ -205,7 +189,6 @@
     $('#lineInputHint').textContent = n
       ? `第 ${n} 點之後：輸入長度 或 長度,角度（0°右、90°上）Enter　·　空白 Enter 完成　·　Backspace 退一點`
       : '先點起點；或直接輸入「長度,角度」從滑鼠位置開始畫';
-    placeLineInput();
   }
 
   function vcbEnter() {
