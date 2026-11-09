@@ -246,6 +246,20 @@
     if (cab.locked) { App.toast('已鎖定，無法移動'); return; }
     App.mutate('微調位置', () => { cab.x += dx; cab.z += dz; }, [cab.id]);
   };
+  // 方向鍵微調級距（mm），記在瀏覽器；1 / 10 / 100 / 1000 ＝ 1mm / 1cm / 10cm / 1m
+  const LS_NUDGE = 'cab3d.nudge';
+  App.nudgeStep = function () { const v = Number(localStorage.getItem(LS_NUDGE)); return v > 0 ? v : 10; };
+  App.setNudgeStep = function (mm) { mm = Math.max(0.1, Number(mm) || 10); try { localStorage.setItem(LS_NUDGE, String(mm)); } catch (e) { /* 無痕 */ } return mm; };
+  App.fmtStep = mm => mm >= 1000 && mm % 1000 === 0 ? (mm / 1000) + ' m' : mm >= 10 && mm % 100 === 0 ? (mm / 10) + ' cm' : mm + ' mm';
+  // 依「畫面上的方向」微調：dir 'left'|'right'|'up'|'down'，依目前視角把畫面方向對到最近的世界軸，
+  // 這樣不管視角轉到哪，按 → 物件就往畫面右邊走；mult 為倍數（Shift ×10）
+  App.nudgeDir = function (dir, mult) {
+    const cab = App.selectedCab(); if (!cab) return;
+    const step = App.nudgeStep() * (mult || 1);
+    const ax = window.Viewer && window.Viewer.screenAxes ? window.Viewer.screenAxes() : { right: [1, 0], up: [0, -1] };
+    const v = dir === 'left' ? [-ax.right[0], -ax.right[1]] : dir === 'right' ? ax.right : dir === 'up' ? ax.up : [-ax.up[0], -ax.up[1]];
+    App.nudge(Math.round(v[0] * step * 1000) / 1000, Math.round(v[1] * step * 1000) / 1000);
+  };
   App.updateCab = function (id, label, fn) {
     const cab = App.state.cabinets.find(c => c.id === id); if (!cab) return;
     App.mutate(label, () => fn(cab), [id]);

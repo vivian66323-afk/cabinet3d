@@ -308,6 +308,8 @@ table.pt .sw-img { width: 22px; height: 22px; vertical-align: middle; }
 .mini-bar button { border: 0; background: none; padding: 5px 9px; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .mini-bar button:hover { background: var(--accent-2); color: var(--accent); }
 .mini-bar button.del:hover { background: #fdecea; color: var(--danger); }
+.mini-bar .mini-sep { width: 1px; background: var(--line-2); margin: 3px 2px; }
+.mini-bar select { border: 1px solid var(--line-2); border-radius: 5px; background: #fff; font-size: 11.5px; padding: 2px 4px; cursor: pointer; }
 
 /* ---------- 樓層 ---------- */
 .floor-bar { position: absolute; left: 12px; top: 12px; display: flex; gap: 3px; background: rgba(255,255,255,.92); border: 1px solid var(--line); border-radius: 9px; padding: 4px; box-shadow: 0 2px 10px rgba(0,0,0,.06); z-index: 4; }

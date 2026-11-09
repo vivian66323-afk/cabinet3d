@@ -93,7 +93,7 @@
       <kbd>中鍵拖曳</kbd><span>環轉視角</span><kbd>Shift+中鍵</kbd><span>平移（或右鍵拖曳）</span><kbd>滾輪</kbd><span>以游標為中心縮放</span>
       <kbd>空白鍵</kbd><span>選取工具</span><kbd>M / Q</kbd><span>移動 / 旋轉 90°</span><kbd>R / L</kbd><span>矩形空間 / 畫線空間</span>
       <kbd>T</kbd><span>捲尺量測</span><kbd>O / H / Z</kbd><span>環轉 / 平移 / 縮放工具</span><kbd>Shift+Z</kbd><span>充滿視窗</span><kbd>快按左鍵兩下</kbd><span>任何位置：縮放至實際空間最適大小</span>
-      <kbd>方向鍵</kbd><span>微調 10mm（Shift 100mm）</span><kbd>Ctrl+C / V / D</kbd><span>複製 / 貼上 / 就地複製</span>
+      <kbd>方向鍵</kbd><span>依畫面方向微調（級距 1mm～1m 在選取物件的浮動列選，Shift ×10）</span><kbd>Ctrl+C / V / D</kbd><span>複製 / 貼上 / 就地複製</span>
       <kbd>Ctrl+Z / Y</kbd><span>復原 / 重做</span><kbd>Shift＋快按兩下櫃體</kbd><span>開門預覽</span><kbd>數值框</kbd><span>畫線或移動時直接輸入數字 + Enter</span>
     </div>`;
   }
@@ -141,10 +141,10 @@
       case 'Delete': case 'Backspace': if (!(v.ceilEdit && v.ceilSel && v.deleteCeilSel())) App.deleteSelected(); e.preventDefault(); break;
       case 'Escape': v.escape(); break;
       case 'Enter': if (v.tool === 'line') { /* 雙擊或回到起點完成 */ } break;
-      case 'ArrowLeft': App.nudge(e.shiftKey ? -100 : -10, 0); e.preventDefault(); break;
-      case 'ArrowRight': App.nudge(e.shiftKey ? 100 : 10, 0); e.preventDefault(); break;
-      case 'ArrowUp': App.nudge(0, e.shiftKey ? -100 : -10); e.preventDefault(); break;
-      case 'ArrowDown': App.nudge(0, e.shiftKey ? 100 : 10); e.preventDefault(); break;
+      case 'ArrowLeft': App.nudgeDir('left', e.shiftKey ? 10 : 1); e.preventDefault(); break;
+      case 'ArrowRight': App.nudgeDir('right', e.shiftKey ? 10 : 1); e.preventDefault(); break;
+      case 'ArrowUp': App.nudgeDir('up', e.shiftKey ? 10 : 1); e.preventDefault(); break;
+      case 'ArrowDown': App.nudgeDir('down', e.shiftKey ? 10 : 1); e.preventDefault(); break;
     }
   }
   /* ---------- 畫牆線：數據輸入框（固定停在 3D 區底部正中央，不跟著滑鼠，免得壓到要點的下一個點） ---------- */

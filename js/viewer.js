@@ -227,6 +227,14 @@
     if (camera !== ortho && d.y < 0.25) d = new THREE.Vector3(1, 0.8, 1.15).normalize();
     V.zoomExtents(d.toArray(), roomBox());
   };
+  // 畫面「右」與「上」各對應到哪個世界軸（取最近的軸）：給方向鍵微調用
+  V.screenAxes = function () {
+    const f = new THREE.Vector3(); camera.getWorldDirection(f); f.y = 0;
+    if (f.lengthSq() < 1e-6) f.set(0, 0, -1);          // 正俯視時以畫面上＝-z
+    f.normalize();
+    const up = Math.abs(f.x) > Math.abs(f.z) ? [Math.sign(f.x), 0] : [0, Math.sign(f.z)];
+    return { right: [-up[1], up[0]], up };              // 右＝上順時針轉 90°（y 向上的右手系：right = up × y）
+  };
   V.zoomExtents = function (dirv, boxIn) {
     const box = boxIn || sceneBox();
     const d = dirv ? new THREE.Vector3(...dirv).normalize() : camera.position.clone().sub(controls.target).normalize();

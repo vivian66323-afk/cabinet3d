@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>菩語繪圖系統</title>
 <link rel="icon" href="LOGO.png">
-<link rel="stylesheet" href="css/app.css?v=20261109a">
+<link rel="stylesheet" href="css/app.css?v=20261109b">
 </head>
 <body>
 <header class="topbar">
@@ -79,6 +79,13 @@
     <div class="mini-bar" id="miniBar" hidden>
       <button data-mini="rotl" title="逆時針旋轉 90°（Shift+Q）">⟲ 90°</button>
       <button data-mini="rotr" title="順時針旋轉 90°（Q）">⟳ 90°</button>
+      <span class="mini-sep"></span>
+      <button data-mini="left" title="往畫面左微調（←；Shift ×10）">◀</button>
+      <button data-mini="up" title="往畫面上微調（↑；Shift ×10）">▲</button>
+      <button data-mini="down" title="往畫面下微調（↓；Shift ×10）">▼</button>
+      <button data-mini="right" title="往畫面右微調（→；Shift ×10）">▶</button>
+      <select id="nudgeStep" title="方向鍵微調級距"><option value="1">1 mm</option><option value="10">1 cm</option><option value="30">30 mm</option><option value="100">10 cm</option><option value="1000">1 m</option><option value="custom">自訂…</option></select>
+      <span class="mini-sep"></span>
       <button data-mini="dup" title="複製（Ctrl+D）">複製</button>
       <button data-mini="del" title="刪除（Delete）" class="del">刪除</button>
     </div>
@@ -142,8 +149,8 @@
 <script src="js/export.js?v=20261108c"></script>
 <script src="js/underlay.js?v=20261108a"></script>
 <script src="js/ceiling.js?v=20261022e"></script>
-<script src="js/ui-core.js?v=20261022b"></script>
-<script src="js/ui-toolbar.js?v=20261109a"></script>
+<script src="js/ui-core.js?v=20261109a"></script>
+<script src="js/ui-toolbar.js?v=20261109b"></script>
 <script src="js/ui-catalog.js?v=20261022b"></script>
 <script src="js/ui-swatch.js?v=20261022a"></script>
 <script src="js/ui-ceiling.js?v=20261022f"></script>
@@ -153,7 +160,7 @@
 <script src="js/ui-dialogs.js?v=20261108b"></script>
 <script src="js/cloud-config.js?v=20261013f"></script>
 <script src="js/cloud.js?v=20261013e"></script>
-<script src="js/app.js?v=20261108a"></script>
+<script src="js/app.js?v=20261109a"></script>
 <script type="module">
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';

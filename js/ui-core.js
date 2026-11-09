@@ -64,11 +64,31 @@
       b.addEventListener('click', () => { if (id === 'togL') pst.l = !pst.l; else pst.r = !pst.r; localStorage.setItem('cab3d.panels', JSON.stringify(pst)); applyPanels(); }); });
     applyPanels();
     $('#miniBar').addEventListener('pointerdown', e => e.stopPropagation());
+    // 微調級距：記住上次選的；選單裡沒有的值（例如舊版存的）補一個選項
+    const ns = $('#nudgeStep');
+    if (ns) {
+      const cur = App.nudgeStep();
+      if (![...ns.options].some(o => Number(o.value) === cur)) { const o = document.createElement('option'); o.value = cur; o.textContent = App.fmtStep(cur); ns.insertBefore(o, ns.lastElementChild); }
+      ns.value = String(cur);
+      ns.addEventListener('change', () => {
+        let val = ns.value;
+        if (val === 'custom') {
+          const raw = prompt('方向鍵微調級距（mm），例如 30、32、45：', String(App.nudgeStep()));
+          val = raw == null ? '' : raw.trim();
+          if (!(Number(val) > 0)) { ns.value = String(App.nudgeStep()); return; }
+          if (![...ns.options].some(o => o.value === val)) { const o = document.createElement('option'); o.value = val; o.textContent = App.fmtStep(Number(val)); ns.insertBefore(o, ns.lastElementChild); }
+          ns.value = val;
+        }
+        const v = App.setNudgeStep(val); App.toast('方向鍵微調級距：' + App.fmtStep(v)); ns.blur();
+      });
+      ns.addEventListener('keydown', e => e.stopPropagation());
+    }
     $('#miniBar').addEventListener('click', e => {
       const b = e.target.closest('[data-mini]'); if (!b) return;
       const a = b.dataset.mini;
       if (a === 'rotl') App.rotateSelected(-90);
       else if (a === 'rotr') App.rotateSelected(90);
+      else if (['left', 'right', 'up', 'down'].includes(a)) App.nudgeDir(a, e.shiftKey ? 10 : 1);
       else if (a === 'dup') App.duplicateSelected();
       else if (a === 'del') App.deleteSelected();
     });
