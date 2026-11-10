@@ -1446,6 +1446,21 @@
   }
 
   /* ---------- 空間 3D ---------- */
+  /* 樑柱：room.structs = [{id, kind:'col', x, z, w, d, rot}（落地到頂的柱）, {id, kind:'beam', x1, z1, x2, z2, w, drop}（貼樓板的樑，drop＝樑深）]
+     回傳每件的平面外框（世界座標四點）與高度範圍，3D、重疊檢查、平面圖、DXF 共用 */
+  function structBoxes(room) {
+    const H = room.height;
+    return (room.structs || []).map(s => {
+      if (s.kind === 'col') {
+        const r = (s.rot || 0) * Math.PI / 180, c = Math.cos(r), sn = Math.sin(r), hw = s.w / 2, hd = s.d / 2;
+        const W = (x, z) => [s.x + x * c + z * sn, s.z - x * sn + z * c];
+        return { s, poly: [W(-hw, -hd), W(hw, -hd), W(hw, hd), W(-hw, hd)], y0: 0, y1: H };
+      }
+      const dx = s.x2 - s.x1, dz = s.z2 - s.z1, l = Math.hypot(dx, dz) || 1, nx = -dz / l * s.w / 2, nz = dx / l * s.w / 2;
+      return { s, poly: [[s.x1 + nx, s.z1 + nz], [s.x2 + nx, s.z2 + nz], [s.x2 - nx, s.z2 - nz], [s.x1 - nx, s.z1 - nz]], y0: Math.max(0, H - s.drop), y1: H };
+    });
+  }
+  const structName = (room, s) => { const same = (room.structs || []).filter(q => q.kind === s.kind); return (s.kind === 'col' ? '柱' : '樑') + (same.indexOf(s) + 1); };
   function buildRoom(room, opts = {}) {
     const g = new THREE.Group();
     const pts = room.points;
@@ -1516,6 +1531,19 @@
       g.add(cm);
       // 門窗配件
       wall.openings.forEach(o => buildOpening(g, wi, o, Tk, H, i));
+    });
+    // 樑柱（跟牆同色；選取中的標成淺藍）
+    structBoxes(room).forEach(b => {
+      const pl = polyArea(b.poly) < 0 ? b.poly.slice().reverse() : b.poly;
+      const sh = new THREE.Shape(); pl.forEach((q, k) => k ? sh.lineTo(q[0], -q[1]) : sh.moveTo(q[0], -q[1]));
+      const geo = new THREE.ExtrudeGeometry(sh, { depth: Math.max(1, b.y1 - b.y0), bevelEnabled: false }); geo.rotateX(-Math.PI / 2); geo.translate(0, b.y0, 0);
+      const paint = room.wallColor;
+      const color = opts.selectedStruct === b.s.id ? 0xbcd6f7 : (paint && !(window.App && App.renderMode === 'white') ? new THREE.Color(paint) : 0xe6e3dc);
+      const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color, roughness: 0.95 }));
+      mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.structId = b.s.id;
+      const e = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 20), new THREE.LineBasicMaterial({ color: 0x333333, transparent: true, opacity: 0.45 }));
+      e.userData.isEdge = true; mesh.add(e);
+      g.add(mesh);
     });
     if (window.Ceiling) { try { g.add(window.Ceiling.build(room, THREE, { sMat, addBox })); } catch (e) { console.warn('ceiling', e); } try { const mep = window.Ceiling.buildMEP(room, THREE, { sMat, addBox }); mep.userData.mepGroup = true; g.add(mep); } catch (e) { console.warn('mep', e); } }
     return g;
@@ -1734,7 +1762,7 @@
 
   window.Model = {
     init(T) { THREE = T; },
-    uid, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS, GLASS_TYPES, ALU_COLORS, glassMat,
+    uid, structBoxes, structName, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS, GLASS_TYPES, ALU_COLORS, glassMat,
     createRoom, rectRoom, wallInfo, wallName, polyArea, pointInPoly, isModified, cabName,
     rowLip, OPEN_ROW, E_FRONT, buildCabinet, buildRoom, triShape, getMat, clearMatCache, clearSwatchTex, grainOf, imgGrainOf, floorDef, deskGeom, resizeCabinet, handleOf, handleEdge, insetPos, counterOver, deskHoles, isCounterAppl, toLocal, toWorld
   };

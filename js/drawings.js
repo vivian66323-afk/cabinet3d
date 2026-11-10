@@ -558,6 +558,8 @@
       });
       if (rooms.length > 1 && !CEIL) { const n = room.points.length, c = room.points.reduce((a, p) => [a[0] + p[0] / n, a[1] + p[1] / n], [0, 0]), C = P(c[0], c[1]); pg.text(C[0], C[1], room.name || '', { size: 7, bold: true, color: '#1f2328', align: 'center', base: 'middle' }); }
     });
+    // 樑柱：柱＝實心灰塊，樑＝紫色虛線框
+    rooms.forEach(room => M().structBoxes(room).forEach(b => { if (b.s.kind === 'col') poly(b.poly, '#8d939b', '#1f2328', 0.35); else poly(b.poly, null, '#7b52ab', 0.3, [1.6, 1]); }));
     // 櫃體：先地櫃後吊櫃
     const lay = c => c.hanging ? 3 : c.kind === 'appl' ? 2 : c.kind === 'desk' ? 1 : 0;
     const cabs = (CEIL ? [] : st.cabinets.slice()).sort((a, b) => lay(a) - lay(b));

@@ -207,12 +207,18 @@
     if (!s) return;
     if (s.type === 'cab' && !App.state.cabinets.some(c => c.id === s.id)) App.sel = null;
     if (s.type === 'wall' && (!App.state.room || s.index >= App.state.room.points.length)) App.sel = null;
+    if (s.type === 'struct' && !App.selectedStruct()) App.sel = null;
   }
+  App.selectedStruct = function () {
+    const s = App.sel, r = App.state.room;
+    return s && s.type === 'struct' && r ? (r.structs || []).find(q => q.id === s.id) || null : null;
+  };
 
   App.select = function (sel) {
-    const prevWall = App.sel && App.sel.type === 'wall' ? App.sel.index : null;
+    const hk = q => q && q.type === 'wall' ? 'w' + q.index : q && q.type === 'struct' ? 's' + q.id : null;   // 牆與樑柱的選取會改 3D 顏色，要重建房間
+    const prevWall = hk(App.sel);
     App.sel = sel;
-    const nowWall = sel && sel.type === 'wall' ? sel.index : null;
+    const nowWall = hk(sel);
     if (prevWall !== nowWall) window.Viewer.rebuildRoom();
     window.Viewer.updateSelection();
     App.ui.showProps(true);
@@ -242,6 +248,12 @@
       App.sel = null;
       App.mutate('刪除' + nm, st => { const c = st.room.ceiling, key = { zone: 'zones', st: 'strips', fx: 'fixtures' }[s.kind]; c[key] = c[key].filter(q => q.id !== s.id); }, 'room');
       window.Viewer.updateSelection(); App.ui.showProps(false);
+    } else if (s.type === 'struct') {
+      const q = App.selectedStruct(); if (!q) { App.sel = null; return; }
+      const nm = window.Model.structName(App.state.room, q);
+      App.sel = null;
+      App.mutate('刪除' + nm, st => { st.room.structs = st.room.structs.filter(x => x.id !== q.id); }, 'room');
+      window.Viewer.updateSelection(); App.ui.showProps(false);
     } else if (s.type === 'wall') App.toast('牆面無法單獨刪除，可於屬性面板刪除整個空間');
   };
   App.duplicateSelected = function () {
@@ -259,6 +271,8 @@
     App.mutate('旋轉', () => { cab.rot = ((cab.rot + d) % 360 + 360) % 360; }, [cab.id]);
   };
   App.nudge = function (dx, dz) {
+    const sq = App.selectedStruct();
+    if (sq) { App.mutate('微調樑柱', () => { if (sq.kind === 'col') { sq.x += dx; sq.z += dz; } else { sq.x1 += dx; sq.x2 += dx; sq.z1 += dz; sq.z2 += dz; } }, 'room'); return; }
     const cab = App.selectedCab(); if (!cab) return;
     if (cab.locked) { App.toast('已鎖定，無法移動'); return; }
     App.mutate('微調位置', () => { cab.x += dx; cab.z += dz; }, [cab.id]);
@@ -271,7 +285,8 @@
   // 依「畫面上的方向」微調：dir 'left'|'right'|'up'|'down'，依目前視角把畫面方向對到最近的世界軸，
   // 這樣不管視角轉到哪，按 → 物件就往畫面右邊走；mult 為倍數（Shift ×10）
   App.nudgeDir = function (dir, mult) {
-    const cab = App.selectedCab(); if (!cab) return;
+    if (App.selectedStruct() && (dir === 'raise' || dir === 'lower')) { App.toast('樑柱的高度請在屬性面板調整（樑深）'); return; }
+    const cab = App.selectedCab(); if (!cab && !App.selectedStruct()) return;
     const step = App.nudgeStep() * (mult || 1);
     if (dir === 'raise' || dir === 'lower') {        // 上下：離地高度
       if (cab.locked) { App.toast('已鎖定，無法移動'); return; }

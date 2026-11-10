@@ -325,6 +325,16 @@ const CASES = [
     u.sym = { arcs: sym.arcs.map(a => { const cc = inv(a[0], a[1]), p1 = inv(a[4], a[5]), p2 = inv(a[6], a[7]); return [cc[0], cc[1], a[2] / u.scale, a[3], p1[0], p1[1], p2[0], p2[1]]; }), win: sym.win.map(seg), oth: [] };
     check(u, '位移旋轉縮放');
   }],
+  ['model:struct-boxes', '樑柱外框：柱落地到頂（含旋轉）、樑貼樓板往下樑深，平面外框寬度正確', (t, sb) => {
+    const { Model } = sb.window;
+    const room = Model.createRoom([[0, 0], [4000, 0], [4000, 3000], [0, 3000]], 2800, 120);
+    room.structs = [{ id: 's1', kind: 'col', x: 250, z: 250, w: 500, d: 300, rot: 0 }, { id: 's2', kind: 'col', x: 2000, z: 1500, w: 500, d: 300, rot: 90 }, { id: 's3', kind: 'beam', x1: 0, z1: 1500, x2: 4000, z2: 1500, w: 300, drop: 500 }];
+    const b = Model.structBoxes(room), ext = p => [Math.min(...p.map(q => q[0])), Math.max(...p.map(q => q[0])), Math.min(...p.map(q => q[1])), Math.max(...p.map(q => q[1]))];
+    t.ok(b[0].y0 === 0 && b[0].y1 === 2800 && ext(b[0].poly).every((v, i) => near(v, [0, 500, 100, 400][i], 0.01)), '柱 1 外框 0–500 × 100–400、落地到頂');
+    t.ok(ext(b[1].poly).every((v, i) => near(v, [1850, 2150, 1250, 1750][i], 0.01)), '柱 2 轉 90° 後寬深對調（' + JSON.stringify(ext(b[1].poly)) + '）');
+    t.ok(b[2].y0 === 2300 && b[2].y1 === 2800 && ext(b[2].poly).every((v, i) => near(v, [0, 4000, 1350, 1650][i], 0.01)), '樑底 2300、寬 300 置中於中心線');
+    t.eq(Model.structName(room, room.structs[1]) + Model.structName(room, room.structs[2]), '柱2樑1', '名稱依種類編號');
+  }],
 ];
 
 /* ---------- 執行 ---------- */

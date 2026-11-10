@@ -22,6 +22,69 @@
       gen.map(h => `<option value="${h.id}"${h.id === cur ? ' selected' : ''}>${h.name}${h.pair ? '（雙門片適用）' : ''}</option>`).join('') + '</optgroup>' + grpIk;
   }
 
+  /* ================= 樑柱 ================= */
+  function structSection(r) {
+    const list = r.structs || [];
+    return `<div class="sec-title" style="margin-top:10px">樑柱 <small>${list.length ? list.length + ' 件' : '結構柱、結構樑'}</small></div>
+      ${list.length ? `<div class="list">${list.map(q => `<div class="lrow" data-a="st-sel" data-id="${q.id}"><span>${M().structName(r, q)}　<span class="muted">${q.kind === 'col' ? `${q.w}×${q.d} mm` : `寬 ${q.w}・樑深 ${q.drop}・長 ${Math.round(Math.hypot(q.x2 - q.x1, q.z2 - q.z1))} mm`}</span></span><button class="icon-btn del" data-a="st-del" data-id="${q.id}" title="刪除">${icon('x')}</button></div>`).join('')}</div>` : ''}
+      <div class="btn-row"><button class="btn small" data-a="st-col">${icon('plus')}放柱</button><button class="btn small" data-a="st-beam">${icon('line')}畫樑</button></div>
+      <p class="muted" style="font-size:11.5px;margin:6px 0 0">柱：點位置放置，靠近牆角自動貼齊。樑：點起點與終點。點 3D 裡的樑柱可改尺寸，方向鍵可微調位置；櫃體碰到樑柱會以紅框警示。</p>`;
+  }
+  function structPanel(q) {
+    const r = App.state.room, nm = M().structName(r, q);
+    const head = `<div class="hero"><div><h3>${nm}</h3><p>${q.kind === 'col' ? '結構柱（落地到頂）' : '結構樑（貼樓板）'}　${esc(r.name || '')}</p></div></div>`;
+    const body = q.kind === 'col' ? `<div class="sec"><div class="sec-title">尺寸與位置</div><div class="kv">
+        <label>寬（X 向）</label><div class="inline">${num('st-w', q.w, 'step="10"')}<span class="unit">mm</span></div>
+        <label>深（Z 向）</label><div class="inline">${num('st-d', q.d, 'step="10"')}<span class="unit">mm</span></div>
+        <label>旋轉</label><div class="inline">${num('st-rot', q.rot || 0, 'step="5"')}<span class="unit">°</span></div>
+        <label>中心 X</label><div class="inline">${num('st-x', Math.round(q.x), 'step="10"')}<span class="unit">mm</span></div>
+        <label>中心 Z</label><div class="inline">${num('st-z', Math.round(q.z), 'step="10"')}<span class="unit">mm</span></div></div>`
+      : `<div class="sec"><div class="sec-title">尺寸與位置</div><div class="kv">
+        <label>樑寬</label><div class="inline">${num('st-w', q.w, 'step="10"')}<span class="unit">mm</span></div>
+        <label>樑深</label><div class="inline">${num('st-drop', q.drop, 'step="10"')}<span class="unit">mm（樑下淨高 ${Math.max(0, r.height - q.drop)}）</span></div>
+        <label>長度</label><span>${Math.round(Math.hypot(q.x2 - q.x1, q.z2 - q.z1))} mm</span>
+        <label>起點 X / Z</label><div class="inline">${num('st-x1', Math.round(q.x1), 'step="10"')}${num('st-z1', Math.round(q.z1), 'step="10"')}</div>
+        <label>終點 X / Z</label><div class="inline">${num('st-x2', Math.round(q.x2), 'step="10"')}${num('st-z2', Math.round(q.z2), 'step="10"')}</div></div>`;
+    return head + body + `<p class="muted" style="font-size:11.5px;margin:6px 0 0">方向鍵可依級距微調位置（Shift ×10）。</p>
+      <div class="btn-row"><button class="btn danger" data-a="st-del" data-id="${q.id}">${icon('delete')}刪除</button><button class="btn" data-a="st-back">回到空間</button></div></div>`;
+  }
+  // 柱靠近牆（柱的半寬內）時往室內推到貼齊牆面：點牆角就會剛好塞在角落
+  function fitColumn(r, col) {
+    for (let pass = 0; pass < 2; pass++) r.points.forEach((_, i) => {
+      const wi = M().wallInfo(r, i), nIn = [-wi.nOut[0], -wi.nOut[1]];
+      const dist = (col.x - wi.p[0]) * nIn[0] + (col.z - wi.p[1]) * nIn[1];
+      const half = Math.abs(nIn[0]) * col.w / 2 + Math.abs(nIn[1]) * col.d / 2;
+      const dir = [(wi.q[0] - wi.p[0]) / wi.len, (wi.q[1] - wi.p[1]) / wi.len], t = (col.x - wi.p[0]) * dir[0] + (col.z - wi.p[1]) * dir[1];
+      if (t < -half || t > wi.len + half || dist >= half || dist < -half) return;
+      col.x = Math.round(col.x + nIn[0] * (half - dist)); col.z = Math.round(col.z + nIn[1] * (half - dist));
+    });
+    return col;
+  }
+  let lastCol = { w: 500, d: 500 }, lastBeam = { w: 300, drop: 500 };
+  UI.startStructDraw = function (kind) {
+    if (!App.state.room) { App.toast('請先建立空間'); return; }
+    V().lineTarget = kind; UI.action('line');
+    App.toast(kind === 'col' ? `點位置放柱（${lastCol.w}×${lastCol.d} mm，放好後點柱子可改尺寸），可連續點；Esc 結束` : '點樑的起點與終點（樑中心線）');
+  };
+  UI.placeColumn = function (p) {
+    const r = App.state.room; if (!r) return;
+    const col = fitColumn(r, { id: M().uid('s'), kind: 'col', x: Math.round(p[0]), z: Math.round(p[1]), w: lastCol.w, d: lastCol.d, rot: 0 });
+    App.mutate('新增柱', x => { (x.room.structs = x.room.structs || []).push(col); }, 'room');
+  };
+  UI.finishBeam = async function (pts) {
+    const r = App.state.room; if (!r) return;
+    if (Math.hypot(pts[1][0] - pts[0][0], pts[1][1] - pts[0][1]) < 50) { App.toast('樑太短，請重新點起點與終點'); return; }
+    const res = await UI.modal({ title: '結構樑', body: `<div class="kv"><label>樑寬</label><div class="inline"><input name="w" type="number" value="${lastBeam.w}" step="10"><span class="unit">mm</span></div>
+      <label>樑深</label><div class="inline"><input name="drop" type="number" value="${lastBeam.drop}" step="10"><span class="unit">mm（從樓板往下；樓高 ${r.height}）</span></div></div>`,
+      buttons: [{ label: '取消', value: null }, { label: '建立', primary: true, value: 'ok' }],
+      validate: d => (!(+d.w >= 50 && +d.w <= 3000)) ? '樑寬需介於 50–3000 mm' : (!(+d.drop >= 50 && +d.drop <= r.height - 1500)) ? `樑深需介於 50–${r.height - 1500} mm` : null });
+    if (!res) return;
+    lastBeam = { w: +res.data.w, drop: +res.data.drop };
+    const beam = { id: M().uid('s'), kind: 'beam', x1: pts[0][0], z1: pts[0][1], x2: pts[1][0], z2: pts[1][1], w: lastBeam.w, drop: lastBeam.drop };
+    App.mutate('新增樑', x => { (x.room.structs = x.room.structs || []).push(beam); }, 'room');
+    App.select({ type: 'struct', id: beam.id });
+  };
+
   /* ================= 屬性面板 ================= */
   UI.showProps = function (switchTab) {
     const el = $('#tab-props');
@@ -31,6 +94,7 @@
       if (s && s.type === 'cab' && App.selectedCab()) el.innerHTML = cabPanel(App.selectedCab());
       else if (s && s.type === 'wall' && App.state.room) el.innerHTML = wallPanel(s.index);
       else if (s && s.type === 'ceil' && App.state.room) el.innerHTML = UI._ceilSelPanel(s);
+      else if (s && s.type === 'struct' && App.selectedStruct()) el.innerHTML = structPanel(App.selectedStruct());
       else el.innerHTML = projectPanel();
     });
     UI.syncToolbar();
@@ -78,6 +142,7 @@
         <label>牆面</label><div class="inline"><span class="floor-chip" style="background:${r.wallColor || '#f1efea'}"></span><span class="pick-name">${r.wallPaint ? esc(r.wallPaint.code + ' ' + r.wallPaint.name) : '白色（預設）'}</span><button class="btn small" data-a="pick-paint">${icon('image')}選擇塗料</button>${r.wallColor ? `<button class="btn small" data-a="paint-clear" title="恢復預設白">清除</button>` : ''}</div>
       </div>
       ${UI._ceilingSection(r)}
+      ${structSection(r)}
       <div class="list wall-list" style="margin-top:10px">${r.points.map((_, i) => {
         const w = r.walls[i], wi = M().wallInfo(r, i);
         return `<div class="lrow" data-a="wall" data-i="${i}"><span>${M().wallName(i)}　<span class="muted">${Math.round(wi.len)} mm</span></span><span class="muted">${w.openings.length ? w.openings.length + ' 門窗' : ''}</span><span title="${w.locked ? '已鎖定' : '未鎖定'}" style="color:${w.locked ? '#5f6368' : '#b0b7bf'}">${icon(w.locked ? 'lock' : 'unlock')}</span></div>`;
@@ -384,6 +449,16 @@
     if (t.dataset.swq) return;
     if (t.dataset.fn != null) { App.renameFloor(+t.dataset.fn, val); return; }
     { const mr = /^rn(\d+)$/.exec(t.dataset.f || ''); if (mr) { App.renameRoom(+mr[1], val); return; } }
+    { const ms = /^st-(w|d|rot|x|z|drop|x1|z1|x2|z2)$/.exec(t.dataset.f || ''), q = ms && App.selectedStruct();
+      if (ms) {
+        if (!q) return;
+        const k = ms[1], n = +val, r0 = App.state.room;
+        if (!isFinite(n) || String(val).trim() === '') { UI.showProps(); return; }
+        const lim = k === 'w' || k === 'd' ? [50, 3000] : k === 'drop' ? [50, Math.max(50, r0.height - 1500)] : null;
+        const v = lim ? Math.max(lim[0], Math.min(lim[1], Math.round(n))) : k === 'rot' ? ((n % 360) + 360) % 360 : Math.round(n);
+        App.mutate('修改' + M().structName(r0, q), () => { q[k] = v; if (q.kind === 'col') { lastCol = { w: q.w, d: q.d }; } }, 'room');
+        return;
+      } }
     if (t.dataset.f && t.dataset.f.startsWith('ul-')) { window.Underlay.change(t.dataset.f, val); return; }
     if (t.dataset.sws) { UI.swSeries = val; UI.showProps(); return; }
     if (t.dataset.swb) { if (val === '__more') { UI.loadSwatches(); return; } UI.swBrand = val; UI.swSeries = 'all'; UI.showProps(); return; }
@@ -516,6 +591,11 @@
     if (a === 'paint-clear') { App.mutate('牆面恢復預設', x => { delete x.room.wallColor; delete x.room.wallPaint; }, 'room'); return; }
     if (a === 'pick-paint-wall') { UI.pickPaint(+b.dataset.i); return; }
     if (a === 'paint-wall-clear') { const wi0 = +b.dataset.i; App.mutate('牆面同整體', x => { delete x.room.walls[wi0].color; delete x.room.walls[wi0].paint; }, 'room'); return; }
+    if (a === 'st-col') { UI.startStructDraw('col'); return; }
+    if (a === 'st-beam') { UI.startStructDraw('sbeam'); return; }
+    if (a === 'st-del') { const q = (st.room && st.room.structs || []).find(x => x.id === b.dataset.id); if (q) { App.sel = { type: 'struct', id: q.id }; App.deleteSelected(); } return; }
+    if (a === 'st-sel') { App.select({ type: 'struct', id: b.dataset.id }); return; }
+    if (a === 'st-back') { App.select(null); return; }
     if (a === 'room-rect') { UI.roomDialog('add'); return; }
     if (a === 'room-rebuild-rect') { UI.roomDialog('replace'); return; }
     if (a === 'room-go') { App.setActiveRoom(+b.dataset.i); return; }

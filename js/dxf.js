@@ -18,6 +18,8 @@
     ['0', 7, 'CONTINUOUS'],
     ['A-WALL', 8, 'CONTINUOUS'],        // 牆體輪廓
     ['A-WALL-HATCH', 9, 'CONTINUOUS'],  // 牆體剖面填充線
+    ['S-COLS', 8, 'CONTINUOUS'],        // 結構柱
+    ['S-BEAM', 6, 'DASHED'],            // 結構樑（平面以虛線表示）
     ['A-FLOOR', 7, 'CONTINUOUS'],       // 地坪線／天花線
     ['A-OPEN', 4, 'CONTINUOUS'],        // 門窗
     ['A-OPEN-SYM', 9, 'DASHED'],        // 門開啟方向
@@ -703,6 +705,11 @@
       }
     });
 
+    // 樑柱
+    rooms.forEach(room => M().structBoxes(room).forEach(b => {
+      const q = b.poly.map(T);
+      if (b.s.kind === 'col') { doc.pline(q, 'S-COLS', true); doc.hatch45(q, p(1.5), 'S-COLS'); } else doc.pline(q, 'S-BEAM', true);
+    }));
     // 櫃體：先落地後吊櫃
     const cabs = (st.cabinets || []).slice().sort((a, b) => (a.hanging ? 1 : 0) - (b.hanging ? 1 : 0));
     cabs.forEach(c => {

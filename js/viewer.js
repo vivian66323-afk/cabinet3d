@@ -413,7 +413,7 @@
     if (!st.room) { V.updateCeilGrips(); return; }   // 空間刪掉時也要把天花編輯掣點一起清掉，不能留著指向已不存在的空間
     allRooms().forEach(r => {
       const active = r === st.room;
-      const g = M().buildRoom(r, { selectedWall: active && App.sel && App.sel.type === 'wall' ? App.sel.index : -1 });
+      const g = M().buildRoom(r, { selectedWall: active && App.sel && App.sel.type === 'wall' ? App.sel.index : -1, selectedStruct: App.sel && App.sel.type === 'struct' ? App.sel.id : null });
       g.userData.roomId = r.id; g.traverse(o => { o.userData.roomId = r.id; });
       scene.add(g); roomGroups.push(g);
       if (active) roomGroup = g;
@@ -811,6 +811,7 @@
       if (cpk) { const hit = { type: 'ceil', kind: cpk.kind, id: cpk.id, point: h.point }; if (h.object.parent && h.object.parent.userData.ghostOn) { if (!ghostCeil || (/^(zone|base)$/.test(ghostCeil.kind) && /^(fx|st)$/.test(hit.kind))) ghostCeil = hit; continue; } return hit; }   // 半透明時燈具優先於天花板面
       if (h.object.userData.cabId) return { type: 'cab', id: h.object.userData.cabId, point: h.point };
       if (ghostCeil) continue;   // 半透明天花底下只讓櫃體優先，牆與地板讓給天花
+      if (h.object.userData.structId) return { type: 'struct', id: h.object.userData.structId, roomId: h.object.userData.roomId, point: h.point };
       let o = h.object, opening = null;
       while (o && o.userData.wallIndex == null && o.parent) { if (o.userData.opening) opening = { id: o.userData.opening, wall: o.userData.ofWall }; o = o.parent; }
       if (opening) return { type: 'wall', index: opening.wall, opening: opening.id, roomId: o && o.userData.roomId, point: h.point };
@@ -932,6 +933,7 @@
       const h = pick();
       if (!h || h.type === 'floor') { if (h && h.roomId) V.activateRoom(h.roomId); App.select(null); return; }
       if (h.type === 'ceil') { App.select({ type: 'ceil', kind: h.kind, id: h.id }); return; }
+      if (h.type === 'struct') { V.activateRoom(h.roomId); App.select({ type: 'struct', id: h.id }); return; }
       if (h.type === 'cab') {
         App.select({ type: 'cab', id: h.id });
         down.cand = h;
@@ -961,7 +963,7 @@
     if (pg0) { renderer.domElement.style.cursor = (typeof pg0 === 'object' ? (pg0.kind === 't' || pg0.kind === 'b') : pg0 === 'd') ? 'ns-resize' : 'ew-resize'; return; }
     if (t === 'select' || t === 'move' || t === 'rotate') {
       const h = pick();
-      renderer.domElement.style.cursor = h && h.type === 'cab' ? (t === 'rotate' ? 'alias' : 'move') : (h && (h.type === 'wall' || h.type === 'ceil') ? 'pointer' : 'default');
+      renderer.domElement.style.cursor = h && h.type === 'cab' ? (t === 'rotate' ? 'alias' : 'move') : (h && (h.type === 'wall' || h.type === 'ceil' || h.type === 'struct') ? 'pointer' : 'default');
     }
   }
   function onUp() {
@@ -1253,6 +1255,9 @@
         if (cabsOverlap(a, b)) { mark(a, M().cabName(b)); mark(b, M().cabName(a)); }
       }
       if (outsideRoom(list[i])) mark(list[i], '牆面');
+      // 樑柱：平面重疊且高度也重疊才算（矮櫃可以放在樑下）
+      { const cb = cabBoxes(list[i]);
+        allRooms().forEach(rm => M().structBoxes(rm).forEach(sb => { if (cb.some(x => Math.min(x.y1, sb.y1) - Math.max(x.y0, sb.y0) > TOL && sat(x.poly, sb.poly) > TOL)) mark(list[i], M().structName(rm, sb.s)); })); }
     }
     return bad;
   };
@@ -1594,7 +1599,7 @@
   const SURF_TARGET = /^(fx:|row:|grid:|strip|track|supply|ret|acsys)/;
   function drawY(x, z) {
     const t = V.lineTarget, r = App.state && App.state.room;
-    if (V.tool !== 'line' || !t || t === 'room' || /^ol:/.test(t) || !r || !window.Ceiling) return 0;
+    if (V.tool !== 'line' || !t || t === 'room' || /^(ol:|col$|sbeam$)/.test(t) || !r || !window.Ceiling) return 0;
     const C = window.Ceiling;
     if (SURF_TARGET.test(t) && x != null) return C.heightAt(r, x, z);
     return C.ensure(r).h;
@@ -1622,6 +1627,8 @@
     draw.pts.push(r.p);
     redrawLine();
     if (/^ol:/.test(V.lineTarget)) { const p = draw.pts.pop(); redrawLine(); App.ui.placeOutlet(V.lineTarget.slice(3), p); return; }
+    if (V.lineTarget === 'col') { const p = draw.pts.pop(); redrawLine(); App.ui.placeColumn(p); return; }   // 柱：每點一下放一根
+    if (V.lineTarget === 'sbeam') { if (draw.pts.length >= 2) { const pts = draw.pts.slice(0, 2); V.cancelLine(); V.setTool('select'); App.ui.finishBeam(pts); } return; }   // 樑：兩點
     if (/^fx:/.test(V.lineTarget)) {   // 點狀設備：每點一下放一個，持續放置直到取消
       const p = draw.pts.pop(); redrawLine(); App.ui.placeFixture(V.lineTarget.slice(3), p); return;
     }
@@ -1787,6 +1794,8 @@
     };
     if (V.touch) Object.assign(hints, { select: '選取：點櫃體或牆面，拖曳可移動；雙指縮放／平移，「環轉」工具單指旋轉視角，快點兩下縮放至空間', line: '畫線：點各轉角，用下方按鈕「完成封閉」或點回起點；可輸入長度', orbit: '環轉：單指拖曳旋轉視角，雙指縮放／平移' });
     if (t === 'line' && V.lineTarget !== 'room') hints.line = { zone: '畫降板區：在平面上點各轉角，點回起點或按「完成封閉」結束', raise: '畫灑水頭下高區：點各轉角，點回起點結束', beam: '畫包樑：點樑的起點與終點（中心線）', strip: '畫鋁槽燈：點燈的起點與終點' }[V.lineTarget] || hints.line;
+    if (t === 'line' && V.lineTarget === 'col') hints.line = '放柱：點柱子的位置（靠近牆角會自動貼齊牆面），可連續點；Esc 結束';
+    if (t === 'line' && V.lineTarget === 'sbeam') hints.line = '畫樑：點樑的起點與終點（樑中心線）';
     if (t !== 'place') App.status(hints[t] || '');
     App.ui && App.ui.syncToolbar();
   };
