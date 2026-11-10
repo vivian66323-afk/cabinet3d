@@ -309,6 +309,8 @@ table.pt .sw-img { width: 22px; height: 22px; vertical-align: middle; }
 .mini-bar button:hover { background: var(--accent-2); color: var(--accent); }
 .mini-bar button.del:hover { background: #fdecea; color: var(--danger); }
 .mini-bar .mini-sep { width: 1px; background: var(--line-2); margin: 3px 2px; }
+.mini-bar button small { display: block; font-size: 9px; font-weight: 500; line-height: 1; margin-top: 1px; opacity: .7; }
+.mini-bar button:has(small) { padding: 3px 7px; line-height: 1.1; }
 .mini-bar select { border: 1px solid var(--line-2); border-radius: 5px; background: #fff; font-size: 11.5px; padding: 2px 4px; cursor: pointer; }
 
 /* ---------- 樓層 ---------- */

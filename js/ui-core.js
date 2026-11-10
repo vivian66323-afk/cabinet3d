@@ -88,7 +88,7 @@
       const a = b.dataset.mini;
       if (a === 'rotl') App.rotateSelected(-90);
       else if (a === 'rotr') App.rotateSelected(90);
-      else if (['left', 'right', 'up', 'down'].includes(a)) App.nudgeDir(a, e.shiftKey ? 10 : 1);
+      else if (['left', 'right', 'up', 'down', 'raise', 'lower'].includes(a)) App.nudgeDir(a, e.shiftKey ? 10 : 1);
       else if (a === 'dup') App.duplicateSelected();
       else if (a === 'del') App.deleteSelected();
     });

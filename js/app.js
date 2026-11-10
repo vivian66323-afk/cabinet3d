@@ -256,6 +256,13 @@
   App.nudgeDir = function (dir, mult) {
     const cab = App.selectedCab(); if (!cab) return;
     const step = App.nudgeStep() * (mult || 1);
+    if (dir === 'raise' || dir === 'lower') {        // 上下：離地高度
+      if (cab.locked) { App.toast('已鎖定，無法移動'); return; }
+      const ny = Math.max(0, Math.round((cab.y + (dir === 'raise' ? step : -step)) * 1000) / 1000);
+      if (ny === cab.y) { App.toast('已在地面，不能再往下'); return; }
+      App.mutate('微調高度', () => { cab.y = ny; }, [cab.id]);
+      return;
+    }
     const ax = window.Viewer && window.Viewer.screenAxes ? window.Viewer.screenAxes() : { right: [1, 0], up: [0, -1] };
     const v = dir === 'left' ? [-ax.right[0], -ax.right[1]] : dir === 'right' ? ax.right : dir === 'up' ? ax.up : [-ax.up[0], -ax.up[1]];
     App.nudge(Math.round(v[0] * step * 1000) / 1000, Math.round(v[1] * step * 1000) / 1000);

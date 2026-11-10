@@ -520,8 +520,8 @@
     if (a === 'room-rebuild-rect') { UI.roomDialog('replace'); return; }
     if (a === 'room-go') { App.setActiveRoom(+b.dataset.i); return; }
     if (a && a.startsWith('ul-')) { window.Underlay.click(a); return; }   // 門片列／層板／門窗的按鈕只有 data-ra／data-sa／data-oa，沒有 data-a
-    if (a === 'room-line') { V().lineRoomMode = 'add'; UI.action('line'); return; }
-    if (a === 'room-rebuild-line') { V().lineRoomMode = 'replace'; UI.action('line'); return; }
+    if (a === 'room-line') { UI.action('line'); return; }
+    if (a === 'room-rebuild-line') { UI.action('line', 'replace'); return; }
     if (a === 'room-del') { const ri = b.dataset.i != null ? +b.dataset.i : st.roomIdx, rm = (st.rooms || [])[ri]; if (rm && await UI.confirm('刪除房間', `刪除「${rm.name || '房間'}」的牆面、門窗與天花設定（櫃體保留）？`)) App.deleteRoom(ri); return; }
     if (a === 'wall') { App.select({ type: 'wall', index: +b.dataset.i }); return; }
     if (a === 'apply-all') {

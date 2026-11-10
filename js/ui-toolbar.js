@@ -59,7 +59,7 @@
     syncLineInput();
   };
 
-  UI.action = function (a) {
+  UI.action = function (a, opt) {
     const v = V();
     if (a.startsWith('view:')) { v.setView(a.slice(5)); return; }
     switch (a) {
@@ -67,6 +67,9 @@
       case 'underlay': window.Underlay.import(); break;
       case 'lamps': v.lampsOn = v.lampsOn === false; try { localStorage.setItem('cab3d.lamps', v.lampsOn ? 'on' : 'off'); } catch (e) { /* 忽略 */ } v.rebuildAll(); UI.syncToolbar(); App.toast(v.lampsOn ? '燈具光源已開啟' : '燈具光源已關閉'); break;
       case 'line':
+        // 只有屬性面板的「重新繪製」才是取代目前房間；從工具列／快捷鍵 L 進來一律是新增房間。
+        // （以前按過「重新繪製」又取消，取代模式會殘留，下次畫新房間就把原本的房間換掉、牆整個不見）
+        v.lineRoomMode = opt === 'replace' ? 'replace' : 'add';
         v.setTool('line');
         if (App.state.room) App.toast(v.lineRoomMode === 'replace' ? '完成繪製後將取代目前房間（櫃體保留）' : '沿底圖牆線點各轉角，封閉後可新增為新房間；畫線會鎖到底圖的端點、中點與線上');
         break;
@@ -93,7 +96,7 @@
       <kbd>中鍵拖曳</kbd><span>環轉視角</span><kbd>Shift+中鍵</kbd><span>平移（或右鍵拖曳）</span><kbd>滾輪</kbd><span>以游標為中心縮放</span>
       <kbd>空白鍵</kbd><span>選取工具</span><kbd>M / Q</kbd><span>移動 / 旋轉 90°</span><kbd>R / L</kbd><span>矩形空間 / 畫線空間</span>
       <kbd>T</kbd><span>捲尺量測</span><kbd>O / H / Z</kbd><span>環轉 / 平移 / 縮放工具</span><kbd>Shift+Z</kbd><span>充滿視窗</span><kbd>快按左鍵兩下</kbd><span>任何位置：縮放至實際空間最適大小</span>
-      <kbd>方向鍵</kbd><span>依畫面方向微調（級距 1mm～1m 在選取物件的浮動列選，Shift ×10）</span><kbd>Ctrl+C / V / D</kbd><span>複製 / 貼上 / 就地複製</span>
+      <kbd>方向鍵</kbd><span>左右前後微調（依畫面方向；級距在選取物件的浮動列選，Shift ×10）</span><kbd>PageUp / PageDown</kbd><span>上下微調（離地高度）</span><kbd>Ctrl+C / V / D</kbd><span>複製 / 貼上 / 就地複製</span>
       <kbd>Ctrl+Z / Y</kbd><span>復原 / 重做</span><kbd>Shift＋快按兩下櫃體</kbd><span>開門預覽</span><kbd>數值框</kbd><span>畫線或移動時直接輸入數字 + Enter</span>
     </div>`;
   }
@@ -145,6 +148,8 @@
       case 'ArrowRight': App.nudgeDir('right', e.shiftKey ? 10 : 1); e.preventDefault(); break;
       case 'ArrowUp': App.nudgeDir('up', e.shiftKey ? 10 : 1); e.preventDefault(); break;
       case 'ArrowDown': App.nudgeDir('down', e.shiftKey ? 10 : 1); e.preventDefault(); break;
+      case 'PageUp': if (App.selectedCab()) { App.nudgeDir('raise', e.shiftKey ? 10 : 1); e.preventDefault(); } break;
+      case 'PageDown': if (App.selectedCab()) { App.nudgeDir('lower', e.shiftKey ? 10 : 1); e.preventDefault(); } break;
     }
   }
   /* ---------- 畫牆線：數據輸入框（固定停在 3D 區底部正中央，不跟著滑鼠，免得壓到要點的下一個點） ---------- */
