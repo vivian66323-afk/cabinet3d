@@ -734,6 +734,8 @@
     const s = App.sel;
     const mini = document.getElementById('miniBar');
     if (mini) mini.hidden = true;
+    const selLbl = document.getElementById('selLabel');
+    if (selLbl) selLbl.hidden = true;
     if (s && s.type === 'cab') {
       const cab = App.state.cabinets.find(c => c.id === s.id);
       const g = cabObjs.get(s.id);
@@ -747,7 +749,8 @@
         // 櫃體名稱本身已含 W/D/H，不再重複；桌面與設備的名稱沒有尺寸，才補上
         const nm = M().cabName(cab);
         const lbl = ((cab.kind === 'desk' || cab.kind === 'appl') ? `${nm}  W${cab.w} x D${cab.d} x H${cab.h} mm` : nm) + (cab.locked ? '　🔒 已鎖定' : '');
-        put(new THREE.Vector3((b.min.x + b.max.x) / 2, b.max.y + 60, (b.min.z + b.max.z) / 2), lbl, 'sel');
+        // 型號尺寸標籤固定在 3D 區上方（方向面板下面），不壓在物件上
+        if (selLbl) { selLbl.textContent = lbl; selLbl.hidden = false; }
       }
     }
     if (s && s.type === 'wall' && App.state.room) {

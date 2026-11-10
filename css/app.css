@@ -305,6 +305,7 @@ table.pt .sw-img { width: 22px; height: 22px; vertical-align: middle; }
 
 /* ---------- 選取物件浮動工具列 ---------- */
 .mini-bar { position: absolute; left: 50%; top: 54px; transform: translateX(-50%); display: flex; gap: 2px; background: #fff; border: 1px solid var(--line-2); border-radius: 8px; padding: 3px; box-shadow: 0 4px 14px rgba(0,0,0,.14); z-index: 5; }
+.sel-label { position: absolute; left: 50%; top: 100px; transform: translateX(-50%); z-index: 5; background: var(--accent); color: #fff; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 5px; white-space: nowrap; max-width: 90%; overflow: hidden; text-overflow: ellipsis; pointer-events: none; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
 .mini-bar button { border: 0; background: none; padding: 5px 9px; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .mini-bar button:hover { background: var(--accent-2); color: var(--accent); }
 .mini-bar button.del:hover { background: #fdecea; color: var(--danger); }
