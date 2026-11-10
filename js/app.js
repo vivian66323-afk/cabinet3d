@@ -94,6 +94,7 @@
     Object.assign(out, fixRooms(s.rooms, s.room, s.roomIdx));
     out.floors[out.floor].room = out.room; out.floors[out.floor].rooms = out.rooms; out.floors[out.floor].roomIdx = out.roomIdx;
     out.floors[out.floor].cabinets = out.cabinets;
+    out.floors[out.floor].underlay = out.underlay || null;
     out.scenes = out.scenes || [];
     return out;
   }
@@ -131,7 +132,15 @@
     const f = st.floors[st.floor]; if (!f) return;
     f.room = st.room; f.rooms = st.rooms || (st.room ? [st.room] : []); f.roomIdx = st.roomIdx || 0; f.cabinets = st.cabinets; f.underlay = st.underlay || null;
   };
-  function snapshot() { App.syncFloor(); return JSON.stringify(App.state); }
+  // 目前樓層的房間／櫃體／底圖在 state 最上層已有一份，floors[目前樓層] 是同一批物件：快照不重複寫（底圖是整張圖，重複一次就多好幾 MB），
+  // 還原時 normalize 會從最上層補回。opt.noImage：連底圖影像也不寫（暫存空間不夠時的退路，房間與櫃體要保住）
+  function snapshot(opt) {
+    App.syncFloor();
+    const st = App.state, noImg = opt && opt.noImage;
+    const slim = { ...st, floors: (st.floors || []).map((f, i) => i === st.floor ? { ...f, room: undefined, rooms: undefined, cabinets: undefined, underlay: undefined } : (noImg && f.underlay ? { ...f, underlay: null } : f)) };
+    if (noImg) slim.underlay = null;
+    return JSON.stringify(slim);
+  }
   const userKey = u => LS_STATE + '.' + (u && u.name ? u.name : '_guest');
   // 讀出本分頁暫存的專案（未 normalize）；沒有或壞掉回傳 null
   function readSaved(u) {
@@ -143,7 +152,15 @@
   }
   App.dirty = false;
   App.save = function () {
-    try { STORE.setItem(userKey(App.user), snapshot()); } catch (e) { /* 儲存空間不足時忽略 */ }
+    try { STORE.setItem(userKey(App.user), snapshot()); App.saveState = 'ok'; }
+    catch (e) {
+      // 瀏覽器分頁暫存放不下（多半是底圖太大）。以前是默默略過，暫存停在舊版本，重新整理後畫面退回舊狀態、後來畫的房間不見。
+      // 現在改存不含底圖影像的版本，房間與櫃體保住；仍放不下就清掉舊暫存，避免還原成過期內容
+      let ok = false;
+      try { STORE.setItem(userKey(App.user), snapshot({ noImage: true })); ok = true; } catch (e2) { try { STORE.removeItem(userKey(App.user)); } catch (e3) { /* 忽略 */ } }
+      const was = App.saveState; App.saveState = ok ? 'noimage' : 'fail';
+      if (was !== App.saveState && App.toast) App.toast(ok ? '專案含大張底圖，瀏覽器暫存放不下：重新整理後房間與櫃體會保留，但底圖需重新匯入。建議先按「儲存專案」' : '專案太大，瀏覽器無法暫存：重新整理或關閉前請務必先按「儲存專案」');
+    }
   };
 
   // 所有會改變狀態的動作都經過 mutate，以支援復原
