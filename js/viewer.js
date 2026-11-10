@@ -704,18 +704,38 @@
   function updateLabels() {
     overlay.innerHTML = '';
     const w = container.clientWidth, h = container.clientHeight;
-    const put = (p, text, cls) => {
+    const put = (p, text, cls, dx = 0, dy = 0) => {
       const v = p.clone().project(camera);
       if (v.z > 1) return;
       if (cls === 'dim' && occluded(p)) return;
       const el = document.createElement('div');
       el.className = 'vp-label ' + (cls || '');
       el.textContent = text;
-      el.style.left = ((v.x + 1) / 2 * w) + 'px'; el.style.top = ((1 - v.y) / 2 * h) + 'px';
+      el.style.left = ((v.x + 1) / 2 * w + dx) + 'px'; el.style.top = ((1 - v.y) / 2 * h + dy) + 'px';
       overlay.appendChild(el);
     };
+    // 選取中物件在畫面上的範圍：離牆距離與房間名稱的標籤不能蓋在它上面（俯視時最明顯）
+    const scr = p => { const v = p.clone().project(camera); return [(v.x + 1) / 2 * w, (1 - v.y) / 2 * h]; };
+    const selR = (() => {
+      const s0 = App.sel, g0 = s0 && s0.type === 'cab' ? cabObjs.get(s0.id) : null; if (!g0) return null;
+      const bx = new THREE.Box3().setFromObject(g0); if (bx.isEmpty()) return null;
+      const r = { x0: Infinity, x1: -Infinity, y0: Infinity, y1: -Infinity };
+      for (let i = 0; i < 8; i++) { const q = scr(new THREE.Vector3(i & 1 ? bx.max.x : bx.min.x, i & 2 ? bx.max.y : bx.min.y, i & 4 ? bx.max.z : bx.min.z)); r.x0 = Math.min(r.x0, q[0]); r.x1 = Math.max(r.x1, q[0]); r.y0 = Math.min(r.y0, q[1]); r.y1 = Math.max(r.y1, q[1]); }
+      return r;
+    })();
+    const halfW = text => text.length * 3.8 + 10;
+    const hitSel = (x, y, text) => selR && x + halfW(text) > selR.x0 - 4 && x - halfW(text) < selR.x1 + 4 && y + 12 > selR.y0 - 4 && y - 12 < selR.y1 + 4;
     labels.forEach(l => put(l.p, l.text, l.cls));
-    V.gapLabels.forEach(l => put(l.p, l.text, l.cls));
+    V.gapLabels.forEach(l => {
+      const m = scr(l.p);
+      if (!l.a || !hitSel(m[0], m[1], l.text)) { put(l.p, l.text, l.cls); return; }
+      // 距離太短、標籤會壓到物件：沿著量測線往牆的方向推到物件外面
+      const a = scr(l.a), b = scr(l.b); let ux = b[0] - a[0], uy = b[1] - a[1]; const ul = Math.hypot(ux, uy);
+      if (ul < 1) { ux = 0; uy = -1; } else { ux /= ul; uy /= ul; }
+      let dx = 0, dy = 0;
+      for (let k = 0; k < 40 && hitSel(m[0] + dx, m[1] + dy, l.text); k++) { dx += ux * 8; dy += uy * 8; }
+      put(l.p, l.text, l.cls, dx, dy);
+    });
     // 鎖點標記
     if (V.tool === 'tape' || V.tool === 'line' || V.tool === 'uscale') {
       const mark = (p, type, tip) => {
@@ -770,7 +790,7 @@
           put(new THREE.Vector3(wi.mid[0] + wi.nOut[0] * 400, 10, wi.mid[1] + wi.nOut[1] * 400), Math.round(wi.len) + '', 'dim');
         });
         // 多房間：各房間中央標房間名（目前編輯中的房間套色）
-        if (rooms.length > 1) { const n = room.points.length, c = room.points.reduce((a, p) => [a[0] + p[0] / n, a[1] + p[1] / n], [0, 0]); put(new THREE.Vector3(c[0], 20, c[1]), room.name || '', room === App.state.room ? 'room on' : 'room'); }
+        if (rooms.length > 1) { const n = room.points.length, c = room.points.reduce((a, p) => [a[0] + p[0] / n, a[1] + p[1] / n], [0, 0]); const rp = new THREE.Vector3(c[0], 20, c[1]), rs = scr(rp); if (!hitSel(rs[0], rs[1], room.name || '')) put(rp, room.name || '', room === App.state.room ? 'room on' : 'room'); }
       });
     }
   }
@@ -1336,7 +1356,7 @@
         const tick = new THREE.Line(new THREE.BufferGeometry().setFromPoints([p.clone().sub(perp), p.clone().add(perp)]), new THREE.LineBasicMaterial({ color: col, depthTest: false }));
         tick.renderOrder = 997; gapGroup.add(tick);
       });
-      V.gapLabels.push({ p: a.clone().add(b).multiplyScalar(0.5), text: `${g.axis === 'X' ? 'X' : 'Y'} ${g.d} mm`, cls: 'gap gap-' + g.axis.toLowerCase() });
+      V.gapLabels.push({ a, b, p: a.clone().add(b).multiplyScalar(0.5), text: `${g.axis === 'X' ? 'X' : 'Y'} ${g.d} mm`, cls: 'gap gap-' + g.axis.toLowerCase() });
     });
     helperGroup.add(gapGroup);
   };
