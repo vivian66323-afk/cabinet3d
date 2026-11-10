@@ -249,6 +249,112 @@
   }
   function wallName(i) { return '牆面 ' + (i + 1); }
 
+  /* ================= 局部牆面修改 =================
+     wallPush：整面牆沿法線推拉（d>0 往室內、d<0 往室外），相鄰牆跟著變長／變短
+     wallJog ：牆上一段做凹凸（從牆起點 a 起、寬 w、深 d；d>0 往室內凸、d<0 往室外凹），插入 4 個轉角
+     兩者都直接改 room，回傳 { err } 或 { dropped: 放不下而移除的門窗數, id: 被修改的那面牆的 id }。呼叫端先在複本上試跑確認沒有 err 再套用 */
+  const segLen = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
+  function wallEditBegin(room) {
+    const outs = (room.outlets || []).filter(o => o.wall != null && room.walls[o.wall]).map(o => { const wi = wallInfo(room, o.wall); return { o, x: wi.p[0] + wi.dir[0] * o.offset, z: wi.p[1] + wi.dir[1] * o.offset }; });
+    return { outs, ids: room.walls.map(w => w.id) };
+  }
+  function selfCross(pts) {
+    const n = pts.length, cr = (a, b, c) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+      if (j === i + 1 || (i === 0 && j === n - 1)) continue;
+      const a = pts[i], b = pts[(i + 1) % n], c = pts[j], d = pts[(j + 1) % n];
+      if (cr(a, b, c) * cr(a, b, d) < -1e-6 && cr(c, d, a) * cr(c, d, b) < -1e-6) return true;
+    }
+    return false;
+  }
+  // 清掉 0 長度的牆、合併同方向共線且同色未鎖定的相鄰牆
+  function cleanupWalls(room) {
+    for (let guard = 0; guard < 50 && room.points.length > 3; guard++) {
+      const n = room.points.length; let done = false;
+      for (let i = 0; i < n && !done; i++) {
+        if (segLen(room.points[i], room.points[(i + 1) % n]) < 1) { room.points.splice(i < n - 1 ? i + 1 : i, 1); room.walls.splice(i, 1); done = true; }
+      }
+      for (let i = 0; i < n && !done; i++) {
+        const a = room.points[(i - 1 + n) % n], b = room.points[i], c = room.points[(i + 1) % n], la = segLen(a, b), lb = segLen(b, c);
+        const cross = ((b[0] - a[0]) * (c[1] - b[1]) - (b[1] - a[1]) * (c[0] - b[0])) / (la * lb), dot = (b[0] - a[0]) * (c[0] - b[0]) + (b[1] - a[1]) * (c[1] - b[1]);
+        const w0 = room.walls[(i - 1 + n) % n], w1 = room.walls[i];
+        if (Math.abs(cross) < 1e-4 && dot > 0 && !w0.locked && !w1.locked && (w0.color || '') === (w1.color || '')) {
+          w1.openings.forEach(o => { o.offset += la; w0.openings.push(o); });
+          room.points.splice(i, 1); room.walls.splice(i, 1); done = true;
+        }
+      }
+      if (!done) break;
+    }
+  }
+  function wallEditEnd(room, ctx) {
+    cleanupWalls(room);
+    let dropped = 0;
+    room.points.forEach((_, i) => {
+      const L = wallInfo(room, i).len, w = room.walls[i], keep = w.openings.filter(o => o.width <= L - 20 && o.offset > -o.width / 2 && o.offset < L - o.width / 2);
+      dropped += w.openings.length - keep.length; w.openings = keep;
+      keep.forEach(o => { o.offset = Math.round(Math.max(10, Math.min(L - o.width - 10, o.offset))); });
+    });
+    ctx.outs.forEach(({ o, x, z }) => {   // 插座跟著牆走：回到最近的新牆面
+      let best = null;
+      room.points.forEach((_, i) => { const wi = wallInfo(room, i), t = Math.max(0, Math.min(wi.len, (x - wi.p[0]) * wi.dir[0] + (z - wi.p[1]) * wi.dir[1])), dd = Math.hypot(wi.p[0] + wi.dir[0] * t - x, wi.p[1] + wi.dir[1] * t - z); if (!best || dd < best.dd) best = { dd, i, t }; });
+      if (best) { o.wall = best.i; o.offset = Math.round(best.t); }
+    });
+    const c = room.ceiling;
+    if (c && c.zones) c.zones.forEach(z => { if (z.wall != null) { const k = room.walls.findIndex(w => w.id === ctx.ids[z.wall]); if (k >= 0) z.wall = k; else delete z.wall; } });
+    if (room.points.length < 3 || Math.abs(polyArea(room.points)) < 1e4) return { err: '修改後空間太小或不成形' };
+    if (selfCross(room.points)) return { err: '修改後牆面會互相交叉，請減少距離' };
+    return { dropped };
+  }
+  function wallPush(room, i, d) {
+    const n = room.points.length, W = room.walls[i];
+    if (!W) return { err: '找不到牆面' };
+    if (W.locked) return { err: '此牆面已鎖定，請先解鎖' };
+    if (!isFinite(d) || Math.abs(d) < 1) return { err: '請輸入推拉距離（mm）' };
+    const ctx = wallEditBegin(room), wi = wallInfo(room, i), j = (i + 1) % n, h = (i - 1 + n) % n, k = (j + 1) % n;
+    const P = room.points[i], Q = room.points[j], A = room.points[h], B = room.points[k];
+    const nP = [P[0] + wi.nIn[0] * d, P[1] + wi.nIn[1] * d], nQ = [Q[0] + wi.nIn[0] * d, Q[1] + wi.nIn[1] * d];
+    const dPrev = [P[0] - A[0], P[1] - A[1]], dNext = [B[0] - Q[0], B[1] - Q[1]];
+    if ((nP[0] - A[0]) * dPrev[0] + (nP[1] - A[1]) * dPrev[1] < -1e-6 || (B[0] - nQ[0]) * dNext[0] + (B[1] - nQ[1]) * dNext[1] < -1e-6) return { err: '推拉距離超過相鄰牆的長度' };
+    // 下一面牆的起點被移動：門窗的「距起點」跟著改，世界位置才不會跑掉
+    { const ln = Math.hypot(dNext[0], dNext[1]) || 1, sh = ((Q[0] - nQ[0]) * dNext[0] + (Q[1] - nQ[1]) * dNext[1]) / ln; room.walls[j].openings.forEach(o => { o.offset += sh; }); }
+    room.points[i] = nP.map(Math.round); room.points[j] = nQ.map(Math.round);
+    const res = wallEditEnd(room, ctx);
+    return res.err ? res : { ...res, id: W.id };
+  }
+  function wallJog(room, i, a, w, d) {
+    const W = room.walls[i];
+    if (!W) return { err: '找不到牆面' };
+    if (W.locked) return { err: '此牆面已鎖定，請先解鎖' };
+    const wi = wallInfo(room, i), L = wi.len;
+    if (![a, w, d].every(isFinite)) return { err: '請輸入距離、寬度與深度（mm）' };
+    if (w < 50) return { err: '寬度至少 50 mm' };
+    if (Math.abs(d) < 20) return { err: '深度至少 20 mm' };
+    if (a < -0.5 || a + w > L + 0.5) return { err: `範圍超出牆面（牆長 ${Math.round(L)} mm）` };
+    a = Math.max(0, a); const e = Math.min(L, a + w);
+    const ctx = wallEditBegin(room);
+    const at = t => [wi.p[0] + wi.dir[0] * t, wi.p[1] + wi.dir[1] * t], off = p => [Math.round(p[0] + wi.nIn[0] * d), Math.round(p[1] + wi.nIn[1] * d)];
+    const mk = () => ({ id: uid('w'), locked: false, openings: [], ...(W.color ? { color: W.color } : {}), ...(W.paint ? { paint: W.paint } : {}) });
+    const hasL = a >= 1, hasR = e <= L - 1, olds = W.openings; W.openings = [];
+    const seg0 = hasL ? W : null, mid = hasL ? mk() : W, seg2 = hasR ? mk() : null;
+    olds.forEach(o => {
+      if (seg0 && o.offset + o.width <= a + 1) seg0.openings.push(o);
+      else if (o.offset >= a - 1 && o.offset + o.width <= e + 1) { o.offset -= a; mid.openings.push(o); }
+      else if (seg2 && o.offset >= e - 1) { o.offset -= e; seg2.openings.push(o); }
+      else o.width = Infinity;   // 跨在轉角上：交給 wallEditEnd 移除並計數
+    });
+    olds.filter(o => o.width === Infinity).forEach(o => mid.openings.push(o));
+    const pts = [], walls = [];
+    if (hasL) { pts.push(at(a).map(Math.round)); walls.push(seg0); }
+    walls.push(hasL ? mk() : mk());                    // 回折牆（起點側）
+    pts.push(off(at(a)), off(at(e))); walls.push(mid);
+    if (hasR) { pts.push(at(e).map(Math.round)); walls.push(mk(), seg2); } else walls.push(mk());
+    // 原牆 i 換成 walls；pts 插在 P 之後
+    room.points.splice(i + 1, 0, ...pts);
+    room.walls.splice(i, 1, ...walls);
+    const res = wallEditEnd(room, ctx);
+    return res.err ? res : { ...res, id: mid.id };
+  }
+
   /* ================= 3D ================= */
   const matCache = new Map();
   let grainTex = null;
@@ -1762,7 +1868,7 @@
 
   window.Model = {
     init(T) { THREE = T; },
-    uid, structBoxes, structName, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS, GLASS_TYPES, ALU_COLORS, glassMat,
+    uid, structBoxes, structName, wallPush, wallJog, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS, GLASS_TYPES, ALU_COLORS, glassMat,
     createRoom, rectRoom, wallInfo, wallName, polyArea, pointInPoly, isModified, cabName,
     rowLip, OPEN_ROW, E_FRONT, buildCabinet, buildRoom, triShape, getMat, clearMatCache, clearSwatchTex, grainOf, imgGrainOf, floorDef, deskGeom, resizeCabinet, handleOf, handleEdge, insetPos, counterOver, deskHoles, isCounterAppl, toLocal, toWorld
   };

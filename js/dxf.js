@@ -486,6 +486,11 @@
     doc.rect(X0, Y0, L, H, 'A-WALL');
     doc.line(X0 - p(6), Y0, X0 + L + p(6), Y0, 'A-FLOOR');
 
+    // 樑柱
+    window.Drawings.wallStructs(st, i).forEach(q => {
+      doc.rect(X0 + q.left, Y0 + q.y0, q.width, q.y1 - q.y0, q.s.kind === 'col' ? 'S-COLS' : 'S-BEAM');
+      doc.text(X0 + q.left + q.width / 2, Y0 + (q.y0 + q.y1) / 2, p(2.2), q.name, { layer: q.s.kind === 'col' ? 'S-COLS' : 'S-BEAM', align: 'c', valign: 'mid' });
+    });
     // 門窗
     (room.walls[i].openings || []).forEach(op => {
       const fwd = (wi.dir[0] * -wi.nOut[1] + wi.dir[1] * wi.nOut[0]) > 0;

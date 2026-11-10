@@ -335,6 +335,36 @@ const CASES = [
     t.ok(b[2].y0 === 2300 && b[2].y1 === 2800 && ext(b[2].poly).every((v, i) => near(v, [0, 4000, 1350, 1650][i], 0.01)), '樑底 2300、寬 300 置中於中心線');
     t.eq(Model.structName(room, room.structs[1]) + Model.structName(room, room.structs[2]), '柱2樑1', '名稱依種類編號');
   }],
+  ['model:wall-edit', '局部牆面修改：整面推拉（相鄰牆變長、下一面牆門窗位置不跑）、局部凹凸（插入 4 個轉角、門窗分到各段）、推回原位自動拉平、不合理的距離回報錯誤', (t, sb) => {
+    const { Model } = sb.window;
+    const mk = () => Model.createRoom([[0, 0], [4000, 0], [4000, 3000], [0, 3000]], 2800, 120);
+    const area = r => Math.abs(Model.polyArea(r.points));
+    // 推拉
+    let r = mk(); r.walls[1].openings.push({ id: 'o1', type: 'window', width: 1000, height: 1200, sill: 900, offset: 500 });
+    const wi1 = Model.wallInfo(r, 1), wx = wi1.p[1] + wi1.dir[1] * 500;
+    let res = Model.wallPush(r, 0, -500);
+    t.ok(!res.err && near(area(r), 4000 * 3500, 1) && r.points.length === 4, '牆 1 往室外拉 500：面積變 4000×3500（' + JSON.stringify(r.points) + '）');
+    { const w2 = Model.wallInfo(r, 1), o = r.walls[1].openings[0]; t.ok(near(w2.p[1] + w2.dir[1] * o.offset, wx, 1), '下一面牆的窗世界位置不變（offset ' + o.offset + '）'); }
+    r = mk(); t.ok(!!Model.wallPush(r, 0, 3500).err && r.points.length === 4, '推超過相鄰牆長度回報錯誤');
+    r = mk(); r.walls[0].locked = true; t.ok(!!Model.wallPush(r, 0, 100).err, '鎖定牆不能改');
+    // 局部凸出
+    r = mk(); r.walls[0].openings.push({ id: 'a', type: 'door', width: 800, height: 2100, sill: 0, offset: 100 }, { id: 'b', type: 'window', width: 600, height: 1000, sill: 900, offset: 1700 }, { id: 'c', type: 'window', width: 600, height: 1000, sill: 900, offset: 1200 });
+    res = Model.wallJog(r, 0, 1500, 1000, 300);
+    t.ok(!res.err && r.points.length === 8 && r.walls.length === 8, '凸出後 8 個點 8 面牆');
+    t.ok(near(area(r), 4000 * 3000 - 1000 * 300, 1), '往室內凸：面積少 1000×300');
+    t.eq(res.dropped, 1, '跨在轉角上的窗移除 1 個');
+    t.ok(r.walls[0].openings.length === 1 && r.walls[0].openings[0].id === 'a' && r.walls[2].openings.length === 1 && near(r.walls[2].openings[0].offset, 200, 1), '門留在左段、中段的窗 offset 改成相對中段');
+    const midIdx = r.walls.findIndex(w => w.id === res.id);
+    t.eq(midIdx, 2, '回傳中段牆的 id');
+    // 推回原位 → 自動拉平
+    res = Model.wallPush(r, midIdx, -300);
+    t.ok(!res.err && r.points.length === 4 && near(area(r), 4000 * 3000, 1), '把凸出段推回 300 自動拉平成 4 面牆（' + r.points.length + ' 點）');
+    t.ok(r.walls[0].openings.length === 2, '拉平後門窗併回同一面牆');
+    // 局部凹入、貼齊牆端
+    r = mk(); res = Model.wallJog(r, 0, 0, 1000, -200);
+    t.ok(!res.err && r.points.length === 6 && near(area(r), 4000 * 3000 + 1000 * 200, 1), '貼著牆端往室外凹：只多 2 個點，面積多 1000×200');
+    r = mk(); t.ok(!!Model.wallJog(r, 0, 3500, 1000, 300).err, '超出牆長回報錯誤');
+  }],
 ];
 
 /* ---------- 執行 ---------- */

@@ -643,6 +643,20 @@
     return { wi, list, base, right };
   };
 
+  // 貼著此牆（300 mm 內）的樑柱在立面上的範圍：left／width 為從左邊起算（已裁到牆長內），y0／y1 為高度
+  Dr.wallStructs = function (st, i) {
+    const room = st.room, wi = M().wallInfo(room, i), right = [-wi.nOut[1], wi.nOut[0]];
+    const base = Math.min(0, (wi.q[0] - wi.p[0]) * right[0] + (wi.q[1] - wi.p[1]) * right[1]);
+    const out = [];
+    M().structBoxes(room).forEach(b => {
+      const ss = b.poly.map(q => (q[0] - wi.p[0]) * right[0] + (q[1] - wi.p[1]) * right[1] - base), ds = b.poly.map(q => (q[0] - wi.p[0]) * wi.nIn[0] + (q[1] - wi.p[1]) * wi.nIn[1]);
+      if (Math.min(...ds) > 300 || Math.max(...ds) < -50) return;
+      const l = Math.max(0, Math.min(...ss)), r = Math.min(wi.len, Math.max(...ss));
+      if (r - l < 5) return;
+      out.push({ s: b.s, left: l, width: r - l, y0: b.y0, y1: b.y1, name: M().structName(room, b.s) });
+    });
+    return out;
+  };
   Dr.elevation = function (pg, st, i, box) {
     const room = st.room;
     const { wi, list, base, right } = Dr.wallCabinets(st, i);
@@ -663,6 +677,13 @@
       if (o.type === 'window') { pg.line(ox + ow / 2, oy, ox + ow / 2, oy + oh, 0.15); pg.line(ox, oy + oh / 2, ox + ow, oy + oh / 2, 0.15); }
       else { pg.line(ox, oy, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); pg.line(ox, oy + oh, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); }
       pg.text(ox + ow / 2, oy - 1.2, `${o.type === 'door' ? '門' : '窗'} ${Dr.cm(o.width)}×${Dr.cm(o.height)}${o.sill ? ' 抬高' + Dr.cm(o.sill) : ''}`, { size: 5.5, align: 'center', color: '#69727d' });
+    });
+    // 樑柱：樑在前、柱在後，灰底；櫃體畫在它們前面
+    Dr.wallStructs(st, i).sort((a, b) => (a.s.kind === 'col' ? 1 : 0) - (b.s.kind === 'col' ? 1 : 0)).forEach(q => {
+      const sx = x0 + q.left / s, sw = q.width / s, sy = y0 - q.y1 / s, sh = (q.y1 - q.y0) / s;
+      pg.rect(sx, sy, sw, sh, { w: 0.35, fill: q.s.kind === 'col' ? '#dcdfe3' : '#e9e4f1', color: '#3d4550' });
+      if (q.s.kind === 'col') pg.text(sx + sw / 2, y0 - Hh / 2, `${q.name} ${Dr.cm(q.s.w)}×${Dr.cm(q.s.d)}`, { size: 5.2, align: 'center', color: '#3d4550' });
+      else pg.text(sx + sw / 2, sy + sh / 2 + 1.5, `${q.name} 樑深${Dr.cm(q.s.drop)}　樑下${Dr.cm(Math.round(q.y0))}`, { size: 5.2, align: 'center', color: '#5a3d8a' });
     });
     const lay = c => c.hanging ? 3 : c.kind === 'appl' ? 2 : c.kind === 'desk' ? 1 : 0;
     list.sort((a, b) => lay(a.cab) - lay(b.cab));

@@ -415,6 +415,14 @@
     html += `<div class="sec"><div class="sec-title">牆面塗料 <small>此面牆單獨上色（跳色牆）</small></div><div class="kv">
       <label>顏色</label><div class="inline"><span class="floor-chip" style="background:${w.color || r.wallColor || '#f1efea'}"></span><span class="pick-name">${w.paint ? esc(w.paint.code + ' ' + w.paint.name) : (w.color ? w.color : '同整體牆面')}</span><button class="btn small" data-a="pick-paint-wall" data-i="${i}"${dis}>${icon('image')}選擇塗料</button>${w.color ? `<button class="btn small" data-a="paint-wall-clear" data-i="${i}"${dis}>同整體</button>` : ''}</div>
     </div></div>`;
+    if (!w.locked) html += `<div class="sec"><div class="sec-title">局部牆面修改 <small>從室內面向此牆，尺寸 mm</small></div>
+      <div class="kv"><label>整面推拉</label><div class="inline"><input type="number" data-key="wp-d" data-f="wedit" value="100" step="10" min="1"><span class="unit">mm</span></div></div>
+      <div class="btn-row"><button class="btn small" data-a="wall-push-in" title="整面牆往室內移，房間變小">往室內推</button><button class="btn small" data-a="wall-push-out" title="整面牆往室外移，房間變大">往室外拉</button></div>
+      <div class="kv" style="margin-top:8px"><label>局部：距左</label><input type="number" data-key="wj-a" data-f="wedit" value="${Math.max(0, Math.round((wi.len - Math.min(1000, wi.len / 2)) / 2))}" step="10" min="0">
+        <label>局部：寬</label><input type="number" data-key="wj-w" data-f="wedit" value="${Math.round(Math.min(1000, wi.len / 2))}" step="10" min="50">
+        <label>局部：深</label><input type="number" data-key="wj-d" data-f="wedit" value="300" step="10" min="20"></div>
+      <div class="btn-row"><button class="btn small" data-a="wall-jog-in" title="這一段牆往室內凸出（包柱、假牆、管道間）">這段往室內凸</button><button class="btn small" data-a="wall-jog-out" title="這一段牆往室外凹進去（壁龕、凹牆）">這段往室外凹</button></div>
+      <p class="muted" style="font-size:11.5px;margin:6px 0 0">整面推拉會讓相鄰的牆跟著變長／變短；把凸出或凹入的那段推回原位就會自動拉平。門窗、插座會跟著牆走，放不下的門窗會移除。櫃體不會自動移動。可按 Ctrl+Z 復原。</p></div>`;
     html += `<div class="sec"><div class="sec-title">門 / 窗 <small>從室內面向此牆，尺寸 mm</small></div>`;
     html += w.openings.length ? w.openings.map((o, j) => `<div class="opening"><div class="opening-head"><span>${icon(o.type === 'door' ? 'door' : 'window')} ${o.type === 'door' ? '門' : '窗'} ${j + 1}</span>${w.locked ? '' : `<button class="icon-btn del" data-oa="del" data-j="${j}" title="刪除">${icon('x')}</button>`}</div>
       <div class="kv"><label>寬</label><input type="number" data-key="ow${j}" data-of="width" data-j="${j}" value="${o.width}" step="10"${dis}>
@@ -449,6 +457,7 @@
     if (t.dataset.swq) return;
     if (t.dataset.fn != null) { App.renameFloor(+t.dataset.fn, val); return; }
     { const mr = /^rn(\d+)$/.exec(t.dataset.f || ''); if (mr) { App.renameRoom(+mr[1], val); return; } }
+    if (t.dataset.f === 'wedit') return;   // 局部牆面修改的輸入框：按鈕按下時才讀值
     { const ms = /^st-(w|d|rot|x|z|drop|x1|z1|x2|z2)$/.exec(t.dataset.f || ''), q = ms && App.selectedStruct();
       if (ms) {
         if (!q) return;
@@ -612,6 +621,19 @@
     if (a === 'back') { App.select(null); return; }
     if (s && s.type === 'wall') {
       const r = st.room, wi = M().wallInfo(r, s.index);
+      if (/^wall-(push|jog)-(in|out)$/.test(a)) {
+        const val = k => +(document.querySelector(`#tab-props [data-key="${k}"]`) || {}).value, sign = /-in$/.test(a) ? 1 : -1, i0 = s.index;
+        const run = /push/.test(a) ? rm => M().wallPush(rm, i0, sign * val('wp-d')) : rm => M().wallJog(rm, i0, fromLeft(wi, val('wj-a'), val('wj-w')), val('wj-w'), sign * val('wj-d'));
+        const trial = run(JSON.parse(JSON.stringify(r)));   // 先在複本上試跑，不合理就不動原資料
+        if (trial.err) { App.toast(trial.err); return; }
+        let res = null;
+        App.sel = null;
+        App.mutate(/push/.test(a) ? '推拉牆面' : '局部牆面凹凸', x => { res = run(x.room); }, 'room');
+        const k = res && res.id ? st.room.walls.findIndex(w => w.id === res.id) : -1;
+        if (k >= 0) App.select({ type: 'wall', index: k }); else { window.Viewer.updateSelection(); UI.showProps(false); }
+        App.toast((/push/.test(a) ? '已推拉牆面' : '已修改局部牆面') + (res && res.dropped ? `；有 ${res.dropped} 個門窗放不下已移除` : '') + '（Ctrl+Z 可復原）');
+        return;
+      }
       if (a === 'add-curtain-wall') {   // 一組蛇形簾與牆同寬、到地（天花軌道）
         const c = M().createCabinet('CURTAIN-WAVE', App.state.defaults); if (!c) return;
         const T = r.thickness || 120, L = Math.max(600, Math.round(wi.len - T));   // 扣掉兩側牆厚，避免插進鄰牆

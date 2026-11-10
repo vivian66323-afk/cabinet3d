@@ -742,12 +742,7 @@
         if (mini && !move.active && !grip.active && (V.tool === 'select' || V.tool === 'move' || V.tool === 'rotate')) {
           // 放在綠色型號標籤上方，不遮住標籤
           const v = new THREE.Vector3((b.min.x + b.max.x) / 2, b.max.y + 60, (b.min.z + b.max.z) / 2).project(camera);
-          if (v.z < 1) {
-            mini.hidden = false;
-            const labelTop = (1 - v.y) / 2 * h - 13;
-            mini.style.left = ((v.x + 1) / 2 * w) + 'px';
-            mini.style.top = Math.max(8, labelTop - 6 - (mini.offsetHeight || 36)) + 'px';
-          }
+          if (v.z < 1) mini.hidden = false;   // 位置固定在 3D 區上方中央（CSS），不跟著物件，免得蓋住小物件
         }
         // 櫃體名稱本身已含 W/D/H，不再重複；桌面與設備的名稱沒有尺寸，才補上
         const nm = M().cabName(cab);
