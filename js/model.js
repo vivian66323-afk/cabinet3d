@@ -1866,9 +1866,107 @@
     matCache.clear();
   }
 
+  /* ---------- 家具／設備線稿：把 3D 模型正投影成 2D（三視圖、平面、立面、DXF 共用） ----------
+     IKEA／無印良品／通用家具／衛浴／燈具等都只有 3D 模型、沒有另外畫的 2D 圖，以前出圖只剩一個方框。
+     這裡把每個零件投影成凸多邊形，再把被前面零件擋住的線段裁掉。
+     view：'front' 正視（X＝局部 x，Y＝離地高度）／'side' 右側視（X＝局部 z，前面在 +；Y＝高度）／'top' 俯視（X＝局部 x，Y＝局部 z，前面在 +）
+     回傳 { polys: [[[x,y]…]…]（由遠到近，給 PDF 鋪白底）, segs: [[x1,y1,x2,y2]…] }；沒有 THREE 或建模失敗回傳 null（呼叫端退回畫方框） */
+  const OUTLINE_SKIP = { sink: 1, hob: 1, dw: 1, oven: 1, dryer: 1, hood: 1 };   // 廚房設備有自己的施工圖畫法
+  const outlineCache = new Map();
+  function hull2(pts) {
+    pts = pts.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+    const lo = [], up = [];
+    for (const p of pts) { while (lo.length >= 2 && cr(lo[lo.length - 2], lo[lo.length - 1], p) <= 1e-7) lo.pop(); lo.push(p); }
+    for (let i = pts.length - 1; i >= 0; i--) { const p = pts[i]; while (up.length >= 2 && cr(up[up.length - 2], up[up.length - 1], p) <= 1e-7) up.pop(); up.push(p); }
+    lo.pop(); up.pop();
+    return lo.concat(up);   // 逆時針
+  }
+  // 線段 a→b 落在凸多邊形（逆時針）內部的參數區間；不相交回傳 null
+  function clipConvex(a, b, poly) {
+    let t0 = 0, t1 = 1;
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    for (let i = 0; i < poly.length; i++) {
+      const p = poly[i], q = poly[(i + 1) % poly.length];
+      const nx = -(q[1] - p[1]), ny = q[0] - p[0];                 // 內側法線
+      const len = Math.hypot(nx, ny) || 1;
+      const da = ((a[0] - p[0]) * nx + (a[1] - p[1]) * ny) / len - 0.3;   // 內縮 0.3mm：貼在邊界上的線不算被擋
+      const dd = (dx * nx + dy * ny) / len;
+      if (Math.abs(dd) < 1e-9) { if (da < 0) return null; continue; }
+      const t = -da / dd;
+      if (dd > 0) { if (t > t0) t0 = t; } else if (t < t1) t1 = t;
+      if (t0 >= t1) return null;
+    }
+    return [t0, t1];
+  }
+  function outline2D(cab, view) {
+    if (!THREE || !cab || cab.kind !== 'appl' || OUTLINE_SKIP[cab.at]) return null;
+    const { id, x, z, rot, locked, name, ...rest } = cab;   // 位置／旋轉不影響形狀
+    const key = view + '|' + JSON.stringify(rest);
+    if (outlineCache.has(key)) return outlineCache.get(key);
+    let out = null;
+    try {
+      const g = new THREE.Group();
+      buildAppl(g, cab, false);
+      g.updateMatrixWorld(true);
+      const m = cab.mirror ? -1 : 1, v = new THREE.Vector3(), items = [];
+      g.traverse(o => {
+        if (!o.isMesh || !o.visible || !o.geometry || !o.geometry.attributes || !o.geometry.attributes.position) return;
+        for (let p = o.parent; p; p = p.parent) if (!p.visible) return;
+        const pos = o.geometry.attributes.position, n = pos.count, step = Math.max(1, Math.floor(n / 600));
+        const pts = []; let depth = -Infinity;
+        for (let i = 0; i < n; i += step) {
+          v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld);
+          const X = v.x * m;
+          if (view === 'front') { pts.push([X, v.y]); if (v.z > depth) depth = v.z; }
+          else if (view === 'side') { pts.push([v.z, v.y]); if (X > depth) depth = X; }
+          else { pts.push([X, v.z]); if (v.y > depth) depth = v.y; }
+        }
+        if (pts.some(p => !isFinite(p[0]) || !isFinite(p[1]))) return;
+        const h = hull2(pts);
+        if (h.length < 3) return;
+        let area = 0; h.forEach((p, i) => { const q = h[(i + 1) % h.length]; area += p[0] * q[1] - q[0] * p[1]; });
+        if (Math.abs(area) / 2 < 4) return;                        // 投影後只剩一條線的薄片
+        const mats = Array.isArray(o.material) ? o.material : [o.material];
+        const clear = mats.some(mt => mt && mt.transparent && mt.opacity < 0.6);   // 玻璃：畫外框但不擋後面
+        items.push({ h, depth, clear });
+      });
+      items.sort((a, b) => a.depth - b.depth);
+      const segs = [], seen = new Set();
+      items.forEach((it, ii) => {
+        for (let e = 0; e < it.h.length; e++) {
+          const a = it.h[e], b = it.h[(e + 1) % it.h.length];
+          let vis = [[0, 1]];
+          for (let j = ii + 1; j < items.length && vis.length; j++) {
+            const oc = items[j];
+            if (oc.clear || oc.depth <= it.depth + 1) continue;
+            const c = clipConvex(a, b, oc.h);
+            if (!c) continue;
+            const nx = [];
+            vis.forEach(([s, t]) => { if (c[1] <= s || c[0] >= t) { nx.push([s, t]); return; } if (c[0] > s) nx.push([s, c[0]]); if (c[1] < t) nx.push([c[1], t]); });
+            vis = nx;
+          }
+          vis.forEach(([s, t]) => {
+            const p = [a[0] + (b[0] - a[0]) * s, a[1] + (b[1] - a[1]) * s], q = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+            if (Math.hypot(q[0] - p[0], q[1] - p[1]) < 2) return;
+            const r = n => Math.round(n), k1 = `${r(p[0])},${r(p[1])},${r(q[0])},${r(q[1])}`, k2 = `${r(q[0])},${r(q[1])},${r(p[0])},${r(p[1])}`;
+            if (seen.has(k1) || seen.has(k2)) return;
+            seen.add(k1);
+            segs.push([p[0], p[1], q[0], q[1]]);
+          });
+        }
+      });
+      if (segs.length) out = { polys: items.map(it => it.h), segs };
+      g.traverse(o => { if (o.geometry && o.geometry.dispose) o.geometry.dispose(); });
+    } catch (e) { out = null; }
+    if (outlineCache.size > 400) outlineCache.clear();
+    outlineCache.set(key, out);
+    return out;
+  }
+
   window.Model = {
     init(T) { THREE = T; },
-    uid, structBoxes, structName, wallPush, wallJog, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS, GLASS_TYPES, ALU_COLORS, glassMat,
+    outline2D, uid, structBoxes, structName, wallPush, wallJog, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS, GLASS_TYPES, ALU_COLORS, glassMat,
     createRoom, rectRoom, wallInfo, wallName, polyArea, pointInPoly, isModified, cabName,
     rowLip, OPEN_ROW, E_FRONT, buildCabinet, buildRoom, triShape, getMat, clearMatCache, clearSwatchTex, grainOf, imgGrainOf, floorDef, deskGeom, resizeCabinet, handleOf, handleEdge, insetPos, counterOver, deskHoles, isCounterAppl, toLocal, toWorld
   };

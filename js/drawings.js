@@ -238,8 +238,23 @@
   /* ---------- 廚房設備 ---------- */
   const APPL_FILL = { steel: '#c9cdd1', glass: '#2b2f33', white: '#f3f3f1' };
   Dr.applFill = (pg, cab, s) => { const it = D.byCode[cab.code] || {}; return it.finish === 'panel' ? Dr.fill(pg, cab.doorColor, s, true) : APPL_FILL[it.finish] || '#c9cdd1'; };
+  // 家具／設備線稿（Model.outline2D 的投影結果）：先鋪白底再描可見線；map 把局部座標(mm)換成紙面座標(mm)。畫成功回傳 true
+  Dr.outline = function (pg, cab, view, map, w) {
+    const o = M().outline2D ? M().outline2D(cab, view) : null;
+    if (!o) return false;
+    const g = pg.g, k = pg.k;
+    g.save(); g.setLineDash([]); g.lineJoin = 'round'; g.lineCap = 'round';
+    g.fillStyle = '#ffffff';
+    o.polys.forEach(h => { g.beginPath(); h.forEach((p, i) => { const q = map(p[0], p[1]); i ? g.lineTo(q[0] * k, q[1] * k) : g.moveTo(q[0] * k, q[1] * k); }); g.closePath(); g.fill(); });
+    g.strokeStyle = '#1f2328'; g.lineWidth = (w || 0.22) * k;
+    g.beginPath();
+    o.segs.forEach(sg => { const a = map(sg[0], sg[1]), b = map(sg[2], sg[3]); g.moveTo(a[0] * k, a[1] * k); g.lineTo(b[0] * k, b[1] * k); });
+    g.stroke(); g.restore();
+    return true;
+  };
   Dr.applFront = function (pg, cab, x, y, s) {
     const f = v => v / s, it = D.byCode[cab.code] || {};
+    if (Dr.outline(pg, cab, 'front', (X, Y) => [x + f(X + cab.w / 2), y - f(Y)])) return;
     const W = f(cab.w), y0 = y - f(cab.y), H = f(cab.h), fill = Dr.applFill(pg, cab, s);
     if (cab.at === 'sink') {
       pg.rect(x + f(25), y0 - H, W - f(50), H, { w: 0.2, dash: [1, 0.7], color: '#6b7280' });
@@ -265,6 +280,7 @@
   };
   Dr.applTop = function (pg, cab, x, y, s) {
     const f = v => v / s, it = D.byCode[cab.code] || {}, W = f(cab.w), Dd = f(cab.d);
+    if (Dr.outline(pg, cab, 'top', (X, Z) => [x + f(X + cab.w / 2), y + f(Z + cab.d / 2)])) return;
     pg.rect(x, y, W, Dd, { w: 0.3, fill: Dr.applFill(pg, cab, s) });
     if (cab.at === 'sink') { const c = it.cut || [cab.w - 30, cab.d - 30]; pg.rect(x + (W - f(c[0] - 30)) / 2, y + (Dd - f(c[1] - 30)) / 2, f(c[0] - 30), f(c[1] - 30), { w: 0.2, fill: '#e9ecef' }); }
     if (cab.at === 'hob') {
@@ -385,7 +401,7 @@
     const dep = M().footDepth(cab);
     const Dd = f(dep), y0 = y - f(cab.y), H = f(cab.h);
     if (cab.kind === 'desk') { pg.rect(x, y0 - f(cab.thick), Dd, f(cab.thick), { w: 0.3, fill: Dr.fill(pg, cab.topColor, s) }); return; }
-    if (cab.kind === 'appl') { pg.rect(x, y0 - H, Dd, H, { w: 0.3, fill: Dr.applFill(pg, cab, s) }); return; }
+    if (cab.kind === 'appl') { if (!Dr.outline(pg, cab, 'side', (Z, Y) => [x + f(Z + cab.d / 2), y - f(Y)])) pg.rect(x, y0 - H, Dd, H, { w: 0.3, fill: Dr.applFill(pg, cab, s) }); return; }
     if (cab.kind === 'filler') { pg.rect(x + Dd - f(D.BOARD), y0 - H, f(D.BOARD), H, { w: 0.3, fill: Dr.fill(pg, cab.bodyColor, s, true) }); pg.rect(x, y0 - H, Dd - f(D.BOARD), H, { w: 0.15, color: '#98a2ad', dash: [1.2, 0.8] }); return; }
     if (cab.kick && !cab.hanging && cab.kind !== 'tri' && cab.y > 50) pg.rect(x + Dd - f(40 + 18), y0, f(18), f(Math.min(cab.y, D.KICK)), { w: 0.15, fill: Dr.fill(pg, cab.kickColor || cab.bodyColor, s) });
     if (cab.top && cab.top !== 'none') { const th = D.PARTS.TOP[cab.top].thick; pg.rect(x, y0 - H - f(th), Dd + f(30), f(th), { w: 0.15, fill: Dr.fill(pg, cab.topColor || cab.doorColor, s) }); }
@@ -567,6 +583,7 @@
       const wp = Dr.cabWorldPoly(c);
       if (c.hanging) { poly(wp, null, Dr.PEN.mid, 0.3, [1.6, 1]); const q = wp.map(p => P(...p)); pg.line(q[0][0], q[0][1], q[2][0], q[2][1], 0.15, Dr.PEN.grey, [1.6, 1]); pg.line(q[1][0], q[1][1], q[3][0], q[3][1], 0.15, Dr.PEN.grey, [1.6, 1]); }   // 吊櫃：虛線框＋交叉
       else if (c.kind === 'appl') {
+        if (Dr.outline(pg, c, 'top', (X, Z) => P(...M().toWorld(c, X, Z)), 0.25)) return;   // 家具：畫實際外形（圓桌、沙發扶手、床頭…）
         poly(wp, '#ffffff', Dr.PEN.ink, 0.3);
         if (c.at === 'sink') { const cut = (D.byCode[c.code] || {}).cut || [c.w - 30, c.d - 30]; poly([[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([a, b]) => M().toWorld(c, a * (cut[0] - 30) / 2, b * (cut[1] - 30) / 2)), '#ffffff', Dr.PEN.ink, 0.2); }
         if (c.at === 'hob') [-0.25, 0.25].forEach(kx => { const q = P(...M().toWorld(c, kx * c.w, -c.d * 0.06)); g.beginPath(); g.arc(q[0] * k, q[1] * k, 68 / s * k, 0, Math.PI * 2); g.strokeStyle = '#9aa0a6'; g.lineWidth = 0.3 * k; g.stroke(); });

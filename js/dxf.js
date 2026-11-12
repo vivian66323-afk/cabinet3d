@@ -355,6 +355,8 @@
   function applFront(doc, cab, X, Y) {
     const L = 'F-APPL', it = D.byCode[cab.code] || {};
     const W = cab.w, yb = Y + cab.y, yt = yb + cab.h;
+    const ol = window.Model.outline2D ? window.Model.outline2D(cab, 'front') : null;   // 家具：3D 模型投影線稿
+    if (ol) { ol.segs.forEach(sg => doc.line(X + sg[0] + W / 2, Y + sg[1], X + sg[2] + W / 2, Y + sg[3], L)); return; }
     if (cab.at === 'sink') {                                 // 水槽：檯面下的槽體 + 龍頭
       doc.rect(X + 25, yb, W - 50, cab.h, L, 'DASHED');
       doc.rect(X, yt - 2, W, 4, L);
@@ -720,7 +722,9 @@
     cabs.forEach(c => {
       const layer = c.hanging ? 'F-CAB-HANG' : c.kind === 'appl' ? 'F-APPL' : c.kind === 'desk' ? 'F-DESK' : 'F-CAB';
       const lt = c.hanging ? 'DASHED' : null;
-      doc.pline(window.Drawings.cabWorldPoly(c).map(T), layer, true, lt);
+      const ol = !c.hanging && c.kind === 'appl' && window.Model.outline2D ? window.Model.outline2D(c, 'top') : null;   // 家具：畫實際外形
+      if (ol) ol.segs.forEach(sg => { const A = T(M().toWorld(c, sg[0], sg[1])), B = T(M().toWorld(c, sg[2], sg[3])); doc.line(A[0], A[1], B[0], B[1], layer); });
+      else doc.pline(window.Drawings.cabWorldPoly(c).map(T), layer, true, lt);
       // 門面方向：前緣加一條門片厚度線
       if (c.kind !== 'desk' && (c.fronts || []).some(r => !window.Model.OPEN_ROW(r.t))) {
         const fe = window.Drawings.cabFrontEdge(c);
