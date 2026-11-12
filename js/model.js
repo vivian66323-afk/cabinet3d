@@ -1955,7 +1955,10 @@
             const r = n => Math.round(n), k1 = `${r(p[0])},${r(p[1])},${r(q[0])},${r(q[1])}`, k2 = `${r(q[0])},${r(q[1])},${r(p[0])},${r(p[1])}`;
             if (seen.has(k1) || seen.has(k2)) return;
             seen.add(k1);
-            segs.push([p[0], p[1], q[0], q[1]]);
+            // 外輪廓：線段中點往任一側偏 2mm 後不在任何零件內
+            const mx = (p[0] + q[0]) / 2, my = (p[1] + q[1]) / 2, ll = Math.hypot(q[0] - p[0], q[1] - p[1]), ox = -(q[1] - p[1]) / ll * 2, oy = (q[0] - p[0]) / ll * 2;
+            const inside = (X, Y) => items.some(o => o.h.every((a2, i2) => { const b2 = o.h[(i2 + 1) % o.h.length]; return (b2[0] - a2[0]) * (Y - a2[1]) - (b2[1] - a2[1]) * (X - a2[0]) >= -0.01; }));
+            segs.push([p[0], p[1], q[0], q[1], (!inside(mx + ox, my + oy) || !inside(mx - ox, my - oy)) ? 1 : 0]);
           });
         }
       });

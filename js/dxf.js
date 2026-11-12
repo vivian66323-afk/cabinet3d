@@ -35,6 +35,7 @@
     ['F-CAB-HANG', 5, 'DASHED'],        // 吊櫃（平面圖以虛線表示）
     ['F-APPL', 5, 'CONTINUOUS'],        // 廚房設備
     ['F-DESK', 6, 'CONTINUOUS'],        // 桌板
+    ['F-APPL-DET', 9, 'CONTINUOUS'],    // 家具／設備內部細線（門片、層板、把手…），外輪廓在 F-APPL
     ['F-CONTEXT', 9, 'CONTINUOUS'],     // 立面圖周邊環境（側牆櫃體側面、房間中間的家具、獨立門片…），可整層關閉
     ['A-CLNG', 8, 'CONTINUOUS'],        // 立面圖天花板
     ['A-DIM', 1, 'CONTINUOUS'],         // 尺寸標註
@@ -358,7 +359,7 @@
     const L = 'F-APPL', it = D.byCode[cab.code] || {};
     const W = cab.w, yb = Y + cab.y, yt = yb + cab.h;
     const ol = window.Model.outline2D ? window.Model.outline2D(cab, 'front') : null;   // 家具：3D 模型投影線稿
-    if (ol) { ol.segs.forEach(sg => doc.line(X + sg[0] + W / 2, Y + sg[1], X + sg[2] + W / 2, Y + sg[3], L)); return; }
+    if (ol) { ol.segs.forEach(sg => doc.line(X + sg[0] + W / 2, Y + sg[1], X + sg[2] + W / 2, Y + sg[3], sg[4] ? L : 'F-APPL-DET')); return; }
     if (cab.at === 'sink') {                                 // 水槽：檯面下的槽體 + 龍頭
       doc.rect(X + 25, yb, W - 50, cab.h, L, 'DASHED');
       doc.rect(X, yt - 2, W, 4, L);
@@ -754,7 +755,7 @@
       const layer = c.hanging ? 'F-CAB-HANG' : c.kind === 'appl' ? 'F-APPL' : c.kind === 'desk' ? 'F-DESK' : 'F-CAB';
       const lt = c.hanging ? 'DASHED' : null;
       const ol = !c.hanging && c.kind === 'appl' && window.Model.outline2D ? window.Model.outline2D(c, 'top') : null;   // 家具：畫實際外形
-      if (ol) ol.segs.forEach(sg => { const A = T(M().toWorld(c, sg[0], sg[1])), B = T(M().toWorld(c, sg[2], sg[3])); doc.line(A[0], A[1], B[0], B[1], layer); });
+      if (ol) ol.segs.forEach(sg => { const A = T(M().toWorld(c, sg[0], sg[1])), B = T(M().toWorld(c, sg[2], sg[3])); doc.line(A[0], A[1], B[0], B[1], sg[4] || layer !== 'F-APPL' ? layer : 'F-APPL-DET'); });
       else doc.pline(window.Drawings.cabWorldPoly(c).map(T), layer, true, lt);
       // 門面方向：前緣加一條門片厚度線
       if (c.kind !== 'desk' && (c.fronts || []).some(r => !window.Model.OPEN_ROW(r.t))) {
