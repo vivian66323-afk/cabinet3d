@@ -1532,7 +1532,20 @@
   /* ---------- 畫線建立空間 ---------- */
   const draw = { pts: [], cursor: null, line: null, guides: null, lock: null, last: null };
   // 鎖點追蹤：起點（封閉）> 端點 > 中點 > 軸向（紅/綠）＋ 與已畫點對齊的追蹤線
+  /* 畫線模式：垂直水平（正交，預設）／斜線。正交時每一段都強制沿紅軸或綠軸，鎖點只取軸向上的位置，
+     牆不會因為點偏一點就畫歪；要畫斜牆時切到「斜線」（F8 或輸入框上的按鈕），或直接輸入「長度,角度」 */
+  V.ortho = (() => { try { return localStorage.getItem('cab3d.ortho') !== '0'; } catch (e) { return true; } })();
+  V.setOrtho = function (on) { V.ortho = !!on; try { localStorage.setItem('cab3d.ortho', on ? '1' : '0'); } catch (e) { /* 無痕 */ } if (V.tool === 'line') lineMove(); };
   function inferPoint(raw, from) {
+    const r = inferPointRaw(raw, from);
+    if (!V.ortho || !from || r.close) return r;
+    const dx = r.p[0] - from[0], dz = r.p[1] - from[1];
+    if (Math.abs(dx) >= Math.abs(dz)) { r.p = [r.p[0], from[1]]; r.axis = 'X'; } else { r.p = [from[0], r.p[1]]; r.axis = 'Z'; }
+    r.guides = (r.guides || []).filter(g => g.axis !== r.axis);
+    if (!/軸/.test(r.snap || '')) r.snap = (r.snap ? r.snap + ' · ' : '') + (r.axis === 'X' ? '紅軸' : '綠軸');
+    return r;
+  }
+  function inferPointRaw(raw, from) {
     const cr = renderer.domElement.getBoundingClientRect();
     const DY = drawY(raw.x, raw.z);
     const scr = (x, z) => { const q = new THREE.Vector3(x, DY, z).project(camera); return [(q.x + 1) / 2 * cr.width, (1 - q.y) / 2 * cr.height]; };

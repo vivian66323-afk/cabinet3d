@@ -245,7 +245,9 @@
       const a = wallInfo(room, (i - 1 + n) % n), b = wallInfo(room, i), na = a.nOut, nb = b.nOut, det = na[0] * nb[1] - na[1] * nb[0];
       if (Math.abs(det) < 1e-6) return [q[0] + nb[0] * t, q[1] + nb[1] * t];
       const c1 = na[0] * q[0] + na[1] * q[1] + t, c2 = nb[0] * q[0] + nb[1] * q[1] + t;
-      return [(c1 * nb[1] - c2 * na[1]) / det, (c2 * na[0] - c1 * nb[0]) / det];
+      const o = [(c1 * nb[1] - c2 * na[1]) / det, (c2 * na[0] - c1 * nb[0]) / det];
+      const dl = Math.hypot(o[0] - q[0], o[1] - q[1]);            // 很尖的角：斜接點會飛很遠，限制在 2.5 倍牆厚內
+      return dl > 2.5 * t ? [q[0] + (o[0] - q[0]) / dl * 2.5 * t, q[1] + (o[1] - q[1]) / dl * 2.5 * t] : o;
     });
   }
   function onOuter(room, p, tol = 15) {

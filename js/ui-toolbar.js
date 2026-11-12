@@ -157,10 +157,14 @@
     const vp = $('#viewport');
     const wrap = document.createElement('div');
     wrap.className = 'line-input'; wrap.id = 'lineInputWrap'; wrap.hidden = true;
-    wrap.innerHTML = `<input id="lineInput" autocomplete="off" spellcheck="false" placeholder="長度 或 長度,角度" aria-label="輸入牆線長度與角度">
+    wrap.innerHTML = `<div class="line-mode" title="F8 切換"><button type="button" data-ortho="1">┼ 垂直水平</button><button type="button" data-ortho="0">╱ 斜線</button></div>
+      <input id="lineInput" autocomplete="off" spellcheck="false" placeholder="長度 或 長度,角度" aria-label="輸入牆線長度與角度">
       <small id="lineInputHint">例：3000　或　3000,90（0°右、90°上）　Enter 確定</small>`;
     vp.appendChild(wrap);
     const inp = $('#lineInput');
+    // 垂直水平／斜線切換（F8）
+    wrap.querySelectorAll('[data-ortho]').forEach(b => b.addEventListener('click', () => { V().setOrtho(b.dataset.ortho === '1'); syncLineInput(); App.toast(V().ortho ? '垂直水平：每一段都沿紅軸或綠軸' : '斜線：可畫任意角度'); }));
+    window.addEventListener('keydown', e => { if (e.key === 'F8' && V().tool === 'line') { e.preventDefault(); V().setOrtho(!V().ortho); syncLineInput(); App.toast(V().ortho ? '垂直水平：每一段都沿紅軸或綠軸' : '斜線：可畫任意角度'); } });
     // 點輸入框不要變成在 3D 畫面上點一下
     ['mousedown', 'pointerdown', 'click', 'dblclick'].forEach(t => wrap.addEventListener(t, e => e.stopPropagation()));
     inp.addEventListener('keydown', e => {
@@ -190,6 +194,7 @@
     const v = V(), on = v.tool === 'line';
     wrap.hidden = !on;
     if (!on) { $('#lineInput').value = ''; return; }
+    wrap.querySelectorAll('[data-ortho]').forEach(b => b.classList.toggle('on', (b.dataset.ortho === '1') === !!v.ortho));
     const n = v.linePointCount();
     $('#lineInputHint').textContent = n
       ? `第 ${n} 點之後：輸入長度 或 長度,角度（0°右、90°上）Enter　·　空白 Enter 完成　·　Backspace 退一點`
