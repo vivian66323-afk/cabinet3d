@@ -239,14 +239,15 @@
   const APPL_FILL = { steel: '#c9cdd1', glass: '#2b2f33', white: '#f3f3f1' };
   Dr.applFill = (pg, cab, s) => { const it = D.byCode[cab.code] || {}; return it.finish === 'panel' ? Dr.fill(pg, cab.doorColor, s, true) : APPL_FILL[it.finish] || '#c9cdd1'; };
   // 家具／設備線稿（Model.outline2D 的投影結果）：先鋪白底再描可見線；map 把局部座標(mm)換成紙面座標(mm)。畫成功回傳 true
-  Dr.outline = function (pg, cab, view, map, w) {
+  Dr.outline = function (pg, cab, view, map, w, clip, color) {
     const o = M().outline2D ? M().outline2D(cab, view) : null;
     if (!o) return false;
     const g = pg.g, k = pg.k;
     g.save(); g.setLineDash([]); g.lineJoin = 'round'; g.lineCap = 'round';
+    if (clip) { g.beginPath(); g.rect(clip[0] * k, clip[1] * k, clip[2] * k, clip[3] * k); g.clip(); }
     g.fillStyle = '#ffffff';
     o.polys.forEach(h => { g.beginPath(); h.forEach((p, i) => { const q = map(p[0], p[1]); i ? g.lineTo(q[0] * k, q[1] * k) : g.moveTo(q[0] * k, q[1] * k); }); g.closePath(); g.fill(); });
-    g.strokeStyle = '#1f2328'; g.lineWidth = (w || 0.22) * k;
+    g.strokeStyle = color || '#1f2328'; g.lineWidth = (w || 0.22) * k;
     g.beginPath();
     o.segs.forEach(sg => { const a = map(sg[0], sg[1]), b = map(sg[2], sg[3]); g.moveTo(a[0] * k, a[1] * k); g.lineTo(b[0] * k, b[1] * k); });
     g.stroke(); g.restore();
@@ -660,6 +661,49 @@
     return { wi, list, base, right };
   };
 
+  /* 立面圖的周邊環境：站在房間裡看向這面牆時，除了貼牆的櫃體（wallCabinets）之外還看得到的物件——
+     側牆櫃體的側面、房間中間的家具、獨立門片／固定牆板／外掛門組等。由遠到近排序，畫的時候近的蓋住遠的。
+     不畫：背靠其他牆、正面朝向這面牆的物件（例如對面牆的衣櫃），它們在觀看者背後，畫了會整片擋住。
+     回傳 [{ cab, sc（中心沿牆位置，從左起算）, dist（離牆距離）, view（給 Model.outline2D 的視角）}] */
+  Dr.wallOthers = function (st, i) {
+    const room = st.room, { wi, list, base, right } = Dr.wallCabinets(st, i);
+    const own = new Set(list.map(l => l.cab)), out = [];
+    const segDist = (p, a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], t = Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / (dx * dx + dy * dy || 1))); return Math.hypot(p[0] - a[0] - dx * t, p[1] - a[1] - dy * t); };
+    st.cabinets.forEach(c => {
+      if (own.has(c) || !M().pointInPoly(c.x, c.z, room.points)) return;
+      const dist = (c.x - wi.p[0]) * wi.nIn[0] + (c.z - wi.p[1]) * wi.nIn[1];
+      if (dist <= 0) return;
+      const r = c.rot * Math.PI / 180, cs = Math.cos(r), sn = Math.sin(r), ex = [cs, -sn], ez = [sn, cs], fd = M().footDepth(c);
+      const hx = [ex[0] * right[0] + ex[1] * right[1], ez[0] * right[0] + ez[1] * right[1]];
+      const dz = [ex[0] * wi.nIn[0] + ex[1] * wi.nIn[1], ez[0] * wi.nIn[0] + ez[1] * wi.nIn[1]];
+      const sc = (c.x - wi.p[0]) * right[0] + (c.z - wi.p[1]) * right[1] - base;
+      const hw = Math.abs(hx[0]) * c.w / 2 + Math.abs(hx[1]) * fd / 2;
+      if (sc + hw < 0 || sc - hw > wi.len) return;
+      if (dz[1] < -0.7) {   // 正面朝向這面牆：背靠別面牆的不畫
+        const back = M().toWorld(c, 0, -fd / 2);
+        if (room.walls.some((w, j) => { if (j === i) return false; const q = M().wallInfo(room, j); return segDist(back, q.p, q.q) < 300; })) return;
+      }
+      out.push({ cab: c, sc, dist, view: { hx, dz } });
+    });
+    return out.sort((a, b) => a.dist - b.dist);
+  };
+  // 天花板在立面上的範圍：{ h 基本高, zones:[{ left, width, h, kind, name }] }；沒做天花板回傳 null
+  Dr.wallCeiling = function (st, i) {
+    const room = st.room, c = room.ceiling;
+    if (!c || c.on === false || !(c.h > 0) || c.h >= room.height) return null;
+    const wi = M().wallInfo(room, i), right = [-wi.nOut[1], wi.nOut[0]];
+    const base = Math.min(0, (wi.q[0] - wi.p[0]) * right[0] + (wi.q[1] - wi.p[1]) * right[1]);
+    const K = (window.Ceiling && window.Ceiling.KINDS) || {};
+    const zones = [];
+    (c.zones || []).forEach(zn => {
+      if (!zn.pts || zn.pts.length < 3 || !(zn.h > 0) || zn.h === c.h) return;
+      const ss = zn.pts.map(q => (q[0] - wi.p[0]) * right[0] + (q[1] - wi.p[1]) * right[1] - base);
+      const l = Math.max(0, Math.min(...ss)), r = Math.min(wi.len, Math.max(...ss));
+      if (r - l < 5) return;
+      zones.push({ left: l, width: r - l, h: Math.min(zn.h, room.height), kind: zn.kind, name: zn.label || K[zn.kind] || '' });
+    });
+    return { h: c.h, zones };
+  };
   // 貼著此牆（300 mm 內）的樑柱在立面上的範圍：left／width 為從左邊起算（已裁到牆長內），y0／y1 為高度
   Dr.wallStructs = function (st, i) {
     const room = st.room, wi = M().wallInfo(room, i), right = [-wi.nOut[1], wi.nOut[0]];
@@ -695,6 +739,19 @@
       else { pg.line(ox, oy, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); pg.line(ox, oy + oh, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); }
       pg.text(ox + ow / 2, oy - 1.2, `${o.type === 'door' ? '門' : '窗'} ${Dr.cm(o.width)}×${Dr.cm(o.height)}${o.sill ? ' 抬高' + Dr.cm(o.sill) : ''}`, { size: 5.5, align: 'center', color: '#69727d' });
     });
+    // 天花板：基本高度以上為天花內空間（淡灰），降板／包樑往下凸、較高的區域以虛線表示
+    const ceil = Dr.wallCeiling(st, i);
+    if (ceil) {
+      const cy = y0 - ceil.h / s;
+      pg.rect(x0, y0 - Hh, W, Hh - ceil.h / s, { w: 0.15, fill: '#eef0f2', color: '#98a2ad' });
+      ceil.zones.forEach(zn => {
+        const zx = x0 + zn.left / s, zw = zn.width / s, zy = y0 - zn.h / s;
+        if (zn.h < ceil.h) { pg.rect(zx, cy, zw, zy - cy, { w: 0.25, fill: '#e3e6ea', color: '#3d4550' }); pg.text(zx + zw / 2, zy + 2.6, `${zn.name} H${Dr.cm(zn.h)}`, { size: 4.8, align: 'center', color: '#3d4550' }); }
+        else { pg.rect(zx, zy, zw, cy - zy, { w: 0.2, color: '#69727d', dash: [1.2, 0.8] }); pg.text(zx + zw / 2, zy + 2.4, `${zn.name} H${Dr.cm(zn.h)}`, { size: 4.6, align: 'center', color: '#69727d' }); }
+      });
+      pg.line(x0, cy, x0 + W, cy, 0.4);
+      pg.text(x0 + 1.5, cy + 2.8, `天花板 H${Dr.cm(ceil.h)}`, { size: 5, color: '#3d4550' });
+    }
     // 樑柱：樑在前、柱在後，灰底；櫃體畫在它們前面
     Dr.wallStructs(st, i).sort((a, b) => (a.s.kind === 'col' ? 1 : 0) - (b.s.kind === 'col' ? 1 : 0)).forEach(q => {
       const sx = x0 + q.left / s, sw = q.width / s, sy = y0 - q.y1 / s, sh = (q.y1 - q.y0) / s;
@@ -715,8 +772,11 @@
       lines.push({ t: `${cab.bodyColor}${cab.fronts.some(r => !M().OPEN_ROW(r.t)) ? '/' + cab.doorColor : ''}`, size: 4.6, color: '#3d4550' });
       Dr.tagLines(pg, lx, cab.hanging ? y0 - cab.y / s + 1.4 : ly - 1.4, lines, cab.w / s - 0.6, 'top');   // 吊櫃標籤放在櫃底下方，避免和頂部尺寸線重疊
     });
+    // 周邊環境：側牆櫃體的側面、房間中間的家具、獨立門片…（由遠到近，灰線，裁在牆面範圍內）
+    Dr.wallOthers(st, i).forEach(o => Dr.outline(pg, o.cab, o.view, (X, Y) => [x0 + (o.sc + X) / s, y0 - Y / s], 0.18, [x0, y0 - Hh, W, Hh], '#4a5460'));
     // 標註
     Dr.dim(pg, x0, y0 - Hh, x0 + W, y0 - Hh, Math.round(L) + '', -7 - Math.max(2, 150 / s), { size: 7 });
+    if (ceil) Dr.dim(pg, x0 + W, y0, x0 + W, y0 - ceil.h / s, Math.round(ceil.h) + '', 14, { size: 5.8 });
     Dr.dim(pg, x0 + W, y0, x0 + W, y0 - Hh, H + '', 7, { size: 7 });
     const floor = list.filter(l => !l.cab.hanging && l.cab.kind !== 'desk' && (l.cab.kind !== 'appl' || l.cab.mount === 'floor')).sort((a, b) => a.left - b.left);
     if (floor.length) {

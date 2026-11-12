@@ -35,6 +35,8 @@
     ['F-CAB-HANG', 5, 'DASHED'],        // 吊櫃（平面圖以虛線表示）
     ['F-APPL', 5, 'CONTINUOUS'],        // 廚房設備
     ['F-DESK', 6, 'CONTINUOUS'],        // 桌板
+    ['F-CONTEXT', 9, 'CONTINUOUS'],     // 立面圖周邊環境（側牆櫃體側面、房間中間的家具、獨立門片…），可整層關閉
+    ['A-CLNG', 8, 'CONTINUOUS'],        // 立面圖天花板
     ['A-DIM', 1, 'CONTINUOUS'],         // 尺寸標註
     ['A-TEXT', 7, 'CONTINUOUS'],        // 文字與型號標籤
     ['A-SYMB', 1, 'CONTINUOUS'],        // 立面索引符號
@@ -516,6 +518,29 @@
         dim(doc, ox + ow, oy, ox + ow, oy + oh, 4, op.height, { h: 2.2 });
         if (op.sill) dim(doc, ox + ow, Y0, ox + ow, oy, 4, op.sill, { h: 2.2 });
       }
+    });
+
+    // 天花板：基本高度線＋降板／包樑
+    const ceil = window.Drawings.wallCeiling ? window.Drawings.wallCeiling(st, i) : null;
+    if (ceil) {
+      doc.line(X0, Y0 + ceil.h, X0 + L, Y0 + ceil.h, 'A-CLNG');
+      ceil.zones.forEach(zn => doc.rect(X0 + zn.left, Y0 + Math.min(zn.h, ceil.h), zn.width, Math.abs(ceil.h - zn.h), 'A-CLNG', zn.h > ceil.h ? 'DASHED' : null));
+      if (opt.labels !== false) {
+        doc.text(X0 + p(1.5), Y0 + ceil.h - p(1), p(2.2), '天花板 H' + Math.round(ceil.h), { layer: 'A-CLNG', valign: 't' });
+        ceil.zones.forEach(zn => doc.text(X0 + zn.left + zn.width / 2, Y0 + zn.h - p(1), p(2), `${zn.name} H${Math.round(zn.h)}`, { layer: 'A-CLNG', align: 'c', valign: 't' }));
+      }
+    }
+    // 周邊環境：線段裁在牆面寬度內
+    if (window.Drawings.wallOthers && window.Model.outline2D) window.Drawings.wallOthers(st, i).forEach(o => {
+      const ol = window.Model.outline2D(o.cab, o.view);
+      if (!ol) return;
+      ol.segs.forEach(sg => {
+        let ax = o.sc + sg[0], ay = sg[1], bx = o.sc + sg[2], by = sg[3];
+        if (ax > bx) { const t = ax; ax = bx; bx = t; const u = ay; ay = by; by = u; }
+        if (bx < 0 || ax > L) return;
+        if (bx - ax > 1e-6) { const k0 = Math.max(0, (0 - ax) / (bx - ax)), k1 = Math.min(1, (L - ax) / (bx - ax)); const nax = ax + (bx - ax) * k0, nay = ay + (by - ay) * k0; bx = ax + (bx - ax) * k1; by = ay + (by - ay) * k1; ax = nax; ay = nay; }
+        doc.line(X0 + ax, Y0 + ay, X0 + bx, Y0 + by, 'F-CONTEXT');
+      });
     });
 
     // 櫃體：落地 → 桌板 → 設備 → 吊櫃（與 Drawings.elevation 相同的疊放順序）

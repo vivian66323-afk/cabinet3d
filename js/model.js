@@ -1900,16 +1900,20 @@
     return [t0, t1];
   }
   function outline2D(cab, view) {
-    if (!THREE || !cab || cab.kind !== 'appl' || OUTLINE_SKIP[cab.at]) return null;
+    // view 也可以是 { hx:[a,b], dz:[c,d] }：畫面水平＝局部 x*a+z*b、朝觀看者的深度＝x*c+z*d（立面圖從任意方向看；所有櫃體種類都可用）
+    const free = view && typeof view === 'object';
+    if (!THREE || !cab) return null;
+    if (!free && (cab.kind !== 'appl' || OUTLINE_SKIP[cab.at])) return null;
+    const B = free ? view : view === 'side' ? { hx: [0, 1], dz: [1, 0] } : { hx: [1, 0], dz: [0, 1] };
     const { id, x, z, rot, locked, name, ...rest } = cab;   // 位置／旋轉不影響形狀
-    const key = view + '|' + JSON.stringify(rest);
+    const key = (free ? 'v' + B.hx.concat(B.dz).map(n => n.toFixed(3)).join(',') : view) + '|' + JSON.stringify(rest);
     if (outlineCache.has(key)) return outlineCache.get(key);
     let out = null;
     try {
-      const g = new THREE.Group();
-      buildAppl(g, cab, false);
+      const g = buildCabinet(cab);          // 含踢腳、檯面與鏡射
+      g.position.set(0, 0, 0); g.rotation.set(0, 0, 0);
       g.updateMatrixWorld(true);
-      const m = cab.mirror ? -1 : 1, v = new THREE.Vector3(), items = [];
+      const v = new THREE.Vector3(), items = [];
       g.traverse(o => {
         if (!o.isMesh || !o.visible || !o.geometry || !o.geometry.attributes || !o.geometry.attributes.position) return;
         for (let p = o.parent; p; p = p.parent) if (!p.visible) return;
@@ -1917,10 +1921,8 @@
         const pts = []; let depth = -Infinity;
         for (let i = 0; i < n; i += step) {
           v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld);
-          const X = v.x * m;
-          if (view === 'front') { pts.push([X, v.y]); if (v.z > depth) depth = v.z; }
-          else if (view === 'side') { pts.push([v.z, v.y]); if (X > depth) depth = X; }
-          else { pts.push([X, v.z]); if (v.y > depth) depth = v.y; }
+          if (view === 'top') { pts.push([v.x, v.z]); if (v.y > depth) depth = v.y; }
+          else { pts.push([v.x * B.hx[0] + v.z * B.hx[1], v.y]); const dp = v.x * B.dz[0] + v.z * B.dz[1]; if (dp > depth) depth = dp; }
         }
         if (pts.some(p => !isFinite(p[0]) || !isFinite(p[1]))) return;
         const h = hull2(pts);
