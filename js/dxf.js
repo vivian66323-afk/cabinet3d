@@ -846,7 +846,7 @@
       rooms.forEach((room, ri) => {   // 立面：每個房間每面牆
         const rst = { ...st, room }, tag = rooms.length > 1 ? (ri + 1) + '-' : '', rpre = rooms.length > 1 ? (room.name || '') + '　' : '';
         room.points.forEach((_, i) => {
-          if (room.walls[i].off) return;   // 已刪除的牆面沒有立面
+          if (room.walls[i].off || room.walls[i].elev === false) return;   // 已刪除、或設定不出圖的牆面
           const wc = window.Drawings.wallCabinets(rst, i);
           if (o.walls === 'with-cab' && !wc.list.length) return;
           views.push({

@@ -167,9 +167,10 @@
       ${structSection(r)}
       <div class="list wall-list" style="margin-top:10px">${r.points.map((_, i) => {
         const w = r.walls[i], wi = M().wallInfo(r, i);
-        return `<div class="lrow" data-a="wall" data-i="${i}"><span>${M().wallName(i)}　<span class="muted">${Math.round(wi.len)} mm</span></span><span class="muted">${w.off ? '<b style="color:#c0392b">已刪除</b>' : w.openings.length ? w.openings.length + ' 門窗' : ''}</span><span title="${w.locked ? '已鎖定' : '未鎖定'}" style="color:${w.locked ? '#5f6368' : '#b0b7bf'}">${icon(w.locked ? 'lock' : 'unlock')}</span></div>`;
+        return `<div class="lrow" data-a="wall" data-i="${i}"><span>${M().wallName(i)}　<span class="muted">${Math.round(wi.len)} mm</span></span><span class="muted">${w.off ? '<b style="color:#c0392b">已刪除</b>' : w.openings.length ? w.openings.length + ' 門窗' : ''}</span>${w.off ? '' : `<label class="elev-chk" title="勾選＝這面牆要出立面圖"><input type="checkbox" data-f="wall-elev" data-i="${i}"${w.elev === false ? '' : ' checked'}>出圖</label>`}<span title="${w.locked ? '已鎖定' : '未鎖定'}" style="color:${w.locked ? '#5f6368' : '#b0b7bf'}">${icon(w.locked ? 'lock' : 'unlock')}</span></div>`;
       }).join('')}</div>
-      <p class="muted" style="font-size:11.5px;margin:6px 0 0">點選牆面（清單或 3D 視窗）即可放置門／窗並鎖定。</p>
+      <div class="btn-row" style="margin-top:6px"><span class="muted" style="font-size:11.5px;align-self:center">立面出圖：</span><button class="btn small" data-a="elev-all">全部</button><button class="btn small" data-a="elev-cab" title="只勾選有靠牆櫃體或家具的牆面">只出有櫃體的</button><button class="btn small" data-a="elev-none">全不出</button></div>
+      <p class="muted" style="font-size:11.5px;margin:6px 0 0">點選牆面（清單或 3D 視窗）即可放置門／窗並鎖定。勾「出圖」的牆面才會出立面圖，平面圖上會標對應的立面編號與圖號。</p>
       <div class="btn-row"><button class="btn small" data-a="room-wall-draw" title="在這個房間畫新的牆：牆刪掉後補牆、把某段牆換到別的位置。從牆線上起點，畫完點回牆線上">${icon('line')}新增／改畫牆面</button></div>
       <div class="btn-row"><button class="btn small" data-a="room-rebuild-rect">重建矩形</button><button class="btn small" data-a="room-rebuild-line">重新繪製</button></div>
       <div class="btn-row">${r.walls.every(w => w.off)
@@ -501,6 +502,7 @@
     if (t.dataset.sws) { UI.swSeries = val; UI.showProps(); return; }
     if (t.dataset.swb) { if (val === '__more') { UI.loadSwatches(); return; } UI.swBrand = val; UI.swSeries = 'all'; UI.showProps(); return; }
     // 專案層級
+    if (t.dataset.f === 'wall-elev') { const wi0 = +t.dataset.i, on = t.checked; App.mutate('立面出圖', x => { if (on) delete x.room.walls[wi0].elev; else x.room.walls[wi0].elev = false; }); return; }
     if (t.dataset.f === 'room-height') { const v = Math.max(1800, Math.min(6000, +val || 2800)); App.mutate('牆高', x => { x.room.height = v; x.room.walls.forEach(w => w.openings.forEach(o => { o.height = Math.min(o.height, v - o.sill - 10); })); }, 'room'); return; }
     if (UI._onCeilingChange(t, val)) return;   // 天花／燈具／冷氣／插座／迴路（js/ui-ceiling.js）
     if (t.dataset.f === 'room-floor') { const f = D.FLOORS.find(x => x.id === val); App.mutate('地板 ' + (f ? f.name : val), x => { x.room.floor = val; }, 'room'); App.toast('地板已改為「' + (f ? f.name : val) + '」'); return; }
@@ -613,6 +615,7 @@
     const sb = e.target.closest('[data-swt],[data-swc],[data-swg],[data-a="sw-all"]');
     if (sb && UI._onSwatchClick(sb)) return;
     if (e.target.closest('[data-a="sw-more"]')) { UI.loadSwatches(); return; }
+    if (e.target.closest('.elev-chk')) return;   // 「出圖」勾選：不要當成點選牆面
     const b = e.target.closest('[data-a],[data-ra],[data-sa],[data-oa]'); if (!b) return;
     const st = App.state, s = App.sel;
     const a = b.dataset.a;
@@ -629,6 +632,11 @@
     if (a === 'paint-clear') { App.mutate('牆面恢復預設', x => { delete x.room.wallColor; delete x.room.wallPaint; }, 'room'); return; }
     if (a === 'pick-paint-wall') { UI.pickPaint(+b.dataset.i); return; }
     if (a === 'paint-wall-clear') { const wi0 = +b.dataset.i; App.mutate('牆面同整體', x => { delete x.room.walls[wi0].color; delete x.room.walls[wi0].paint; }, 'room'); return; }
+    if (a === 'elev-all' || a === 'elev-none' || a === 'elev-cab') {
+      App.mutate('立面出圖', x => { x.room.walls.forEach((w, i) => { const on = a === 'elev-all' ? true : a === 'elev-none' ? false : window.Drawings.wallCabinets({ room: x.room, cabinets: x.cabinets }, i).list.length > 0; if (on) delete w.elev; else w.elev = false; }); });
+      const n = App.state.room.walls.filter(w => !w.off && w.elev !== false).length; App.toast(`這個房間有 ${n} 面牆會出立面圖`);
+      return;
+    }
     if (a === 'room-wall-draw') { UI.startRoomWall(); return; }
     if (a === 'st-col') { UI.startStructDraw('col'); return; }
     if (a === 'st-beam') { UI.startStructDraw('sbeam'); return; }

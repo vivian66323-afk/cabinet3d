@@ -594,18 +594,26 @@ ${tris}</mesh></geometry>`);
     const roomsOf = Dr().roomsOf;
     const extraOf = rooms => { const C = window.Ceiling; if (!C) return 0; const on = rooms.filter(r => r.ceiling && r.ceiling.on); if (!on.length) return 0; return 1 + ['light', 'hvac', 'power'].filter(g => on.some(r => C.counts(r, g).length)).length + on.filter(r => (r.circuits || []).length).length; };
     // 沒有空間也沒有櫃體的樓層不會出圖（下方迴圈會跳過），總頁數也不能算進去，否則標題欄的「頁次 x / y」會多 1
-    const total = floors.reduce((a, f) => { const rs = roomsOf(f); return a + (!rs.length && !(f.cabinets || []).length ? 0 : 1 + rs.reduce((b, r) => b + r.walls.reduce((c2, w, wi2) => c2 + (w.off ? 0 : 1 + (hasInside({ room: r, cabinets: f.cabinets || [] }, wi2) ? 1 : 0)), 0), 0) + extraOf(rs)); }, 0);
-    let pno = 0;
+    const total = floors.reduce((a, f) => { const rs = roomsOf(f); return a + (!rs.length && !(f.cabinets || []).length ? 0 : 1 + rs.reduce((b, r) => b + r.walls.reduce((c2, w, wi2) => c2 + (w.off || w.elev === false ? 0 : 1 + (hasInside({ room: r, cabinets: f.cabinets || [] }, wi2) ? 1 : 0)), 0), 0) + extraOf(rs)); }, 0);
+    let pno = 0, elevNo = 0;
     for (const fl of floors) {
     const rooms = roomsOf(fl);
     if (!rooms.length && !(fl.cabinets || []).length) continue;
     const st = { ...st0, room: fl.room || rooms[0] || null, rooms, cabinets: fl.cabinets || [] };
     const pre = multi ? fl.name + ' ' : '';
     const ceilRooms = window.Ceiling ? rooms.filter(r => r.ceiling && r.ceiling.on) : [];
+    // 立面索引：先算出每面要出圖的牆的立面編號與圖號（平面圖上的索引符號、立面圖的圖名泡泡共用）
+    const elevIdx = new Map();
+    { let pp = pno + 1 + extraOf(rooms);
+      rooms.forEach(room => room.walls.forEach((w, i) => {
+        if (w.off || w.elev === false) return;
+        elevIdx.set(room.id + ':' + i, { no: ++elevNo, sheet: 'ID-' + String(pp + 1).padStart(2, '0') });
+        pp += hasInside({ room, cabinets: fl.cabinets || [] }, i) ? 2 : 1;
+      })); }
     // 平面
     let pg = Dr().Page('landscape', 300, 'a3');
     let box = Dr().frame(pg, pre + '平面配置圖', info({ page: ++pno, pages: total }));
-    const s = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 });
+    const s = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { elevIndex: (room, i) => elevIdx.get(room.id + ':' + i) });
     legendFor(pg, st.cabinets, box.x1 - 50, box.y0 + 4);
     Dr().frame(pg, pre + '平面配置圖', info({ page: pno, pages: total, scale: s ? '1:' + s : '—' }));
     pages.push(pg);
@@ -640,20 +648,21 @@ ${tris}</mesh></geometry>`);
     const room = rooms[ri]; st.room = room;
     const tag = rooms.length > 1 ? (ri + 1) + '-' : '', rpre = rooms.length > 1 ? (room.name || '') + '　' : '';
     for (let i = 0; i < room.points.length; i++) {
-      if (room.walls[i].off) continue;   // 已刪除的牆面沒有立面
+      if (room.walls[i].off || room.walls[i].elev === false) continue;   // 已刪除、或設定不出圖的牆面
+      const eNo = (elevIdx.get(room.id + ':' + i) || {}).no;
       // 有門片的牆面出兩張：外觀（門片填色）＋內部（門片拿掉看層板／抽屜）
       for (const inside of (hasInside(st, i) ? [false, true] : [false])) {
       App.busy(true, `繪製 ${pre}${rpre}立面圖 ${i + 1} / ${room.points.length}`);
       await nextFrame();
       pg = Dr().Page('landscape', 300, 'a3');
       const title = `${pre}${rpre}立面圖　${window.Model.wallName(i)}（${tag}W${i + 1}）${inside ? '　內部' : ''}`;
-      box = Dr().frame(pg, title, info({ page: ++pno, pages: total }));
+      box = Dr().frame(pg, title, info({ page: ++pno, pages: total, no: eNo }));
       const res = Dr().elevation(pg, st, i, { x0: box.x0 + 14, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 8 }, { inside });
       legendFor(pg, res.cabs, box.x1 - 50, box.y0 + 44);
       // 索引小圖
       keyPlan(pg, st, i, box.x1 - 40, box.y0 + 2, 34);
       pg.text(box.x0 + 2, box.y1 - 2, `從室內面向 ${tag}W${i + 1} 觀看　比例 1:${res.s}　單位 cm　${res.count ? res.count + ' 件櫃體' : '此牆面無靠牆櫃體'}`, { size: 6.5, color: '#69727d' });
-      Dr().frame(pg, title, info({ page: pno, pages: total, scale: '1:' + res.s }));
+      Dr().frame(pg, title, info({ page: pno, pages: total, scale: '1:' + res.s, no: eNo }));
       pages.push(pg);
       }
     }

@@ -112,6 +112,22 @@
       pg.g.fillStyle = '#000000'; pg.g.beginPath(); pg.g.arc(n.x * pg.k, n.y * pg.k, 0.35 * pg.k, 0, Math.PI * 2); pg.g.fill();
     });
   };
+  /* 立面索引符號（畫在平面圖上）：圓圈上半是立面編號、下半是那張立面圖的圖號，黑色三角指向觀看的牆面。
+     c＝圓心（紙面 mm），dir＝指向牆面的單位向量 */
+  Dr.elevMark = function (pg, c, dir, no, sheet) {
+    const g = pg.g, k = pg.k, r = 3.6, px = -dir[1], py = dir[0];
+    g.save(); g.setLineDash([]);
+    g.fillStyle = '#000000'; g.beginPath();
+    g.moveTo((c[0] + dir[0] * (r + 2.4)) * k, (c[1] + dir[1] * (r + 2.4)) * k);
+    g.lineTo((c[0] + px * r * 1.05) * k, (c[1] + py * r * 1.05) * k);
+    g.lineTo((c[0] - px * r * 1.05) * k, (c[1] - py * r * 1.05) * k);
+    g.closePath(); g.fill();
+    g.beginPath(); g.arc(c[0] * k, c[1] * k, r * k, 0, Math.PI * 2); g.fillStyle = '#ffffff'; g.fill(); g.strokeStyle = '#000000'; g.lineWidth = 0.2 * k; g.stroke();
+    g.restore();
+    pg.line(c[0] - r, c[1], c[0] + r, c[1], 0.15, '#000000');
+    pg.text(c[0], c[1] - r * 0.42, String(no), { size: 7, bold: true, color: '#000000', align: 'center', base: 'middle' });
+    pg.text(c[0], c[1] + r * 0.45, String(sheet), { size: 4.2, color: '#000000', align: 'center', base: 'middle' });
+  };
   // 櫃名拆兩行：W…D…H… ／ 門片-S/M
   Dr.nameLines = function (name) {
     const m = /^(W\d+D\d+H\d+)-(.+)$/.exec(name);
@@ -198,7 +214,7 @@
       .forEach((t, i) => txt(cols[7] + 1.2 * u, y0 + (4.2 + i * 4.1) * u, t, 6.6, { maxW: Rr - cols[7] - 1.5 * u }));
     // 圖名泡泡（有比例時＝第二次呼叫，畫在圖面區下方中央）
     const box = { x0: L + 4 * u, y0: T + 4 * u, x1: Rr - 4 * u, y1: y0 - 12 * u };
-    if (info.scale && info.scale !== '—') Dr.caption(pg, wmm / 2, y0 - 8 * u, 1, no, title, info.scale, u);
+    if (info.scale && info.scale !== '—') Dr.caption(pg, wmm / 2, y0 - 8 * u, info.no || 1, no, title, info.scale, u);
     return box;
   };
   // 圖名泡泡：圓圈內上為序號、下為圖號，右側圖名加底線，下方 S=1/xx
@@ -546,6 +562,7 @@
       if (fill) { g.fillStyle = fill; g.fill(); }
       if (stroke) { g.strokeStyle = stroke; g.lineWidth = w * k; g.setLineDash(dash ? dash.map(v => v * k) : []); g.stroke(); g.setLineDash([]); }
     };
+    let ELEV_MARKS = null;   // 立面索引符號最後才畫，蓋在櫃體與標籤上面
     rooms.forEach((room, ri) => {
       const wtag = rooms.length > 1 ? (ri + 1) + '-' : '';   // 多房間：牆編號加房間序號（1-W1、2-W1…），與立面圖標題一致
       const fl = M().floorDef(room);
@@ -610,6 +627,14 @@
         const lab = P(wi.mid[0] + wi.nOut[0] * (T + 420 + 7.5 * s), wi.mid[1] + wi.nOut[1] * (T + 420 + 7.5 * s));
         pg.rect(lab[0] - 3.2, lab[1] - 2.2, 6.4, 4.4, { fill: '#fff', color: '#d0342c', w: 0.25 });
         pg.text(lab[0], lab[1] + 0.1, wtag + 'W' + (i + 1), { size: 6.5, bold: true, color: '#d0342c', align: 'center', base: 'middle' });
+        // 立面索引：這面牆有出立面圖時，在室內側（靠牆櫃體前方）標編號與圖號
+        const ei = opts.elevIndex && opts.elevIndex(room, i);
+        if (ei) (ELEV_MARKS = ELEV_MARKS || []).push(() => {
+          const deep = Math.max(0, ...Dr.wallCabinets({ room, cabinets: st.cabinets }, i).list.map(l => M().footDepth(l.cab)));
+          const far = Math.min(deep + 10 * s, Math.max(10 * s, deep + 10 * s)), c = P(wi.mid[0] + wi.nIn[0] * far, wi.mid[1] + wi.nIn[1] * far), t = P(wi.mid[0], wi.mid[1]);
+          const dl = Math.hypot(t[0] - c[0], t[1] - c[1]) || 1;
+          Dr.elevMark(pg, c, [(t[0] - c[0]) / dl, (t[1] - c[1]) / dl], ei.no, ei.sheet);
+        });
       });
       if (rooms.length > 1 && !CEIL && !SP) { const n = room.points.length, c = room.points.reduce((a, p) => [a[0] + p[0] / n, a[1] + p[1] / n], [0, 0]), C = P(c[0], c[1]); pg.text(C[0], C[1], room.name || '', { size: 7, bold: true, color: '#1f2328', align: 'center', base: 'middle' }); }
     });
@@ -668,6 +693,7 @@
       }
       Dr.tagLines(pg, C[0], C[1] + (c.hanging && under ? 5.2 : 0), lines, maxW);
     });
+    if (ELEV_MARKS && !CEIL) ELEV_MARKS.forEach(f => f());
     if (CEIL) { if (st.room && window.Ceiling) window.Ceiling.drawLegend(pg, st.room, box.x1 - 50, box.y0 + 4, LAYER); pg.text(box.x0 + 2, box.y1 - 3, `${{ ceiling: '天花板配置圖', lights: '燈具配置圖', hvac: '空調配置圖', power: '插座配置圖' }[LAYER]}　比例 1:${s}　單位 cm`, { size: 6.5, color: '#69727d' }); return s; }
     // 圖例
     const lx = box.x0 + 2, ly = box.y1 - 12;
