@@ -524,7 +524,7 @@
     // 天花板：角材骨架（與 PDF 立面相同）
     const ceil = window.Drawings.wallCeiling ? window.Drawings.wallCeiling(st, i) : null;
     if (ceil) {
-      window.Drawings.ceilingFrame(ceil, L, H).forEach(r => doc.rect(X0 + r[0], Y0 + r[1], r[2], r[3], 'A-CLNG'));   // 角材骨架：橫角材、吊筋、封板
+      window.Drawings.ceilingFrame(ceil, L, H).forEach(r => { doc.rect(X0 + r[0], Y0 + r[1], r[2], r[3], 'A-CLNG'); if (r[4] === 'x') { doc.line(X0 + r[0], Y0 + r[1], X0 + r[0] + r[2], Y0 + r[1] + r[3], 'A-CLNG'); doc.line(X0 + r[0] + r[2], Y0 + r[1], X0 + r[0], Y0 + r[1] + r[3], 'A-CLNG'); } });   // 角材骨架：橫角材、吊筋、封板
       if (opt.labels !== false) {
         if (!ceil.zones.some(z => z.left <= 1 && z.left + z.width > 300)) doc.text(X0 + p(1.5), Y0 + ceil.h - p(1), p(2.2), '天花板 H' + Math.round(ceil.h), { layer: 'A-CLNG', valign: 't' });
         ceil.zones.forEach(zn => doc.text(X0 + zn.left + zn.width / 2, Y0 + zn.h - p(1), p(2), `${zn.name} H${Math.round(zn.h)}`, { layer: 'A-CLNG', align: 'c', valign: 't' }));

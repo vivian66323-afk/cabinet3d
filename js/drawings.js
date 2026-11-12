@@ -247,10 +247,10 @@
     if (clip) { g.beginPath(); g.rect(clip[0] * k, clip[1] * k, clip[2] * k, clip[3] * k); g.clip(); }
     g.fillStyle = '#ffffff';
     o.polys.forEach(h => { g.beginPath(); h.forEach((p, i) => { const q = map(p[0], p[1]); i ? g.lineTo(q[0] * k, q[1] * k) : g.moveTo(q[0] * k, q[1] * k); }); g.closePath(); g.fill(); });
-    // 線寬層次：內部細節用細線 w，外輪廓用 2.3 倍；一律黑色實線
+    // 線寬比照菩語 CAD 出圖（大吾疆寶琚案 PDF）：細線 0.1mm 為主、外輪廓 0.2mm，一律黑色實線
     g.strokeStyle = color || '#000000';
     [0, 1].forEach(sil => {
-      g.lineWidth = (w || 0.15) * (sil ? 2.3 : 1) * k;
+      g.lineWidth = (w || 0.1) * (sil ? 2 : 1) * k;
       g.beginPath();
       o.segs.forEach(sg => { if ((sg[4] ? 1 : 0) !== sil) return; const a = map(sg[0], sg[1]), b = map(sg[2], sg[3]); g.moveTo(a[0] * k, a[1] * k); g.lineTo(b[0] * k, b[1] * k); });
       g.stroke();
@@ -334,7 +334,7 @@
   Dr.cabFront = function (pg, cab, x, y, s, o = {}) {
     const f = v => v / s; f.s = s;
     const W = f(cab.w), y0 = y - f(cab.y), H = f(cab.h);
-    const col = '#1f2328', thin = 0.15, mid = 0.3;
+    const col = '#000000', thin = 0.1, mid = 0.2;
     if (cab.kind === 'desk') { pg.rect(x, y0 - f(cab.thick), W, f(cab.thick), { w: 0.3, fill: Dr.fill(pg, cab.topColor, s) }); return; }
     if (cab.kind === 'appl') { Dr.applFront(pg, cab, x, y, s); return; }
     if (cab.kind === 'filler') { pg.rect(x, y0 - H, W, H, { w: 0.3, fill: Dr.fill(pg, cab.bodyColor, s, true) }); return; }
@@ -602,7 +602,7 @@
       const wp = Dr.cabWorldPoly(c);
       if (c.hanging) { poly(wp, null, Dr.PEN.mid, 0.3, [1.6, 1]); const q = wp.map(p => P(...p)); pg.line(q[0][0], q[0][1], q[2][0], q[2][1], 0.15, Dr.PEN.grey, [1.6, 1]); pg.line(q[1][0], q[1][1], q[3][0], q[3][1], 0.15, Dr.PEN.grey, [1.6, 1]); }   // 吊櫃：虛線框＋交叉
       else if (c.kind === 'appl') {
-        if (Dr.outline(pg, c, 'top', (X, Z) => P(...M().toWorld(c, X, Z)), 0.13)) return;   // 家具：畫實際外形（圓桌、沙發扶手、床頭…）
+        if (Dr.outline(pg, c, 'top', (X, Z) => P(...M().toWorld(c, X, Z)), 0.1)) return;   // 家具：畫實際外形（圓桌、沙發扶手、床頭…）
         poly(wp, '#ffffff', Dr.PEN.ink, 0.3);
         if (c.at === 'sink') { const cut = (D.byCode[c.code] || {}).cut || [c.w - 30, c.d - 30]; poly([[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([a, b]) => M().toWorld(c, a * (cut[0] - 30) / 2, b * (cut[1] - 30) / 2)), '#ffffff', Dr.PEN.ink, 0.2); }
         if (c.at === 'hob') [-0.25, 0.25].forEach(kx => { const q = P(...M().toWorld(c, kx * c.w, -c.d * 0.06)); g.beginPath(); g.arc(q[0] * k, q[1] * k, 68 / s * k, 0, Math.PI * 2); g.strokeStyle = '#9aa0a6'; g.lineWidth = 0.3 * k; g.stroke(); });
@@ -745,7 +745,7 @@
       rects.push([v.a, v.h + Bd, v.b - v.a, S]);                              // 板上橫角材
       if (v.b - v.a < 2 * S) return;
       const y0 = v.h + Bd + S, y1 = H - S, n = Math.max(1, Math.round((v.b - v.a - S) / PITCH));
-      for (let j = 0; j <= n; j++) rects.push([v.a + (v.b - v.a - S) * j / n, y0, S, y1 - y0]);   // 吊筋
+      for (let j = 0; j <= n; j++) { const hx = v.a + (v.b - v.a - S) * j / n; rects.push([hx, y0, S, y1 - y0]); rects.push([hx, y1, S, S, 'x']); rects.push([hx, v.h + Bd, S, S, 'x']); }   // 吊筋＋上下兩端的角材斷面（方框打叉）
     });
     return rects;
   };
@@ -770,11 +770,11 @@
     const s = Dr.fitScale(L + 1400, H + 900, box.x1 - box.x0, box.y1 - box.y0 - 6);
     const W = L / s, Hh = H / s;
     const x0 = (box.x0 + box.x1) / 2 - W / 2, y0 = (box.y0 + box.y1) / 2 + Hh / 2;
-    pg.rect(x0, y0 - Hh, W, Hh, { w: 0.7, fill: '#ffffff', color: '#000000' });   // 剖到的牆／樓板：粗線
+    pg.rect(x0, y0 - Hh, W, Hh, { w: 0.25, fill: '#ffffff', color: '#000000' });   // 剖到的牆／樓板輪廓
     // 剖切：兩側牆與樓板以斜線表示（比照施工圖），地坪線加粗
     { const T = Math.max(2, room.thickness / s), slab = Math.max(2, 150 / s);
       Dr.hatch(pg, x0 - T, y0 - Hh - slab, T, Hh + slab); Dr.hatch(pg, x0 + W, y0 - Hh - slab, T, Hh + slab); Dr.hatch(pg, x0, y0 - Hh - slab, W, slab); }
-    pg.line(x0 - 8, y0, x0 + W + 8, y0, 0.9, '#000000');   // 地坪線最粗
+    pg.line(x0 - 8, y0, x0 + W + 8, y0, 0.35, '#000000');   // 地坪線
     // 門窗
     room.walls[i].openings.forEach(o => {
       const sA = (wi.dir[0] * right[0] + wi.dir[1] * right[1]) > 0 ? o.offset : L - o.offset - o.width;
@@ -787,7 +787,11 @@
     // 天花板：以角材骨架呈現（樓板下橫角材、吊筋、板上橫角材、封板），降板／包樑／較高區各自一組
     const ceil = Dr.wallCeiling(st, i);
     if (ceil) {
-      Dr.ceilingFrame(ceil, L, H).forEach(r => pg.rect(x0 + r[0] / s, y0 - (r[1] + r[3]) / s, r[2] / s, r[3] / s, { w: r[4] === 'board' ? 0.35 : 0.13, fill: '#ffffff', color: '#000000' }));   // 封板中線、角材細線
+      Dr.ceilingFrame(ceil, L, H).forEach(r => {
+        const rx = x0 + r[0] / s, ry = y0 - (r[1] + r[3]) / s, rw = r[2] / s, rh = r[3] / s;
+        pg.rect(rx, ry, rw, rh, { w: r[4] === 'board' ? 0.2 : 0.1, fill: '#ffffff', color: '#000000' });
+        if (r[4] === 'x') { pg.line(rx, ry, rx + rw, ry + rh, 0.1, '#000000'); pg.line(rx + rw, ry, rx, ry + rh, 0.1, '#000000'); }   // 角材斷面：方框打叉
+      });
       ceil.zones.forEach(zn => pg.text(x0 + (zn.left + zn.width / 2) / s, y0 - zn.h / s + 2.6, `${zn.name} H${Dr.cm(zn.h)}`, { size: 4.8, align: 'center', color: '#3d4550' }));
       if (!ceil.zones.some(z => z.left <= 1 && z.left + z.width > 300)) pg.text(x0 + 1.5, y0 - ceil.h / s + 2.8, `天花板 H${Dr.cm(ceil.h)}`, { size: 5, color: '#3d4550' });   // 左端被降板等蓋住時不標基本高度
     }
@@ -802,7 +806,7 @@
     list.sort((a, b) => lay(a.cab) - lay(b.cab));
     list.forEach(({ cab, left }) => {
       Dr.cabFront(pg, cab, x0 + left / s, y0, s);
-      if (cab.kind !== 'appl' && cab.kind !== 'desk') pg.rect(x0 + left / s, y0 - (cab.y + cab.h) / s, cab.w / s, cab.h / s, { w: 0.4, color: '#000000' });   // 櫃體外框加粗，內部門片層板維持細線
+      if (cab.kind !== 'appl' && cab.kind !== 'desk') pg.rect(x0 + left / s, y0 - (cab.y + cab.h) / s, cab.w / s, cab.h / s, { w: 0.2, color: '#000000' });   // 櫃體外框 0.2，內部門片層板細線
       const lx = x0 + (left + cab.w / 2) / s;
       const ly = cab.hanging ? y0 - (cab.y + cab.h) / s - 2.2 : y0 + 3.4;
       if (cab.kind === 'appl') { const up = cab.mount === 'counter' || cab.hanging; Dr.tag(pg, lx, up ? y0 - (cab.y + cab.h) / s - (cab.at === 'sink' ? 9 : 2.8) : y0 - cab.y / s + 3.4, `${cab.code} ${D.APPL_TYPES[cab.at]}`, { size: 5.2, bold: true, color: '#7a4b00' }); return; }
@@ -813,7 +817,7 @@
       Dr.tagLines(pg, lx, cab.hanging ? y0 - cab.y / s + 1.4 : ly - 1.4, lines, cab.w / s - 0.6, 'top');   // 吊櫃標籤放在櫃底下方，避免和頂部尺寸線重疊
     });
     // 周邊環境：側牆櫃體的側面、房間中間的家具、獨立門片…（由遠到近，黑色實線、外輪廓較粗，裁在牆面範圍內）
-    Dr.wallOthers(st, i).forEach(o => Dr.outline(pg, o.cab, o.view, (X, Y) => [x0 + (o.sc + X) / s, y0 - Y / s], 0.13, [x0, y0 - Hh, W, Hh]));
+    Dr.wallOthers(st, i).forEach(o => Dr.outline(pg, o.cab, o.view, (X, Y) => [x0 + (o.sc + X) / s, y0 - Y / s], 0.1, [x0, y0 - Hh, W, Hh]));
     // 標註
     Dr.dim(pg, x0, y0 - Hh, x0 + W, y0 - Hh, Math.round(L) + '', -7 - Math.max(2, 150 / s), { size: 7 });
     if (ceil) Dr.dim(pg, x0 + W, y0, x0 + W, y0 - ceil.h / s, Math.round(ceil.h) + '', 14, { size: 5.8 });
