@@ -92,6 +92,26 @@
     let cy = anchor === 'top' ? y : anchor === 'bottom' ? y - tot : y - tot / 2;
     lines.forEach((l, i) => { Dr.tag(pg, x, cy + hs[i] / 2, l.t, { ...l, size: l.size * f }); cy += hs[i]; });
   };
+  /* 引線說明（比照菩語 CAD 立面）：notes = [{ x, y（圓點位置）, lines:[字串…] }]，文字排在 yTop 往下的幾列（rows 列），
+     灰字、細引線；同一列放不下就換列，靠右邊界放不下改放引線左側 */
+  Dr.leaderNotes = function (pg, notes, yTop, rows, xMax, size = 7) {
+    const col = '#6b7280', lh = size * 0.3528 + 0.9, ends = Array.from({ length: rows }, () => -Infinity);
+    const rowH = n => n * lh + 1.2, maxLines = Math.max(1, ...notes.map(n => n.lines.length));
+    notes.slice().sort((a, b) => a.x - b.x).forEach(n => {
+      pg.font(size);
+      const tw = Math.max(...n.lines.map(t => pg.g.measureText(t).width / pg.k));
+      let r = ends.findIndex(e => e < n.x - 1); if (r < 0) r = ends.indexOf(Math.min(...ends));
+      const left = n.x + 2 + tw > xMax, ty = yTop + r * rowH(maxLines);
+      ends[r] = left ? Math.max(ends[r], n.x) : n.x + 2.5 + tw;
+      pg.line(n.x, n.y, n.x, ty + lh * 0.5, 0.1, col);
+      n.lines.forEach((t, j) => {
+        const yy = ty + lh * (j + 0.5);
+        pg.line(n.x, yy, n.x + (left ? -1.4 : 1.4), yy, 0.1, col);
+        pg.text(n.x + (left ? -2 : 2), yy, t, { size, color: col, align: left ? 'right' : 'left', base: 'middle' });
+      });
+      pg.g.fillStyle = '#000000'; pg.g.beginPath(); pg.g.arc(n.x * pg.k, n.y * pg.k, 0.35 * pg.k, 0, Math.PI * 2); pg.g.fill();
+    });
+  };
   // 櫃名拆兩行：W…D…H… ／ 門片-S/M
   Dr.nameLines = function (name) {
     const m = /^(W\d+D\d+H\d+)-(.+)$/.exec(name);
@@ -203,7 +223,7 @@
     const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy); if (L < 0.3) return;
     const nx = -dy / L * off, ny = dx / L * off;
     const a1 = [x1 + nx, y1 + ny], a2 = [x2 + nx, y2 + ny];
-    const col = o.color || '#1a1a1a';
+    const col = o.color || '#000000';
     pg.line(x1 + nx * 0.15, y1 + ny * 0.15, a1[0] + nx / Math.abs(off) * 1.2, a1[1] + ny / Math.abs(off) * 1.2, 0.13, col);
     pg.line(x2 + nx * 0.15, y2 + ny * 0.15, a2[0] + nx / Math.abs(off) * 1.2, a2[1] + ny / Math.abs(off) * 1.2, 0.13, col);
     pg.line(a1[0], a1[1], a2[0], a2[1], 0.15, col);
@@ -214,7 +234,7 @@
     g.translate((a1[0] + a2[0]) / 2 * k, (a1[1] + a2[1]) / 2 * k);
     let ang = Math.atan2(dy, dx); if (ang > Math.PI / 2 + 0.01 || ang < -Math.PI / 2 - 0.01) ang += Math.PI;
     g.rotate(ang);
-    pg.font(o.size || 6.5);
+    pg.font(o.size || 7.5);
     g.fillStyle = col; g.textAlign = 'center'; g.textBaseline = 'bottom';
     g.fillText(text, 0, -0.6 * k);
     g.restore();
@@ -351,7 +371,8 @@
     // 檯面
     if (cab.top && cab.top !== 'none') { const th = D.PARTS.TOP[cab.top].thick; pg.rect(x, y0 - H - f(th), W, f(th), { w: thin, fill: Dr.fill(pg, cab.topColor || cab.doorColor, s, Dr.gv(cab, 'topColor', false)) }); }
     pg.rect(x, y0 - H, W, H, { w: mid, fill: bodyFill });
-    pg.rect(x + f(D.BOARD), y0 - H + f(D.BOARD), W - f(2 * D.BOARD), H - f(2 * D.BOARD), { stroke: false, fill: 'rgba(0,0,0,0.10)' });
+    if (o.inside) pg.rect(x + f(D.BOARD), y0 - H + f(D.BOARD), W - f(2 * D.BOARD), H - f(2 * D.BOARD), { stroke: false, fill: '#ffffff' });   // 內部視圖：櫃內留白
+    else pg.rect(x + f(D.BOARD), y0 - H + f(D.BOARD), W - f(2 * D.BOARD), H - f(2 * D.BOARD), { stroke: false, fill: 'rgba(0,0,0,0.10)' });
     let fx = x, fw = W;
     if (cab.kind === 'corner') {
       const dd = f(cab.d);
@@ -366,7 +387,8 @@
     const covered = yy => { let top = cab.h; for (const r of rows) { const lo = top - r.h * 10; if (yy >= lo && yy <= top) return !M().OPEN_ROW(r.t); top = lo; } return false; };
     cab.shelves.forEach(sh => {
       const yy = sh.y + D.BOARD / 2;
-      const hid = covered(yy);
+      const hid = !o.inside && covered(yy);
+      if (o.inside && fw > 13) pg.text(fx + f(D.BOARD) + 1, y0 - f(yy) - 0.9, sh.fixed ? '固定層板' : '活動層板', { size: 4.2, color: '#8a9099' });
       pg.line(fx + f(D.BOARD), y0 - f(yy), fx + fw - f(D.BOARD), y0 - f(yy), sh.fixed ? 0.25 : 0.15, hid ? '#404040' : col, hid ? [1.2, 0.8] : null);
     });
     // 門片
@@ -375,6 +397,7 @@
     rows.forEach((r, ri) => {
       const rh = f(r.h * 10), lipF = f(M().rowLip(cab, rows, ri));
       const leaf = (lx, lw, hinge, glass) => {
+        if (o.inside) return;   // 內部視圖：門片拿掉
         pg.rect(lx + gap, top + gap, lw - 2 * gap, rh - 2 * gap + lipF, { w: 0.22, fill: glass ? 'rgba(210,232,238,0.85)' : doorFill(rh > lw) });
         const hx = hinge === 'L' ? lx + gap : lx + lw - gap, fxx = hinge === 'L' ? lx + lw - gap : lx + gap;
         [['rgba(255,255,255,0.8)', 0.3, null], ['#3a3a3a', 0.13, [1.2, 0.8]]].forEach(([c, w, d]) => {
@@ -389,8 +412,9 @@
         // 電器抽：底部 H50 抽頭（門片色），上方為開放格
         pg.rect(fx + gap, top + rh - f(M().E_FRONT) + gap, fw - 2 * gap, f(M().E_FRONT) - 2 * gap, { w: 0.22, fill: doorFill(false) });
       } else if (r.t === 'D') {
-        pg.rect(fx + gap, top + gap, fw - 2 * gap, rh - 2 * gap, { w: 0.22, fill: doorFill(false) });
-        Dr.handleMark(pg, cab, fx + gap, top + gap, fw - 2 * gap, rh - 2 * gap, null, f);
+        pg.rect(fx + gap, top + gap, fw - 2 * gap, rh - 2 * gap, { w: 0.22, fill: o.inside ? '#ffffff' : doorFill(false) });
+        if (o.inside) { if (rh > 3.2 && fw > 9) pg.text(fx + fw / 2, top + rh / 2, '抽屜', { size: 4.2, color: '#8a9099', align: 'center', base: 'middle' }); }
+        else Dr.handleMark(pg, cab, fx + gap, top + gap, fw - 2 * gap, rh - 2 * gap, null, f);
       } else if (r.t === 'L' || r.t === 'R') leaf(fx, fw, r.t);
       else if (r.t === 'G') leaf(fx, fw, 'L', true);
       else if (r.t === 'P') { leaf(fx, fw / 2, 'L'); leaf(fx + fw / 2, fw / 2, 'R'); }
@@ -508,11 +532,15 @@
     let minx = Infinity, maxx = -Infinity, minz = Infinity, maxz = -Infinity;
     pts.forEach(([x, z]) => { minx = Math.min(minx, x); maxx = Math.max(maxx, x); minz = Math.min(minz, z); maxz = Math.max(maxz, z); });
     const margin = 900;
-    const s = Dr.fitScale(maxx - minx + 2 * margin, maxz - minz + 2 * margin, box.x1 - box.x0, box.y1 - box.y0);
-    const cx = (box.x0 + box.x1) / 2, cy = (box.y0 + box.y1) / 2;
+    // opts.strip = { P, s, clip:[x,y,w,h] }：用呼叫端給的座標轉換畫局部平面（立面圖上方那一條），不畫標註、標籤與圖例
+    const SP = opts.strip || null;
+    if (!SP && !box) return null;
+    const s = SP ? SP.s : Dr.fitScale(maxx - minx + 2 * margin, maxz - minz + 2 * margin, box.x1 - box.x0, box.y1 - box.y0);
+    const cx = SP ? 0 : (box.x0 + box.x1) / 2, cy = SP ? 0 : (box.y0 + box.y1) / 2;
     const mx = (minx + maxx) / 2, mz = (minz + maxz) / 2;
-    const P = (x, z) => [cx + (x - mx) / s, cy + (z - mz) / s];
+    const P = SP ? SP.P : (x, z) => [cx + (x - mx) / s, cy + (z - mz) / s];
     const g = pg.g, k = pg.k;
+    if (SP) { g.save(); g.beginPath(); g.rect(SP.clip[0] * k, SP.clip[1] * k, SP.clip[2] * k, SP.clip[3] * k); g.clip(); }
     const poly = (arr, fill, stroke, w, dash) => {
       g.beginPath(); arr.forEach((p, i) => { const q = P(p[0], p[1]); i ? g.lineTo(q[0] * k, q[1] * k) : g.moveTo(q[0] * k, q[1] * k); }); g.closePath();
       if (fill) { g.fillStyle = fill; g.fill(); }
@@ -582,16 +610,17 @@
             g.arc(A[0] * k, A[1] * k, r * k, a0, a0 + d, d < 0); g.stroke(); g.setLineDash([]);
           }
         });
+        if (SP) return;
         // 牆長標註
         const offMM = (T + 420) / s;
         const A = P(...wi.p), Bq = P(...wi.q);
         const sgn = (() => { const dx = Bq[0] - A[0], dy = Bq[1] - A[1]; const nx = -dy, ny = dx; const on = [wi.nOut[0], wi.nOut[1]]; return nx * on[0] + ny * on[1] > 0 ? 1 : -1; })();
-        Dr.dim(pg, A[0], A[1], Bq[0], Bq[1], Math.round(wi.len) + '', sgn * offMM, { size: 7 });
+        Dr.dim(pg, A[0], A[1], Bq[0], Bq[1], Math.round(wi.len) + '', sgn * offMM, { size: 9 });
         const lab = P(wi.mid[0] + wi.nOut[0] * (T + 420 + 7.5 * s), wi.mid[1] + wi.nOut[1] * (T + 420 + 7.5 * s));
         pg.rect(lab[0] - 3.2, lab[1] - 2.2, 6.4, 4.4, { fill: '#fff', color: '#d0342c', w: 0.25 });
         pg.text(lab[0], lab[1] + 0.1, wtag + 'W' + (i + 1), { size: 6.5, bold: true, color: '#d0342c', align: 'center', base: 'middle' });
       });
-      if (rooms.length > 1 && !CEIL) { const n = room.points.length, c = room.points.reduce((a, p) => [a[0] + p[0] / n, a[1] + p[1] / n], [0, 0]), C = P(c[0], c[1]); pg.text(C[0], C[1], room.name || '', { size: 7, bold: true, color: '#1f2328', align: 'center', base: 'middle' }); }
+      if (rooms.length > 1 && !CEIL && !SP) { const n = room.points.length, c = room.points.reduce((a, p) => [a[0] + p[0] / n, a[1] + p[1] / n], [0, 0]), C = P(c[0], c[1]); pg.text(C[0], C[1], room.name || '', { size: 7, bold: true, color: '#1f2328', align: 'center', base: 'middle' }); }
     });
     // 樑柱：柱＝實心灰塊，樑＝紫色虛線框
     rooms.forEach(room => M().structBoxes(room).forEach(b => { if (b.s.kind === 'col') poly(b.poly, '#8d939b', '#1f2328', 0.35); else poly(b.poly, null, '#7b52ab', 0.3, [1.6, 1]); }));
@@ -617,6 +646,7 @@
         if (!c.hanging && c.kind !== 'appl' && c.fronts.some(r => !M().OPEN_ROW(r.t))) { const ix = (P(c.x, c.z)[0] - (A[0] + Bq[0]) / 2), iy = (P(c.x, c.z)[1] - (A[1] + Bq[1]) / 2), il = Math.hypot(ix, iy) || 1, d = Math.min(0.6, il * 0.15); pg.line(A[0] + ix / il * d, A[1] + iy / il * d, Bq[0] + ix / il * d, Bq[1] + iy / il * d, 0.25, Dr.PEN.ink); }   // 門片線：前緣內側細線
       }
     });
+    if (SP) { g.restore(); return s; }
     // 型號標籤最後繪製，避免被吊櫃虛線覆蓋
     cabs.forEach(c => {
       const wp = Dr.cabWorldPoly(c);
@@ -763,13 +793,26 @@
     });
     return out;
   };
-  Dr.elevation = function (pg, st, i, box) {
+  Dr.elevation = function (pg, st, i, box, opt = {}) {
     const room = st.room;
     const { wi, list, base, right } = Dr.wallCabinets(st, i);
     const L = wi.len, H = room.height;
-    const s = Dr.fitScale(L + 1400, H + 900, box.x1 - box.x0, box.y1 - box.y0 - 6);
-    const W = L / s, Hh = H / s;
-    const x0 = (box.x0 + box.x1) / 2 - W / 2, y0 = (box.y0 + box.y1) / 2 + Hh / 2;
+    // 版面由上到下：局部平面（與立面同寬、同比例，牆在上、室內在下）→ 引線說明 → 總長標註 → 立面 → 分段標註
+    const Tw = room.thickness, deep = Math.max(0, ...list.map(l => M().footDepth(l.cab)));
+    const stripD = Tw + Math.min(1600, Math.max(700, deep + 450));
+    const NOTE = 24, TOPDIM = 12, BOT = 22;
+    const s = Dr.fitScale(L + 1400, H + 150 + stripD, box.x1 - box.x0, box.y1 - box.y0 - NOTE - TOPDIM - BOT - 4);
+    const W = L / s, Hh = H / s, slabH = Math.max(2, 150 / s);
+    const x0 = (box.x0 + box.x1) / 2 - W / 2;
+    const totalH = stripD / s + NOTE + TOPDIM + slabH + Hh + BOT;
+    const sy0 = Math.max(box.y0 + 2, (box.y0 + box.y1) / 2 - totalH / 2);
+    const noteY = sy0 + stripD / s + 2.5;
+    const y0 = sy0 + stripD / s + NOTE + TOPDIM + slabH + Hh;
+    { // 局部平面
+      const PP = (x, z) => { const dx = x - wi.p[0], dz = z - wi.p[1]; return [x0 + (dx * right[0] + dz * right[1] - base) / s, sy0 + (Tw + dx * wi.nIn[0] + dz * wi.nIn[1]) / s]; };
+      const ext = Tw / s + 1;
+      Dr.plan(pg, st, null, { strip: { P: PP, s, clip: [x0 - ext, sy0, W + 2 * ext, stripD / s] } });
+    }
     pg.rect(x0, y0 - Hh, W, Hh, { w: 0.25, fill: '#ffffff', color: '#000000' });   // 剖到的牆／樓板輪廓
     // 剖切：兩側牆與樓板以斜線表示（比照施工圖），地坪線加粗
     { const T = Math.max(2, room.thickness / s), slab = Math.max(2, 150 / s);
@@ -804,38 +847,39 @@
     });
     const lay = c => c.hanging ? 3 : c.kind === 'appl' ? 2 : c.kind === 'desk' ? 1 : 0;
     list.sort((a, b) => lay(a.cab) - lay(b.cab));
+    const notes = [];
     list.forEach(({ cab, left }) => {
-      Dr.cabFront(pg, cab, x0 + left / s, y0, s);
+      Dr.cabFront(pg, cab, x0 + left / s, y0, s, { inside: !!opt.inside });
       if (cab.kind !== 'appl' && cab.kind !== 'desk') pg.rect(x0 + left / s, y0 - (cab.y + cab.h) / s, cab.w / s, cab.h / s, { w: 0.2, color: '#000000' });   // 櫃體外框 0.2，內部門片層板細線
-      const lx = x0 + (left + cab.w / 2) / s;
-      const ly = cab.hanging ? y0 - (cab.y + cab.h) / s - 2.2 : y0 + 3.4;
-      if (cab.kind === 'appl') { const up = cab.mount === 'counter' || cab.hanging; Dr.tag(pg, lx, up ? y0 - (cab.y + cab.h) / s - (cab.at === 'sink' ? 9 : 2.8) : y0 - cab.y / s + 3.4, `${cab.code} ${D.APPL_TYPES[cab.at]}`, { size: 5.2, bold: true, color: '#7a4b00' }); return; }
-      if (cab.kind === 'desk') { Dr.tag(pg, lx, y0 - (cab.y + cab.thick) / s - 2.2, `${window.Pricing.describe(cab).split('　')[0]}  ${cab.topColor}`, { size: 5.4, bold: true }); return; }
-      const col = cab.hanging ? '#1f5fd6' : '#1f2328';
-      const lines = Dr.nameLines(M().cabName(cab)).map(t => ({ t, size: 5.6, bold: true, color: col }));
-      lines.push({ t: `${cab.bodyColor}${cab.fronts.some(r => !M().OPEN_ROW(r.t)) ? '/' + cab.doorColor : ''}`, size: 4.6, color: '#3d4550' });
-      Dr.tagLines(pg, lx, cab.hanging ? y0 - cab.y / s + 1.4 : ly - 1.4, lines, cab.w / s - 0.6, 'top');   // 吊櫃標籤放在櫃底下方，避免和頂部尺寸線重疊
+      // 說明文字：灰字＋引線，排在局部平面與立面之間
+      const hh = cab.kind === 'desk' ? cab.thick : cab.h;
+      const nx = x0 + (left + cab.w * 0.5) / s, ny = y0 - (cab.y + hh * (cab.kind === 'desk' ? 0.5 : 0.6)) / s;
+      let lines;
+      if (cab.kind === 'appl') lines = [`${cab.code} ${D.APPL_TYPES[cab.at] || ''}`];
+      else if (cab.kind === 'desk') lines = [`${window.Pricing.describe(cab).split('　')[0]}  ${cab.topColor}`];
+      else lines = [M().cabName(cab), `${cab.bodyColor}${cab.fronts.some(r => !M().OPEN_ROW(r.t)) ? '/' + cab.doorColor : ''}`];
+      notes.push({ x: nx, y: ny, lines });
     });
+    Dr.leaderNotes(pg, notes, noteY, 3, box.x1 + 40);
     // 周邊環境：側牆櫃體的側面、房間中間的家具、獨立門片…（由遠到近，黑色實線、外輪廓較粗，裁在牆面範圍內）
     Dr.wallOthers(st, i).forEach(o => Dr.outline(pg, o.cab, o.view, (X, Y) => [x0 + (o.sc + X) / s, y0 - Y / s], 0.1, [x0, y0 - Hh, W, Hh]));
     // 標註
-    Dr.dim(pg, x0, y0 - Hh, x0 + W, y0 - Hh, Math.round(L) + '', -7 - Math.max(2, 150 / s), { size: 7 });
-    if (ceil) Dr.dim(pg, x0 + W, y0, x0 + W, y0 - ceil.h / s, Math.round(ceil.h) + '', 14, { size: 5.8 });
-    Dr.dim(pg, x0 + W, y0, x0 + W, y0 - Hh, H + '', 7, { size: 7 });
+    Dr.dim(pg, x0, y0 - Hh, x0 + W, y0 - Hh, Math.round(L) + '', -5 - slabH, { size: 9 });
+    if (ceil) Dr.dim(pg, x0 + W, y0, x0 + W, y0 - ceil.h / s, Math.round(ceil.h) + '', 8 + Tw / s, { size: 8 });
+    Dr.dim(pg, x0 + W, y0, x0 + W, y0 - Hh, H + '', 16 + Tw / s, { size: 9 });
     const floor = list.filter(l => !l.cab.hanging && l.cab.kind !== 'desk' && (l.cab.kind !== 'appl' || l.cab.mount === 'floor')).sort((a, b) => a.left - b.left);
     if (floor.length) {
       let cur = 0;
       floor.forEach(({ cab, left }) => {
-        if (left - cur > 5) Dr.dim(pg, x0 + cur / s, y0, x0 + left / s, y0, Math.round(left - cur) + '', 16, { size: 5.8 });
-        Dr.dim(pg, x0 + left / s, y0, x0 + (left + cab.w) / s, y0, cab.w + '', 16, { size: 5.8 });
+        if (left - cur > 5) Dr.dim(pg, x0 + cur / s, y0, x0 + left / s, y0, Math.round(left - cur) + '', 9, { size: 8 });
+        Dr.dim(pg, x0 + left / s, y0, x0 + (left + cab.w) / s, y0, cab.w + '', 9, { size: 8 });
         cur = Math.max(cur, left + cab.w);
       });
-      if (L - cur > 5) Dr.dim(pg, x0 + cur / s, y0, x0 + W, y0, Math.round(L - cur) + '', 16, { size: 5.8 });
+      if (L - cur > 5) Dr.dim(pg, x0 + cur / s, y0, x0 + W, y0, Math.round(L - cur) + '', 9, { size: 8 });
     }
     const hs = [...new Set(list.map(l => l.cab))];
     const tallest = hs.filter(c => !c.hanging).sort((a, b) => (b.y + b.h) - (a.y + a.h))[0];
-    if (tallest) Dr.dim(pg, x0, y0, x0, y0 - (tallest.y + tallest.h) / s, (tallest.y + tallest.h) + '', -7, { size: 5.8 });
-    void base;
+    if (tallest) Dr.dim(pg, x0, y0, x0, y0 - (tallest.y + tallest.h) / s, (tallest.y + tallest.h) + '', -8 - Tw / s, { size: 8 });
     return { s, count: list.length, cabs: list.map(l => l.cab) };
   };
 

@@ -594,7 +594,7 @@ ${tris}</mesh></geometry>`);
     const roomsOf = Dr().roomsOf;
     const extraOf = rooms => { const C = window.Ceiling; if (!C) return 0; const on = rooms.filter(r => r.ceiling && r.ceiling.on); if (!on.length) return 0; return 1 + ['light', 'hvac', 'power'].filter(g => on.some(r => C.counts(r, g).length)).length + on.filter(r => (r.circuits || []).length).length; };
     // 沒有空間也沒有櫃體的樓層不會出圖（下方迴圈會跳過），總頁數也不能算進去，否則標題欄的「頁次 x / y」會多 1
-    const total = floors.reduce((a, f) => { const rs = roomsOf(f); return a + (!rs.length && !(f.cabinets || []).length ? 0 : 1 + rs.reduce((b, r) => b + r.walls.filter(w => !w.off).length, 0) + extraOf(rs)); }, 0);
+    const total = floors.reduce((a, f) => { const rs = roomsOf(f); return a + (!rs.length && !(f.cabinets || []).length ? 0 : 1 + rs.reduce((b, r) => b + r.walls.reduce((c2, w, wi2) => c2 + (w.off ? 0 : 1 + (hasInside({ room: r, cabinets: f.cabinets || [] }, wi2) ? 1 : 0)), 0), 0) + extraOf(rs)); }, 0);
     let pno = 0;
     for (const fl of floors) {
     const rooms = roomsOf(fl);
@@ -641,24 +641,31 @@ ${tris}</mesh></geometry>`);
     const tag = rooms.length > 1 ? (ri + 1) + '-' : '', rpre = rooms.length > 1 ? (room.name || '') + '　' : '';
     for (let i = 0; i < room.points.length; i++) {
       if (room.walls[i].off) continue;   // 已刪除的牆面沒有立面
+      // 有門片的牆面出兩張：外觀（門片填色）＋內部（門片拿掉看層板／抽屜）
+      for (const inside of (hasInside(st, i) ? [false, true] : [false])) {
       App.busy(true, `繪製 ${pre}${rpre}立面圖 ${i + 1} / ${room.points.length}`);
       await nextFrame();
       pg = Dr().Page('landscape', 300, 'a3');
-      const title = `${pre}${rpre}立面圖　${window.Model.wallName(i)}（${tag}W${i + 1}）`;
+      const title = `${pre}${rpre}立面圖　${window.Model.wallName(i)}（${tag}W${i + 1}）${inside ? '　內部' : ''}`;
       box = Dr().frame(pg, title, info({ page: ++pno, pages: total }));
-      const res = Dr().elevation(pg, st, i, { x0: box.x0 + 14, y0: box.y0 + 8, x1: box.x1 - 58, y1: box.y1 - 12 });
+      const res = Dr().elevation(pg, st, i, { x0: box.x0 + 14, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 8 }, { inside });
       legendFor(pg, res.cabs, box.x1 - 50, box.y0 + 44);
       // 索引小圖
       keyPlan(pg, st, i, box.x1 - 40, box.y0 + 2, 34);
       pg.text(box.x0 + 2, box.y1 - 2, `從室內面向 ${tag}W${i + 1} 觀看　比例 1:${res.s}　單位 cm　${res.count ? res.count + ' 件櫃體' : '此牆面無靠牆櫃體'}`, { size: 6.5, color: '#69727d' });
       Dr().frame(pg, title, info({ page: pno, pages: total, scale: '1:' + res.s }));
       pages.push(pg);
+      }
     }
     }
     }
     if (!pages.length) { App.ui.alert('無法匯出', '各樓層都尚未建立空間或放置櫃體。'); return; }
     pagesToPDF(pages, `${safe(st0.name)}_平面圖及立面圖_${stamp()}`);
   };
+  // 這面牆的靠牆櫃體有門片（或抽屜）→ 立面多出一張內部視圖
+  function hasInside(st, i) {
+    return Dr().wallCabinets(st, i).list.some(l => l.cab.kind !== 'appl' && l.cab.kind !== 'desk' && (l.cab.fronts || []).some(r => !window.Model.OPEN_ROW(r.t)));
+  }
   // 本頁使用色板圖例
   function legendFor(pg, cabs, x, y) {
     const used = new Map();
