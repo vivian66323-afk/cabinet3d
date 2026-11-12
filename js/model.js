@@ -356,6 +356,50 @@
     if (selfCross(room.points)) return { err: '修改後牆面會互相交叉，請減少距離' };
     return { dropped };
   }
+  /* 在既有房間新增／改畫牆面：path 是畫出來的折線，頭尾都要落在這個房間的牆線（室內面，含已刪除的牆）上。
+     頭尾之間原本的那一段邊界換成這條折線：牆刪掉後補一道位置不同的牆、把某段牆往內外移、加一段凹凸都用它。
+     兩個方向都能換時，優先換掉含「已刪除牆面」的那一側，否則換較短的那一側。
+     保留下來的牆維持原本的門窗、顏色與鎖定；被切短的牆上放不下的門窗會移除。回傳 { err } 或 { dropped } */
+  function onInner(room, p, tol = 30) {
+    const P = room.points, n = P.length;
+    for (let i = 0; i < n; i++) {
+      const a = P[i], b = P[(i + 1) % n], dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz) || 1;
+      const t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dz) / L, d = Math.abs((p[0] - a[0]) * dz - (p[1] - a[1]) * dx) / L;
+      if (d <= tol && t >= -tol && t <= L + tol) return { i, t: Math.max(0, Math.min(L, t)) };
+    }
+    return null;
+  }
+  function reshapeRoom(room, path) {
+    path = (path || []).map(p => [Math.round(p[0]), Math.round(p[1])]);
+    if (path.length < 2) return { err: '至少要點兩個點' };
+    if (!onInner(room, path[0]) || !onInner(room, path[path.length - 1])) return { err: '起點和終點都要點在這個房間的牆線上' };
+    const ctx = wallEditBegin(room), P = room.points, W = room.walls, n = P.length;
+    const elen = k => segLen(P[k], P[(k + 1) % n]);
+    // 牆被切開時，門窗只留在「中心點所在」的那一段（lo～hi 是這一段在原牆上的範圍）
+    const cloneW = (w, lo, hi, newId) => { const c = JSON.parse(JSON.stringify(w)); if (newId) c.id = uid('w'); c.openings = c.openings.filter(o => { const m = o.offset + o.width / 2; return m >= lo && m < hi; }); c.openings.forEach(o => { o.offset -= isFinite(lo) ? lo : 0; }); return c; };
+    const before = W.reduce((a, w) => a + w.openings.length, 0);
+    const build = pth => {   // 把「從 pth 起點沿邊界往前走到 pth 終點」的那一段換成 pth
+      const ha = onInner(room, pth[0]), hb = onInner(room, pth[pth.length - 1]);
+      let rep = 0, offs = 0;
+      if (ha.i === hb.i && hb.t >= ha.t) { rep = hb.t - ha.t; if (W[ha.i].off) offs++; }
+      else { rep = elen(ha.i) - ha.t; if (W[ha.i].off) offs++; for (let k = (ha.i + 1) % n; k !== hb.i; k = (k + 1) % n) { rep += elen(k); if (W[k].off) offs++; } rep += hb.t; if (W[hb.i].off) offs++; }
+      const pts = [], walls = [];
+      pth.forEach((p, k) => { pts.push(p.slice()); if (k < pth.length - 1) walls.push({ id: uid('w'), locked: false, openings: [] }); });
+      walls.push(cloneW(W[hb.i], hb.t, Infinity, false));             // 終點 → 原牆剩下的後半段
+      for (let k = (hb.i + 1) % n, guard = 0; guard <= n; k = (k + 1) % n, guard++) {
+        pts.push(P[k].slice());
+        if (k === ha.i) { walls.push(cloneW(W[ha.i], -Infinity, ha.t, ha.i === hb.i)); break; }   // 原牆的前半段 → 回到起點
+        walls.push(W[k]);
+      }
+      return { pts, walls, rep, offs };
+    };
+    const c1 = build(path), c2 = build(path.slice().reverse());
+    const pick = (c1.offs > 0 && c2.offs === 0) ? c1 : (c2.offs > 0 && c1.offs === 0) ? c2 : (c1.rep <= c2.rep ? c1 : c2);
+    room.points = pick.pts; room.walls = pick.walls;
+    const res = wallEditEnd(room, ctx);
+    if (!res.err) res.dropped = before - room.walls.reduce((a, w) => a + w.openings.length, 0);   // 實際少掉的門窗數
+    return res;
+  }
   function wallPush(room, i, d) {
     const n = room.points.length, W = room.walls[i];
     if (!W) return { err: '找不到牆面' };
@@ -2023,7 +2067,7 @@
 
   window.Model = {
     init(T) { THREE = T; },
-    outline2D, outerRing, onOuter, joinPath, markShared, uid, structBoxes, structName, wallPush, wallJog, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS, GLASS_TYPES, ALU_COLORS, glassMat,
+    outline2D, onInner, reshapeRoom, outerRing, onOuter, joinPath, markShared, uid, structBoxes, structName, wallPush, wallJog, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS, GLASS_TYPES, ALU_COLORS, glassMat,
     createRoom, rectRoom, wallInfo, wallName, polyArea, pointInPoly, isModified, cabName,
     rowLip, OPEN_ROW, E_FRONT, buildCabinet, buildRoom, triShape, getMat, clearMatCache, clearSwatchTex, grainOf, imgGrainOf, floorDef, deskGeom, resizeCabinet, handleOf, handleEdge, insetPos, counterOver, deskHoles, isCounterAppl, toLocal, toWorld
   };

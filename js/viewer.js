@@ -1543,7 +1543,7 @@
     // 追蹤參考點：已畫的點＋既有空間牆角
     const refs = pts.map((q, i) => ({ q, name: i === 0 ? '起點' : `第 ${i + 1} 點` }));
     allRooms().forEach(rm => rm.points.forEach(q => refs.push({ q, name: '牆角' })));
-    const ROOMDRAW = !V.lineTarget || V.lineTarget === 'room';
+    const ROOMDRAW = !V.lineTarget || V.lineTarget === 'room', RWALL = V.lineTarget === 'rwall' && !!room;
     if (ROOMDRAW) allRooms().forEach(rm => M().outerRing(rm).forEach(q => refs.push({ q: [Math.round(q[0]), Math.round(q[1])], name: '舊牆外角' })));   // 新房間接在舊牆外側
     if (room && window.Ceiling && V.lineTarget && V.lineTarget !== 'room' && !/^ol:/.test(V.lineTarget)) refs.push(...window.Ceiling.snapRefs(room));   // 既有天花／燈具／鋁槽燈的點
     // 1. 起點（封閉）
@@ -1587,10 +1587,11 @@
     // 同時對齊起點 X 與 Y → 即為起點，可封閉
     if (pts.length > 2 && x === pts[0][0] && z === pts[0][1]) return { p: pts[0].slice(), snap: '起點（封閉）', close: true, guides: [] };
     // 6. 舊牆外側：畫新房間時游標靠近既有房間的外牆面就貼上去（有軸向時沿軸向延伸到牆面），新房間可與舊牆共用
-    if (ROOMDRAW) {
+    //    在既有房間新增牆面（rwall）：改貼目前房間的牆線（室內面，含已刪除的牆）
+    if (ROOMDRAW || RWALL) {
       let best = null;
-      allRooms().forEach(rm => { const O = M().outerRing(rm); O.forEach((a, i) => {
-        if (rm.walls[i].off) return;
+      (RWALL ? [room] : allRooms()).forEach(rm => { const O = RWALL ? rm.points : M().outerRing(rm); O.forEach((a, i) => {
+        if (!RWALL && rm.walls[i].off) return;
         const b = O[(i + 1) % O.length], dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz) || 1, ux = dx / L, uz = dz / L;
         let px, pz;
         if (axis && from) { const ax = axis === 'X' ? [1, 0] : [0, 1], den = ax[0] * uz - ax[1] * ux; if (Math.abs(den) < 1e-6) return; const t = ((a[0] - from[0]) * uz - (a[1] - from[1]) * ux) / den; px = from[0] + ax[0] * t; pz = from[1] + ax[1] * t; }
@@ -1599,7 +1600,7 @@
         const d = Math.hypot(px - x, pz - z);
         if (d < tol * 1.3 && (!best || d < best.d)) best = { d, p: [Math.round(px), Math.round(pz)] };
       }); });
-      if (best) return { p: best.p, snap: '線上（舊牆外側，可共用）', axis, guides };
+      if (best) return { p: best.p, snap: RWALL ? '線上（這個房間的牆線）' : '線上（舊牆外側，可共用）', axis, guides };
     }
     return { p: [x, z], snap: tags.join(' · '), axis, guides };
   }
@@ -1638,7 +1639,7 @@
   const SURF_TARGET = /^(fx:|row:|grid:|strip|track|supply|ret|acsys)/;
   function drawY(x, z) {
     const t = V.lineTarget, r = App.state && App.state.room;
-    if (V.tool !== 'line' || !t || t === 'room' || /^(ol:|col$|sbeam$)/.test(t) || !r || !window.Ceiling) return 0;
+    if (V.tool !== 'line' || !t || t === 'room' || /^(ol:|col$|sbeam$|rwall$)/.test(t) || !r || !window.Ceiling) return 0;
     const C = window.Ceiling;
     if (SURF_TARGET.test(t) && x != null) return C.heightAt(r, x, z);
     return C.ensure(r).h;
@@ -1662,10 +1663,16 @@
   function lineClick() {
     const g = drawPoint(); if (!g) return;
     const r = inferPoint(g, draw.pts[draw.pts.length - 1]);
-    if (r.close) { finishLine(); return; }
+    if (r.close && V.lineTarget !== 'rwall') { finishLine(); return; }
     draw.pts.push(r.p);
     redrawLine();
     if ((!V.lineTarget || V.lineTarget === 'room') && V.lineRoomMode !== 'replace' && draw.pts.length >= 3 && joinOld(draw.pts)) { finishLine(); return; }   // 頭尾都接在舊牆外側：自動封閉、共用舊牆
+    if (V.lineTarget === 'rwall') {   // 新增牆面：第一點要在牆線上；之後點回牆線上就完成
+      const rm = App.state.room, last = draw.pts[draw.pts.length - 1], on = rm && M().onInner(rm, last);
+      if (draw.pts.length === 1 && !on) { draw.pts.pop(); redrawLine(); App.toast('起點請點在這個房間的牆線上（牆角或牆面上任一點）'); return; }
+      if (draw.pts.length >= 2 && on) { const pts = draw.pts.slice(); V.cancelLine(); V.setTool('select'); App.ui.finishRoomWall(pts); }
+      return;
+    }
     if (/^ol:/.test(V.lineTarget)) { const p = draw.pts.pop(); redrawLine(); App.ui.placeOutlet(V.lineTarget.slice(3), p); return; }
     if (V.lineTarget === 'col') { const p = draw.pts.pop(); redrawLine(); App.ui.placeColumn(p); return; }   // 柱：每點一下放一根
     if (V.lineTarget === 'sbeam') { if (draw.pts.length >= 2) { const pts = draw.pts.slice(0, 2); V.cancelLine(); V.setTool('select'); App.ui.finishBeam(pts); } return; }   // 樑：兩點
@@ -1742,6 +1749,7 @@
     return null;
   }
   function finishLine() {
+    if (V.lineTarget === 'rwall') { const pts = draw.pts.slice(); V.cancelLine(); V.setTool('select'); if (pts.length >= 2) App.ui.finishRoomWall(pts); return; }
     // 雙擊完成時最後一點會被點兩次；去掉重疊的點（含與起點重疊的終點），避免出現 0 長度的牆
     const near = (p, q) => Math.hypot(p[0] - q[0], p[1] - q[1]) < 1;
     draw.pts = draw.pts.filter((p, i, a) => i === 0 || !near(p, a[i - 1]));
@@ -1845,6 +1853,7 @@
     if (t === 'line' && V.lineTarget !== 'room') hints.line = { zone: '畫降板區：在平面上點各轉角，點回起點或按「完成封閉」結束', raise: '畫灑水頭下高區：點各轉角，點回起點結束', beam: '畫包樑：點樑的起點與終點（中心線）', strip: '畫鋁槽燈：點燈的起點與終點' }[V.lineTarget] || hints.line;
     if (t === 'line' && V.lineTarget === 'col') hints.line = '放柱：點柱子的位置（靠近牆角會自動貼齊牆面），可連續點；Esc 結束';
     if (t === 'line' && V.lineTarget === 'sbeam') hints.line = '畫樑：點樑的起點與終點（樑中心線）';
+    if (t === 'line' && V.lineTarget === 'rwall') hints.line = '新增牆面：從這個房間的牆線上起點，畫出新牆的走向，最後點回牆線上就完成（原本那一段會被換掉）；Esc 取消';
     if (t !== 'place') App.status(hints[t] || '');
     App.ui && App.ui.syncToolbar();
   };

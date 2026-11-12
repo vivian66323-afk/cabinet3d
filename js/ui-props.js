@@ -75,6 +75,19 @@
     V().lineTarget = kind; UI.action('line');
     App.toast(kind === 'col' ? `點位置放柱（${lastCol.w}×${lastCol.d} mm，放好後點柱子可改尺寸），可連續點；Esc 結束` : '點樑的起點與終點（樑中心線）');
   };
+  // 在目前房間新增／改畫牆面（牆刪掉後補牆、調整牆的位置）
+  UI.startRoomWall = function () {
+    if (!App.state.room) { App.toast('請先建立空間'); return; }
+    V().lineTarget = 'rwall'; UI.action('line');
+    App.toast('新增牆面：從這個房間的牆線上點起點，畫出新牆，最後點回牆線上就完成');
+  };
+  UI.finishRoomWall = function (pts) {
+    const r = App.state.room; if (!r) return;
+    const trial = JSON.parse(JSON.stringify(r)), res = M().reshapeRoom(trial, pts);   // 先在複本試跑
+    if (res.err) { App.toast(res.err); return; }
+    App.mutate('新增牆面', x => { M().reshapeRoom(x.room, pts); }, 'room');
+    App.toast('已新增牆面' + (res.dropped ? `；有 ${res.dropped} 個門窗放不下已移除` : '') + '（Ctrl+Z 可復原）');
+  };
   UI.placeColumn = function (p) {
     const r = App.state.room; if (!r) return;
     const col = fitColumn(r, { id: M().uid('s'), kind: 'col', x: Math.round(p[0]), z: Math.round(p[1]), w: lastCol.w, d: lastCol.d, rot: 0 });
@@ -157,6 +170,7 @@
         return `<div class="lrow" data-a="wall" data-i="${i}"><span>${M().wallName(i)}　<span class="muted">${Math.round(wi.len)} mm</span></span><span class="muted">${w.off ? '<b style="color:#c0392b">已刪除</b>' : w.openings.length ? w.openings.length + ' 門窗' : ''}</span><span title="${w.locked ? '已鎖定' : '未鎖定'}" style="color:${w.locked ? '#5f6368' : '#b0b7bf'}">${icon(w.locked ? 'lock' : 'unlock')}</span></div>`;
       }).join('')}</div>
       <p class="muted" style="font-size:11.5px;margin:6px 0 0">點選牆面（清單或 3D 視窗）即可放置門／窗並鎖定。</p>
+      <div class="btn-row"><button class="btn small" data-a="room-wall-draw" title="在這個房間畫新的牆：牆刪掉後補牆、把某段牆換到別的位置。從牆線上起點，畫完點回牆線上">${icon('line')}新增／改畫牆面</button></div>
       <div class="btn-row"><button class="btn small" data-a="room-rebuild-rect">重建矩形</button><button class="btn small" data-a="room-rebuild-line">重新繪製</button><button class="btn small danger" data-a="room-del" data-i="${st.roomIdx}">刪除此房間</button></div>`;
     }
     html += '</div>';
@@ -421,7 +435,7 @@
       return `<rect x="${x}" y="${y}" width="${ww}" height="${hh}" fill="${o.type === 'door' ? '#c9a57a' : '#cfe6ec'}" stroke="#3b4450" stroke-width=".7"/>`;
     }).join('')}</svg><div><h3>${M().wallName(i)}</h3><p>長 ${Math.round(wi.len)} mm × 高 ${r.height} mm</p><p>${w.off ? '已刪除（開放，不蓋牆）' : w.locked ? '已鎖定（灰色）' : '未鎖定'}</p></div></div>`;
     if (w.off) return html + `<p class="muted" style="font-size:12px;margin:8px 0">這面牆已刪除：3D、平面圖、立面圖與 DXF 都不會畫出這一段，房間範圍與地板不變。牆上原有的門窗會保留，復原後一起回來。</p>
-      <div class="btn-row"><button class="btn primary" data-a="wall-restore">復原牆面</button><button class="btn" data-a="back">返回專案</button></div>`;
+      <div class="btn-row"><button class="btn primary" data-a="wall-restore">復原牆面</button><button class="btn" data-a="room-wall-draw">畫新牆面</button><button class="btn" data-a="back">返回專案</button></div>`;
     if (w.locked) html += `<p class="note lock">${icon('lock')} 此牆面已確認並鎖定，門窗無法修改。需要調整請先解鎖。</p>`;
     html += `<div class="sec"><div class="sec-title">牆面塗料 <small>此面牆單獨上色（跳色牆）</small></div><div class="kv">
       <label>顏色</label><div class="inline"><span class="floor-chip" style="background:${w.color || r.wallColor || '#f1efea'}"></span><span class="pick-name">${w.paint ? esc(w.paint.code + ' ' + w.paint.name) : (w.color ? w.color : '同整體牆面')}</span><button class="btn small" data-a="pick-paint-wall" data-i="${i}"${dis}>${icon('image')}選擇塗料</button>${w.color ? `<button class="btn small" data-a="paint-wall-clear" data-i="${i}"${dis}>同整體</button>` : ''}</div>
@@ -612,6 +626,7 @@
     if (a === 'paint-clear') { App.mutate('牆面恢復預設', x => { delete x.room.wallColor; delete x.room.wallPaint; }, 'room'); return; }
     if (a === 'pick-paint-wall') { UI.pickPaint(+b.dataset.i); return; }
     if (a === 'paint-wall-clear') { const wi0 = +b.dataset.i; App.mutate('牆面同整體', x => { delete x.room.walls[wi0].color; delete x.room.walls[wi0].paint; }, 'room'); return; }
+    if (a === 'room-wall-draw') { UI.startRoomWall(); return; }
     if (a === 'st-col') { UI.startStructDraw('col'); return; }
     if (a === 'st-beam') { UI.startStructDraw('sbeam'); return; }
     if (a === 'st-del') { const q = (st.room && st.room.structs || []).find(x => x.id === b.dataset.id); if (q) { App.sel = { type: 'struct', id: q.id }; App.deleteSelected(); } return; }
