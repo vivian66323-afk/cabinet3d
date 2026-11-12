@@ -717,6 +717,33 @@
     });
     return { h: c.h, zones };
   };
+  /* 天花板角材骨架（立面用，比照木作天花施工圖）：樓板下一支橫角材、板上一支橫角材、中間每 1.2 台尺一支吊筋，最下面是封板；
+     高度不同的區段（降板／包樑／較高區）各自一組，交界處畫立板。回傳 [[x, y, w, h]]（mm，x 從牆左起算，y 從地坪往上） */
+  Dr.ceilingFrame = function (ceil, L, H) {
+    const S = 30, Bd = 9, PITCH = 364, xs = new Set([0, L]);
+    ceil.zones.forEach(z => { xs.add(z.left); xs.add(z.left + z.width); });
+    const bp = [...xs].filter(x => x >= 0 && x <= L).sort((a, b) => a - b), ivs = [];
+    for (let k = 0; k < bp.length - 1; k++) {
+      const a = bp[k], b = bp[k + 1]; if (b - a < 1) continue;
+      const m = (a + b) / 2, cov = ceil.zones.filter(z => m > z.left && m < z.left + z.width);
+      const drops = cov.filter(z => z.h < ceil.h), ups = cov.filter(z => z.h > ceil.h);
+      const h = drops.length ? Math.min(...drops.map(z => z.h)) : ups.length ? Math.max(...ups.map(z => z.h)) : ceil.h;
+      const last = ivs[ivs.length - 1]; if (last && last.h === h) last.b = b; else ivs.push({ a, b, h });
+    }
+    const rects = [], framed = v => H - v.h >= 2 * S + Bd + 10;
+    if (ivs.some(framed)) rects.push([0, H - S, L, S]);                       // 樓板下橫角材
+    ivs.forEach((v, k) => {
+      rects.push([v.a, v.h, v.b - v.a, Bd]);                                  // 封板
+      const nx = ivs[k + 1];
+      if (nx && nx.h !== v.h) { const lo = Math.min(v.h, nx.h), hi = Math.max(v.h, nx.h); rects.push([v.b - Bd / 2, lo, Bd, hi - lo + Bd]); }   // 高低差立板
+      if (!framed(v)) return;
+      rects.push([v.a, v.h + Bd, v.b - v.a, S]);                              // 板上橫角材
+      if (v.b - v.a < 2 * S) return;
+      const y0 = v.h + Bd + S, y1 = H - S, n = Math.max(1, Math.round((v.b - v.a - S) / PITCH));
+      for (let j = 0; j <= n; j++) rects.push([v.a + (v.b - v.a - S) * j / n, y0, S, y1 - y0]);   // 吊筋
+    });
+    return rects;
+  };
   // 貼著此牆（300 mm 內）的樑柱在立面上的範圍：left／width 為從左邊起算（已裁到牆長內），y0／y1 為高度
   Dr.wallStructs = function (st, i) {
     const room = st.room, wi = M().wallInfo(room, i), right = [-wi.nOut[1], wi.nOut[0]];
@@ -752,18 +779,12 @@
       else { pg.line(ox, oy, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); pg.line(ox, oy + oh, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); }
       pg.text(ox + ow / 2, oy - 1.2, `${o.type === 'door' ? '門' : '窗'} ${Dr.cm(o.width)}×${Dr.cm(o.height)}${o.sill ? ' 抬高' + Dr.cm(o.sill) : ''}`, { size: 5.5, align: 'center', color: '#69727d' });
     });
-    // 天花板：基本高度以上為天花內空間（淡灰），降板／包樑往下凸、較高的區域以虛線表示
+    // 天花板：以角材骨架呈現（樓板下橫角材、吊筋、板上橫角材、封板），降板／包樑／較高區各自一組
     const ceil = Dr.wallCeiling(st, i);
     if (ceil) {
-      const cy = y0 - ceil.h / s;
-      pg.rect(x0, y0 - Hh, W, Hh - ceil.h / s, { w: 0.15, fill: '#eef0f2', color: '#98a2ad' });
-      ceil.zones.forEach(zn => {
-        const zx = x0 + zn.left / s, zw = zn.width / s, zy = y0 - zn.h / s;
-        if (zn.h < ceil.h) { pg.rect(zx, cy, zw, zy - cy, { w: 0.25, fill: '#e3e6ea', color: '#3d4550' }); pg.text(zx + zw / 2, zy + 2.6, `${zn.name} H${Dr.cm(zn.h)}`, { size: 4.8, align: 'center', color: '#3d4550' }); }
-        else { pg.rect(zx, zy, zw, cy - zy, { w: 0.2, color: '#69727d', dash: [1.2, 0.8] }); pg.text(zx + zw / 2, zy + 2.4, `${zn.name} H${Dr.cm(zn.h)}`, { size: 4.6, align: 'center', color: '#69727d' }); }
-      });
-      pg.line(x0, cy, x0 + W, cy, 0.4);
-      pg.text(x0 + 1.5, cy + 2.8, `天花板 H${Dr.cm(ceil.h)}`, { size: 5, color: '#3d4550' });
+      Dr.ceilingFrame(ceil, L, H).forEach(r => pg.rect(x0 + r[0] / s, y0 - (r[1] + r[3]) / s, r[2] / s, r[3] / s, { w: 0.16, fill: '#ffffff', color: '#1f2328' }));
+      ceil.zones.forEach(zn => pg.text(x0 + (zn.left + zn.width / 2) / s, y0 - zn.h / s + 2.6, `${zn.name} H${Dr.cm(zn.h)}`, { size: 4.8, align: 'center', color: '#3d4550' }));
+      if (!ceil.zones.some(z => z.left <= 1 && z.left + z.width > 300)) pg.text(x0 + 1.5, y0 - ceil.h / s + 2.8, `天花板 H${Dr.cm(ceil.h)}`, { size: 5, color: '#3d4550' });   // 左端被降板等蓋住時不標基本高度
     }
     // 樑柱：樑在前、柱在後，灰底；櫃體畫在它們前面
     Dr.wallStructs(st, i).sort((a, b) => (a.s.kind === 'col' ? 1 : 0) - (b.s.kind === 'col' ? 1 : 0)).forEach(q => {

@@ -520,13 +520,12 @@
       }
     });
 
-    // 天花板：基本高度線＋降板／包樑
+    // 天花板：角材骨架（與 PDF 立面相同）
     const ceil = window.Drawings.wallCeiling ? window.Drawings.wallCeiling(st, i) : null;
     if (ceil) {
-      doc.line(X0, Y0 + ceil.h, X0 + L, Y0 + ceil.h, 'A-CLNG');
-      ceil.zones.forEach(zn => doc.rect(X0 + zn.left, Y0 + Math.min(zn.h, ceil.h), zn.width, Math.abs(ceil.h - zn.h), 'A-CLNG', zn.h > ceil.h ? 'DASHED' : null));
+      window.Drawings.ceilingFrame(ceil, L, H).forEach(r => doc.rect(X0 + r[0], Y0 + r[1], r[2], r[3], 'A-CLNG'));   // 角材骨架：橫角材、吊筋、封板
       if (opt.labels !== false) {
-        doc.text(X0 + p(1.5), Y0 + ceil.h - p(1), p(2.2), '天花板 H' + Math.round(ceil.h), { layer: 'A-CLNG', valign: 't' });
+        if (!ceil.zones.some(z => z.left <= 1 && z.left + z.width > 300)) doc.text(X0 + p(1.5), Y0 + ceil.h - p(1), p(2.2), '天花板 H' + Math.round(ceil.h), { layer: 'A-CLNG', valign: 't' });
         ceil.zones.forEach(zn => doc.text(X0 + zn.left + zn.width / 2, Y0 + zn.h - p(1), p(2), `${zn.name} H${Math.round(zn.h)}`, { layer: 'A-CLNG', align: 'c', valign: 't' }));
       }
     }
