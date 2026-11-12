@@ -154,7 +154,7 @@
       ${structSection(r)}
       <div class="list wall-list" style="margin-top:10px">${r.points.map((_, i) => {
         const w = r.walls[i], wi = M().wallInfo(r, i);
-        return `<div class="lrow" data-a="wall" data-i="${i}"><span>${M().wallName(i)}　<span class="muted">${Math.round(wi.len)} mm</span></span><span class="muted">${w.openings.length ? w.openings.length + ' 門窗' : ''}</span><span title="${w.locked ? '已鎖定' : '未鎖定'}" style="color:${w.locked ? '#5f6368' : '#b0b7bf'}">${icon(w.locked ? 'lock' : 'unlock')}</span></div>`;
+        return `<div class="lrow" data-a="wall" data-i="${i}"><span>${M().wallName(i)}　<span class="muted">${Math.round(wi.len)} mm</span></span><span class="muted">${w.off ? '<b style="color:#c0392b">已刪除</b>' : w.openings.length ? w.openings.length + ' 門窗' : ''}</span><span title="${w.locked ? '已鎖定' : '未鎖定'}" style="color:${w.locked ? '#5f6368' : '#b0b7bf'}">${icon(w.locked ? 'lock' : 'unlock')}</span></div>`;
       }).join('')}</div>
       <p class="muted" style="font-size:11.5px;margin:6px 0 0">點選牆面（清單或 3D 視窗）即可放置門／窗並鎖定。</p>
       <div class="btn-row"><button class="btn small" data-a="room-rebuild-rect">重建矩形</button><button class="btn small" data-a="room-rebuild-line">重新繪製</button><button class="btn small danger" data-a="room-del" data-i="${st.roomIdx}">刪除此房間</button></div>`;
@@ -419,7 +419,9 @@
     let html = `<div class="hero"><svg class="thumb" viewBox="0 0 64 64"><rect x="6" y="14" width="52" height="40" fill="${w.locked ? '#bdbdbd' : '#f1efea'}" stroke="#3b4450"/>${w.openings.map(o => {
       const x = 6 + 52 * leftOffset(wi, o) / wi.len, ww = 52 * o.width / wi.len, y = 54 - 40 * (o.sill + o.height) / r.height, hh = 40 * o.height / r.height;
       return `<rect x="${x}" y="${y}" width="${ww}" height="${hh}" fill="${o.type === 'door' ? '#c9a57a' : '#cfe6ec'}" stroke="#3b4450" stroke-width=".7"/>`;
-    }).join('')}</svg><div><h3>${M().wallName(i)}</h3><p>長 ${Math.round(wi.len)} mm × 高 ${r.height} mm</p><p>${w.locked ? '已鎖定（灰色）' : '未鎖定'}</p></div></div>`;
+    }).join('')}</svg><div><h3>${M().wallName(i)}</h3><p>長 ${Math.round(wi.len)} mm × 高 ${r.height} mm</p><p>${w.off ? '已刪除（開放，不蓋牆）' : w.locked ? '已鎖定（灰色）' : '未鎖定'}</p></div></div>`;
+    if (w.off) return html + `<p class="muted" style="font-size:12px;margin:8px 0">這面牆已刪除：3D、平面圖、立面圖與 DXF 都不會畫出這一段，房間範圍與地板不變。牆上原有的門窗會保留，復原後一起回來。</p>
+      <div class="btn-row"><button class="btn primary" data-a="wall-restore">復原牆面</button><button class="btn" data-a="back">返回專案</button></div>`;
     if (w.locked) html += `<p class="note lock">${icon('lock')} 此牆面已確認並鎖定，門窗無法修改。需要調整請先解鎖。</p>`;
     html += `<div class="sec"><div class="sec-title">牆面塗料 <small>此面牆單獨上色（跳色牆）</small></div><div class="kv">
       <label>顏色</label><div class="inline"><span class="floor-chip" style="background:${w.color || r.wallColor || '#f1efea'}"></span><span class="pick-name">${w.paint ? esc(w.paint.code + ' ' + w.paint.name) : (w.color ? w.color : '同整體牆面')}</span><button class="btn small" data-a="pick-paint-wall" data-i="${i}"${dis}>${icon('image')}選擇塗料</button>${w.color ? `<button class="btn small" data-a="paint-wall-clear" data-i="${i}"${dis}>同整體</button>` : ''}</div>
@@ -443,7 +445,8 @@
       <label>框色</label><select data-key="of${j}" data-of="frame" data-j="${j}"${dis}>${M().FRAME_COLORS.map(([k, n]) => `<option value="${k}"${(o.frame || 'white') === k ? ' selected' : ''}>${n}</option>`).join('')}</select></div></div>`).join('') : '<p class="muted" style="margin:0 0 6px">此牆面尚無門窗</p>';
     if (!w.locked) html += `<div class="btn-row"><button class="btn small" data-a="add-door">${icon('door')}房間門 900×2100</button><button class="btn small" data-a="add-aluslide" title="細鋁框玻璃推拉門（兩扇），黑框清玻">${icon('door')}鋁框拉門 1600×2100</button><button class="btn small" data-a="add-balcony">${icon('door')}陽台門 800×2100</button><button class="btn small" data-a="add-entry">${icon('door')}玄關門 1000×2100</button><button class="btn small" data-a="add-window">${icon('window')}加窗 1200×1200</button>${w.openings.some(o => o.type === 'window' || /^(balcony3|aluglass|patio2|patio4|bifold)$/.test(o.style || '')) ? `<button class="btn small" data-a="add-curtains" title="為這面牆的每個窗（含陽台門）各加一組窗簾，寬度＝窗寬左右各加 10cm：高窗用捲簾、落地窗用蛇形簾">${icon('window')}加窗簾（窗寬＋20cm）</button><button class="btn small" data-a="add-curtain-wall" title="一組蛇形簾與這面牆同寬、到地">${icon('window')}加窗簾（與牆同寬）</button>` : ''}</div>`;
     html += `</div><div class="btn-row">${w.locked ? `<button class="btn" data-a="unlock">${icon('unlock')}解鎖牆面</button>` : `<button class="btn primary" data-a="lock">${icon('lock')}確認並鎖定牆面</button>`}
-      <button class="btn" data-a="back">返回專案</button></div>`;
+      <button class="btn" data-a="back">返回專案</button></div>
+      <div class="btn-row"><button class="btn danger" data-a="wall-del" title="這一段不蓋牆（開放式、兩個房間共用的重複牆面等）；之後可在房間的牆面清單點回來復原">${icon('delete')}刪除牆面</button></div>`;
     return html;
   }
 
@@ -682,6 +685,8 @@
       } else if (b.dataset.oa === 'del') App.mutate('刪除門窗', x => x.room.walls[s.index].openings.splice(+b.dataset.j, 1), 'room');
       else if (a === 'lock') { App.mutate('鎖定牆面', x => { x.room.walls[s.index].locked = true; }, 'room'); App.toast(M().wallName(s.index) + ' 已鎖定'); }
       else if (a === 'unlock') App.mutate('解鎖牆面', x => { x.room.walls[s.index].locked = false; }, 'room');
+      else if (a === 'wall-del') { const nm = M().wallName(s.index); App.mutate('刪除牆面', x => { x.room.walls[s.index].off = true; }, 'room'); App.select(null); App.toast(nm + ' 已刪除；要復原請在右側房間的牆面清單點它，或按 Ctrl+Z'); }
+      else if (a === 'wall-restore') { App.mutate('復原牆面', x => { delete x.room.walls[s.index].off; }, 'room'); App.toast(M().wallName(s.index) + ' 已復原'); }
       return;
     }
     const cab = App.selectedCab(); if (!cab) return;

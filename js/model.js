@@ -278,7 +278,7 @@
         const a = room.points[(i - 1 + n) % n], b = room.points[i], c = room.points[(i + 1) % n], la = segLen(a, b), lb = segLen(b, c);
         const cross = ((b[0] - a[0]) * (c[1] - b[1]) - (b[1] - a[1]) * (c[0] - b[0])) / (la * lb), dot = (b[0] - a[0]) * (c[0] - b[0]) + (b[1] - a[1]) * (c[1] - b[1]);
         const w0 = room.walls[(i - 1 + n) % n], w1 = room.walls[i];
-        if (Math.abs(cross) < 1e-4 && dot > 0 && !w0.locked && !w1.locked && (w0.color || '') === (w1.color || '')) {
+        if (Math.abs(cross) < 1e-4 && dot > 0 && !w0.locked && !w1.locked && !w0.off === !w1.off && (w0.color || '') === (w1.color || '')) {
           w1.openings.forEach(o => { o.offset += la; w0.openings.push(o); });
           room.points.splice(i, 1); room.walls.splice(i, 1); done = true;
         }
@@ -1585,6 +1585,7 @@
     pts.forEach((_, i) => {
       const wi = wallInfo(room, i);
       const wall = room.walls[i];
+      if (wall.off) return;   // 已刪除的牆面：不蓋牆、不畫門窗
       const L = wi.len;
       // 外框 + 門洞缺口
       const doors = wall.openings.filter(o => o.sill <= 1).sort((a, b) => a.offset - b.offset);
@@ -1634,7 +1635,7 @@
       const cm = new THREE.Mesh(cg, wm);
       cm.userData.wallIndex = i; cm.userData.cornerOf = i;
       cm.userData.nOut = wi.nOut; cm.userData.mid = wi.mid;
-      g.add(cm);
+      if (!room.walls[(i - 1 + pts.length) % pts.length].off) g.add(cm);   // 前一面牆已刪除：這面牆齊頭收，不補轉角
       // 門窗配件
       wall.openings.forEach(o => buildOpening(g, wi, o, Tk, H, i));
     });

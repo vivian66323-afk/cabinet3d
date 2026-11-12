@@ -540,7 +540,7 @@
   /* ---------- 門窗拖曳（選取牆面後：拖門窗本體移動、拖掣點改寬／高／窗台高） ---------- */
   function openingGrips() {
     const s = App.sel; if (!s || s.type !== 'wall' || !App.state.room) return [];
-    const room = App.state.room, wi = M().wallInfo(room, s.index), wall = room.walls[s.index]; if (!wall) return [];
+    const room = App.state.room, wi = M().wallInfo(room, s.index), wall = room.walls[s.index]; if (!wall || wall.off) return [];
     const at = (t, y) => new THREE.Vector3(wi.p[0] + wi.dir[0] * t + wi.nIn[0] * 10, y, wi.p[1] + wi.dir[1] * t + wi.nIn[1] * 10);
     const out = [];
     wall.openings.forEach(o => {
@@ -1151,6 +1151,7 @@
       }
       let bestW = null;
       allRooms().forEach(room => room.points.forEach((_, i) => {
+        if (room.walls[i].off) return;   // 已刪除的牆面不吸附
         const wi = M().wallInfo(room, i);
         const t = (px - wi.p[0]) * wi.dir[0] + (pz - wi.p[1]) * wi.dir[1];
         const dist = (px - wi.p[0]) * wi.nIn[0] + (pz - wi.p[1]) * wi.nIn[1];

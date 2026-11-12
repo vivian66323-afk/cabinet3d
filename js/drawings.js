@@ -529,6 +529,18 @@
         g.restore();
       }
       // 牆：先全部填灰，再只描室內面與室外面輪廓（牆與轉角之間不出現接縫線），最後才畫門窗開口
+      if (room.walls.some(w => w.off)) {   // 有刪除的牆面：逐面畫，刪掉的那段留空，相鄰的牆齊頭收
+        const T = room.thickness, n = room.points.length, off = j => !!room.walls[(j + n) % n].off;
+        const corner = (j, self) => {
+          j = (j + n) % n; const p = room.points[j], a2 = M().wallInfo(room, j), b2 = M().wallInfo(room, (j - 1 + n) % n);
+          if (!off(j) && !off(j - 1)) return [p[0] + (a2.nOut[0] + b2.nOut[0]) * T, p[1] + (a2.nOut[1] + b2.nOut[1]) * T];
+          const w = M().wallInfo(room, self); return [p[0] + w.nOut[0] * T, p[1] + w.nOut[1] * T];
+        };
+        const quads = [];
+        room.points.forEach((_, i) => { if (off(i)) return; const wi = M().wallInfo(room, i), q = [wi.p, wi.q, corner(i + 1, i), corner(i, i)]; quads.push([i, q]); poly(q, room.walls[i].locked ? Dr.PEN.wallLock : Dr.PEN.wall, null); });
+        const ln = (a, b) => { const A = P(...a), B = P(...b); pg.line(A[0], A[1], B[0], B[1], 0.35, Dr.PEN.ink); };
+        quads.forEach(([i, q]) => { ln(q[0], q[1]); ln(q[3], q[2]); if (off(i - 1)) ln(q[0], q[3]); if (off(i + 1)) ln(q[1], q[2]); });
+      } else
       { const T = room.thickness, n = room.points.length;
         room.points.forEach((_, i) => {
           const wi = M().wallInfo(room, i), prev = M().wallInfo(room, (i - 1 + n) % n), wf = room.walls[i].locked ? Dr.PEN.wallLock : Dr.PEN.wall;
@@ -540,6 +552,7 @@
         poly(room.points.map((p, j) => { const a2 = M().wallInfo(room, j), b2 = M().wallInfo(room, (j - 1 + n) % n); return [p[0] + (a2.nOut[0] + b2.nOut[0]) * T, p[1] + (a2.nOut[1] + b2.nOut[1]) * T]; }), null, Dr.PEN.ink, 0.35);
       }
       room.points.forEach((_, i) => {
+        if (room.walls[i].off) return;   // 已刪除的牆面
         const wi = M().wallInfo(room, i), T = room.thickness;
         const o = (p, t) => [p[0] + wi.nOut[0] * t, p[1] + wi.nOut[1] * t];
         // 門窗

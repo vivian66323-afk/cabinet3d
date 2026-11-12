@@ -594,7 +594,7 @@ ${tris}</mesh></geometry>`);
     const roomsOf = Dr().roomsOf;
     const extraOf = rooms => { const C = window.Ceiling; if (!C) return 0; const on = rooms.filter(r => r.ceiling && r.ceiling.on); if (!on.length) return 0; return 1 + ['light', 'hvac', 'power'].filter(g => on.some(r => C.counts(r, g).length)).length + on.filter(r => (r.circuits || []).length).length; };
     // 沒有空間也沒有櫃體的樓層不會出圖（下方迴圈會跳過），總頁數也不能算進去，否則標題欄的「頁次 x / y」會多 1
-    const total = floors.reduce((a, f) => { const rs = roomsOf(f); return a + (!rs.length && !(f.cabinets || []).length ? 0 : 1 + rs.reduce((b, r) => b + r.points.length, 0) + extraOf(rs)); }, 0);
+    const total = floors.reduce((a, f) => { const rs = roomsOf(f); return a + (!rs.length && !(f.cabinets || []).length ? 0 : 1 + rs.reduce((b, r) => b + r.walls.filter(w => !w.off).length, 0) + extraOf(rs)); }, 0);
     let pno = 0;
     for (const fl of floors) {
     const rooms = roomsOf(fl);
@@ -640,6 +640,7 @@ ${tris}</mesh></geometry>`);
     const room = rooms[ri]; st.room = room;
     const tag = rooms.length > 1 ? (ri + 1) + '-' : '', rpre = rooms.length > 1 ? (room.name || '') + '　' : '';
     for (let i = 0; i < room.points.length; i++) {
+      if (room.walls[i].off) continue;   // 已刪除的牆面沒有立面
       App.busy(true, `繪製 ${pre}${rpre}立面圖 ${i + 1} / ${room.points.length}`);
       await nextFrame();
       pg = Dr().Page('landscape', 300, 'a3');

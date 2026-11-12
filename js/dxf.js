@@ -650,16 +650,23 @@
         const c1 = na[0] * q[0] + na[1] * q[1] + t, c2 = nb[0] * q[0] + nb[1] * q[1] + t;
         return [(c1 * nb[1] - c2 * na[1]) / det, (c2 * na[0] - c1 * nb[0]) / det];
       });
+      // 已刪除的牆面（walls[i].off）留空；相鄰的牆在那一端齊頭收：oEnd(角點, 這面牆) 取該端的外側點
+      const isOff = k => !!room.walls[(k + n) % n].off;
+      const oEnd = (k, self) => { k = (k + n) % n; if (!isOff(k) && !isOff(k - 1)) return outer[k]; const w = M().wallInfo(room, self); return [inner[k][0] + w.nOut[0] * t, inner[k][1] + w.nOut[1] * t]; };
       // 牆剖面填充（內外輪廓之間）
       if (opt.hatch) {
         for (let i = 0; i < n; i++) {
+          if (room.walls[i].off) continue;
           const j = (i + 1) % n;
-          doc.hatch45([T(inner[i]), T(inner[j]), T(outer[j]), T(outer[i])], p(2.5), 'A-WALL-HATCH');
+          doc.hatch45([T(inner[i]), T(inner[j]), T(oEnd(j, i)), T(oEnd(i, i))], p(2.5), 'A-WALL-HATCH');
         }
       }
       // 牆線（在門窗開口處斷開）
       for (let i = 0; i < n; i++) {
         const wi = M().wallInfo(room, i), j = (i + 1) % n;
+        if (room.walls[i].off) continue;
+        const oI = oEnd(i, i), oJ = oEnd(j, i);
+        if (isOff(i + 1)) { const A = T(inner[j]), B = T(oJ); doc.line(A[0], A[1], B[0], B[1], 'A-WALL'); }   // 下一面牆已刪除：這端封口
         const ops = (room.walls[i].openings || []).slice().sort((a, b) => a.offset - b.offset);
         const spans = [];
         let cur = 0;
@@ -670,18 +677,18 @@
         if (wi.len - cur > 1) spans.push([cur, wi.len]);
         const at = (base, s) => [base[0] + wi.dir[0] * s, base[1] + wi.dir[1] * s];
         // 內牆線沿 inner[i]→inner[j]，外牆線沿 outer[i]→outer[j]
-        const oLen = Math.hypot(outer[j][0] - outer[i][0], outer[j][1] - outer[i][1]);
-        const oDir = oLen > 1e-6 ? [(outer[j][0] - outer[i][0]) / oLen, (outer[j][1] - outer[i][1]) / oLen] : wi.dir;
+        const oLen = Math.hypot(oJ[0] - oI[0], oJ[1] - oI[1]);
+        const oDir = oLen > 1e-6 ? [(oJ[0] - oI[0]) / oLen, (oJ[1] - oI[1]) / oLen] : wi.dir;
         spans.forEach(([a, b]) => {
           const A = T(at(inner[i], a)), B = T(at(inner[i], b));
           doc.line(A[0], A[1], B[0], B[1], 'A-WALL');
           const ra = oLen / (wi.len || 1);
-          const C = T([outer[i][0] + oDir[0] * a * ra, outer[i][1] + oDir[1] * a * ra]);
-          const E = T([outer[i][0] + oDir[0] * b * ra, outer[i][1] + oDir[1] * b * ra]);
+          const C = T([oI[0] + oDir[0] * a * ra, oI[1] + oDir[1] * a * ra]);
+          const E = T([oI[0] + oDir[0] * b * ra, oI[1] + oDir[1] * b * ra]);
           doc.line(C[0], C[1], E[0], E[1], 'A-WALL');
         });
         // 轉角接合線
-        const Ai = T(inner[i]), Ao = T(outer[i]);
+        const Ai = T(inner[i]), Ao = T(oI);
         doc.line(Ai[0], Ai[1], Ao[0], Ao[1], 'A-WALL');
         // 門窗：門框線 + 門扇／窗線
         ops.forEach(o => {
@@ -839,6 +846,7 @@
       rooms.forEach((room, ri) => {   // 立面：每個房間每面牆
         const rst = { ...st, room }, tag = rooms.length > 1 ? (ri + 1) + '-' : '', rpre = rooms.length > 1 ? (room.name || '') + '　' : '';
         room.points.forEach((_, i) => {
+          if (room.walls[i].off) return;   // 已刪除的牆面沒有立面
           const wc = window.Drawings.wallCabinets(rst, i);
           if (o.walls === 'with-cab' && !wc.list.length) return;
           views.push({
