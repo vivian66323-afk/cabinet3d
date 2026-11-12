@@ -33,6 +33,8 @@
     renderer.toneMappingExposure = 1.05;
     el.appendChild(renderer.domElement);
     overlay = document.createElement('div'); overlay.className = 'vp-overlay'; el.appendChild(overlay);
+    // 點 3D 裡的房間名稱標籤改名（標籤每次重畫都會換新元素，所以掛在外層用 pointerdown 接）
+    overlay.addEventListener('pointerdown', e => { const le = e.target.closest && e.target.closest('.vp-label.room'); if (!le || le.dataset.ri == null || V.tool !== 'select') return; e.stopPropagation(); e.preventDefault(); App.ui.renameRoomDialog(+le.dataset.ri); });
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xeef1f4);
@@ -713,6 +715,7 @@
       el.textContent = text;
       el.style.left = ((v.x + 1) / 2 * w + dx) + 'px'; el.style.top = ((1 - v.y) / 2 * h + dy) + 'px';
       overlay.appendChild(el);
+      return el;
     };
     // 選取中物件在畫面上的範圍：離牆距離與房間名稱的標籤不能蓋在它上面（俯視時最明顯）
     const scr = p => { const v = p.clone().project(camera); return [(v.x + 1) / 2 * w, (1 - v.y) / 2 * h]; };
@@ -790,7 +793,7 @@
           put(new THREE.Vector3(wi.mid[0] + wi.nOut[0] * 400, 10, wi.mid[1] + wi.nOut[1] * 400), Math.round(wi.len) + '', 'dim');
         });
         // 多房間：各房間中央標房間名（目前編輯中的房間套色）
-        if (rooms.length > 1) { const n = room.points.length, c = room.points.reduce((a, p) => [a[0] + p[0] / n, a[1] + p[1] / n], [0, 0]); const rp = new THREE.Vector3(c[0], 20, c[1]), rs = scr(rp); if (!hitSel(rs[0], rs[1], room.name || '')) put(rp, room.name || '', room === App.state.room ? 'room on' : 'room'); }
+        if (rooms.length) { const n = room.points.length, c = room.points.reduce((a, p) => [a[0] + p[0] / n, a[1] + p[1] / n], [0, 0]); const rp = new THREE.Vector3(c[0], 20, c[1]), rs = scr(rp); if (!hitSel(rs[0], rs[1], room.name || '')) { const le = put(rp, room.name || '', room === App.state.room ? 'room on' : 'room'); if (le) { le.dataset.ri = rooms.indexOf(room); le.title = '點一下改房間名稱'; } } }
       });
     }
   }

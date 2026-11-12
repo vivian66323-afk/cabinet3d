@@ -22,6 +22,15 @@
       gen.map(h => `<option value="${h.id}"${h.id === cur ? ' selected' : ''}>${h.name}${h.pair ? '（雙門片適用）' : ''}</option>`).join('') + '</optgroup>' + grpIk;
   }
 
+  // 房間改名（屬性面板的「改名稱」與 3D 裡點房間名稱標籤共用）
+  UI.renameRoomDialog = async function (i) {
+    const rm = (App.state.rooms || [])[i]; if (!rm) return;
+    const res = await UI.modal({ title: '房間名稱', body: `<div class="kv"><label>名稱</label><input name="n" value="${esc(rm.name || '')}" maxlength="20" autofocus></div>
+      <p class="muted" style="font-size:11.5px;margin:8px 0 0">例：客廳、主臥、廚房。名稱會出現在 3D 畫面、平面圖與立面圖標題。</p>`,
+      buttons: [{ label: '取消', value: null }, { label: '確定', primary: true, value: 'ok' }], validate: d => String(d.n || '').trim() ? null : '請輸入名稱' });
+    if (res) App.renameRoom(i, res.data.n);
+  };
+
   /* ================= 樑柱 ================= */
   function structSection(r) {
     const list = r.structs || [];
@@ -130,7 +139,7 @@
       html += `<p class="note">尚未建立空間。可輸入矩形寬／深／高，或以多線段自由繪製後封閉並輸入高度；也可先匯入 DXF／PDF 平面圖當底圖，沿牆線描繪各個房間。</p>
         <div class="btn-row"><button class="btn primary" data-a="room-rect">${icon('rect')}矩形空間</button><button class="btn" data-a="room-line">${icon('line')}自由繪製</button></div>`;
     } else {
-      html += `<div class="sec-title" style="margin-top:8px">目前房間：${esc(r.name || '')}</div>`;
+      html += `<div class="sec-title" style="margin-top:8px">目前房間：${esc(r.name || '')} <button class="btn small" data-a="room-rename" data-i="${st.roomIdx}" style="margin-left:6px">改名稱</button></div>`;
       const area = Math.abs(M().polyArea(r.points)) / 1e6;
       let per = 0; r.points.forEach((_, i) => { per += M().wallInfo(r, i).len; });
       html += `<div class="kv">
@@ -605,6 +614,7 @@
     if (a === 'st-del') { const q = (st.room && st.room.structs || []).find(x => x.id === b.dataset.id); if (q) { App.sel = { type: 'struct', id: q.id }; App.deleteSelected(); } return; }
     if (a === 'st-sel') { App.select({ type: 'struct', id: b.dataset.id }); return; }
     if (a === 'st-back') { App.select(null); return; }
+    if (a === 'room-rename') { UI.renameRoomDialog(+b.dataset.i); return; }
     if (a === 'room-rect') { UI.roomDialog('add'); return; }
     if (a === 'room-rebuild-rect') { UI.roomDialog('replace'); return; }
     if (a === 'room-go') { App.setActiveRoom(+b.dataset.i); return; }
