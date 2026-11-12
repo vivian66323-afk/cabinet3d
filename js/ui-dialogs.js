@@ -159,7 +159,11 @@
       validate: d => (+d.h < 1800 || +d.h > 6000) ? '高度需介於 1800–6000 mm' : null
     });
     if (!res) return;
-    App.setRoom(M().createRoom(pts, +res.data.h, +res.data.t), res.data.mode === 'replace' ? 'replace' : 'add');
+    const nr = M().createRoom(pts, +res.data.h, +res.data.t), rep = res.data.mode === 'replace';
+    // 貼在舊房間外牆面上的那幾段：與舊牆共用，不重複蓋牆（之後可在牆面清單點「已刪除」的牆復原成獨立牆）
+    const shared = M().markShared(nr, rooms.filter(o => !(rep && o === r)));
+    App.setRoom(nr, rep ? 'replace' : 'add');
+    if (shared) App.toast(`新房間有 ${shared} 段與舊牆共用，沒有重複蓋牆`);
     if (hasVec && res.data.det && window.Underlay) window.Underlay.detect(App.state.room, true);
   };
   // 離開目前專案前詢問：1 不儲存直接開新專案　2 匯出專案檔（之後可匯入繼續編輯）

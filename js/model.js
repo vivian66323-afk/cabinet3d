@@ -234,6 +234,57 @@
       walls: points.map(() => ({ id: uid('w'), locked: false, openings: [] }))
     };
   }
+  /* 新房間與舊牆結合（共用牆）：
+     outerRing(room)＝房間外牆面的角點（牆厚往外的那一圈，第 i 點對應 points[i]）；
+     onOuter(room, p)＝p 是否落在某段外牆面上（回傳 { i, t } 或 null）；
+     joinPath(room, a, b)＝沿外牆面從 b 走回 a 要經過的角點（取較短的一邊），給「只畫新牆、頭尾接在舊牆上」封閉用；
+     markShared(room, others)＝新房間裡整段貼在舊房間外牆面上的牆標成 off（不重複蓋牆），回傳段數 */
+  function outerRing(room) {
+    const n = room.points.length, t = room.thickness;
+    return room.points.map((q, i) => {
+      const a = wallInfo(room, (i - 1 + n) % n), b = wallInfo(room, i), na = a.nOut, nb = b.nOut, det = na[0] * nb[1] - na[1] * nb[0];
+      if (Math.abs(det) < 1e-6) return [q[0] + nb[0] * t, q[1] + nb[1] * t];
+      const c1 = na[0] * q[0] + na[1] * q[1] + t, c2 = nb[0] * q[0] + nb[1] * q[1] + t;
+      return [(c1 * nb[1] - c2 * na[1]) / det, (c2 * na[0] - c1 * nb[0]) / det];
+    });
+  }
+  function onOuter(room, p, tol = 15) {
+    const O = outerRing(room);
+    for (let i = 0; i < O.length; i++) {
+      const a = O[i], b = O[(i + 1) % O.length], dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz) || 1;
+      const t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dz) / L, d = Math.abs((p[0] - a[0]) * dz - (p[1] - a[1]) * dx) / L;
+      if (d <= tol && t >= -tol && t <= L + tol) return { i, t };
+    }
+    return null;
+  }
+  function joinPath(room, a, b) {
+    const ha = onOuter(room, a), hb = onOuter(room, b); if (!ha || !hb) return null;
+    const O = outerRing(room), n = O.length;
+    if (ha.i === hb.i) return [];
+    const fwd = [], bwd = [];
+    for (let k = (hb.i + 1) % n; ; k = (k + 1) % n) { fwd.push(O[k]); if (k === ha.i) break; }
+    for (let k = hb.i; ; k = (k - 1 + n) % n) { bwd.push(O[k]); if (k === (ha.i + 1) % n) break; }
+    const len = arr => [b, ...arr, a].reduce((s, p, i, A) => i ? s + Math.hypot(p[0] - A[i - 1][0], p[1] - A[i - 1][1]) : 0, 0);
+    return (len(fwd) <= len(bwd) ? fwd : bwd).map(p => [Math.round(p[0]), Math.round(p[1])]);
+  }
+  function markShared(room, others) {
+    let cnt = 0;
+    room.points.forEach((p, i) => {
+      const q = room.points[(i + 1) % room.points.length];
+      if (Math.hypot(q[0] - p[0], q[1] - p[1]) < 50) return;
+      const hit = (others || []).some(o => { if (!o || o === room) return false; const h1 = onOuter(o, p), h2 = onOuter(o, q); return sameEdge(o, p, q); });
+      if (hit) { room.walls[i].off = true; room.walls[i].shared = true; cnt++; }
+    });
+    return cnt;
+  }
+  // p、q 與兩點中點都貼在同一段外牆面上（整段共線）
+  function sameEdge(o, p, q) {
+    const O = outerRing(o), m = [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
+    return O.some((a, i) => {
+      const b = O[(i + 1) % O.length], dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz) || 1;
+      return [p, q, m].every(v => { const t = ((v[0] - a[0]) * dx + (v[1] - a[1]) * dz) / L, d = Math.abs((v[0] - a[0]) * dz - (v[1] - a[1]) * dx) / L; return d <= 15 && t >= -15 && t <= L + 15; });
+    });
+  }
   function rectRoom(W, Dp, H, T) {
     return createRoom([[-W / 2, -Dp / 2], [W / 2, -Dp / 2], [W / 2, Dp / 2], [-W / 2, Dp / 2]], H, T);
   }
@@ -1972,7 +2023,7 @@
 
   window.Model = {
     init(T) { THREE = T; },
-    outline2D, uid, structBoxes, structName, wallPush, wallJog, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS, GLASS_TYPES, ALU_COLORS, glassMat,
+    outline2D, outerRing, onOuter, joinPath, markShared, uid, structBoxes, structName, wallPush, wallJog, rowsWithFiller, genShelves, createCabinet, footprint, footDepth, DOOR_STYLES, DOOR_STYLE_GROUPS, DOOR_COLORS, WIN_STYLES, FRAME_COLORS, CURTAIN_STYLES, CURTAIN_COLORS, LAMP_COLORS, GLASS_TYPES, ALU_COLORS, glassMat,
     createRoom, rectRoom, wallInfo, wallName, polyArea, pointInPoly, isModified, cabName,
     rowLip, OPEN_ROW, E_FRONT, buildCabinet, buildRoom, triShape, getMat, clearMatCache, clearSwatchTex, grainOf, imgGrainOf, floorDef, deskGeom, resizeCabinet, handleOf, handleEdge, insetPos, counterOver, deskHoles, isCounterAppl, toLocal, toWorld
   };
