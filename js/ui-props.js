@@ -171,7 +171,10 @@
       }).join('')}</div>
       <p class="muted" style="font-size:11.5px;margin:6px 0 0">點選牆面（清單或 3D 視窗）即可放置門／窗並鎖定。</p>
       <div class="btn-row"><button class="btn small" data-a="room-wall-draw" title="在這個房間畫新的牆：牆刪掉後補牆、把某段牆換到別的位置。從牆線上起點，畫完點回牆線上">${icon('line')}新增／改畫牆面</button></div>
-      <div class="btn-row"><button class="btn small" data-a="room-rebuild-rect">重建矩形</button><button class="btn small" data-a="room-rebuild-line">重新繪製</button><button class="btn small danger" data-a="room-del" data-i="${st.roomIdx}">刪除此房間</button></div>`;
+      <div class="btn-row"><button class="btn small" data-a="room-rebuild-rect">重建矩形</button><button class="btn small" data-a="room-rebuild-line">重新繪製</button></div>
+      <div class="btn-row">${r.walls.every(w => w.off)
+        ? `<button class="btn small" data-a="room-walls-on" title="把這個房間所有刪除的牆面一次復原">復原所有牆面</button>`
+        : `<button class="btn small danger" data-a="room-walls-off" title="一鍵把這個房間的牆全部拿掉，地板、房間範圍、櫃體與天花都保留；之後可一鍵復原">${icon('delete')}只刪牆面</button>`}<button class="btn small danger" data-a="room-del" data-i="${st.roomIdx}" title="一鍵刪除這個房間：牆面、門窗、天花、樑柱，以及房間裡的櫃體與家具">${icon('delete')}刪除整個房間</button></div>`;
     }
     html += '</div>';
     const df = st.defaults;
@@ -639,7 +642,14 @@
     if (a && a.startsWith('ul-')) { window.Underlay.click(a); return; }   // 門片列／層板／門窗的按鈕只有 data-ra／data-sa／data-oa，沒有 data-a
     if (a === 'room-line') { UI.action('line'); return; }
     if (a === 'room-rebuild-line') { UI.action('line', 'replace'); return; }
-    if (a === 'room-del') { const ri = b.dataset.i != null ? +b.dataset.i : st.roomIdx, rm = (st.rooms || [])[ri]; if (rm && await UI.confirm('刪除房間', `刪除「${rm.name || '房間'}」的牆面、門窗與天花設定（櫃體保留）？`)) App.deleteRoom(ri); return; }
+    if (a === 'room-del') {   // 刪除整個房間：連房間裡的櫃體／家具
+      const ri = b.dataset.i != null ? +b.dataset.i : st.roomIdx, rm = (st.rooms || [])[ri]; if (!rm) return;
+      const n = App.cabsInRoom(rm).length;
+      if (await UI.confirm('刪除整個房間', `刪除「${rm.name || '房間'}」：牆面、門窗、天花與樑柱${n ? `，以及房間裡的 ${n} 件櫃體／家具` : ''}。刪除後可按 Ctrl+Z 復原。`)) { App.deleteRoom(ri, true); App.toast(`已刪除「${rm.name || '房間'}」${n ? `與 ${n} 件櫃體／家具` : ''}`); }
+      return;
+    }
+    if (a === 'room-walls-off') { App.select(null); App.mutate('刪除房間牆面', x => { x.room.walls.forEach(w => { w.off = true; }); }, 'room'); App.toast('已刪除這個房間的所有牆面（地板、櫃體保留）；可按「復原所有牆面」或 Ctrl+Z'); return; }
+    if (a === 'room-walls-on') { App.mutate('復原房間牆面', x => { x.room.walls.forEach(w => { delete w.off; delete w.shared; }); }, 'room'); App.toast('已復原這個房間的所有牆面'); return; }
     if (a === 'wall') { App.select({ type: 'wall', index: +b.dataset.i }); return; }
     if (a === 'apply-all') {
       if (!st.cabinets.length) return;

@@ -335,15 +335,22 @@
     window.Viewer.rebuildRoom(); window.Viewer.updateSelection(); App.ui.refresh(); App.save();
     return true;
   };
-  App.deleteRoom = function (i) {
+  // 房間裡的櫃體／家具（中心點落在房間範圍內）
+  App.cabsInRoom = function (room) {
+    const st = App.state; if (!room) return [];
+    return (st.cabinets || []).filter(c => window.Model.pointInPoly(c.x, c.z, room.points));
+  };
+  // withCabs＝連房間裡的櫃體／家具一起刪（刪除整個房間）；否則只刪牆面、門窗、天花設定，櫃體保留
+  App.deleteRoom = function (i, withCabs) {
     const st = App.state; if (!st.rooms || !st.rooms[i]) return;
     const name = st.rooms[i].name || '房間';
     App.sel = null; App.exitCeilEdit();
     App.mutate('刪除房間 ' + name, s => {
+      if (withCabs) { const pts = s.rooms[i].points; s.cabinets = s.cabinets.filter(c => !window.Model.pointInPoly(c.x, c.z, pts)); }
       s.rooms.splice(i, 1);
       s.roomIdx = s.rooms.length ? Math.min(s.roomIdx > i ? s.roomIdx - 1 : s.roomIdx, s.rooms.length - 1) : 0;
       s.room = s.rooms[s.roomIdx] || null;
-    }, 'room');
+    }, withCabs ? 'all' : 'room');
   };
   App.renameRoom = function (i, name) {
     name = String(name || '').trim(); if (!name || !App.state.rooms || !App.state.rooms[i]) return;
