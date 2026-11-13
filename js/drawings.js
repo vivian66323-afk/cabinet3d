@@ -97,17 +97,25 @@
   Dr.leaderNotes = function (pg, notes, yTop, rows, xMax, size = 7) {
     const col = '#6b7280', lh = size * 0.3528 + 0.9, ends = Array.from({ length: rows }, () => -Infinity);
     const rowH = n => n * lh + 1.2, maxLines = Math.max(1, ...notes.map(n => n.lines.length));
-    notes.slice().sort((a, b) => a.x - b.x).forEach(n => {
+    // 內容相同的說明（例如連續幾座同型號的櫃子）合併成一則：文字只寫一次，各自的引線用一條橫線串起來
+    const groups = new Map();
+    notes.forEach(n => { const k = n.lines.join('|'); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(n); });
+    [...groups.values()].map(g => g.sort((a, b) => a.x - b.x)).sort((a, b) => a[0].x - b[0].x).forEach(grp => {
+      const n = grp[0], xEnd = grp[grp.length - 1].x;
       pg.font(size);
       const tw = Math.max(...n.lines.map(t => pg.g.measureText(t).width / pg.k));
       let r = ends.findIndex(e => e < n.x - 1); if (r < 0) r = ends.indexOf(Math.min(...ends));
       const left = n.x + 2 + tw > xMax, ty = yTop + r * rowH(maxLines);
-      ends[r] = left ? Math.max(ends[r], n.x) : n.x + 2.5 + tw;
+      ends[r] = left ? Math.max(xEnd + 1, n.x) : (grp.length > 1 ? xEnd : n.x) + 2.5 + tw;
+      grp.slice(1).forEach(m => { pg.line(m.x, m.y, m.x, ty + lh * 0.5, 0.1, col); pg.g.fillStyle = '#000000'; pg.g.beginPath(); pg.g.arc(m.x * pg.k, m.y * pg.k, 0.35 * pg.k, 0, Math.PI * 2); pg.g.fill(); });
+      if (grp.length > 1) pg.line(n.x, ty + lh * 0.5, xEnd, ty + lh * 0.5, 0.1, col);
+      const tx0 = grp.length > 1 && !left ? xEnd : n.x;   // 合併時文字接在橫線尾端
       pg.line(n.x, n.y, n.x, ty + lh * 0.5, 0.1, col);
       n.lines.forEach((t, j) => {
         const yy = ty + lh * (j + 0.5);
-        pg.line(n.x, yy, n.x + (left ? -1.4 : 1.4), yy, 0.1, col);
-        pg.text(n.x + (left ? -2 : 2), yy, t, { size, color: col, align: left ? 'right' : 'left', base: 'middle' });
+        pg.line(tx0, yy, tx0 + (left ? -1.4 : 1.4), yy, 0.1, col);
+        if (j > 0 && tx0 !== n.x) pg.line(tx0, ty + lh * 0.5, tx0, yy, 0.1, col);
+        pg.text(tx0 + (left ? -2 : 2), yy, t, { size, color: col, align: left ? 'right' : 'left', base: 'middle' });
       });
       pg.g.fillStyle = '#000000'; pg.g.beginPath(); pg.g.arc(n.x * pg.k, n.y * pg.k, 0.35 * pg.k, 0, Math.PI * 2); pg.g.fill();
     });
@@ -932,7 +940,9 @@
     });
     // 周邊環境：側牆櫃體的側面、房間中間的家具、獨立門片…（由遠到近，黑色實線、外輪廓較粗，裁在牆面範圍內）
     //   家具、椅子、燈具等軟裝（非系統櫃）：淡色虛線、不鋪白底，不會遮住後面的櫃體
-    Dr.wallOthers(st, i).filter(o => !Dr.isLoose(o.cab)).forEach(o => {
+    //   只畫牆前「局部平面看得到的深度」以內的東西（最靠牆的一緣在範圍內）：房間另一頭、站的人背後的櫃體不該出現在這面立面上
+    const reach = stripD - Tw;
+    Dr.wallOthers(st, i).filter(o => !Dr.isLoose(o.cab) && o.dist - (Math.abs(o.view.dz[0]) * o.cab.w / 2 + Math.abs(o.view.dz[1]) * M().footDepth(o.cab) / 2) < reach).forEach(o => {
       const ok = Dr.outline(pg, o.cab, o.view, (X, Y) => [x0 + (o.sc + X) / s, y0 - Y / s], 0.1, [x0, y0 - Hh, W, Hh], null, o.cab.kind === 'appl');
       // 相鄰牆的櫃體側面：加一則說明，免得看不出這塊是什麼
       if (ok && o.cab.kind !== 'appl' && o.sc > 0 && o.sc < L) notes.push({ x: x0 + o.sc / s, y: y0 - (o.cab.y + (o.cab.kind === 'desk' ? o.cab.thick : o.cab.h) * 0.5) / s, lines: [M().cabName(o.cab), '（相鄰牆的櫃體，側面）'] });
