@@ -275,12 +275,19 @@
   const APPL_FILL = { steel: '#c9cdd1', glass: '#2b2f33', white: '#f3f3f1' };
   Dr.applFill = (pg, cab, s) => { const it = D.byCode[cab.code] || {}; return it.finish === 'panel' ? Dr.fill(pg, cab.doorColor, s, true) : APPL_FILL[it.finish] || '#c9cdd1'; };
   // 家具／設備線稿（Model.outline2D 的投影結果）：先鋪白底再描可見線；map 把局部座標(mm)換成紙面座標(mm)。畫成功回傳 true
-  Dr.outline = function (pg, cab, view, map, w, clip, color) {
+  Dr.outline = function (pg, cab, view, map, w, clip, color, ghost) {
     const o = M().outline2D ? M().outline2D(cab, view) : null;
     if (!o) return false;
     const g = pg.g, k = pg.k;
     g.save(); g.setLineDash([]); g.lineJoin = 'round'; g.lineCap = 'round';
     if (clip) { g.beginPath(); g.rect(clip[0] * k, clip[1] * k, clip[2] * k, clip[3] * k); g.clip(); }
+    if (ghost) {   // 淡虛線：只描外輪廓，不鋪底
+      g.strokeStyle = '#9aa0a6'; g.lineWidth = 0.1 * k; g.setLineDash([1.4 * k, 1 * k]);
+      g.beginPath();
+      o.segs.forEach(sg => { if (!sg[4]) return; const a = map(sg[0], sg[1]), b = map(sg[2], sg[3]); g.moveTo(a[0] * k, a[1] * k); g.lineTo(b[0] * k, b[1] * k); });
+      g.stroke(); g.restore();
+      return true;
+    }
     g.fillStyle = '#ffffff';
     o.polys.forEach(h => { g.beginPath(); h.forEach((p, i) => { const q = map(p[0], p[1]); i ? g.lineTo(q[0] * k, q[1] * k) : g.moveTo(q[0] * k, q[1] * k); }); g.closePath(); g.fill(); });
     // 線寬比照菩語 CAD 出圖（大吾疆寶琚案 PDF）：細線 0.1mm 為主、外輪廓 0.2mm，一律黑色實線
@@ -704,8 +711,41 @@
     return s;
   };
 
-  // 取得靠此牆的櫃體與其左側位置
+  /* 立面的「面」：站在房間裡朝某個方向看到的完整一面——同一個房間裡朝向相同（10° 內）的牆合成一個面，
+     中間有凹凸轉折（例如牆面 5、7、9 被兩小段垂直的牆隔開）也算同一面，不再一段牆出一張。
+     回傳 [{ key, walls:[牆 index…], segs:[{ i, left, width, depth }], wi（虛擬的整面牆：p 在最左最深處、dir＝往右、len＝總寬）, off（整面都刪除）, on（要出圖） }]
+     要不要出圖沿用牆上的 elev 旗標：面裡只要有一面牆沒被關掉就出圖；切換時整個面一起切 */
+  Dr.roomFaces = function (room) {
+    const groups = [];
+    room.points.forEach((_, i) => {
+      const wi = M().wallInfo(room, i); if (wi.len < 1) return;
+      let g = groups.find(q => q.nIn[0] * wi.nIn[0] + q.nIn[1] * wi.nIn[1] > 0.985);
+      if (!g) { g = { nIn: wi.nIn.slice(), walls: [] }; groups.push(g); }
+      g.walls.push(i);
+    });
+    return groups.map(g => {
+      const nIn = g.nIn, nOut = [-nIn[0], -nIn[1]], right = [-nOut[1], nOut[0]];
+      const R = p => p[0] * right[0] + p[1] * right[1], Dp = p => p[0] * nIn[0] + p[1] * nIn[1];
+      let lo = Infinity, hi = -Infinity, back = Infinity;
+      const segs = g.walls.map(i => { const wi = M().wallInfo(room, i), a = R(wi.p), b = R(wi.q); lo = Math.min(lo, a, b); hi = Math.max(hi, a, b); back = Math.min(back, Dp(wi.p), Dp(wi.q)); return { i, a: Math.min(a, b), b: Math.max(a, b), d: (Dp(wi.p) + Dp(wi.q)) / 2 }; });
+      const p = [right[0] * lo + nIn[0] * back, right[1] * lo + nIn[1] * back], L = hi - lo, q = [p[0] + right[0] * L, p[1] + right[1] * L];
+      segs.forEach(sg => { sg.left = sg.a - lo; sg.width = sg.b - sg.a; sg.depth = sg.d - back; });
+      segs.sort((a, b) => a.left - b.left);
+      const live = segs.filter(sg => !room.walls[sg.i].off);
+      const main = live.slice().sort((a, b) => b.width - a.width)[0];
+      return { key: room.walls[g.walls[0]].id, walls: g.walls, segs, main: main ? main.i : g.walls[0], wi: { p, q, dir: right, len: L, nIn, nOut, mid: [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2] },
+        off: !live.length, on: live.some(sg => room.walls[sg.i].elev !== false), name: live.map(sg => 'W' + (sg.i + 1)).join('＋') };
+    });
+  };
+  const isFace = i => !!i && typeof i === 'object';
+  const WI = (room, i) => isFace(i) ? i.wi : M().wallInfo(room, i);
+  // 取得靠此牆（或此面）的櫃體與其左側位置
   Dr.wallCabinets = function (st, i) {
+    if (isFace(i)) {   // 面：各段牆的櫃體合在一起，位置換成從整面左端起算
+      const f = i, rt = f.wi.dir, seen = new Set(), list = [];
+      f.segs.forEach(sg => { if (st.room.walls[sg.i].off) return; Dr.wallCabinets(st, sg.i).list.forEach(l => { if (seen.has(l.cab)) return; seen.add(l.cab); list.push({ cab: l.cab, left: (l.cab.x - f.wi.p[0]) * rt[0] + (l.cab.z - f.wi.p[1]) * rt[1] - l.cab.w / 2 }); }); });
+      return { wi: f.wi, list, base: 0, right: rt };
+    }
     const room = st.room, wi = M().wallInfo(room, i);
     const right = [-wi.nOut[1], wi.nOut[0]];
     const sP = 0, sQ = (wi.q[0] - wi.p[0]) * right[0] + (wi.q[1] - wi.p[1]) * right[1];
@@ -746,7 +786,7 @@
       if (sc + hw < 0 || sc - hw > wi.len) return;
       if (dz[1] < -0.7) {   // 正面朝向這面牆：背靠別面牆的不畫
         const back = M().toWorld(c, 0, -fd / 2);
-        if (room.walls.some((w, j) => { if (j === i) return false; const q = M().wallInfo(room, j); return segDist(back, q.p, q.q) < 300; })) return;
+        if (room.walls.some((w, j) => { if (isFace(i) ? i.walls.includes(j) : j === i) return false; const q = M().wallInfo(room, j); return segDist(back, q.p, q.q) < 300; })) return;
       }
       out.push({ cab: c, sc, dist, view: { hx, dz } });
     });
@@ -756,7 +796,7 @@
   Dr.wallCeiling = function (st, i) {
     const room = st.room, c = room.ceiling;
     if (!c || c.on === false || !(c.h > 0) || c.h >= room.height) return null;
-    const wi = M().wallInfo(room, i), right = [-wi.nOut[1], wi.nOut[0]];
+    const wi = WI(room, i), right = [-wi.nOut[1], wi.nOut[0]];
     const base = Math.min(0, (wi.q[0] - wi.p[0]) * right[0] + (wi.q[1] - wi.p[1]) * right[1]);
     const K = (window.Ceiling && window.Ceiling.KINDS) || {};
     const zones = [];
@@ -798,6 +838,11 @@
   };
   // 貼著此牆（300 mm 內）的樑柱在立面上的範圍：left／width 為從左邊起算（已裁到牆長內），y0／y1 為高度
   Dr.wallStructs = function (st, i) {
+    if (isFace(i)) {   // 面：各段牆的樑柱合在一起
+      const best = new Map();
+      i.segs.forEach(sg => { if (st.room.walls[sg.i].off) return; Dr.wallStructs(st, sg.i).forEach(q => { const v = { ...q, left: q.left + sg.left }, o = best.get(q.s.id); if (!o || v.width > o.width) best.set(q.s.id, v); }); });
+      return [...best.values()];
+    }
     const room = st.room, wi = M().wallInfo(room, i), right = [-wi.nOut[1], wi.nOut[0]];
     const base = Math.min(0, (wi.q[0] - wi.p[0]) * right[0] + (wi.q[1] - wi.p[1]) * right[1]);
     const out = [];
@@ -815,7 +860,8 @@
     const { wi, list, base, right } = Dr.wallCabinets(st, i);
     const L = wi.len, H = room.height;
     // 版面由上到下：局部平面（與立面同寬、同比例，牆在上、室內在下）→ 引線說明 → 總長標註 → 立面 → 分段標註
-    const Tw = room.thickness, deep = Math.max(0, ...list.map(l => M().footDepth(l.cab)));
+    const FACE = isFace(i) ? i : null;
+    const Tw = room.thickness, deep = Math.max(0, ...list.map(l => M().footDepth(l.cab))) + (FACE ? Math.max(0, ...FACE.segs.map(sg => sg.depth)) : 0);
     const stripD = Tw + Math.min(1600, Math.max(700, deep + 450));
     const NOTE = 24, TOPDIM = 12, BOT = 22;
     const s = Dr.fitScale(L + 1400, H + 150 + stripD, box.x1 - box.x0, box.y1 - box.y0 - NOTE - TOPDIM - BOT - 4);
@@ -835,15 +881,17 @@
     { const T = Math.max(2, room.thickness / s), slab = Math.max(2, 150 / s);
       Dr.hatch(pg, x0 - T, y0 - Hh - slab, T, Hh + slab); Dr.hatch(pg, x0 + W, y0 - Hh - slab, T, Hh + slab); Dr.hatch(pg, x0, y0 - Hh - slab, W, slab); }
     pg.line(x0 - 8, y0, x0 + W + 8, y0, 0.35, '#000000');   // 地坪線
+    // 面裡各段牆的交界（前後有落差的轉折）：畫一條直線
+    if (FACE) FACE.segs.forEach(sg => [sg.left, sg.left + sg.width].forEach(xx => { if (xx > 5 && xx < L - 5) pg.line(x0 + xx / s, y0 - Hh, x0 + xx / s, y0, 0.2, '#000000'); }));
     // 門窗
-    room.walls[i].openings.forEach(o => {
-      const sA = (wi.dir[0] * right[0] + wi.dir[1] * right[1]) > 0 ? o.offset : L - o.offset - o.width;
+    (FACE ? FACE.segs.filter(sg => !room.walls[sg.i].off).map(sg => ({ w: room.walls[sg.i], k: M().wallInfo(room, sg.i), sh: sg.left })) : [{ w: room.walls[i], k: wi, sh: 0 }]).forEach(({ w: wl, k: wk, sh }) => wl.openings.forEach(o => {
+      const sA = sh + ((wk.dir[0] * right[0] + wk.dir[1] * right[1]) > 0 ? o.offset : wk.len - o.offset - o.width);
       const ox = x0 + sA / s, ow = o.width / s, oy = y0 - (o.sill + o.height) / s, oh = o.height / s;
       pg.rect(ox, oy, ow, oh, { w: 0.35, fill: '#ffffff' });
       if (o.type === 'window') { pg.line(ox + ow / 2, oy, ox + ow / 2, oy + oh, 0.15); pg.line(ox, oy + oh / 2, ox + ow, oy + oh / 2, 0.15); }
       else { pg.line(ox, oy, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); pg.line(ox, oy + oh, ox + ow, oy + oh / 2, 0.12, '#8a7a66', [1.2, 0.8]); }
       pg.text(ox + ow / 2, oy - 1.2, `${o.type === 'door' ? '門' : '窗'} ${Dr.cm(o.width)}×${Dr.cm(o.height)}${o.sill ? ' 抬高' + Dr.cm(o.sill) : ''}`, { size: 5.5, align: 'center', color: '#69727d' });
-    });
+    }));
     // 天花板：以角材骨架呈現（樓板下橫角材、吊筋、板上橫角材、封板），降板／包樑／較高區各自一組
     const ceil = Dr.wallCeiling(st, i);
     if (ceil) {
@@ -879,7 +927,8 @@
     });
     Dr.leaderNotes(pg, notes, noteY, 3, box.x1 + 40);
     // 周邊環境：側牆櫃體的側面、房間中間的家具、獨立門片…（由遠到近，黑色實線、外輪廓較粗，裁在牆面範圍內）
-    Dr.wallOthers(st, i).forEach(o => Dr.outline(pg, o.cab, o.view, (X, Y) => [x0 + (o.sc + X) / s, y0 - Y / s], 0.1, [x0, y0 - Hh, W, Hh]));
+    //   家具、椅子、燈具等軟裝（非系統櫃）：淡色虛線、不鋪白底，不會遮住後面的櫃體
+    Dr.wallOthers(st, i).forEach(o => Dr.outline(pg, o.cab, o.view, (X, Y) => [x0 + (o.sc + X) / s, y0 - Y / s], 0.1, [x0, y0 - Hh, W, Hh], null, o.cab.kind === 'appl'));
     // 標註
     Dr.dim(pg, x0, y0 - Hh, x0 + W, y0 - Hh, Math.round(L) + '', -5 - slabH, { size: 9 });
     if (ceil) Dr.dim(pg, x0 + W, y0, x0 + W, y0 - ceil.h / s, Math.round(ceil.h) + '', 8 + Tw / s, { size: 8 });

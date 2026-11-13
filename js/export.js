@@ -594,7 +594,7 @@ ${tris}</mesh></geometry>`);
     const roomsOf = Dr().roomsOf;
     const extraOf = rooms => { const C = window.Ceiling; if (!C) return 0; const on = rooms.filter(r => r.ceiling && r.ceiling.on); if (!on.length) return 0; return 1 + ['light', 'hvac', 'power'].filter(g => on.some(r => C.counts(r, g).length)).length + on.filter(r => (r.circuits || []).length).length; };
     // 沒有空間也沒有櫃體的樓層不會出圖（下方迴圈會跳過），總頁數也不能算進去，否則標題欄的「頁次 x / y」會多 1
-    const total = floors.reduce((a, f) => { const rs = roomsOf(f); return a + (!rs.length && !(f.cabinets || []).length ? 0 : 1 + rs.reduce((b, r) => b + r.walls.reduce((c2, w, wi2) => c2 + (w.off || w.elev === false ? 0 : 1 + (hasInside({ room: r, cabinets: f.cabinets || [] }, wi2) ? 1 : 0)), 0), 0) + extraOf(rs)); }, 0);
+    const total = floors.reduce((a, f) => { const rs = roomsOf(f); return a + (!rs.length && !(f.cabinets || []).length ? 0 : 1 + rs.reduce((b, r) => b + Dr().roomFaces(r).reduce((c2, fc) => c2 + (fc.off || !fc.on ? 0 : 1 + (hasInside({ room: r, cabinets: f.cabinets || [] }, fc) ? 1 : 0)), 0), 0) + extraOf(rs)); }, 0);
     let pno = 0, elevNo = 0;
     for (const fl of floors) {
     const rooms = roomsOf(fl);
@@ -605,15 +605,16 @@ ${tris}</mesh></geometry>`);
     // 立面索引：先算出每面要出圖的牆的立面編號與圖號（平面圖上的索引符號、立面圖的圖名泡泡共用）
     const elevIdx = new Map();
     { let pp = pno + 1 + extraOf(rooms);
-      rooms.forEach(room => room.walls.forEach((w, i) => {
-        if (w.off || w.elev === false) return;
-        elevIdx.set(room.id + ':' + i, { no: ++elevNo, sheet: 'ID-' + String(pp + 1).padStart(2, '0') });
-        pp += hasInside({ room, cabinets: fl.cabinets || [] }, i) ? 2 : 1;
+      rooms.forEach(room => Dr().roomFaces(room).forEach(fc => {
+        if (fc.off || !fc.on) return;
+        const e = { no: ++elevNo, sheet: 'ID-' + String(pp + 1).padStart(2, '0') };
+        elevIdx.set(room.id + ':' + fc.key, e); elevIdx.set(room.id + ':w' + fc.main, e);   // 平面圖的索引符號標在這一面最寬的那段牆前
+        pp += hasInside({ room, cabinets: fl.cabinets || [] }, fc) ? 2 : 1;
       })); }
     // 平面
     let pg = Dr().Page('landscape', 300, 'a3');
     let box = Dr().frame(pg, pre + '平面配置圖', info({ page: ++pno, pages: total }));
-    const s = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { elevIndex: (room, i) => elevIdx.get(room.id + ':' + i) });
+    const s = Dr().plan(pg, st, { x0: box.x0 + 6, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 2 }, { elevIndex: (room, i) => elevIdx.get(room.id + ':w' + i) });
     legendFor(pg, st.cabinets, box.x1 - 50, box.y0 + 4);
     Dr().frame(pg, pre + '平面配置圖', info({ page: pno, pages: total, scale: s ? '1:' + s : '—' }));
     pages.push(pg);
@@ -647,21 +648,22 @@ ${tris}</mesh></geometry>`);
     for (let ri = 0; ri < rooms.length; ri++) {
     const room = rooms[ri]; st.room = room;
     const tag = rooms.length > 1 ? (ri + 1) + '-' : '', rpre = rooms.length > 1 ? (room.name || '') + '　' : '';
-    for (let i = 0; i < room.points.length; i++) {
-      if (room.walls[i].off || room.walls[i].elev === false) continue;   // 已刪除、或設定不出圖的牆面
-      const eNo = (elevIdx.get(room.id + ':' + i) || {}).no;
+    const faces = Dr().roomFaces(room).filter(fc => !fc.off && fc.on);   // 立面以「面」為單位：同方向的牆合成一張
+    for (let fi = 0; fi < faces.length; fi++) {
+      const i = faces[fi];
+      const eNo = (elevIdx.get(room.id + ':' + i.key) || {}).no;
       // 有門片的牆面出兩張：外觀（門片填色）＋內部（門片拿掉看層板／抽屜）
       for (const inside of (hasInside(st, i) ? [false, true] : [false])) {
-      App.busy(true, `繪製 ${pre}${rpre}立面圖 ${i + 1} / ${room.points.length}`);
+      App.busy(true, `繪製 ${pre}${rpre}立面圖 ${fi + 1} / ${faces.length}`);
       await nextFrame();
       pg = Dr().Page('landscape', 300, 'a3');
-      const title = `${pre}${rpre}立面圖　${window.Model.wallName(i)}（${tag}W${i + 1}）${inside ? '　內部' : ''}`;
+      const title = `${pre}${rpre}立面圖 ${eNo || ''}（${tag}${i.name}）${inside ? '　內部' : ''}`;
       box = Dr().frame(pg, title, info({ page: ++pno, pages: total, no: eNo }));
       const res = Dr().elevation(pg, st, i, { x0: box.x0 + 14, y0: box.y0 + 4, x1: box.x1 - 58, y1: box.y1 - 8 }, { inside });
       legendFor(pg, res.cabs, box.x1 - 50, box.y0 + 44);
       // 索引小圖
       keyPlan(pg, st, i, box.x1 - 40, box.y0 + 2, 34);
-      pg.text(box.x0 + 2, box.y1 - 2, `從室內面向 ${tag}W${i + 1} 觀看　比例 1:${res.s}　單位 cm　${res.count ? res.count + ' 件櫃體' : '此牆面無靠牆櫃體'}`, { size: 6.5, color: '#69727d' });
+      pg.text(box.x0 + 2, box.y1 - 2, `從室內面向 ${tag}${i.name} 觀看　比例 1:${res.s}　單位 cm　${res.count ? res.count + ' 件櫃體' : '此牆面無靠牆櫃體'}`, { size: 6.5, color: '#69727d' });
       Dr().frame(pg, title, info({ page: pno, pages: total, scale: '1:' + res.s, no: eNo }));
       pages.push(pg);
       }
@@ -670,6 +672,12 @@ ${tris}</mesh></geometry>`);
     }
     if (!pages.length) { App.ui.alert('無法匯出', '各樓層都尚未建立空間或放置櫃體。'); return; }
     pagesToPDF(pages, `${safe(st0.name)}_平面圖及立面圖_${stamp()}`);
+  };
+  // 每個要出圖的立面的編號（與出圖時相同的順序：樓層 → 房間 → 面），給 3D 畫面上的立面符號顯示用。回傳 Map：房間 id + ':' + 面 key → 編號
+  Ex.elevNumbers = function () {
+    const m = new Map(); let no = 0;
+    App.floorList().forEach(f => Dr().roomsOf(f).forEach(room => Dr().roomFaces(room).forEach(fc => { if (!fc.off && fc.on) m.set(room.id + ':' + fc.key, ++no); })));
+    return m;
   };
   // 這面牆的靠牆櫃體有門片（或抽屜）→ 立面多出一張內部視圖
   function hasInside(st, i) {
@@ -692,11 +700,12 @@ ${tris}</mesh></geometry>`);
     r.points.forEach((_, i) => {
       const wi = window.Model.wallInfo(r, i);
       const A = P2(wi.p), B = P2(wi.q);
-      pg.line(A[0], A[1], B[0], B[1], i === idx ? 1.2 : 0.35, i === idx ? '#d0342c' : '#1f2328');
+      const hit = idx && typeof idx === 'object' ? idx.walls.includes(i) && !r.walls[i].off : i === idx;
+      pg.line(A[0], A[1], B[0], B[1], hit ? 1.2 : 0.35, hit ? '#d0342c' : '#1f2328');
     });
-    const wi = window.Model.wallInfo(r, idx);
+    const wi = window.Model.wallInfo(r, idx && typeof idx === 'object' ? idx.main : idx);
     const m = P2(wi.mid);
-    pg.text(m[0] + wi.nIn[0] * 5, m[1] + wi.nIn[1] * 5, 'W' + (idx + 1), { size: 6, bold: true, color: '#d0342c', align: 'center', base: 'middle' });
+    pg.text(m[0] + wi.nIn[0] * 5, m[1] + wi.nIn[1] * 5, idx && typeof idx === 'object' ? '▲' : 'W' + (idx + 1), { size: 6, bold: true, color: '#d0342c', align: 'center', base: 'middle' });
     pg.text(x, y + size + 5, '索引圖', { size: 6, color: '#69727d' });
   }
 

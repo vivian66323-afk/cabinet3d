@@ -88,6 +88,13 @@
     App.mutate('新增牆面', x => { M().reshapeRoom(x.room, pts); }, 'room');
     App.toast('已新增牆面' + (res.dropped ? `；有 ${res.dropped} 個門窗放不下已移除` : '') + '（Ctrl+Z 可復原）');
   };
+  // 切換某個立面要不要出圖（3D 畫面上點立面符號）：整個面的牆一起切
+  UI.toggleFace = function (ri, key) {
+    const st = App.state, room = (st.rooms || [])[ri]; if (!room) return;
+    const fc = window.Drawings.roomFaces(room).find(f => f.key === key); if (!fc) return;
+    const on = !fc.on;
+    App.mutate('立面出圖', x => { const rm = x.rooms[ri]; fc.walls.forEach(k => { if (on) delete rm.walls[k].elev; else rm.walls[k].elev = false; }); });
+  };
   UI.placeColumn = function (p) {
     const r = App.state.room; if (!r) return;
     const col = fitColumn(r, { id: M().uid('s'), kind: 'col', x: Math.round(p[0]), z: Math.round(p[1]), w: lastCol.w, d: lastCol.d, rot: 0 });
@@ -167,10 +174,12 @@
       ${structSection(r)}
       <div class="list wall-list" style="margin-top:10px">${r.points.map((_, i) => {
         const w = r.walls[i], wi = M().wallInfo(r, i);
-        return `<div class="lrow" data-a="wall" data-i="${i}"><span>${M().wallName(i)}　<span class="muted">${Math.round(wi.len)} mm</span></span><span class="muted">${w.off ? '<b style="color:#c0392b">已刪除</b>' : w.openings.length ? w.openings.length + ' 門窗' : ''}</span>${w.off ? '' : `<label class="elev-chk" title="勾選＝這面牆要出立面圖"><input type="checkbox" data-f="wall-elev" data-i="${i}"${w.elev === false ? '' : ' checked'}>出圖</label>`}<span title="${w.locked ? '已鎖定' : '未鎖定'}" style="color:${w.locked ? '#5f6368' : '#b0b7bf'}">${icon(w.locked ? 'lock' : 'unlock')}</span></div>`;
+        return `<div class="lrow" data-a="wall" data-i="${i}"><span>${M().wallName(i)}　<span class="muted">${Math.round(wi.len)} mm</span></span><span class="muted">${w.off ? '<b style="color:#c0392b">已刪除</b>' : w.openings.length ? w.openings.length + ' 門窗' : ''}</span><span title="${w.locked ? '已鎖定' : '未鎖定'}" style="color:${w.locked ? '#5f6368' : '#b0b7bf'}">${icon(w.locked ? 'lock' : 'unlock')}</span></div>`;
       }).join('')}</div>
-      <div class="btn-row" style="margin-top:6px"><span class="muted" style="font-size:11.5px;align-self:center">立面出圖：</span><button class="btn small" data-a="elev-all">全部</button><button class="btn small" data-a="elev-cab" title="只勾選有靠牆櫃體或家具的牆面">只出有櫃體的</button><button class="btn small" data-a="elev-none">全不出</button></div>
-      <p class="muted" style="font-size:11.5px;margin:6px 0 0">點選牆面（清單或 3D 視窗）即可放置門／窗並鎖定。勾「出圖」的牆面才會出立面圖，平面圖上會標對應的立面編號與圖號。</p>
+      <p class="muted" style="font-size:11.5px;margin:6px 0 0">點選牆面（清單或 3D 視窗）即可放置門／窗並鎖定。</p>
+      <div class="sec-title" style="margin-top:12px">立面出圖</div>
+      <div class="btn-row"><button class="btn small${V().showElevMarks ? ' primary' : ''}" data-a="elev-pick" title="在畫面上顯示每個立面的符號與編號，點符號切換要不要出圖；再按一次收起來">${V().showElevMarks ? '收起立面符號' : '在畫面上選擇立面'}</button><button class="btn small" data-a="elev-all">全部出</button><button class="btn small" data-a="elev-cab" title="只出有靠牆櫃體或家具的立面">只出有櫃體的</button><button class="btn small" data-a="elev-none">全不出</button></div>
+      <p class="muted" style="font-size:11.5px;margin:6px 0 0">${(() => { const fs = window.Drawings.roomFaces(r).filter(f => !f.off); return `這個房間 ${fs.length} 個立面，要出圖 ${fs.filter(f => f.on).length} 個`; })()}。同一個方向的牆（含中間的凹凸轉折）合成一張完整立面。</p>
       <div class="btn-row"><button class="btn small" data-a="room-wall-draw" title="在這個房間畫新的牆：牆刪掉後補牆、把某段牆換到別的位置。從牆線上起點，畫完點回牆線上">${icon('line')}新增／改畫牆面</button></div>
       <div class="btn-row"><button class="btn small" data-a="room-rebuild-rect">重建矩形</button><button class="btn small" data-a="room-rebuild-line">重新繪製</button></div>
       <div class="btn-row">${r.walls.every(w => w.off)
@@ -632,9 +641,10 @@
     if (a === 'paint-clear') { App.mutate('牆面恢復預設', x => { delete x.room.wallColor; delete x.room.wallPaint; }, 'room'); return; }
     if (a === 'pick-paint-wall') { UI.pickPaint(+b.dataset.i); return; }
     if (a === 'paint-wall-clear') { const wi0 = +b.dataset.i; App.mutate('牆面同整體', x => { delete x.room.walls[wi0].color; delete x.room.walls[wi0].paint; }, 'room'); return; }
+    if (a === 'elev-pick') { V().showElevMarks = !V().showElevMarks; V().updateLabels && V().updateLabels(); UI.refresh(); App.toast(V().showElevMarks ? '立面符號已顯示：點符號切換要不要出圖，箭頭是觀看方向' : '立面符號已收起'); return; }
     if (a === 'elev-all' || a === 'elev-none' || a === 'elev-cab') {
-      App.mutate('立面出圖', x => { x.room.walls.forEach((w, i) => { const on = a === 'elev-all' ? true : a === 'elev-none' ? false : window.Drawings.wallCabinets({ room: x.room, cabinets: x.cabinets }, i).list.length > 0; if (on) delete w.elev; else w.elev = false; }); });
-      const n = App.state.room.walls.filter(w => !w.off && w.elev !== false).length; App.toast(`這個房間有 ${n} 面牆會出立面圖`);
+      App.mutate('立面出圖', x => { window.Drawings.roomFaces(x.room).forEach(fc => { const on = a === 'elev-all' ? true : a === 'elev-none' ? false : window.Drawings.wallCabinets({ room: x.room, cabinets: x.cabinets }, fc).list.length > 0; fc.walls.forEach(k => { if (on) delete x.room.walls[k].elev; else x.room.walls[k].elev = false; }); }); });
+      const n = window.Drawings.roomFaces(App.state.room).filter(f => !f.off && f.on).length; App.toast(`這個房間有 ${n} 個立面會出圖`);
       return;
     }
     if (a === 'room-wall-draw') { UI.startRoomWall(); return; }

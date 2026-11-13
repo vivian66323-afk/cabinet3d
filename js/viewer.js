@@ -34,6 +34,8 @@
     el.appendChild(renderer.domElement);
     overlay = document.createElement('div'); overlay.className = 'vp-overlay'; el.appendChild(overlay);
     // 點 3D 裡的房間名稱標籤改名（標籤每次重畫都會換新元素，所以掛在外層用 pointerdown 接）
+    // 立面符號：點一下切換這一面要不要出立面圖
+    overlay.addEventListener('pointerdown', e => { const le = e.target.closest && e.target.closest('.vp-label.elev'); if (!le) return; e.stopPropagation(); e.preventDefault(); App.ui.toggleFace(+le.dataset.ri, le.dataset.key); });
     overlay.addEventListener('pointerdown', e => { const le = e.target.closest && e.target.closest('.vp-label.room'); if (!le || le.dataset.ri == null || V.tool !== 'select') return; e.stopPropagation(); e.preventDefault(); App.ui.renameRoomDialog(+le.dataset.ri); });
 
     scene = new THREE.Scene();
@@ -784,6 +786,19 @@
       const a = draw.pts[draw.pts.length - 1];
       const len = Math.hypot(draw.cursor[0] - a[0], draw.cursor[1] - a[1]);
       put(new THREE.Vector3((a[0] + draw.cursor[0]) / 2, 30, (a[1] + draw.cursor[1]) / 2), Math.round(len) + ' mm', 'draw');
+    }
+    // 立面符號（平常不顯示；按「立面出圖設定」才跳出來）：每個立面一個，站在符號位置朝箭頭方向看；點一下切換要不要出圖
+    if (V.showElevMarks && App.state.room && window.Drawings && window.Exporter) {
+      const nums = window.Exporter.elevNumbers(), AR = v => Math.abs(v[0]) > Math.abs(v[1]) ? (v[0] > 0 ? '▶' : '◀') : (v[1] > 0 ? '▼' : '▲');
+      allRooms().forEach((room, ri) => window.Drawings.roomFaces(room).forEach(fc => {
+        if (fc.off) return;
+        const wi = M().wallInfo(room, fc.main), d = Math.min(900, Math.max(450, wi.len * 0.25));
+        const wp = new THREE.Vector3(wi.mid[0] + wi.nIn[0] * d, 30, wi.mid[1] + wi.nIn[1] * d);
+        // 箭頭方向：牆在畫面上的方向（從符號往牆）
+        const a = scr(wp), b = scr(new THREE.Vector3(wi.mid[0], 30, wi.mid[1])), no = nums.get(room.id + ':' + fc.key);
+        const le = put(wp, fc.on ? `${AR([b[0] - a[0], b[1] - a[1]])} ${no || ''}` : `${AR([b[0] - a[0], b[1] - a[1]])} 不出`, fc.on ? 'elev on' : 'elev');
+        if (le) { le.dataset.ri = ri; le.dataset.key = fc.key; le.title = (fc.on ? `立面 ${no}（${fc.name}）：要出圖` : `（${fc.name}）不出圖`) + '。點一下切換'; }
+      }));
     }
     if (App.state.room && V.showWallDims) {
       const rooms = allRooms();
