@@ -737,6 +737,10 @@
         off: !live.length, on: live.some(sg => room.walls[sg.i].elev !== false), name: live.map(sg => 'W' + (sg.i + 1)).join('＋') };
     });
   };
+  // 活動家具／軟裝：不進立面圖（平面圖照常畫）。固定的設備（廚具、衛浴、門片、固定牆板、外掛門組、窗簾、吸頂／壁燈／吊燈）不算
+  const LOOSE = new Set(['bed', 'nightstand', 'sofa', 'coffeetable', 'sidetable', 'diningtable', 'chair', 'barstool', 'armchair', 'studydesk', 'tvstand', 'wardrobe', 'sofabed', 'footstool', 'daybed', 'dresser', 'drawers', 'bartable', 'bench', 'stool', 'officechair', 'bookcase', 'shelf', 'shoecab',
+    'kidsbed', 'bunkbed', 'cot', 'changingtable', 'highchair', 'kidsdesk', 'kidstable', 'kidschair', 'kidsstorage', 'lamp_table', 'lamp_floor', 'lamp_portable']);
+  Dr.isLoose = cab => !!cab && cab.kind === 'appl' && LOOSE.has(cab.at);
   const isFace = i => !!i && typeof i === 'object';
   const WI = (room, i) => isFace(i) ? i.wi : M().wallInfo(room, i);
   // 取得靠此牆（或此面）的櫃體與其左側位置
@@ -857,7 +861,8 @@
   };
   Dr.elevation = function (pg, st, i, box, opt = {}) {
     const room = st.room;
-    const { wi, list, base, right } = Dr.wallCabinets(st, i);
+    // 活動家具（床組、沙發、桌椅、活動櫃、檯燈…）不畫進立面圖：立面只留固定的木作、系統櫃與設備
+    const WC = Dr.wallCabinets(st, i), { wi, base, right } = WC, list = WC.list.filter(l => !Dr.isLoose(l.cab));
     const L = wi.len, H = room.height;
     // 版面由上到下：局部平面（與立面同寬、同比例，牆在上、室內在下）→ 引線說明 → 總長標註 → 立面 → 分段標註
     const FACE = isFace(i) ? i : null;
@@ -925,10 +930,14 @@
       else lines = [M().cabName(cab), `${cab.bodyColor}${cab.fronts.some(r => !M().OPEN_ROW(r.t)) ? '/' + cab.doorColor : ''}`];
       notes.push({ x: nx, y: ny, lines });
     });
-    Dr.leaderNotes(pg, notes, noteY, 3, box.x1 + 40);
     // 周邊環境：側牆櫃體的側面、房間中間的家具、獨立門片…（由遠到近，黑色實線、外輪廓較粗，裁在牆面範圍內）
     //   家具、椅子、燈具等軟裝（非系統櫃）：淡色虛線、不鋪白底，不會遮住後面的櫃體
-    Dr.wallOthers(st, i).forEach(o => Dr.outline(pg, o.cab, o.view, (X, Y) => [x0 + (o.sc + X) / s, y0 - Y / s], 0.1, [x0, y0 - Hh, W, Hh], null, o.cab.kind === 'appl'));
+    Dr.wallOthers(st, i).filter(o => !Dr.isLoose(o.cab)).forEach(o => {
+      const ok = Dr.outline(pg, o.cab, o.view, (X, Y) => [x0 + (o.sc + X) / s, y0 - Y / s], 0.1, [x0, y0 - Hh, W, Hh], null, o.cab.kind === 'appl');
+      // 相鄰牆的櫃體側面：加一則說明，免得看不出這塊是什麼
+      if (ok && o.cab.kind !== 'appl' && o.sc > 0 && o.sc < L) notes.push({ x: x0 + o.sc / s, y: y0 - (o.cab.y + (o.cab.kind === 'desk' ? o.cab.thick : o.cab.h) * 0.5) / s, lines: [M().cabName(o.cab), '（相鄰牆的櫃體，側面）'] });
+    });
+    Dr.leaderNotes(pg, notes, noteY, 3, box.x1 + 40);
     // 標註
     Dr.dim(pg, x0, y0 - Hh, x0 + W, y0 - Hh, Math.round(L) + '', -5 - slabH, { size: 9 });
     if (ceil) Dr.dim(pg, x0 + W, y0, x0 + W, y0 - ceil.h / s, Math.round(ceil.h) + '', 8 + Tw / s, { size: 8 });
